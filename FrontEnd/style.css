@@ -19,7 +19,7 @@ body {
 	}
 	
 	.Chat {
-		width: 220px; /* plus petit que .chat-section */
+		width: 220px;
 		background-color: #9c9595;
 		padding: 20px;
 		border-radius: 50px;
@@ -36,7 +36,7 @@ body {
 	}
 	
 	.chat-section {
-		width: 280px; /* légèrement plus large */
+		width: 280px;
 		height: 73%;
 		background-color: #9c9595;
 		padding: 40px;
