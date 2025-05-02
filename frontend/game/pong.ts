@@ -99,6 +99,13 @@ function update()
 					ballSpeedY += 2;
 			}
 		}
+		if (-10 < ballSpeedX && ballSpeedX < 10)
+		{
+			if (ballSpeedX > 0)
+				ballSpeedX += 0.5;
+			else
+				ballSpeedX -= 0.5;
+		}
 		ballSpeedX *= -1;
 	}
 
@@ -132,6 +139,13 @@ function update()
 					ballSpeedY += 2;
 			}
 		}
+		if (-10 < ballSpeedX && ballSpeedX < 10)
+		{
+			if (ballSpeedX > 0)
+				ballSpeedX += 0.5;
+			else
+				ballSpeedX -= 0.5;
+		}
 		ballSpeedX *= -1;
 	}
 
@@ -153,6 +167,10 @@ function update()
 		ballX = canvasWidth / 2;
 		ballY = canvasHeight / 2;
 		ballSpeedY = 5;
+		if (ballSpeedX > 0)
+			ballSpeedX = 5;
+		else
+			ballSpeedX = -5;
 		ballSpeedX *= -1;
 		rightScore++;
 	}
@@ -163,6 +181,10 @@ function update()
 		ballX = canvasWidth / 2;
 		ballY = canvasHeight / 2;
 		ballSpeedY = 5;
+		if (ballSpeedX > 0)
+			ballSpeedX = 5;
+		else
+			ballSpeedX = -5;
 		ballSpeedX *= -1;
 		leftScore++;
 	}
