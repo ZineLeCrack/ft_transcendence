@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pong AI Test Platform</title>
+  <style>
+    /* Styles généraux */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #111827;
+      color: #fff;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      text-align: center;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Layout */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .game-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .game-container {
+        flex-direction: row;
+      }
+    }
+
+    .game-section, .tester-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+
+    /* Canvas */
+    .canvas-container {
+      border: 1px solid #4B5563;
+      border-radius: 0.375rem;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      background-color: #1F2937;
+    }
+
+    .canvas-info {
+      font-size: 0.875rem;
+      color: #9CA3AF;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+
+    /* Card */
+    .card {
+      background-color: #1F2937;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .card-header {
+      padding: 1.5rem 1.5rem 0.5rem;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 0.25rem;
+    }
+
+    .card-description {
+      color: #9CA3AF;
+      font-size: 0.875rem;
+      margin: 0;
+    }
+
+    .card-content {
+      padding: 1.5rem;
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .button {
+      background-color: #2563EB;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      flex: 1;
+      transition: background-color 0.2s;
+    }
+
+    .button:hover {
+      background-color: #1D4ED8;
+    }
+
+    .button:disabled {
+      background-color: #6B7280;
+      cursor: not-allowed;
+    }
+
+    .button-outline {
+      background-color: transparent;
+      border: 1px solid #4B5563;
+      color: white;
+    }
+
+    .button-outline:hover {
+      background-color: rgba(75, 85, 99, 0.2);
+    }
+
+    .button-destructive {
+      background-color: #DC2626;
+    }
+
+    .button-destructive:hover {
+      background-color: #B91C1C;
+    }
+
+    .button-ghost {
+      background-color: transparent;
+      color: #9CA3AF;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .button-ghost:hover {
+      background-color: rgba(75, 85, 99, 0.1);
+    }
+
+    /* Form elements */
+    .input-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .input {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 0.375rem;
+      border: 1px solid #4B5563;
+      background-color: #374151;
+      color: white;
+      font-size: 0.875rem;
+    }
+
+    .input:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .textarea {
+      width: 100%;
+      height: 200px;
+      padding: 0.5rem;
+      border-radius: 0.375rem;
+      border: 1px solid #4B5563;
+      background-color: #374151;
+      color: white;
+      font-family: monospace;
+      font-size: 0.75rem;
+      resize: none;
+    }
+
+    /* Code block */
+    .code-block {
+      background-color: #111827;
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      font-family: monospace;
+      font-size: 0.5rem;
+      color: #E5E7EB;
+      margin-top: 0.5rem;
+      white-space: pre-wrap;
+    }
+
+    /* Helper text */
+    .helper-text {
+      font-size: 0.875rem;
+      color: #9CA3AF;
+      margin-top: 0.25rem;
+    }
+
+    /* Log section */
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pong AI Test Platform</h1>
+    <p>
+      Cette plateforme vous permet de tester votre IA pour le projet ft_transcendence. 
+      Vous pouvez simuler les mouvements de l'IA en utilisant les flèches du clavier ou en envoyant des commandes.
+    </p>
+
+    <div class="main-content">
+      <div class="game-container">
+        <div class="game-section">
+          <h2>Jeu de Pong</h2>
+          <div class="canvas-container">
+            <canvas id="pongCanvas" width="800" height="400"></canvas>
+          </div>
+          <div class="canvas-info">
+            Utilisez les flèches ↑ et ↓ pour contrôler manuellement le paddle
+          </div>
+        </div>
+
+        <div class="tester-section">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Testeur d'IA</h2>
+              <p class="card-description">Simulez les mouvements de votre IA ou connectez-vous à votre API</p>
+            </div>
+            <div class="card-content">
+              <div class="button-group">
+                <button id="manualModeBtn" class="button">Mode Manuel</button>
+                <button id="apiModeBtn" class="button button-outline">Mode API</button>
+              </div>
+
+              <div id="manualControls">
+                <div class="button-group">
+                  <button id="moveUpBtn" class="button">Simuler Flèche Haut ↑</button>
+                  <button id="moveDownBtn" class="button">Simuler Flèche Bas ↓</button>
+                </div>
+              </div>
+
+              <div id="apiControls" style="display: none;">
+                <div class="input-group">
+                  <input id="apiEndpoint" class="input" type="text" placeholder="URL de votre API (ex: http://localhost:3001)">
+                  <button id="connectBtn" class="button">Connecter</button>
+                  <button id="disconnectBtn" class="button button-destructive" style="display: none;">Déconnecter</button>
+                </div>
+                <div class="helper-text" id="connectionStatus">
+                  Entrez l'URL de votre API pour recevoir les commandes de votre IA
+                </div>
+              </div>
+
+              <div style="margin-top: 1rem;">
+                <div class="log-header">
+                  <h3>Journal d'activité</h3>
+                  <button id="clearLogBtn" class="button button-ghost">Effacer</button>
+                </div>
+                <textarea id="logArea" class="textarea" readonly></textarea>
+              </div>
+
+              <div style="margin-top: 1rem;">
+                <h3>Comment intégrer avec votre IA:</h3>
+                <div class="code-block">
+// Exemple de code pour envoyer des commandes depuis votre IA
+fetch('URL_DE_VOTRE_API', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ direction: 'up' }) // ou 'down'
+})
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Constantes du jeu
+    const PADDLE_HEIGHT = 80;
+    const PADDLE_WIDTH = 10;
+    const BALL_SIZE = 10;
+    const GAME_HEIGHT = 400;
+    const GAME_WIDTH = 800;
+
+    // Événements personnalisés pour les mouvements de l'IA
+    const AI_MOVE_UP = "ai-move-up";
+    const AI_MOVE_DOWN = "ai-move-down";
+
+    // Éléments du DOM
+    const canvas = document.getElementById('pongCanvas');
+    const ctx = canvas.getContext('2d');
+    const logArea = document.getElementById('logArea');
+    const apiEndpointInput = document.getElementById('apiEndpoint');
+    const connectBtn = document.getElementById('connectBtn');
+    const disconnectBtn = document.getElementById('disconnectBtn');
+    const clearLogBtn = document.getElementById('clearLogBtn');
+    const manualModeBtn = document.getElementById('manualModeBtn');
+    const apiModeBtn = document.getElementById('apiModeBtn');
+    const manualControls = document.getElementById('manualControls');
+    const apiControls = document.getElementById('apiControls');
+    const moveUpBtn = document.getElementById('moveUpBtn');
+    const moveDownBtn = document.getElementById('moveDownBtn');
+    const connectionStatus = document.getElementById('connectionStatus');
+
+    // État du jeu
+    let paddlePosition = 150;
+    let aiPaddlePosition = 150;
+    let ballPosition = { x: 400, y: 200 };
+    let ballDirection = { x: 4, y: 4 };
+    let score = { player: 0, ai: 0 };
+    let isUpPressed = false;
+    let isDownPressed = false;
+    let isConnected = false;
+    let gameLoopId = null;
+
+    // Journal des messages
+    let logMessages = [];
+
+    // Fonction pour ajouter un message au journal
+    function addLogMessage(message) {
+      const timestamp = new Date().toLocaleTimeString();
+      logMessages = [`[${timestamp}] ${message}`, ...logMessages.slice(0, 19)];
+      logArea.value = logMessages.join('\n');
+    }
+
+    // Fonction pour effacer le journal
+    function clearLog() {
+      logMessages = [];
+      logArea.value = '';
+    }
+
+    // Fonction pour réinitialiser la balle
+    function resetBall() {
+      ballPosition = { x: GAME_WIDTH / 2, y: GAME_HEIGHT / 2 };
+      ballDirection = {
+        x: (Math.random() > 0.5 ? 1 : -1) * 4,
+        y: (Math.random() > 0.5 ? 1 : -1) * 4
+      };
+    }
+
+    // Fonction pour mettre à jour le jeu
+    function updateGame() {
+      // Gestion des entrées clavier pour le paddle du joueur
+      if (isUpPressed && paddlePosition > 0) {
+        paddlePosition = Math.max(paddlePosition - 5, 0);
+      }
+      if (isDownPressed && paddlePosition < GAME_HEIGHT - PADDLE_HEIGHT) {
+        paddlePosition = Math.min(paddlePosition + 5, GAME_HEIGHT - PADDLE_HEIGHT);
+      }
+
+      // Déplacement de la balle
+      ballPosition.x += ballDirection.x;
+      ballPosition.y += ballDirection.y;
+
+      // Mouvement de l'IA (suit la balle)
+      const aiTarget = ballPosition.y - PADDLE_HEIGHT / 2;
+      if (aiPaddlePosition < aiTarget && aiPaddlePosition < GAME_HEIGHT - PADDLE_HEIGHT) {
+        aiPaddlePosition = Math.min(aiPaddlePosition + 3, GAME_HEIGHT - PADDLE_HEIGHT);
+      } else if (aiPaddlePosition > aiTarget && aiPaddlePosition > 0) {
+        aiPaddlePosition = Math.max(aiPaddlePosition - 3, 0);
+      }
+
+      // Collision de la balle avec le haut et le bas
+      if (ballPosition.y <= 0 || ballPosition.y >= GAME_HEIGHT - BALL_SIZE) {
+        ballDirection.y = -ballDirection.y;
+      }
+
+      // Collision de la balle avec les paddles
+      if (
+        // Paddle gauche (joueur)
+        (ballPosition.x <= PADDLE_WIDTH &&
+          ballPosition.y >= paddlePosition &&
+          ballPosition.y <= paddlePosition + PADDLE_HEIGHT) ||
+        // Paddle droit (IA)
+        (ballPosition.x >= GAME_WIDTH - PADDLE_WIDTH - BALL_SIZE &&
+          ballPosition.y >= aiPaddlePosition &&
+          ballPosition.y <= aiPaddlePosition + PADDLE_HEIGHT)
+      ) {
+        ballDirection.x = -ballDirection.x;
+      }
+
+      // Balle hors limites
+      if (ballPosition.x <= 0) {
+        // L'IA marque
+        score.ai += 1;
+        resetBall();
+      } else if (ballPosition.x >= GAME_WIDTH) {
+        // Le joueur marque
+        score.player += 1;
+        resetBall();
+      }
+
+      // Dessiner le jeu
+      drawGame();
+
+      // Continuer la boucle de jeu
+      gameLoopId = requestAnimationFrame(updateGame);
+    }
+
+    // Fonction pour dessiner le jeu
+    function drawGame() {
+      // Effacer le canvas
+      ctx.fillStyle = '#111';
+      ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
+      // Dessiner la ligne centrale
+      ctx.strokeStyle = '#333';
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.moveTo(GAME_WIDTH / 2, 0);
+      ctx.lineTo(GAME_WIDTH / 2, GAME_HEIGHT);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Dessiner les paddles
+      ctx.fillStyle = '#fff';
+      // Paddle du joueur
+      ctx.fillRect(0, paddlePosition, PADDLE_WIDTH, PADDLE_HEIGHT);
+      // Paddle de l'IA
+      ctx.fillRect(GAME_WIDTH - PADDLE_WIDTH, aiPaddlePosition, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+      // Dessiner la balle
+      ctx.fillRect(ballPosition.x, ballPosition.y, BALL_SIZE, BALL_SIZE);
+
+      // Dessiner le score
+      ctx.font = '24px Arial';
+      ctx.fillText(score.player.toString(), GAME_WIDTH / 4, 30);
+      ctx.fillText(score.ai.toString(), (GAME_WIDTH / 4) * 3, 30);
+    }
+
+    // Fonction pour simuler un mouvement
+    function simulateMovement(direction) {
+      // Créer et dispatcher un événement personnalisé
+      const event = new CustomEvent(direction === "up" ? AI_MOVE_UP : AI_MOVE_DOWN);
+      document.dispatchEvent(event);
+
+      // Journaliser le mouvement
+      addLogMessage(`Mouvement simulé: ${direction === "up" ? "HAUT ↑" : "BAS ↓"}`);
+
+      // Simuler un événement clavier
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: direction === "up" ? "ArrowUp" : "ArrowDown",
+        code: direction === "up" ? "ArrowUp" : "ArrowDown",
+        keyCode: direction === "up" ? 38 : 40,
+        which: direction === "up" ? 38 : 40,
+        bubbles: true,
+      });
+      document.dispatchEvent(keyEvent);
+
+      // Relâcher la touche après un court délai
+      setTimeout(() => {
+        const keyUpEvent = new KeyboardEvent("keyup", {
+          key: direction === "up" ? "ArrowUp" : "ArrowDown",
+          code: direction === "up" ? "ArrowUp" : "ArrowDown",
+          keyCode: direction === "up" ? 38 : 40,
+          which: direction === "up" ? 38 : 40,
+          bubbles: true,
+        });
+        document.dispatchEvent(keyUpEvent);
+      }, 100);
+    }
+
+    // Fonction pour se connecter à l'API
+    function connectToApi() {
+      const apiEndpoint = apiEndpointInput.value;
+      if (!apiEndpoint) {
+        addLogMessage("Erreur: Veuillez entrer un point de terminaison API");
+        return;
+      }
+
+      addLogMessage(`Tentative de connexion à: ${apiEndpoint}`);
+
+      // Simuler une connexion (dans une application réelle, vous implémenteriez une connexion API réelle)
+      setTimeout(() => {
+        isConnected = true;
+        connectBtn.style.display = 'none';
+        disconnectBtn.style.display = 'block';
+        apiEndpointInput.disabled = true;
+        connectionStatus.textContent = "Connecté! Votre IA peut maintenant envoyer des commandes.";
+        addLogMessage("Connexion établie! Prêt à recevoir les commandes de l'IA");
+
+        // Mettre à jour le bloc de code avec l'URL réelle
+        const codeBlock = document.querySelector('.code-block');
+        codeBlock.textContent = codeBlock.textContent.replace('URL_DE_VOTRE_API', apiEndpoint);
+      }, 1000);
+    }
+
+    // Fonction pour se déconnecter de l'API
+    function disconnectFromApi() {
+      isConnected = false;
+      connectBtn.style.display = 'block';
+      disconnectBtn.style.display = 'none';
+      apiEndpointInput.disabled = false;
+      connectionStatus.textContent = "Entrez l'URL de votre API pour recevoir les commandes de votre IA";
+      addLogMessage("Déconnecté de l'API");
+
+      // Réinitialiser le bloc de code
+      const codeBlock = document.querySelector('.code-block');
+      codeBlock.textContent = codeBlock.textContent.replace(apiEndpointInput.value, 'URL_DE_VOTRE_API');
+    }
+
+    // Fonction pour basculer entre les modes
+    function switchToManualMode() {
+      manualModeBtn.classList.remove('button-outline');
+      apiModeBtn.classList.add('button-outline');
+      manualControls.style.display = 'block';
+      apiControls.style.display = 'none';
+    }
+
+    function switchToApiMode() {
+      apiModeBtn.classList.remove('button-outline');
+      manualModeBtn.classList.add('button-outline');
+      apiControls.style.display = 'block';
+      manualControls.style.display = 'none';
+    }
+
+    // Gestionnaires d'événements pour les touches du clavier
+    function handleKeyDown(e) {
+      if (e.key === "ArrowUp") {
+        isUpPressed = true;
+      } else if (e.key === "ArrowDown") {
+        isDownPressed = true;
+      }
+    }
+
+    function handleKeyUp(e) {
+      if (e.key === "ArrowUp") {
+        isUpPressed = false;
+      } else if (e.key === "ArrowDown") {
+        isDownPressed = false;
+      }
+    }
+
+    // Gestionnaires d'événements pour les mouvements de l'IA
+    function handleAiMoveUp() {
+      isUpPressed = true;
+      setTimeout(() => isUpPressed = false, 100);
+    }
+
+    function handleAiMoveDown() {
+      isDownPressed = true;
+      setTimeout(() => isDownPressed = false, 100);
+    }
+
+    // Initialisation
+    function init() {
+      // Ajouter les écouteurs d'événements
+      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("keyup", handleKeyUp);
+      document.addEventListener(AI_MOVE_UP, handleAiMoveUp);
+      document.addEventListener(AI_MOVE_DOWN, handleAiMoveDown);
+
+      // Boutons de l'interface
+      clearLogBtn.addEventListener('click', clearLog);
+      manualModeBtn.addEventListener('click', switchToManualMode);
+      apiModeBtn.addEventListener('click', switchToApiMode);
+      moveUpBtn.addEventListener('click', () => simulateMovement('up'));
+      moveDownBtn.addEventListener('click', () => simulateMovement('down'));
+      connectBtn.addEventListener('click', connectToApi);
+      disconnectBtn.addEventListener('click', disconnectFromApi);
+
+      // Démarrer la boucle de jeu
+      gameLoopId = requestAnimationFrame(updateGame);
+
+      // Message initial
+      addLogMessage("Plateforme de test Pong AI initialisée");
+
+      setInterval(() => {
+        if (!isConnected) return;
+
+        const apiEndpoint = apiEndpointInput.value;
+        const payload = {
+          ball: {
+            x: ballPosition.x,
+            y: ballPosition.y,
+            vx: ballDirection.x,
+            vy: ballDirection.y
+          },
+          paddle: {
+            y: paddlePosition
+          }
+        };
+
+        fetch(apiEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.direction === "up" || data.direction === "down") {
+              simulateMovement(data.direction);
+              addLogMessage(`IA dit: ${data.direction}`);
+            } else {
+              addLogMessage("Réponse IA invalide");
+            }
+          })
+          .catch(err => {
+            addLogMessage("Erreur de l'IA: " + err.message);
+          });
+
+      }, 1000);
+    }
+
+    // Démarrer l'application
+    init();
+
+    // Nettoyage lors de la fermeture de la page
+    window.addEventListener('beforeunload', () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+      document.removeEventListener(AI_MOVE_UP, handleAiMoveUp);
+      document.removeEventListener(AI_MOVE_DOWN, handleAiMoveDown);
+      cancelAnimationFrame(gameLoopId);
+    });
+  </script>
+</body>
+</html>
