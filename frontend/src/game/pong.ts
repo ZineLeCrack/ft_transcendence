@@ -1,5 +1,6 @@
 const gameCanvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 const topCanvas = document.getElementById("topCanvas") as HTMLCanvasElement;
+
 const game = gameCanvas.getContext("2d")!;
 const score = topCanvas.getContext("2d")!;
 
