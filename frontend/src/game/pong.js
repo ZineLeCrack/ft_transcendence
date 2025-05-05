@@ -1,8 +1,10 @@
 "use strict";
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
-const canvasWidth = canvas.width;
-const canvasHeight = canvas.height;
+const gameCanvas = document.getElementById("gameCanvas");
+const topCanvas = document.getElementById("topCanvas");
+const game = gameCanvas.getContext("2d");
+const score = topCanvas.getContext("2d");
+const canvasWidth = gameCanvas.width;
+const canvasHeight = gameCanvas.height;
 let ballX = canvasWidth / 2;
 let ballY = canvasHeight / 2;
 let ballSpeedX = 5;
@@ -20,8 +22,11 @@ let sPressed = false;
 let keyPressed = false;
 let leftScore = 0;
 let rightScore = 0;
-ctx.font = "32px Arial";
-draw();
+score.font = "40px 'Caveat'";
+game.font = "40px 'Caveat'";
+document.fonts.ready.then(() => {
+    draw();
+});
 document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp")
         upPressed = true, keyPressed = true;
@@ -44,7 +49,7 @@ document.addEventListener("keyup", (e) => {
 });
 function gameLoop() {
     if (rightScore === 5 || leftScore === 5) {
-        ctx.fillText(rightScore === 5 ? "Player 2 win" : "Player 1 win", canvasWidth / 2 - 70, canvasHeight / 2);
+        game.fillText(rightScore === 5 ? "Player 2 win" : "Player 1 win", canvasWidth / 2 - 70, canvasHeight / 2);
         rightScore = 0;
         leftScore = 0;
     }
@@ -155,13 +160,15 @@ function update() {
     }
 }
 function draw() {
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    ctx.fillStyle = "black";
-    ctx.fillText(leftScore.toString(), 200, 25);
-    ctx.fillText(rightScore.toString(), 600, 25);
-    ctx.fillRect(canvasWidth / 2 + 4, 0, 2, 600);
-    ctx.fillRect(ballX, ballY, ballSize, ballSize);
-    ctx.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
-    ctx.fillRect(canvasWidth - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+    score.clearRect(0, 0, topCanvas.width, topCanvas.height);
+    game.clearRect(0, 0, canvasWidth, canvasHeight);
+    score.fillStyle = "black";
+    game.fillStyle = "black";
+    score.fillText(leftScore.toString(), 20, 50);
+    score.fillText(rightScore.toString(), 260, 50);
+    game.fillRect(canvasWidth / 2 + 4, 0, 2, 600);
+    game.fillRect(ballX, ballY, ballSize, ballSize);
+    game.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
+    game.fillRect(canvasWidth - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
 }
 gameLoop();
