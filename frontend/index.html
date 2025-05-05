@@ -61,15 +61,16 @@
 		<div class="flex-1 flex flex-col items-center justify-center gap-9 p-6">
 			<!-- Carrousel -->
 			<div class="flex items-center gap-4 relative">
-				<button class="text-5xl">&lt;</button>
-				<div class="w-96 h-80 bg-gray-200 rounded-lg relative flex items-center justify-center">
-					<button id="local game button" class="bg-green-500 text-white font-bold py-2 px-6 rounded-full hover:bg-green-600 transition duration-200 absolute">
-					  Play
-					</button>
-					<script src="src/game.js"> </script>
+				<button id="left-button-game" class="text-5xl">&lt;</button>
+			  
+				<div class="w-96 h-80 bg-gray-200 rounded-lg relative flex flex-col items-center justify-center gap-4">
+				  <div id="game-mode" class="text-black px-4 py-20 rounded text-3xl font-bold">LOCAL</div>
+				  <button id="game-play-button" class="bg-green-500 text-white font-bold py-2 px-6 rounded-full hover:bg-green-600 transition duration-200">Play</button>
+				  <script src="src/game/game.js"></script>
 				</div>
-				<button class="text-5xl">&gt;</button>
+				<button id="right-button-game" class="text-5xl">&gt;</button>
 			</div>
+			  
 
 			<div class="w-full max-w-4xl h-48 bg-gray-200 rounded-xl"></div>
 		</div>
