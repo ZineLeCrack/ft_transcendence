@@ -14,13 +14,19 @@ var signinusernamediv = document.getElementById('sign-in-username-div');
 var signinemaildiv = document.getElementById('sign-in-email-div');
 var signinwithemail = document.getElementById('sign-in-with-email');
 var signinwithUsername = document.getElementById('sign-in-with-Username');
+var signinusernameinput = document.getElementById('Sign-in-username');
+var signinemailinput = document.getElementById('Sign-in-email');
 signinwithUsername.addEventListener('click', function () {
     signinemaildiv.classList.add('hidden');
     signinusernamediv.classList.remove('hidden');
+    signinemailinput.required = false;
+    signinusernameinput.required = true;
 });
 signinwithemail.addEventListener('click', function () {
     signinusernamediv.classList.add('hidden');
     signinemaildiv.classList.remove('hidden');
+    signinusernameinput.required = false;
+    signinemailinput.required = true;
 });
 var signinpasswordinput = document.getElementById('sign-in-password-input');
 var signinpasswordbtn = document.getElementById('sign-in-password-btn');
@@ -83,9 +89,6 @@ if (signuppasswordinput && signupconfirmpasswordinput) {
     signuppasswordinput.addEventListener('input', checkPasswordMatch);
     signupconfirmpasswordinput.addEventListener('input', checkPasswordMatch);
 }
-var signUpbtn = document.getElementById('signUp-btn');
-var usernameinput = document.getElementById('username-input');
-var emailinput = document.getElementById('email-input');
 var signupform = document.getElementById('sign-up');
 if (signupform) {
     signupform.addEventListener('submit', function (event) {
@@ -97,5 +100,12 @@ if (signupform) {
             }
             window.location.href = "../../index.html";
         }
+    });
+}
+var signinform = document.getElementById('sign-in');
+if (signinform) {
+    signinform.addEventListener('submit', function (event) {
+        event.preventDefault();
+        window.location.href = "../../index.html";
     });
 }

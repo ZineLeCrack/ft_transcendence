@@ -18,15 +18,22 @@ const signinusernamediv = document.getElementById('sign-in-username-div') as HTM
 const signinemaildiv = document.getElementById('sign-in-email-div') as HTMLElement;
 const signinwithemail = document.getElementById('sign-in-with-email') as HTMLElement;
 const signinwithUsername = document.getElementById('sign-in-with-Username') as HTMLElement;
+const signinusernameinput = document.getElementById('Sign-in-username') as HTMLInputElement;
+const signinemailinput = document.getElementById('Sign-in-email') as HTMLInputElement;
 
 signinwithUsername.addEventListener('click', () => {
 	signinemaildiv.classList.add('hidden');
 	signinusernamediv.classList.remove('hidden');
+	signinemailinput.required = false;
+	signinusernameinput.required = true;
+	
 });
 
 signinwithemail.addEventListener('click', () => {
 	signinusernamediv.classList.add('hidden');
 	signinemaildiv.classList.remove('hidden');
+	signinusernameinput.required = false;
+	signinemailinput.required = true;
 });
 
 
@@ -110,9 +117,6 @@ if (signuppasswordinput && signupconfirmpasswordinput)
 	signupconfirmpasswordinput.addEventListener('input', checkPasswordMatch);
 }
 
-const signUpbtn = document.getElementById('signUp-btn')as HTMLButtonElement | null;
-const usernameinput = document.getElementById('username-input') as HTMLInputElement | null;
-const emailinput = document.getElementById('email-input') as HTMLInputElement | null;
 const signupform = document.getElementById('sign-up') as HTMLFormElement | null;
 
 if (signupform)
@@ -130,4 +134,14 @@ if (signupform)
 	}
 		
 	})
+}
+
+const signinform = document.getElementById('sign-in') as HTMLFormElement | null;
+
+if (signinform)
+{
+	signinform.addEventListener('submit', (event) => {
+		event.preventDefault();
+			window.location.href = "../../index.html";
+	});
 }
