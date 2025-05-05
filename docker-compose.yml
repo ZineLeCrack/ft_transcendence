@@ -8,7 +8,8 @@ services:
       - "443:443"
     networks:
       - transcendence
-    restart: always
+    restart:
+      condition: service-healthy
   backend:
     build: backend/.
     container_name: backend
