@@ -9,7 +9,6 @@ let leftPaddleY = 250;
 let rightPaddleY = 250;
 let leftScore = 0;
 let rightScore = 0;
-
 const paddleWidth = 10;
 const paddleHeight = 100;
 
