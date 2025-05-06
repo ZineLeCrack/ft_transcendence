@@ -77,6 +77,6 @@ setInterval(() =>
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ keys })
 	});
-}, 16);
+}, 10);
 
-setInterval(fetchState, 16);
+setInterval(fetchState, 10);
