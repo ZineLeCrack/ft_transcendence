@@ -1,0 +1,41 @@
+var editbtn = document.getElementById('edit-btn');
+var statsbtn = document.getElementById('stats-btn');
+var statsdiv = document.getElementById('stats-div');
+var editdiv = document.getElementById('edit-div');
+editbtn.addEventListener('click', function () {
+    statsbtn.classList.add('bg-gray-200');
+    statsbtn.classList.remove('bg-blue-500');
+    editbtn.classList.remove('bg-gray-200');
+    editbtn.classList.add('bg-blue-500');
+    editbtn.classList.add('text-white');
+    editbtn.classList.remove('text-gray-800');
+    statsbtn.classList.remove('text-white');
+    statsbtn.classList.add('text-gray-800');
+    statsdiv.classList.add('hidden');
+    editdiv.classList.remove('hidden');
+});
+statsbtn.addEventListener('click', function () {
+    statsbtn.classList.remove('bg-gray-200');
+    statsbtn.classList.add('bg-blue-500');
+    editbtn.classList.add('bg-gray-200');
+    editbtn.classList.remove('bg-blue-500');
+    statsbtn.classList.add('text-white');
+    statsbtn.classList.remove('text-gray-800');
+    editbtn.classList.remove('text-white');
+    editbtn.classList.add('text-gray-800');
+    statsdiv.classList.remove('hidden');
+    editdiv.classList.add('hidden');
+});
+var editpassewordbtn = document.getElementById('edit-password-btn');
+var editusernamediv = document.getElementById('edit-username-div');
+var editemaildiv = document.getElementById('edit-email-div');
+var editcurrentpassworddiv = document.getElementById('edit-current-password-div');
+var editnewpassworddiv = document.getElementById('edit-new-password-div');
+var editconfirmpassworddiv = document.getElementById('edit-confirm-new-password-div');
+editpassewordbtn.addEventListener('click', function () {
+    editusernamediv.classList.add('hidden');
+    editemaildiv.classList.add('hidden');
+    editcurrentpassworddiv.classList.remove('hidden');
+    editnewpassworddiv.classList.remove('hidden');
+    editconfirmpassworddiv.classList.remove('hidden');
+});

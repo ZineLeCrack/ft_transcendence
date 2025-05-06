@@ -7,7 +7,9 @@
     "build": "tailwindcss -i ./src/css/input.css -o ./src/css/style.css --watch",
     "chat": "tsc src/chat/chat.ts --watch",
     "game": "tsc src/game/game.ts --watch",
-    "login": "tsc src/login/auth.ts --watch"
+    "login": "tsc src/login/auth.ts --watch",
+    "local":  "tsc src/game/pong.ts --watch",
+    "profil":  "tsc src/profile/profile.ts --watch"
   },
   "keywords": [],
   "author": "",

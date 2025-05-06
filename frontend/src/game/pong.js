@@ -1,33 +1,32 @@
-"use strict";
-const gameCanvas = document.getElementById("gameCanvas");
-const topCanvas = document.getElementById("topCanvas");
-const game = gameCanvas.getContext("2d");
-const score = topCanvas.getContext("2d");
-const canvasWidth = gameCanvas.width;
-const canvasHeight = gameCanvas.height;
-let ballX = canvasWidth / 2;
-let ballY = canvasHeight / 2;
-let ballSpeedX = 5;
-let ballSpeedY = 5;
-const ballSize = 10;
-const paddleWidth = 10;
-const paddleHeight = 100;
-let leftPaddleY = canvasHeight / 2 - paddleHeight / 2;
-let rightPaddleY = canvasHeight / 2 - paddleHeight / 2;
-const paddleSpeed = 7;
-let upPressed = false;
-let downPressed = false;
-let wPressed = false;
-let sPressed = false;
-let keyPressed = false;
-let leftScore = 0;
-let rightScore = 0;
+var gameCanvas = document.getElementById("gameCanvas");
+var topCanvas = document.getElementById("topCanvas");
+var game = gameCanvas.getContext("2d");
+var score = topCanvas.getContext("2d");
+var canvasWidth = gameCanvas.width;
+var canvasHeight = gameCanvas.height;
+var ballX = canvasWidth / 2;
+var ballY = canvasHeight / 2;
+var ballSpeedX = 5;
+var ballSpeedY = 5;
+var ballSize = 10;
+var paddleWidth = 10;
+var paddleHeight = 100;
+var leftPaddleY = canvasHeight / 2 - paddleHeight / 2;
+var rightPaddleY = canvasHeight / 2 - paddleHeight / 2;
+var paddleSpeed = 7;
+var upPressed = false;
+var downPressed = false;
+var wPressed = false;
+var sPressed = false;
+var keyPressed = false;
+var leftScore = 0;
+var rightScore = 0;
 score.font = "40px 'Caveat'";
-document.fonts.ready.then(() => {
+document.fonts.ready.then(function () {
     draw();
 });
 game.font = "40px 'Caveat'";
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", function (e) {
     if (e.key === "ArrowUp")
         upPressed = true, keyPressed = true;
     if (e.key === "ArrowDown")
@@ -37,7 +36,7 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "s")
         sPressed = true, keyPressed = true;
 });
-document.addEventListener("keyup", (e) => {
+document.addEventListener("keyup", function (e) {
     if (e.key === "ArrowUp")
         upPressed = false;
     if (e.key === "ArrowDown")

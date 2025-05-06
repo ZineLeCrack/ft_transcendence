@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		const username = document.createElement("div");
 		username.className = "text-sm font-semibold text-gray-500 ";
-		username.textContent = "rlebaill";
+		username.textContent = "username";
 		
 		const msg = document.createElement("div");
 

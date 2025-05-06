@@ -1,36 +1,35 @@
-"use strict";
-document.addEventListener("DOMContentLoaded", () => {
-    const leftBtn = document.getElementById("left-button-game");
-    const rightBtn = document.getElementById("right-button-game");
-    const playBtn = document.getElementById("game-play-button");
-    const gameModeDiv = document.getElementById("game-mode");
-    const descriptionmode = document.getElementById("description-game-mode");
-    const modes = ["LOCAL", "MULTI", "AI"];
-    const description = {
+document.addEventListener("DOMContentLoaded", function () {
+    var leftBtn = document.getElementById("left-button-game");
+    var rightBtn = document.getElementById("right-button-game");
+    var playBtn = document.getElementById("game-play-button");
+    var gameModeDiv = document.getElementById("game-mode");
+    var descriptionmode = document.getElementById("description-game-mode");
+    var modes = ["LOCAL", "MULTI", "AI"];
+    var description = {
         "LOCAL": "Joue contre un ami sur le même clavier.",
         "MULTI": "Affronte d'autres joueurs en ligne.",
         "AI": "Teste tes compétences contre l'ordinateur."
     };
-    let currentIndex = 0;
+    var currentIndex = 0;
     function updateDisplay() {
-        const mode = modes[currentIndex];
+        var mode = modes[currentIndex];
         gameModeDiv.textContent = mode;
         descriptionmode.textContent = description[mode];
         if (mode === "LOCAL") {
-            playBtn.onclick = () => window.location.href = "src/game/pong.html";
+            playBtn.onclick = function () { return window.location.href = "src/game/pong.html"; };
         }
         else if (mode === "MULTI") {
-            playBtn.onclick = () => window.location.href = "src/game/multiplayer.html";
+            playBtn.onclick = function () { return window.location.href = "src/game/multiplayer.html"; };
         }
         else if (mode === "AI") {
-            playBtn.onclick = () => window.location.href = "src/game/AI.html";
+            playBtn.onclick = function () { return window.location.href = "src/game/AI.html"; };
         }
     }
-    rightBtn.addEventListener("click", () => {
+    rightBtn.addEventListener("click", function () {
         currentIndex = (currentIndex + 1) % modes.length;
         updateDisplay();
     });
-    leftBtn.addEventListener("click", () => {
+    leftBtn.addEventListener("click", function () {
         currentIndex = (currentIndex - 1 + modes.length) % modes.length;
         updateDisplay();
     });
