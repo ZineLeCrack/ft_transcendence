@@ -1,59 +1,78 @@
-var signIn = document.getElementById('sign-in');
-var signUp = document.getElementById('sign-up');
-var toSignUp = document.getElementById('to-sign-up');
-var toSignIn = document.getElementById('to-sign-in');
-toSignUp.addEventListener('click', function () {
+"use strict";
+const signIn = document.getElementById('sign-in');
+const signUp = document.getElementById('sign-up');
+const toSignUp = document.getElementById('to-sign-up');
+const toSignIn = document.getElementById('to-sign-in');
+toSignUp.addEventListener('click', () => {
     signIn.classList.add('hidden');
     signUp.classList.remove('hidden');
 });
-toSignIn.addEventListener('click', function () {
+toSignIn.addEventListener('click', () => {
     signUp.classList.add('hidden');
     signIn.classList.remove('hidden');
 });
-var togglePassword = document.getElementById('togglePassword');
-var toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-var password = document.getElementById('password');
-var confirmPassword = document.getElementById('confirmPassword');
-var eyeIcon = document.getElementById('eyeIcon');
-var eyeIconConfirm = document.getElementById('eyeIconConfirm');
-var passwordSignUp = document.getElementById('passwordSignUp');
-var togglePasswordSignUp = document.getElementById('togglePasswordSignUp');
-var eyeIconSignUp = document.getElementById('eyeIconSignUp');
-if (togglePassword && password && eyeIcon) {
-    togglePassword.addEventListener('click', function () {
-        var isVisible = password.type === 'text';
-        password.type = isVisible ? 'password' : 'text';
-        eyeIcon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
+const signinusernamediv = document.getElementById('sign-in-username-div');
+const signinemaildiv = document.getElementById('sign-in-email-div');
+const signinwithemail = document.getElementById('sign-in-with-email');
+const signinwithUsername = document.getElementById('sign-in-with-Username');
+const signinusernameinput = document.getElementById('Sign-in-username');
+const signinemailinput = document.getElementById('Sign-in-email');
+signinwithUsername.addEventListener('click', () => {
+    signinemaildiv.classList.add('hidden');
+    signinusernamediv.classList.remove('hidden');
+    signinemailinput.required = false;
+    signinusernameinput.required = true;
+});
+signinwithemail.addEventListener('click', () => {
+    signinusernamediv.classList.add('hidden');
+    signinemaildiv.classList.remove('hidden');
+    signinusernameinput.required = false;
+    signinemailinput.required = true;
+});
+const signinpasswordinput = document.getElementById('sign-in-password-input');
+const signinpasswordbtn = document.getElementById('sign-in-password-btn');
+const signinpasswordicon = document.getElementById('sign-in-password-icon');
+const signuppasswordinput = document.getElementById('sign-up-password-input');
+const signuppasswordbtn = document.getElementById('sign-up-password-btn');
+const signuppasswordicon = document.getElementById('sign-up-password-icon');
+const signupconfirmpasswordinput = document.getElementById('sign-up-confirmpassword-input');
+const signupconfirmpasswordbtn = document.getElementById('sign-up-confirmpassword-btn');
+const signupconfirmpasswordicon = document.getElementById('sign-up-confirmpassword-icon');
+if (signinpasswordinput && signinpasswordbtn && signinpasswordicon) {
+    signinpasswordbtn.addEventListener('click', () => {
+        const isVisible = signinpasswordinput.type === 'text';
+        signinpasswordinput.type = isVisible ? 'password' : 'text';
+        signinpasswordicon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
     });
 }
-if (toggleConfirmPassword && confirmPassword && eyeIconConfirm) {
-    toggleConfirmPassword.addEventListener('click', function () {
-        var isVisible = confirmPassword.type === 'text';
-        confirmPassword.type = isVisible ? 'password' : 'text';
-        eyeIconConfirm.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
+if (signuppasswordinput && signuppasswordbtn && signuppasswordicon) {
+    signuppasswordbtn.addEventListener('click', () => {
+        const isVisible = signuppasswordinput.type === 'text';
+        signuppasswordinput.type = isVisible ? 'password' : 'text';
+        signuppasswordicon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
     });
 }
-if (togglePasswordSignUp && passwordSignUp && eyeIconSignUp) {
-    togglePasswordSignUp.addEventListener('click', function () {
-        var isVisible = passwordSignUp.type === 'text';
-        passwordSignUp.type = isVisible ? 'password' : 'text';
-        eyeIconSignUp.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
+if (signupconfirmpasswordinput && signupconfirmpasswordbtn && signupconfirmpasswordicon) {
+    signupconfirmpasswordbtn.addEventListener('click', () => {
+        const isVisible = signupconfirmpasswordinput.type === 'text';
+        signupconfirmpasswordinput.type = isVisible ? 'password' : 'text';
+        signupconfirmpasswordicon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
     });
 }
-var badPasswordIcon = document.getElementById('badPasswordIcon');
-var goodPasswordIcon = document.getElementById('goodPasswordIcon');
-var badConfirmPasswordIcon = document.getElementById('badConfirmPasswordIcon');
-var goodConfirmPasswordIcon = document.getElementById('goodConfirmPasswordIcon');
+const badPasswordIcon = document.getElementById('badPasswordIcon');
+const goodPasswordIcon = document.getElementById('goodPasswordIcon');
+const badConfirmPasswordIcon = document.getElementById('badConfirmPasswordIcon');
+const goodConfirmPasswordIcon = document.getElementById('goodConfirmPasswordIcon');
 function checkPasswordMatch() {
-    if (passwordSignUp && confirmPassword && badPasswordIcon && goodPasswordIcon && badConfirmPasswordIcon && goodConfirmPasswordIcon) {
-        if (confirmPassword.value === "" && passwordSignUp.value === "") {
+    if (signuppasswordinput && signupconfirmpasswordinput && badPasswordIcon && goodPasswordIcon && badConfirmPasswordIcon && goodConfirmPasswordIcon) {
+        if (signupconfirmpasswordinput.value === "" && signuppasswordinput.value === "") {
             badConfirmPasswordIcon.classList.add('hidden');
             badPasswordIcon.classList.add('hidden');
             goodConfirmPasswordIcon.classList.add('hidden');
             goodPasswordIcon.classList.add('hidden');
             return;
         }
-        else if (passwordSignUp.value === confirmPassword.value) {
+        else if (signuppasswordinput.value === signupconfirmpasswordinput.value) {
             badConfirmPasswordIcon.classList.add('hidden');
             badPasswordIcon.classList.add('hidden');
             goodConfirmPasswordIcon.classList.remove('hidden');
@@ -67,30 +86,27 @@ function checkPasswordMatch() {
         }
     }
 }
-if (passwordSignUp && confirmPassword) {
-    passwordSignUp.addEventListener('input', checkPasswordMatch);
-    confirmPassword.addEventListener('input', checkPasswordMatch);
+if (signuppasswordinput && signupconfirmpasswordinput) {
+    signuppasswordinput.addEventListener('input', checkPasswordMatch);
+    signupconfirmpasswordinput.addEventListener('input', checkPasswordMatch);
 }
-var signUpbtn = document.getElementById('signUp-btn');
-var usernameinput = document.getElementById('username-input');
-var emailinput = document.getElementById('email-input');
-function checkSignUpbtn() {
-    if (signUpbtn && emailinput && usernameinput && passwordSignUp && confirmPassword && badPasswordIcon && goodPasswordIcon && badConfirmPasswordIcon && goodConfirmPasswordIcon) {
-        if (emailinput.value === "" && usernameinput.value === "" && confirmPassword.value === "" && passwordSignUp.value === "") {
-            signUpbtn.disabled = true;
-            alert("Un champs n'est pas remplie");
+const signupform = document.getElementById('sign-up');
+if (signupform) {
+    signupform.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (signuppasswordinput && signupconfirmpasswordinput) {
+            if (signuppasswordinput.value !== signupconfirmpasswordinput.value) {
+                alert('les mots de passe sont pas bon');
+                return;
+            }
+            window.location.href = "../../index.html";
         }
-        else if (passwordSignUp.value !== confirmPassword.value) {
-            signUpbtn.disabled = true;
-            alert("les mots de passe ne sont pas les meme");
-        }
-        else {
-            alert("tous est good");
-            signUpbtn.disabled = false;
-        }
-    }
+    });
 }
-if (signUpbtn) {
-    signUpbtn.disabled = false;
-    signUpbtn.addEventListener("click", checkSignUpbtn);
+const signinform = document.getElementById('sign-in');
+if (signinform) {
+    signinform.addEventListener('submit', (event) => {
+        event.preventDefault();
+        window.location.href = "../../index.html";
+    });
 }

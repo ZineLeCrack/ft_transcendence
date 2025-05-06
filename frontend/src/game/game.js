@@ -4,11 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const rightBtn = document.getElementById("right-button-game");
     const playBtn = document.getElementById("game-play-button");
     const gameModeDiv = document.getElementById("game-mode");
-    const modes = ["LOCAL", "MULTI", "AI", "TOURNAMENTS"];
+    const descriptionmode = document.getElementById("description-game-mode");
+    const modes = ["LOCAL", "MULTI", "AI"];
+    const description = {
+        "LOCAL": "Joue contre un ami sur le même clavier.",
+        "MULTI": "Affronte d'autres joueurs en ligne.",
+        "AI": "Teste tes compétences contre l'ordinateur."
+    };
     let currentIndex = 0;
     function updateDisplay() {
         const mode = modes[currentIndex];
         gameModeDiv.textContent = mode;
+        descriptionmode.textContent = description[mode];
         if (mode === "LOCAL") {
             playBtn.onclick = () => window.location.href = "src/game/pong.html";
         }
@@ -17,9 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         else if (mode === "AI") {
             playBtn.onclick = () => window.location.href = "src/game/AI.html";
-        }
-        else if (mode === "TOURNAMENTS") {
-            playBtn.onclick = () => window.location.href = "src/game/tournaments.html";
         }
     }
     rightBtn.addEventListener("click", () => {

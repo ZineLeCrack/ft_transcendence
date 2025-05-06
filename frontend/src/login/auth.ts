@@ -13,42 +13,66 @@ toSignIn.addEventListener('click', () => {
 	signIn.classList.remove('hidden');
 });
 
-const togglePassword = document.getElementById('togglePassword') as HTMLButtonElement | null;
-const toggleConfirmPassword = document.getElementById('toggleConfirmPassword') as HTMLButtonElement | null;
-const password = document.getElementById('password') as HTMLInputElement | null;
 
-const confirmPassword = document.getElementById('confirmPassword') as HTMLInputElement | null;
-const eyeIcon = document.getElementById('eyeIcon') as HTMLImageElement | null;
-const eyeIconConfirm = document.getElementById('eyeIconConfirm') as HTMLImageElement | null;
+const signinusernamediv = document.getElementById('sign-in-username-div') as HTMLElement;
+const signinemaildiv = document.getElementById('sign-in-email-div') as HTMLElement;
+const signinwithemail = document.getElementById('sign-in-with-email') as HTMLElement;
+const signinwithUsername = document.getElementById('sign-in-with-Username') as HTMLElement;
+const signinusernameinput = document.getElementById('Sign-in-username') as HTMLInputElement;
+const signinemailinput = document.getElementById('Sign-in-email') as HTMLInputElement;
 
-const passwordSignUp = document.getElementById('passwordSignUp') as HTMLInputElement | null;
-const togglePasswordSignUp = document.getElementById('togglePasswordSignUp') as HTMLImageElement | null;
-const eyeIconSignUp = document.getElementById('eyeIconSignUp') as HTMLImageElement | null;
+signinwithUsername.addEventListener('click', () => {
+	signinemaildiv.classList.add('hidden');
+	signinusernamediv.classList.remove('hidden');
+	signinemailinput.required = false;
+	signinusernameinput.required = true;
+	
+});
 
-if (togglePassword && password && eyeIcon) {
-	togglePassword.addEventListener('click', () =>
+signinwithemail.addEventListener('click', () => {
+	signinusernamediv.classList.add('hidden');
+	signinemaildiv.classList.remove('hidden');
+	signinusernameinput.required = false;
+	signinemailinput.required = true;
+});
+
+
+const signinpasswordinput = document.getElementById('sign-in-password-input') as HTMLInputElement | null;
+const signinpasswordbtn = document.getElementById('sign-in-password-btn') as HTMLButtonElement | null;
+const signinpasswordicon = document.getElementById('sign-in-password-icon') as HTMLImageElement | null;
+
+const signuppasswordinput = document.getElementById('sign-up-password-input') as HTMLInputElement | null;
+const signuppasswordbtn = document.getElementById('sign-up-password-btn') as HTMLButtonElement | null;
+const signuppasswordicon = document.getElementById('sign-up-password-icon') as HTMLImageElement | null;
+
+const signupconfirmpasswordinput = document.getElementById('sign-up-confirmpassword-input') as HTMLInputElement | null;
+const signupconfirmpasswordbtn = document.getElementById('sign-up-confirmpassword-btn') as HTMLButtonElement | null;
+const signupconfirmpasswordicon = document.getElementById('sign-up-confirmpassword-icon') as HTMLImageElement | null;
+
+if (signinpasswordinput && signinpasswordbtn && signinpasswordicon) {
+	signinpasswordbtn.addEventListener('click', () =>
 	{
-		const isVisible = password.type === 'text';
-		password.type = isVisible ? 'password' : 'text';
-		eyeIcon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
+		const isVisible = signinpasswordinput.type === 'text';
+		signinpasswordinput.type = isVisible ? 'password' : 'text';
+		signinpasswordicon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
 	});
 }
 
-if (toggleConfirmPassword && confirmPassword && eyeIconConfirm) {
-	toggleConfirmPassword.addEventListener('click', () => 
+if (signuppasswordinput && signuppasswordbtn && signuppasswordicon) {
+	signuppasswordbtn.addEventListener('click', () => 
 	{
-		const isVisible = confirmPassword.type === 'text';
-		confirmPassword.type = isVisible ? 'password' : 'text';
-		eyeIconConfirm.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
+		const isVisible = signuppasswordinput.type === 'text';
+		signuppasswordinput.type = isVisible ? 'password' : 'text';
+		signuppasswordicon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
 	});
 }
 
-if (togglePasswordSignUp && passwordSignUp && eyeIconSignUp) {
-	togglePasswordSignUp.addEventListener('click', () => 
+if (signupconfirmpasswordinput && signupconfirmpasswordbtn && signupconfirmpasswordicon) {
+	signupconfirmpasswordbtn.addEventListener('click', () => 
 	{
-		const isVisible = passwordSignUp.type === 'text';
-		passwordSignUp.type = isVisible ? 'password' : 'text';
-		eyeIconSignUp.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
+		const isVisible = signupconfirmpasswordinput.type === 'text';
+		signupconfirmpasswordinput.type = isVisible ? 'password' : 'text';
+		signupconfirmpasswordicon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
 	});
 }
 
@@ -59,9 +83,9 @@ const goodConfirmPasswordIcon = document.getElementById('goodConfirmPasswordIcon
 
 function checkPasswordMatch() {
 
-	if (passwordSignUp && confirmPassword && badPasswordIcon && goodPasswordIcon && badConfirmPasswordIcon && goodConfirmPasswordIcon)
+	if (signuppasswordinput && signupconfirmpasswordinput && badPasswordIcon && goodPasswordIcon && badConfirmPasswordIcon && goodConfirmPasswordIcon)
 	{
-		if (confirmPassword.value === "" && passwordSignUp.value === "")
+		if (signupconfirmpasswordinput.value === "" && signuppasswordinput.value === "")
 		{
 			badConfirmPasswordIcon.classList.add('hidden');
 			badPasswordIcon.classList.add('hidden');
@@ -69,7 +93,7 @@ function checkPasswordMatch() {
 			goodPasswordIcon.classList.add('hidden');
 			return ;
 		}
-		else if (passwordSignUp.value === confirmPassword.value)
+		else if (signuppasswordinput.value === signupconfirmpasswordinput.value)
 		{
 			badConfirmPasswordIcon.classList.add('hidden');
 			badPasswordIcon.classList.add('hidden');
@@ -87,40 +111,37 @@ function checkPasswordMatch() {
 	}
 }
 
-if (passwordSignUp && confirmPassword)
+if (signuppasswordinput && signupconfirmpasswordinput)
 {
-	passwordSignUp.addEventListener('input', checkPasswordMatch);
-	confirmPassword.addEventListener('input', checkPasswordMatch);
+	signuppasswordinput.addEventListener('input', checkPasswordMatch);
+	signupconfirmpasswordinput.addEventListener('input', checkPasswordMatch);
 }
 
-const signUpbtn = document.getElementById('signUp-btn')as HTMLButtonElement | null;
-const usernameinput = document.getElementById('username-input') as HTMLInputElement | null;
-const emailinput = document.getElementById('email-input') as HTMLInputElement | null;
+const signupform = document.getElementById('sign-up') as HTMLFormElement | null;
 
-function checkSignUpbtn() {
-
-	if (signUpbtn && emailinput && usernameinput && passwordSignUp && confirmPassword && badPasswordIcon && goodPasswordIcon && badConfirmPasswordIcon && goodConfirmPasswordIcon)
+if (signupform)
+{
+	signupform.addEventListener('submit', (event) => {
+		event.preventDefault();
+	if (signuppasswordinput && signupconfirmpasswordinput)
+	{
+		if (signuppasswordinput.value !== signupconfirmpasswordinput.value)
 		{
-			if (emailinput.value === "" && usernameinput.value === "" && confirmPassword.value === "" && passwordSignUp.value === "")
-			{
-				signUpbtn.disabled = true;
-				alert("Un champs n'est pas remplie");
-			}
-			else if (passwordSignUp.value !== confirmPassword.value)
-			{
-				signUpbtn.disabled = true;
-				alert("les mots de passe ne sont pas les meme");
-			}
-			else
-			{
-				alert("tous est good");
-				signUpbtn.disabled = false;
-			}
-	
+			alert('les mots de passe sont pas bon');
+			return ;
+		}
+		window.location.href = "../../index.html";
 	}
+		
+	})
 }
 
-if (signUpbtn){
-	signUpbtn.disabled = false;
-	signUpbtn.addEventListener("click", checkSignUpbtn);
+const signinform = document.getElementById('sign-in') as HTMLFormElement | null;
+
+if (signinform)
+{
+	signinform.addEventListener('submit', (event) => {
+		event.preventDefault();
+			window.location.href = "../../index.html";
+	});
 }

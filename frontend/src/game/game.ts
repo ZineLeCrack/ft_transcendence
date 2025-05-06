@@ -4,14 +4,22 @@ document.addEventListener("DOMContentLoaded", () =>
 	const rightBtn = document.getElementById("right-button-game") as HTMLButtonElement;
 	const playBtn = document.getElementById("game-play-button") as HTMLButtonElement;
 	const gameModeDiv = document.getElementById("game-mode") as HTMLDivElement;
+	const descriptionmode = document.getElementById("description-game-mode") as HTMLDivElement;
 
-	const modes = ["LOCAL", "MULTI", "AI", "TOURNAMENTS"];
+	const modes = ["LOCAL", "MULTI", "AI"];
+	const description: Record<string, string> = {
+		"LOCAL": "Joue contre un ami sur le même clavier.",
+		"MULTI": "Affronte d'autres joueurs en ligne.",
+		"AI": "Teste tes compétences contre l'ordinateur."
+	};
+
 	let currentIndex = 0;
 
 	function updateDisplay()
 	{
 	const mode = modes[currentIndex];
 	gameModeDiv.textContent = mode;
+	descriptionmode.textContent = description[mode];
 
 	if (mode === "LOCAL")
 	{
@@ -24,10 +32,6 @@ document.addEventListener("DOMContentLoaded", () =>
 	else if (mode === "AI")
 	{
 		playBtn.onclick = () => window.location.href = "src/game/AI.html";
-	}
-	else if (mode === "TOURNAMENTS")
-	{
-		playBtn.onclick = () => window.location.href = "src/game/tournaments.html";
 	}
 }
 

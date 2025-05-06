@@ -23,10 +23,10 @@ let keyPressed = false;
 let leftScore = 0;
 let rightScore = 0;
 score.font = "40px 'Caveat'";
-game.font = "40px 'Caveat'";
 document.fonts.ready.then(() => {
     draw();
 });
+game.font = "40px 'Caveat'";
 document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp")
         upPressed = true, keyPressed = true;
