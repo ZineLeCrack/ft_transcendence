@@ -7,25 +7,57 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-let padY = 100;
+let ballX = 400, ballY = 300, ballSpeedX = 5, ballSpeedY = 5;
+let leftPaddleY = 250, rightPaddleY = 250;
+let leftScore = 0, rightScore = 0;
 
-app.post('/move', (req, res) =>
-{
-	const { key } = req.body;
-	if (key === 'ArrowUp') padY -= 10;
-	if (key === 'ArrowDown') padY += 10;
+app.get('/state', (req, res) => {
+  res.json({ ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore });
+});
 
-	padY = Math.max(0, Math.min(250, padY));
+app.post('/move', (req, res) => {
+	const { keys } = req.body;
+  
+	if (keys.ArrowUp) rightPaddleY -= 10;
+	if (keys.ArrowDown) rightPaddleY += 10;
+	if (keys.w) leftPaddleY -= 10;
+	if (keys.s) leftPaddleY += 10;
+  
+	rightPaddleY = Math.max(0, Math.min(500, rightPaddleY));
+	leftPaddleY = Math.max(0, Math.min(500, leftPaddleY));
+  
 	res.sendStatus(200);
-});
+  });
+  
 
+function updateGame() {
+  ballX += ballSpeedX;
+  ballY += ballSpeedY;
 
-app.get('/state', (req, res) =>
-{
-	res.json({ padY });
-});
+  if (ballY <= 0 || ballY >= 600) ballSpeedY = -ballSpeedY;
 
-app.listen(port, () =>
-{
-	console.log("Serveur HTTP lancé sur http://localhost:${port}");
+  if (ballX <= 30 && ballY >= leftPaddleY && ballY <= leftPaddleY + 100) ballSpeedX = -ballSpeedX;
+  if (ballX >= 770 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100) ballSpeedX = -ballSpeedX;
+
+  if (ballX <= 0) {
+    rightScore++;
+    resetBall();
+  } else if (ballX >= 800) {
+    leftScore++;
+    resetBall();
+  }
+
+  setTimeout(updateGame, 16);
+}
+
+function resetBall() {
+  ballX = 400;
+  ballY = 300;
+  ballSpeedX = (Math.random() > 0.5 ? 1 : -1) * 5;
+  ballSpeedY = 5;
+}
+
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+  updateGame();
 });

@@ -1,174 +1,77 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 const gameCanvas = document.getElementById("gameCanvas");
 const topCanvas = document.getElementById("topCanvas");
 const game = gameCanvas.getContext("2d");
 const score = topCanvas.getContext("2d");
-const canvasWidth = gameCanvas.width;
-const canvasHeight = gameCanvas.height;
-let ballX = canvasWidth / 2;
-let ballY = canvasHeight / 2;
-let ballSpeedX = 5;
-let ballSpeedY = 5;
-const ballSize = 10;
-const paddleWidth = 10;
-const paddleHeight = 100;
-let leftPaddleY = canvasHeight / 2 - paddleHeight / 2;
-let rightPaddleY = canvasHeight / 2 - paddleHeight / 2;
-const paddleSpeed = 7;
-let upPressed = false;
-let downPressed = false;
-let wPressed = false;
-let sPressed = false;
-let keyPressed = false;
+let ballX = 400;
+let ballY = 300;
+let leftPaddleY = 250;
+let rightPaddleY = 250;
 let leftScore = 0;
 let rightScore = 0;
-score.font = "40px 'Caveat'";
-document.fonts.ready.then(() => {
-    draw();
-});
-game.font = "40px 'Caveat'";
+const paddleWidth = 10;
+const paddleHeight = 100;
+let keys = {
+    w: false,
+    s: false,
+    ArrowUp: false,
+    ArrowDown: false
+};
+function sendKey(key, pressed) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield fetch('http://localhost:3000/move', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ key, pressed })
+        });
+    });
+}
+function fetchState() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const res = yield fetch('http://localhost:3000/state');
+        const data = yield res.json();
+        ballX = data.ballX;
+        ballY = data.ballY;
+        leftPaddleY = data.leftPaddleY;
+        rightPaddleY = data.rightPaddleY;
+        leftScore = data.leftScore;
+        rightScore = data.rightScore;
+        draw();
+    });
+}
 document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowUp")
-        upPressed = true, keyPressed = true;
-    if (e.key === "ArrowDown")
-        downPressed = true, keyPressed = true;
-    if (e.key === "w")
-        wPressed = true, keyPressed = true;
-    if (e.key === "s")
-        sPressed = true, keyPressed = true;
+    if (e.key in keys)
+        keys[e.key] = true;
 });
 document.addEventListener("keyup", (e) => {
-    if (e.key === "ArrowUp")
-        upPressed = false;
-    if (e.key === "ArrowDown")
-        downPressed = false;
-    if (e.key === "w")
-        wPressed = false;
-    if (e.key === "s")
-        sPressed = false;
+    if (e.key in keys)
+        keys[e.key] = false;
 });
-function gameLoop() {
-    if (rightScore === 5 || leftScore === 5) {
-        game.fillText(rightScore === 5 ? "Player 2 win" : "Player 1 win", canvasWidth / 2 - 70, canvasHeight / 2);
-        rightScore = 0;
-        leftScore = 0;
-    }
-    if (keyPressed) {
-        update();
-        draw();
-    }
-    requestAnimationFrame(gameLoop);
-}
-function update() {
-    ballX += ballSpeedX;
-    ballY += ballSpeedY;
-    if (ballY < 0 || ballY > canvasHeight - ballSize)
-        ballSpeedY *= -1;
-    if (ballX < paddleWidth &&
-        ballY > leftPaddleY &&
-        ballY < leftPaddleY + paddleHeight) {
-        if (ballY < leftPaddleY + (paddleHeight / 3)) {
-            if (ballSpeedY < 0) {
-                if (ballSpeedY > -7)
-                    ballSpeedY -= 2;
-            }
-            else {
-                if (ballSpeedY > 3)
-                    ballSpeedY -= 2;
-            }
-        }
-        else if (ballY > leftPaddleY + (2 * paddleHeight / 3)) {
-            if (ballSpeedY < 0) {
-                if (ballSpeedY < -3)
-                    ballSpeedY += 2;
-            }
-            else {
-                if (ballSpeedY < 7)
-                    ballSpeedY += 2;
-            }
-        }
-        if (-10 < ballSpeedX && ballSpeedX < 10) {
-            if (ballSpeedX > 0)
-                ballSpeedX += 0.5;
-            else
-                ballSpeedX -= 0.5;
-        }
-        ballSpeedX *= -1;
-    }
-    if (ballX > canvasWidth - paddleWidth - ballSize &&
-        ballY > rightPaddleY &&
-        ballY < rightPaddleY + paddleHeight) {
-        if (ballY < rightPaddleY + (paddleHeight / 3)) {
-            if (ballSpeedY < 0) {
-                if (ballSpeedY > -7)
-                    ballSpeedY -= 2;
-            }
-            else {
-                if (ballSpeedY > 3)
-                    ballSpeedY -= 2;
-            }
-        }
-        else if (ballY > rightPaddleY + (2 * paddleHeight / 3)) {
-            if (ballSpeedX < 0) {
-                if (ballSpeedY < -3)
-                    ballSpeedY += 2;
-            }
-            else {
-                if (ballSpeedY < 7)
-                    ballSpeedY += 2;
-            }
-        }
-        if (-10 < ballSpeedX && ballSpeedX < 10) {
-            if (ballSpeedX > 0)
-                ballSpeedX += 0.5;
-            else
-                ballSpeedX -= 0.5;
-        }
-        ballSpeedX *= -1;
-    }
-    if (upPressed && rightPaddleY > 0)
-        rightPaddleY -= paddleSpeed;
-    if (downPressed && rightPaddleY < canvasHeight - paddleHeight)
-        rightPaddleY += paddleSpeed;
-    if (wPressed && leftPaddleY > 0)
-        leftPaddleY -= paddleSpeed;
-    if (sPressed && leftPaddleY < canvasHeight - paddleHeight)
-        leftPaddleY += paddleSpeed;
-    if (ballX < 0) {
-        keyPressed = false;
-        ballX = canvasWidth / 2;
-        ballY = canvasHeight / 2;
-        ballSpeedY = 5;
-        if (ballSpeedX > 0)
-            ballSpeedX = 5;
-        else
-            ballSpeedX = -5;
-        ballSpeedX *= -1;
-        rightScore++;
-    }
-    if (ballX > canvasWidth) {
-        keyPressed = false;
-        ballX = canvasWidth / 2;
-        ballY = canvasHeight / 2;
-        ballSpeedY = 5;
-        if (ballSpeedX > 0)
-            ballSpeedX = 5;
-        else
-            ballSpeedX = -5;
-        ballSpeedX *= -1;
-        leftScore++;
-    }
-}
 function draw() {
+    game.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
     score.clearRect(0, 0, topCanvas.width, topCanvas.height);
-    game.clearRect(0, 0, canvasWidth, canvasHeight);
-    score.fillStyle = "black";
     game.fillStyle = "black";
-    score.fillText(leftScore.toString(), 20, 50);
-    score.fillText(rightScore.toString(), 260, 50);
-    game.fillRect(canvasWidth / 2 + 4, 0, 2, 600);
-    game.fillRect(ballX, ballY, ballSize, ballSize);
     game.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
-    game.fillRect(canvasWidth - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+    game.fillRect(gameCanvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+    game.fillRect(ballX, ballY, 10, 10);
+    score.fillStyle = "black";
+    score.fillText(leftScore.toString(), 20, 50);
+    score.fillText(rightScore.toString(), gameCanvas.width - 50, 50);
 }
-gameLoop();
+setInterval(() => {
+    fetch('http://localhost:3000/move', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ keys })
+    });
+}, 16);
+setInterval(fetchState, 16);
