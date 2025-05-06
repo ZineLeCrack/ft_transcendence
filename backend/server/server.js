@@ -18,13 +18,13 @@ app.get('/state', (req, res) => {
 app.post('/move', (req, res) => {
     const { keys } = req.body;
     if (keys.ArrowUp)
-        rightPaddleY -= 10;
+        rightPaddleY -= 5;
     if (keys.ArrowDown)
-        rightPaddleY += 10;
+        rightPaddleY += 5;
     if (keys.w)
-        leftPaddleY -= 10;
+        leftPaddleY -= 5;
     if (keys.s)
-        leftPaddleY += 10;
+        leftPaddleY += 5;
     rightPaddleY = Math.max(0, Math.min(500, rightPaddleY));
     leftPaddleY = Math.max(0, Math.min(500, leftPaddleY));
     res.sendStatus(200);
@@ -46,7 +46,7 @@ function updateGame() {
         leftScore++;
         resetBall();
     }
-    setTimeout(updateGame, 16);
+    setTimeout(updateGame, 10);
 }
 function resetBall() {
     ballX = 400;

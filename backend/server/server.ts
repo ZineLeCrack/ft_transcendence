@@ -18,10 +18,10 @@ app.get('/state', (req, res) => {
 app.post('/move', (req, res) => {
 	const { keys } = req.body;
   
-	if (keys.ArrowUp) rightPaddleY -= 10;
-	if (keys.ArrowDown) rightPaddleY += 10;
-	if (keys.w) leftPaddleY -= 10;
-	if (keys.s) leftPaddleY += 10;
+	if (keys.ArrowUp) rightPaddleY -= 5;
+	if (keys.ArrowDown) rightPaddleY += 5;
+	if (keys.w) leftPaddleY -= 5;
+	if (keys.s) leftPaddleY += 5;
   
 	rightPaddleY = Math.max(0, Math.min(500, rightPaddleY));
 	leftPaddleY = Math.max(0, Math.min(500, leftPaddleY));
@@ -47,10 +47,11 @@ function updateGame() {
     resetBall();
   }
 
-  setTimeout(updateGame, 16);
+  setTimeout(updateGame, 10);
 }
 
-function resetBall() {
+function resetBall()
+{
   ballX = 400;
   ballY = 300;
   ballSpeedX = (Math.random() > 0.5 ? 1 : -1) * 5;
