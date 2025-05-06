@@ -8,8 +8,10 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 COPY tools/users.sql .
+COPY tools/chat.sql .
 
-RUN sqlite3 ma_base.db < users.sql
+RUN sqlite3 user.db < users.sql
+RUN sqlite3 chat.db < chat.sql
 
 CMD ["tail", "-f", "/dev/null"]
 
