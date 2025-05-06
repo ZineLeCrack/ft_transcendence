@@ -8,15 +8,25 @@ services:
       - "443:443"
     networks:
       - transcendence
-    restart:
-      condition: service-healthy
   backend:
     build: backend/.
     container_name: backend
-    network:
+    volumes:
+      - database:/app
+    command: ["tail", "-f", "/dev/null"]
+    networks:
       - transcendence
+
+volumes:
+  database:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/lelanglo/data/database
+      o: bind
+
 networks:
-  inception:
+  transcendence:
     name: transcendence
     driver: bridge
 
