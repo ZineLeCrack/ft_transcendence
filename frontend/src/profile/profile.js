@@ -1,8 +1,14 @@
 var editbtn = document.getElementById('edit-btn');
 var statsbtn = document.getElementById('stats-btn');
-var statsdiv = document.getElementById('stats-div');
-var editdiv = document.getElementById('edit-div');
+var statsform = document.getElementById('stats-form');
+var editprofilform = document.getElementById('edit-profil-form');
+var editbtnisactive = false;
+var statsbtnisactive = true;
 editbtn.addEventListener('click', function () {
+    if (editbtnisactive)
+        return;
+    editbtnisactive = true;
+    statsbtnisactive = false;
     statsbtn.classList.add('bg-gray-200');
     statsbtn.classList.remove('bg-blue-500');
     editbtn.classList.remove('bg-gray-200');
@@ -11,10 +17,16 @@ editbtn.addEventListener('click', function () {
     editbtn.classList.remove('text-gray-800');
     statsbtn.classList.remove('text-white');
     statsbtn.classList.add('text-gray-800');
-    statsdiv.classList.add('hidden');
-    editdiv.classList.remove('hidden');
+    statsform.classList.add('hidden');
+    editprofilform.classList.remove('hidden');
+    editpasswordform.classList.add('hidden');
+    editpasswordbtn.classList.remove('hidden');
 });
 statsbtn.addEventListener('click', function () {
+    if (statsbtnisactive)
+        return;
+    editbtnisactive = false;
+    statsbtnisactive = true;
     statsbtn.classList.remove('bg-gray-200');
     statsbtn.classList.add('bg-blue-500');
     editbtn.classList.add('bg-gray-200');
@@ -23,19 +35,40 @@ statsbtn.addEventListener('click', function () {
     statsbtn.classList.remove('text-gray-800');
     editbtn.classList.remove('text-white');
     editbtn.classList.add('text-gray-800');
-    statsdiv.classList.remove('hidden');
-    editdiv.classList.add('hidden');
+    statsform.classList.remove('hidden');
+    editprofilform.classList.add('hidden');
+    editpasswordform.classList.add('hidden');
+    editpasswordbtn.classList.remove('hidden');
+    editusernameinput.value = "";
+    editemailinput.value = "";
+    editcurrentpasswordinput.value = "";
+    editnewpasswordinput.value = "";
+    editconfirmnewpasswordinput.value = "";
 });
-var editpassewordbtn = document.getElementById('edit-password-btn');
-var editusernamediv = document.getElementById('edit-username-div');
-var editemaildiv = document.getElementById('edit-email-div');
-var editcurrentpassworddiv = document.getElementById('edit-current-password-div');
-var editnewpassworddiv = document.getElementById('edit-new-password-div');
-var editconfirmpassworddiv = document.getElementById('edit-confirm-new-password-div');
-editpassewordbtn.addEventListener('click', function () {
-    editusernamediv.classList.add('hidden');
-    editemaildiv.classList.add('hidden');
-    editcurrentpassworddiv.classList.remove('hidden');
-    editnewpassworddiv.classList.remove('hidden');
-    editconfirmpassworddiv.classList.remove('hidden');
+var editpasswordbtn = document.getElementById('edit-password-btn');
+var editpasswordform = document.getElementById('edit-password-form');
+editpasswordbtn.addEventListener('click', function () {
+    editprofilform.classList.add('hidden');
+    editpasswordform.classList.remove('hidden');
+    editpasswordbtn.classList.add('hidden');
+});
+var unsavebtn = document.getElementById('unsave-btn');
+var savebtn = document.getElementById('save-btn');
+var editusernameinput = document.getElementById('edit-username-input');
+var editemailinput = document.getElementById('edit-email-input');
+var editcurrentpasswordinput = document.getElementById('edit-currentpassword-input');
+var editnewpasswordinput = document.getElementById('edit-newpassword-input');
+var editconfirmnewpasswordinput = document.getElementById('edit-confirmpassword-input');
+var unsavebtneditpassword = document.getElementById('unsave-btn-edit-password');
+unsavebtn.addEventListener('click', function () {
+    editusernameinput.value = "";
+    editemailinput.value = "";
+});
+unsavebtneditpassword.addEventListener('click', function () {
+    editcurrentpasswordinput.value = "";
+    editnewpasswordinput.value = "";
+    editconfirmnewpasswordinput.value = "";
+    editprofilform.classList.remove('hidden');
+    editpasswordform.classList.add('hidden');
+    editpasswordbtn.classList.remove('hidden');
 });
