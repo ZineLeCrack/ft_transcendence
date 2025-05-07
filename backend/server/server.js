@@ -19,12 +19,20 @@ let leftScore = 0;
 let rightScore = 0;
 let newSpeedX = 0;
 let newSpeedY = 0;
-setTimeout(() => {
-    ballSpeedX = 5;
-    ballSpeedY = 5;
-}, 5000);
+let gameStarted = false;
 app.get('/state', (req, res) => {
     res.json({ ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore });
+});
+app.get('/start', (req, res) => {
+    res.json({ gameStarted });
+});
+app.post('/start', (req, res) => {
+    if (!gameStarted) {
+        gameStarted = true;
+        ballSpeedX = 5;
+        ballSpeedY = 5;
+    }
+    res.sendStatus(200);
 });
 app.post('/move', (req, res) => {
     const { keys } = req.body;
@@ -41,23 +49,25 @@ app.post('/move', (req, res) => {
     res.sendStatus(200);
 });
 function updateGame() {
-    ballX += ballSpeedX;
-    ballY += ballSpeedY;
-    if (ballY <= 0 || ballY >= 600)
-        ballSpeedY = -ballSpeedY;
-    if (ballX <= 30 && ballY >= leftPaddleY && ballY <= leftPaddleY + 100)
-        ballSpeedX = -ballSpeedX;
-    if (ballX >= 770 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100)
-        ballSpeedX = -ballSpeedX;
-    if (ballX <= 0) {
-        rightScore++;
-        resetBall();
+    if (gameStarted) {
+        ballX += ballSpeedX;
+        ballY += ballSpeedY;
+        if (ballY <= 0 || ballY >= 600)
+            ballSpeedY = -ballSpeedY;
+        if (ballX <= 30 && ballY >= leftPaddleY && ballY <= leftPaddleY + 100)
+            ballSpeedX = -ballSpeedX;
+        if (ballX >= 770 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100)
+            ballSpeedX = -ballSpeedX;
+        if (ballX <= 0) {
+            rightScore++;
+            resetBall();
+        }
+        else if (ballX >= 800) {
+            leftScore++;
+            resetBall();
+        }
     }
-    else if (ballX >= 800) {
-        leftScore++;
-        resetBall();
-    }
-    setTimeout(updateGame, 10);
+    setTimeout(updateGame, 16);
 }
 function resetBall() {
     ballX = 400;
@@ -69,7 +79,7 @@ function resetBall() {
     setTimeout(() => {
         ballSpeedX = newSpeedX;
         ballSpeedY = newSpeedY;
-    }, 2000);
+    }, 3000);
 }
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
