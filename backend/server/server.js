@@ -9,9 +9,20 @@ const app = (0, express_1.default)();
 const port = 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-let ballX = 400, ballY = 300, ballSpeedX = 5, ballSpeedY = 5;
-let leftPaddleY = 250, rightPaddleY = 250;
-let leftScore = 0, rightScore = 0;
+let ballX = 400;
+let ballY = 300;
+let ballSpeedX = 0;
+let ballSpeedY = 0;
+let leftPaddleY = 250;
+let rightPaddleY = 250;
+let leftScore = 0;
+let rightScore = 0;
+let newSpeedX = 0;
+let newSpeedY = 0;
+setTimeout(() => {
+    ballSpeedX = 5;
+    ballSpeedY = 5;
+}, 5000);
 app.get('/state', (req, res) => {
     res.json({ ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore });
 });
@@ -51,8 +62,14 @@ function updateGame() {
 function resetBall() {
     ballX = 400;
     ballY = 300;
-    ballSpeedX = (Math.random() > 0.5 ? 1 : -1) * 5;
-    ballSpeedY = 5;
+    newSpeedX = -ballSpeedX;
+    newSpeedY = -ballSpeedY;
+    ballSpeedX = 0;
+    ballSpeedY = 0;
+    setTimeout(() => {
+        ballSpeedX = newSpeedX;
+        ballSpeedY = newSpeedY;
+    }, 2000);
 }
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
