@@ -1,173 +1,121 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 var gameCanvas = document.getElementById("gameCanvas");
 var topCanvas = document.getElementById("topCanvas");
 var game = gameCanvas.getContext("2d");
 var score = topCanvas.getContext("2d");
-var canvasWidth = gameCanvas.width;
-var canvasHeight = gameCanvas.height;
-var ballX = canvasWidth / 2;
-var ballY = canvasHeight / 2;
-var ballSpeedX = 5;
-var ballSpeedY = 5;
-var ballSize = 10;
-var paddleWidth = 10;
-var paddleHeight = 100;
-var leftPaddleY = canvasHeight / 2 - paddleHeight / 2;
-var rightPaddleY = canvasHeight / 2 - paddleHeight / 2;
-var paddleSpeed = 7;
-var upPressed = false;
-var downPressed = false;
-var wPressed = false;
-var sPressed = false;
-var keyPressed = false;
+// position et score par defaut
+var ballX = 400;
+var ballY = 300;
+var leftPaddleY = 250;
+var rightPaddleY = 250;
 var leftScore = 0;
 var rightScore = 0;
+var paddleWidth = 10;
+var paddleHeight = 100;
+// Dictionnaire pour stocker les touches pressees ou non
+var keys = {
+    w: false,
+    s: false,
+    ArrowUp: false,
+    ArrowDown: false
+};
+var gameStarted = false;
 score.font = "40px 'Caveat'";
-document.fonts.ready.then(function () {
-    draw();
-});
-game.font = "40px 'Caveat'";
+// fonction qui reload les positions des pads et de la balle ainsi que les
+// scores et dessine
+function fetchState() {
+    return __awaiter(this, void 0, void 0, function () {
+        var res, data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetch('http://localhost:3000/state')];
+                case 1:
+                    res = _a.sent();
+                    return [4 /*yield*/, res.json()];
+                case 2:
+                    data = _a.sent();
+                    ballX = data.ballX;
+                    ballY = data.ballY;
+                    leftPaddleY = data.leftPaddleY;
+                    rightPaddleY = data.rightPaddleY;
+                    leftScore = data.leftScore;
+                    rightScore = data.rightScore;
+                    draw();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+// evenement de touche pressee
 document.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowUp")
-        upPressed = true, keyPressed = true;
-    if (e.key === "ArrowDown")
-        downPressed = true, keyPressed = true;
-    if (e.key === "w")
-        wPressed = true, keyPressed = true;
-    if (e.key === "s")
-        sPressed = true, keyPressed = true;
+    if (e.key in keys)
+        keys[e.key] = true;
+    if (e.key === " " && !gameStarted) {
+        fetch("http://localhost:3000/start", { method: "POST" });
+        gameStarted = true;
+    }
 });
+// evenement de touche relachee
 document.addEventListener("keyup", function (e) {
-    if (e.key === "ArrowUp")
-        upPressed = false;
-    if (e.key === "ArrowDown")
-        downPressed = false;
-    if (e.key === "w")
-        wPressed = false;
-    if (e.key === "s")
-        sPressed = false;
+    if (e.key in keys)
+        keys[e.key] = false;
 });
-function gameLoop() {
-    if (rightScore === 5 || leftScore === 5) {
-        game.fillText(rightScore === 5 ? "Player 2 win" : "Player 1 win", canvasWidth / 2 - 70, canvasHeight / 2);
-        rightScore = 0;
-        leftScore = 0;
-    }
-    if (keyPressed) {
-        update();
-        draw();
-    }
-    requestAnimationFrame(gameLoop);
-}
-function update() {
-    ballX += ballSpeedX;
-    ballY += ballSpeedY;
-    if (ballY < 0 || ballY > canvasHeight - ballSize)
-        ballSpeedY *= -1;
-    if (ballX < paddleWidth &&
-        ballY > leftPaddleY &&
-        ballY < leftPaddleY + paddleHeight) {
-        if (ballY < leftPaddleY + (paddleHeight / 3)) {
-            if (ballSpeedY < 0) {
-                if (ballSpeedY > -7)
-                    ballSpeedY -= 2;
-            }
-            else {
-                if (ballSpeedY > 3)
-                    ballSpeedY -= 2;
-            }
-        }
-        else if (ballY > leftPaddleY + (2 * paddleHeight / 3)) {
-            if (ballSpeedY < 0) {
-                if (ballSpeedY < -3)
-                    ballSpeedY += 2;
-            }
-            else {
-                if (ballSpeedY < 7)
-                    ballSpeedY += 2;
-            }
-        }
-        if (-10 < ballSpeedX && ballSpeedX < 10) {
-            if (ballSpeedX > 0)
-                ballSpeedX += 0.5;
-            else
-                ballSpeedX -= 0.5;
-        }
-        ballSpeedX *= -1;
-    }
-    if (ballX > canvasWidth - paddleWidth - ballSize &&
-        ballY > rightPaddleY &&
-        ballY < rightPaddleY + paddleHeight) {
-        if (ballY < rightPaddleY + (paddleHeight / 3)) {
-            if (ballSpeedY < 0) {
-                if (ballSpeedY > -7)
-                    ballSpeedY -= 2;
-            }
-            else {
-                if (ballSpeedY > 3)
-                    ballSpeedY -= 2;
-            }
-        }
-        else if (ballY > rightPaddleY + (2 * paddleHeight / 3)) {
-            if (ballSpeedX < 0) {
-                if (ballSpeedY < -3)
-                    ballSpeedY += 2;
-            }
-            else {
-                if (ballSpeedY < 7)
-                    ballSpeedY += 2;
-            }
-        }
-        if (-10 < ballSpeedX && ballSpeedX < 10) {
-            if (ballSpeedX > 0)
-                ballSpeedX += 0.5;
-            else
-                ballSpeedX -= 0.5;
-        }
-        ballSpeedX *= -1;
-    }
-    if (upPressed && rightPaddleY > 0)
-        rightPaddleY -= paddleSpeed;
-    if (downPressed && rightPaddleY < canvasHeight - paddleHeight)
-        rightPaddleY += paddleSpeed;
-    if (wPressed && leftPaddleY > 0)
-        leftPaddleY -= paddleSpeed;
-    if (sPressed && leftPaddleY < canvasHeight - paddleHeight)
-        leftPaddleY += paddleSpeed;
-    if (ballX < 0) {
-        keyPressed = false;
-        ballX = canvasWidth / 2;
-        ballY = canvasHeight / 2;
-        ballSpeedY = 5;
-        if (ballSpeedX > 0)
-            ballSpeedX = 5;
-        else
-            ballSpeedX = -5;
-        ballSpeedX *= -1;
-        rightScore++;
-    }
-    if (ballX > canvasWidth) {
-        keyPressed = false;
-        ballX = canvasWidth / 2;
-        ballY = canvasHeight / 2;
-        ballSpeedY = 5;
-        if (ballSpeedX > 0)
-            ballSpeedX = 5;
-        else
-            ballSpeedX = -5;
-        ballSpeedX *= -1;
-        leftScore++;
-    }
-}
+// fonction qui dessine dans le canvas
 function draw() {
+    game.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
     score.clearRect(0, 0, topCanvas.width, topCanvas.height);
-    game.clearRect(0, 0, canvasWidth, canvasHeight);
-    score.fillStyle = "black";
     game.fillStyle = "black";
-    score.fillText(leftScore.toString(), 20, 50);
-    score.fillText(rightScore.toString(), 260, 50);
-    game.fillRect(canvasWidth / 2 + 4, 0, 2, 600);
-    game.fillRect(ballX, ballY, ballSize, ballSize);
+    for (var i = 0; i < 600; i += 18.9)
+        game.fillRect(404, i, 2, 15);
     game.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
-    game.fillRect(canvasWidth - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+    game.fillRect(gameCanvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+    game.fillRect(ballX, ballY, 10, 10);
+    score.fillStyle = "black";
+    score.fillText(leftScore.toString(), 20, 50);
+    score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
 }
-gameLoop();
+// envoie l'etat des touches 100x par seconde
+setInterval(function () {
+    fetch('http://localhost:3000/move', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ keys: keys })
+    });
+}, 10);
+// recupere toutes les valeurs et dessine avec 100 fps
+setInterval(fetchState, 10);
