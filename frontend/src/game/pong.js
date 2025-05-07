@@ -28,6 +28,8 @@ let keys = {
     ArrowUp: false,
     ArrowDown: false
 };
+let gameStarted = false;
+score.font = "40px 'Caveat'";
 // fonction qui reload les positions des pads et de la balle ainsi que les
 // scores et dessine
 function fetchState() {
@@ -47,6 +49,10 @@ function fetchState() {
 document.addEventListener("keydown", (e) => {
     if (e.key in keys)
         keys[e.key] = true;
+    if (e.key === " " && !gameStarted) {
+        fetch("http://localhost:3000/start", { method: "POST" });
+        gameStarted = true;
+    }
 });
 // evenement de touche relachee
 document.addEventListener("keyup", (e) => {
@@ -58,6 +64,8 @@ function draw() {
     game.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
     score.clearRect(0, 0, topCanvas.width, topCanvas.height);
     game.fillStyle = "black";
+    for (let i = 0; i < 600; i += 18.9)
+        game.fillRect(404, i, 2, 15);
     game.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
     game.fillRect(gameCanvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
     game.fillRect(ballX, ballY, 10, 10);
