@@ -23,8 +23,10 @@ let keys: { [key: string]: boolean } =
 };
 
 let gameStarted = false;
+let message = "";
 
 score.font = "40px 'Caveat'";
+game.font = "80px 'Caveat'";
 
 // fonction qui reload les positions des pads et de la balle ainsi que les
 // scores et dessine
@@ -38,6 +40,7 @@ async function fetchState()
 	rightPaddleY = data.rightPaddleY;
 	leftScore = data.leftScore;
 	rightScore = data.rightScore;
+	message = data.message;
 	draw();
 }
 
@@ -45,7 +48,7 @@ async function fetchState()
 document.addEventListener("keydown", (e) =>
 {
 	if (e.key in keys) keys[e.key] = true;
-	if (e.key === " " && !gameStarted) {
+	if (e.key === " ") {
         fetch("http://localhost:3000/start", { method: "POST" });
         gameStarted = true;
     }
@@ -64,6 +67,7 @@ function draw()
 	score.clearRect(0, 0, topCanvas.width, topCanvas.height);
 
 	game.fillStyle = "black";
+	game.fillText(message, 400 - (message.length * 14), 150);
 	for (let i = 0; i < 600; i += 18.9)
 		game.fillRect(404, i, 2, 15);
 		
