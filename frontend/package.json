@@ -9,7 +9,8 @@
     "game": "tsc src/game/game.ts --watch",
     "login": "tsc src/login/auth.ts --watch",
     "local":  "tsc src/game/pong.ts --watch",
-    "profil":  "tsc src/profile/profile.ts --watch"
+    "profil":  "tsc src/profile/profile.ts --watch",
+    "redir": "tsc src/profile/redirectionbtn.ts --watch"
   },
   "keywords": [],
   "author": "",
