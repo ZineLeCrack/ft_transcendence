@@ -1,0 +1,82 @@
+var editbtn = document.getElementById('edit-btn');
+var statsbtn = document.getElementById('stats-btn');
+var statsform = document.getElementById('stats-form');
+var editprofilform = document.getElementById('edit-profil-form');
+var editbtnisactive = false;
+var statsbtnisactive = true;
+editbtn.addEventListener('click', function () {
+    if (editbtnisactive)
+        return;
+    editbtnisactive = true;
+    statsbtnisactive = false;
+    statsbtn.classList.add('bg-gray-200');
+    statsbtn.classList.remove('bg-blue-600');
+    editbtn.classList.remove('bg-gray-200');
+    editbtn.classList.add('bg-blue-500');
+    editbtn.classList.add('text-white');
+    editbtn.classList.remove('text-gray-700');
+    statsbtn.classList.remove('text-white');
+    statsbtn.classList.add('text-gray-700');
+    statsbtn.classList.remove('hover:bg-blue-700');
+    statsbtn.classList.add('hover:bg-gray-300');
+    editbtn.classList.remove('hover:bg-gray-300');
+    editbtn.classList.add('hover:bg-blue-700');
+    statsform.classList.add('hidden');
+    editprofilform.classList.remove('hidden');
+    editpasswordform.classList.add('hidden');
+    editpasswordbtn.classList.remove('hidden');
+});
+statsbtn.addEventListener('click', function () {
+    if (statsbtnisactive)
+        return;
+    editbtnisactive = false;
+    statsbtnisactive = true;
+    statsbtn.classList.remove('bg-gray-200');
+    statsbtn.classList.add('bg-blue-600');
+    editbtn.classList.add('bg-gray-200');
+    editbtn.classList.remove('bg-blue-500');
+    statsbtn.classList.add('text-white');
+    statsbtn.classList.remove('text-gray-700');
+    editbtn.classList.remove('text-white');
+    editbtn.classList.add('text-gray-700');
+    editbtn.classList.remove('hover:bg-blue-700');
+    editbtn.classList.add('hover:bg-gray-300');
+    statsbtn.classList.remove('hover:bg-gray-300');
+    statsbtn.classList.add('hover:bg-blue-700');
+    statsform.classList.remove('hidden');
+    editprofilform.classList.add('hidden');
+    editpasswordform.classList.add('hidden');
+    editpasswordbtn.classList.remove('hidden');
+    editusernameinput.value = "";
+    editemailinput.value = "";
+    editcurrentpasswordinput.value = "";
+    editnewpasswordinput.value = "";
+    editconfirmnewpasswordinput.value = "";
+});
+var editpasswordbtn = document.getElementById('edit-password-btn');
+var editpasswordform = document.getElementById('edit-password-form');
+editpasswordbtn.addEventListener('click', function () {
+    editprofilform.classList.add('hidden');
+    editpasswordform.classList.remove('hidden');
+    editpasswordbtn.classList.add('hidden');
+});
+var unsavebtn = document.getElementById('unsave-btn');
+var savebtn = document.getElementById('save-btn');
+var editusernameinput = document.getElementById('edit-username-input');
+var editemailinput = document.getElementById('edit-email-input');
+var editcurrentpasswordinput = document.getElementById('edit-currentpassword-input');
+var editnewpasswordinput = document.getElementById('edit-newpassword-input');
+var editconfirmnewpasswordinput = document.getElementById('edit-confirmpassword-input');
+var unsavebtneditpassword = document.getElementById('unsave-btn-edit-password');
+unsavebtn.addEventListener('click', function () {
+    editusernameinput.value = "";
+    editemailinput.value = "";
+});
+unsavebtneditpassword.addEventListener('click', function () {
+    editcurrentpasswordinput.value = "";
+    editnewpasswordinput.value = "";
+    editconfirmnewpasswordinput.value = "";
+    editprofilform.classList.remove('hidden');
+    editpasswordform.classList.add('hidden');
+    editpasswordbtn.classList.remove('hidden');
+});

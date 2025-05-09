@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ 	<title>Profil</title>
+  	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gray-300 min-h-screen m-0 p-0">
+    <div class="w-screen h-screen bg-white p-8">
+  
+      <!-- Onglets -->
+      <div class="flex justify-center gap-4 mb-8">
+        <button id="stats-btn" class="tab-button px-10 py-3 rounded-xl font-semibold bg-blue-600 text-white hover:bg-blue-700 transition">Statistiques</button>
+        <button id="edit-btn" class="tab-button px-10 py-3 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Modifier le profil</button>
+      </div>
+      
+  
+      <!-- Formulaire d'édition -->
+      <form id="edit-profil-form" action="" method="POST" class="hidden border rounded-xl p-6 bg-gray-300 h-[calc(100%-100px)] overflow-auto">
+        <div id="" class="flex flex-col md:flex-row gap-6 h-full">
+  
+          <!-- Partie gauche (image) -->
+          <div class="flex flex-col items-center mt-10 md:w-1/3">
+            <div class="size-80 bg-gray-600 rounded-full mb-4"></div>
+                <button id="button" class="bg-gray-200 px-8 py-6 rounded-2xl text-sm">EDIT Profile picture</button>
+          </div>
+  
+          <!-- Partie droite (formulaire) -->
+          <div class="md:w-2/3 mt-20 space-y-5">
+            <div id="edit-username-div" >
+              <label class="block text-sm font-bold mb-1">EDIT USERNAME</label>
+              <input id="edit-username-input" type="text" placeholder="pseudo actuel" class="w-full md:w-2/3 px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+            </div>
+            <div id="edit-email-div" >
+              <label class="block text-sm font-bold mb-1">EDIT EMAIL</label>
+              <input id="edit-email-input" type="email" placeholder="email actuel" class="w-full md:w-2/3 px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+            </div>
+            
+            <div class="text-center">
+              <button id="edit-password-btn" type="button" class="px-6 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-700 transition">Change Password</button>
+            </div> 
+  
+            <!-- Boutons -->
+            <div class="flex justify-start gap-6 pt-8">
+              <button type="button" id="unsave-btn" class="px-6 py-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition">Annuler</button>
+              <button type="submit" id="save-btn" class="px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition">Sauvegarder</button>
+            </div>      
+          </div>
+  
+        </div>
+    </form>
+
+<form id="edit-password-form" action="" method="POST" class="hidden border rounded-xl p-6 bg-gray-300 h-[calc(100%-100px)] overflow-auto">
+  <div id="" class="flex flex-col md:flex-row gap-6 h-full">
+
+    <!-- Partie gauche (image) -->
+    <div class="flex flex-col items-center mt-10 md:w-1/3">
+      <div class="size-80 bg-gray-600 rounded-full mb-4"></div>
+          <button id="button" class="bg-gray-200 px-8 py-6 rounded-2xl text-sm">EDIT Profile picture</button>
+    </div>
+
+    <!-- Partie droite (formulaire) -->
+    <div class="md:w-2/3 mt-20 space-y-5">
+      <div id="edit-current-password-div" class="">
+        <label class="block text-sm font-bold mb-1">current password</label>
+        <input id="edit-currentpassword-input" type="password" placeholder="current password" class="w-full md:w-2/3 px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+      </div>
+      <div id="edit-new-password-div" class="" >
+        <label class="block text-sm font-bold mb-1">new password</label>
+        <input id="edit-newpassword-input"  type="password" placeholder="new password" class="w-full md:w-2/3 px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+      </div>
+      <div id="edit-confirm-new-password-div" class="">
+        <label class="block text-sm font-bold mb-1">confirm password</label>
+        <input id="edit-confirmpassword-input"  type="password" placeholder="confirm password" class="w-full md:w-2/3 px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+      </div>
+      
+      <!-- Boutons -->
+      <div class="flex justify-start gap-6 pt-8">
+        <button type="button" id="unsave-btn-edit-password" class="px-6 py-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition">Annuler</button>
+        <button type="submit" id="save-btn-edit-password" class="px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition">Sauvegarder</button>
+      </div>      
+    </div>
+
+  </div>
+</form>
+      <form id="stats-form" class="border rounded-xl p-6 bg-red-500 h-[calc(100%-100px)] overflow-auto"></form>
+  
+    </div>
+    <script type="module" src="profile.js"></script>
+  </body>
+</html>
