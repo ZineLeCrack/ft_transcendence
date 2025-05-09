@@ -88,15 +88,69 @@ function updateGame()
 			if (ballX <= 15 && ballY >= leftPaddleY && ballY <= leftPaddleY + 100)
 			{
 				ballSpeedX = -ballSpeedX;
-				ballSpeedX += 0.5;
+				if (ballSpeedX < 10)
+					ballSpeedX += 0.5;
+				if (ballSpeedY < 0)
+				{
+					if (ballY < leftPaddleY + 34)
+					{
+						if (ballSpeedY > -7)
+							ballSpeedY -= 2;
+					}
+					else if (ballY > leftPaddleY + 66)
+					{
+						if (ballSpeedY < -3)
+							ballSpeedY += 2;
+					}
+				}
+				else
+				{
+					if (ballY < leftPaddleY + 34)
+					{
+						if (ballSpeedY > 3)
+							ballSpeedY -= 2;
+					}
+					else if (ballY > leftPaddleY + 66)
+					{
+						if (ballSpeedY < 7)
+							ballSpeedY += 2;
+					}
+				}
 			}
 		}
 		else
 		{
 			if (ballX >= 785 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100)
 			{
-				ballSpeedX += 0.5;
+				if (ballSpeedX < 10)
+					ballSpeedX += 0.5;
 				ballSpeedX = -ballSpeedX;
+				if (ballSpeedY < 0)
+				{
+					if (ballY < rightPaddleY + 34)
+					{
+						if (ballSpeedY > -7)
+							ballSpeedY -= 2;
+					}
+					else if (ballY > rightPaddleY + 66)
+					{
+						if (ballSpeedY < -3)
+							ballSpeedY += 2;
+					}
+				}
+				else
+				{
+					if (ballY < rightPaddleY + 34)
+					{
+						if (ballSpeedY > 3)
+							ballSpeedY -= 2;
+					}
+					else if (ballY > rightPaddleY + 66)
+					{
+						if (ballSpeedY < 7)
+							ballSpeedY += 2;
+					}
+				}
 			}
 		}
 
