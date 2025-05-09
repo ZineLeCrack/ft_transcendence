@@ -20,10 +20,12 @@ let newSpeedX = 0;
 let newSpeedY = 0;
 
 let gameStarted = false;
-	
+
+let message = "Press space to start !";
+
 app.get('/state', (req, res) =>
 {
-	res.json({ ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore });
+	res.json({ ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore, message });
 });
 
 app.get('/start', (req, res) =>
@@ -33,10 +35,14 @@ app.get('/start', (req, res) =>
 
 app.post('/start', (req, res) =>
 {
-	if (!gameStarted) {
+	if (!gameStarted)
+	{
+		message = "";
 		gameStarted = true;
 		ballSpeedX = 5;
 		ballSpeedY = 5;
+		leftScore = 0;
+		rightScore = 0;
 	}
 	res.sendStatus(200);
 });
@@ -60,6 +66,17 @@ function updateGame()
 {
 	if (gameStarted)
 	{
+		if (leftScore === 5 || rightScore === 5)
+		{
+			gameStarted = false;
+			message = leftScore === 5 ? "Player 1 win !": "Player 2 win !";
+			setTimeout(() =>
+			{
+				leftScore = 0;
+				rightScore = 0;
+				message = "Press space to start !";
+			}, 5000);
+		}
 		ballX += ballSpeedX;
 		ballY += ballSpeedY;
 
@@ -95,15 +112,28 @@ function resetBall()
 	ballSpeedX = 0;
 	ballSpeedY = 0;
 
-	
-	setTimeout(() =>
+	if (leftScore != 5 && rightScore != 5)
 	{
-		ballSpeedX = newSpeedX;
-		ballSpeedY = newSpeedY;
-	}, 3000);
+		message = "3";
+		setTimeout(() =>
+		{
+			message = "2";
+		}, 1000);
+
+		setTimeout(() =>
+		{
+			message = "1";
+		}, 2000);
+		setTimeout(() =>
+		{
+			ballSpeedX = newSpeedX;
+			ballSpeedY = newSpeedY;
+			message = "";
+		}, 3000);
+	}
 }
 
-app.listen(port, () =>
+app.listen(port, () =>        
 {
 	console.log(`Server running on http://localhost:${port}`);
 	updateGame();
