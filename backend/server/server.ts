@@ -1,8 +1,15 @@
 import express from 'express';
 import cors from 'cors';
+import https from 'https';
+import fs from 'fs';
 
 const app = express();
 const port = 3000;
+
+const options = {
+	key: fs.readFileSync('transcend.key'),
+	cert: fs.readFileSync('transcend.crt')
+};
 
 app.use(cors());
 app.use(express.json());
@@ -133,8 +140,7 @@ function resetBall()
 	}
 }
 
-app.listen(port, () =>        
-{
-	console.log(`Server running on http://localhost:${port}`);
+https.createServer(options, app).listen(port, '0.0.0.0', () => {
+	console.log(`HTTPS server running at https://0.0.0.0:${port}`);
 	updateGame();
 });

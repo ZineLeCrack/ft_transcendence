@@ -20,6 +20,8 @@ RUN npm install -D tailwindcss postcss autoprefixer typescript
 
 RUN npx tailwindcss -i ./src/css/input.css -o ./src/css/style.css && npx tsc
 
+COPY . .
+
 RUN mkdir -p /var/www/html && cp index.html /var/www/html && \
     cp -r src/ /var/www/html/
 

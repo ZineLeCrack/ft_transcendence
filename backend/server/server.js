@@ -5,8 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const https_1 = __importDefault(require("https"));
+const fs_1 = __importDefault(require("fs"));
 const app = (0, express_1.default)();
 const port = 3000;
+const options = {
+    key: fs_1.default.readFileSync('transcend.key'),
+    cert: fs_1.default.readFileSync('transcend.crt')
+};
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 let ballX = 400;
@@ -104,7 +110,7 @@ function resetBall() {
         }, 3000);
     }
 }
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+https_1.default.createServer(options, app).listen(port, '0.0.0.0', () => {
+    console.log(`HTTPS server running at https://0.0.0.0:${port}`);
     updateGame();
 });

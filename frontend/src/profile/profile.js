@@ -1,10 +1,11 @@
-var editbtn = document.getElementById('edit-btn');
-var statsbtn = document.getElementById('stats-btn');
-var statsform = document.getElementById('stats-form');
-var editprofilform = document.getElementById('edit-profil-form');
-var editbtnisactive = false;
-var statsbtnisactive = true;
-editbtn.addEventListener('click', function () {
+"use strict";
+const editbtn = document.getElementById('edit-btn');
+const statsbtn = document.getElementById('stats-btn');
+const statsform = document.getElementById('stats-form');
+const editprofilform = document.getElementById('edit-profil-form');
+let editbtnisactive = false;
+let statsbtnisactive = true;
+editbtn.addEventListener('click', () => {
     if (editbtnisactive)
         return;
     editbtnisactive = true;
@@ -26,7 +27,7 @@ editbtn.addEventListener('click', function () {
     editpasswordform.classList.add('hidden');
     editpasswordbtn.classList.remove('hidden');
 });
-statsbtn.addEventListener('click', function () {
+statsbtn.addEventListener('click', () => {
     if (statsbtnisactive)
         return;
     editbtnisactive = false;
@@ -53,26 +54,26 @@ statsbtn.addEventListener('click', function () {
     editnewpasswordinput.value = "";
     editconfirmnewpasswordinput.value = "";
 });
-var editpasswordbtn = document.getElementById('edit-password-btn');
-var editpasswordform = document.getElementById('edit-password-form');
-editpasswordbtn.addEventListener('click', function () {
+const editpasswordbtn = document.getElementById('edit-password-btn');
+const editpasswordform = document.getElementById('edit-password-form');
+editpasswordbtn.addEventListener('click', () => {
     editprofilform.classList.add('hidden');
     editpasswordform.classList.remove('hidden');
     editpasswordbtn.classList.add('hidden');
 });
-var unsavebtn = document.getElementById('unsave-btn');
-var savebtn = document.getElementById('save-btn');
-var editusernameinput = document.getElementById('edit-username-input');
-var editemailinput = document.getElementById('edit-email-input');
-var editcurrentpasswordinput = document.getElementById('edit-currentpassword-input');
-var editnewpasswordinput = document.getElementById('edit-newpassword-input');
-var editconfirmnewpasswordinput = document.getElementById('edit-confirmpassword-input');
-var unsavebtneditpassword = document.getElementById('unsave-btn-edit-password');
-unsavebtn.addEventListener('click', function () {
+const unsavebtn = document.getElementById('unsave-btn');
+const savebtn = document.getElementById('save-btn');
+const editusernameinput = document.getElementById('edit-username-input');
+const editemailinput = document.getElementById('edit-email-input');
+const editcurrentpasswordinput = document.getElementById('edit-currentpassword-input');
+const editnewpasswordinput = document.getElementById('edit-newpassword-input');
+const editconfirmnewpasswordinput = document.getElementById('edit-confirmpassword-input');
+const unsavebtneditpassword = document.getElementById('unsave-btn-edit-password');
+unsavebtn.addEventListener('click', () => {
     editusernameinput.value = "";
     editemailinput.value = "";
 });
-unsavebtneditpassword.addEventListener('click', function () {
+unsavebtneditpassword.addEventListener('click', () => {
     editcurrentpasswordinput.value = "";
     editnewpasswordinput.value = "";
     editconfirmnewpasswordinput.value = "";

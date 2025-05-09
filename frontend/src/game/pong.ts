@@ -3,7 +3,7 @@ const topCanvas = document.getElementById("topCanvas") as HTMLCanvasElement;
 const game = gameCanvas.getContext("2d")!;
 const score = topCanvas.getContext("2d")!;
 
-// position et score par defaut
+// position et score par défaut
 let ballX = 400;
 let ballY = 300;
 let leftPaddleY = 250;
@@ -13,9 +13,8 @@ let rightScore = 0;
 const paddleWidth = 10;
 const paddleHeight = 100;
 
-// Dictionnaire pour stocker les touches pressees ou non
-let keys: { [key: string]: boolean } =
-{
+// Dictionnaire pour stocker les touches pressées ou non
+let keys: { [key: string]: boolean } = {
 	w: false,
 	s: false,
 	ArrowUp: false,
@@ -28,49 +27,50 @@ let message = "";
 score.font = "40px 'Caveat'";
 game.font = "80px 'Caveat'";
 
-// fonction qui reload les positions des pads et de la balle ainsi que les
-// scores et dessine
-async function fetchState()
-{
-	const res = await fetch('http://localhost:3000/state');
-	const data = await res.json();
-	ballX = data.ballX;
-	ballY = data.ballY;
-	leftPaddleY = data.leftPaddleY;
-	rightPaddleY = data.rightPaddleY;
-	leftScore = data.leftScore;
-	rightScore = data.rightScore;
-	message = data.message;
-	draw();
+
+async function fetchState() {
+	try {
+		const res = await fetch('/state');
+		const data = await res.json();
+		ballX = data.ballX;
+		ballY = data.ballY;
+		leftPaddleY = data.leftPaddleY;
+		rightPaddleY = data.rightPaddleY;
+		leftScore = data.leftScore;
+		rightScore = data.rightScore;
+		message = data.message;
+		draw();
+	} catch (err) {
+		console.error("Erreur fetch /state :", err);
+	}
 }
 
-// evenement de touche pressee
-document.addEventListener("keydown", (e) =>
-{
+// Événement de touche pressée
+document.addEventListener("keydown", (e) => {
 	if (e.key in keys) keys[e.key] = true;
 	if (e.key === " ") {
-        fetch("http://localhost:3000/start", { method: "POST" });
-        gameStarted = true;
-    }
+		fetch("/start", { method: "POST" });
+		gameStarted = true;
+	}
 });
 
-// evenement de touche relachee
-document.addEventListener("keyup", (e) =>
-{
+// Événement de touche relâchée
+document.addEventListener("keyup", (e) => {
 	if (e.key in keys) keys[e.key] = false;
 });
 
-// fonction qui dessine dans le canvas
-function draw()
-{
+// Fonction de dessin
+function draw() {
 	game.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 	score.clearRect(0, 0, topCanvas.width, topCanvas.height);
 
 	game.fillStyle = "black";
 	game.fillText(message, 400 - (message.length * 14), 150);
-	for (let i = 0; i < 600; i += 18.9)
+
+	for (let i = 0; i < 600; i += 18.9) {
 		game.fillRect(404, i, 2, 15);
-		
+	}
+
 	game.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
 	game.fillRect(gameCanvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
 	game.fillRect(ballX, ballY, 10, 10);
@@ -80,16 +80,14 @@ function draw()
 	score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
 }
 
-// envoie l'etat des touches 100x par seconde
-setInterval(() =>
-{
-	fetch('http://localhost:3000/move',
-	{
+// Envoie l'état des touches 100 fois/seconde
+setInterval(() => {
+	fetch('/move', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ keys })
-	});
+	}).catch(err => console.error("Erreur fetch /move :", err));
 }, 10);
 
-// recupere toutes les valeurs et dessine avec 100 fps
+// Met à jour l'état du jeu 100 fois/seconde
 setInterval(fetchState, 10);
