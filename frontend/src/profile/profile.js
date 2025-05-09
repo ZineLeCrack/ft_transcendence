@@ -1,13 +1,11 @@
-"use strict";
-exports.__esModule = true;
-exports.togglepassword = void 0;
-var editBtn = document.getElementById('edit-btn');
-var statsBtn = document.getElementById('stats-btn');
-var statsForm = document.getElementById('stats-form');
-var editProfilForm = document.getElementById('edit-profil-form');
-var editBtnIsActive = false;
-var statsBtnIsActive = true;
-editBtn.addEventListener('click', function () {
+import { hidePassword, togglePassword, checkPasswordMatch } from './utils.js';
+const editBtn = document.getElementById('edit-btn');
+const statsBtn = document.getElementById('stats-btn');
+const statsForm = document.getElementById('stats-form');
+const editProfilForm = document.getElementById('edit-profil-form');
+let editBtnIsActive = false;
+let statsBtnIsActive = true;
+editBtn.addEventListener('click', () => {
     if (editBtnIsActive)
         return;
     editBtnIsActive = true;
@@ -29,7 +27,7 @@ editBtn.addEventListener('click', function () {
     editPasswordForm.classList.add('hidden');
     editPasswordBtn.classList.remove('hidden');
 });
-statsBtn.addEventListener('click', function () {
+statsBtn.addEventListener('click', () => {
     if (statsBtnIsActive)
         return;
     editBtnIsActive = false;
@@ -56,26 +54,26 @@ statsBtn.addEventListener('click', function () {
     editNewPasswordInput.value = "";
     editConfirmNewPasswordInput.value = "";
 });
-var editPasswordBtn = document.getElementById('edit-password-btn');
-var editPasswordForm = document.getElementById('edit-password-form');
-editPasswordBtn.addEventListener('click', function () {
+const editPasswordBtn = document.getElementById('edit-password-btn');
+const editPasswordForm = document.getElementById('edit-password-form');
+editPasswordBtn.addEventListener('click', () => {
     editProfilForm.classList.add('hidden');
     editPasswordForm.classList.remove('hidden');
     editPasswordBtn.classList.add('hidden');
 });
-var unsaveBtn = document.getElementById('unsave-btn');
-var saveBtn = document.getElementById('save-btn');
-var editUsernameInput = document.getElementById('edit-username-input');
-var editEmailInput = document.getElementById('edit-email-input');
-var editCurrentPasswordInput = document.getElementById('edit-currentpassword-input');
-var editNewPasswordInput = document.getElementById('edit-newpassword-input');
-var editConfirmNewPasswordInput = document.getElementById('edit-confirmpassword-input');
-var unsaveBtnEditPassword = document.getElementById('unsave-btn-edit-password');
-unsaveBtn.addEventListener('click', function () {
+const unsaveBtn = document.getElementById('unsave-btn');
+const saveBtn = document.getElementById('save-btn');
+const editUsernameInput = document.getElementById('edit-username-input');
+const editEmailInput = document.getElementById('edit-email-input');
+const editCurrentPasswordInput = document.getElementById('edit-currentpassword-input');
+const editNewPasswordInput = document.getElementById('edit-newpassword-input');
+const editConfirmNewPasswordInput = document.getElementById('edit-confirmpassword-input');
+const unsaveBtnEditPassword = document.getElementById('unsave-btn-edit-password');
+unsaveBtn.addEventListener('click', () => {
     editUsernameInput.value = "";
     editEmailInput.value = "";
 });
-unsaveBtnEditPassword.addEventListener('click', function () {
+unsaveBtnEditPassword.addEventListener('click', () => {
     editCurrentPasswordInput.value = "";
     editNewPasswordInput.value = "";
     editConfirmNewPasswordInput.value = "";
@@ -87,64 +85,31 @@ unsaveBtnEditPassword.addEventListener('click', function () {
     profileBadPasswordIcon.classList.add('hidden');
     profileGoodConfirmPasswordIcon.classList.add('hidden');
 });
-var profileBadPasswordIcon = document.getElementById('profile-badPasswordIcon');
-var profileGoodPasswordIcon = document.getElementById('profile-goodPasswordIcon');
-var profileBadConfirmPasswordIcon = document.getElementById('profile-badConfirmPasswordIcon');
-var profileGoodConfirmPasswordIcon = document.getElementById('profile-goodConfirmPasswordIcon');
-//fonction a enlever quand checkpassword sera utilisable partout
-function checkPasswordMatchinprofile() {
-    if (editNewPasswordInput && editConfirmNewPasswordInput && profileBadPasswordIcon && profileGoodPasswordIcon && profileBadConfirmPasswordIcon && profileGoodConfirmPasswordIcon) {
-        if (editNewPasswordInput.value === "" && editConfirmNewPasswordInput.value === "") {
-            profileBadConfirmPasswordIcon.classList.add('hidden');
-            profileGoodPasswordIcon.classList.add('hidden');
-            profileBadPasswordIcon.classList.add('hidden');
-            profileGoodConfirmPasswordIcon.classList.add('hidden');
-            return;
-        }
-        else if (editNewPasswordInput.value === editConfirmNewPasswordInput.value) {
-            profileBadConfirmPasswordIcon.classList.add('hidden');
-            profileBadPasswordIcon.classList.add('hidden');
-            profileGoodConfirmPasswordIcon.classList.remove('hidden');
-            profileGoodPasswordIcon.classList.remove('hidden');
-        }
-        else {
-            profileGoodPasswordIcon.classList.add('hidden');
-            profileGoodConfirmPasswordIcon.classList.add('hidden');
-            profileBadConfirmPasswordIcon.classList.remove('hidden');
-            profileBadPasswordIcon.classList.remove('hidden');
-        }
-    }
-}
-var editConfirmPasswordBtn = document.getElementById('edit-confirmpassword-btn');
-var editConfirmPasswordIcon = document.getElementById('edit-confirmpassword-icon');
-var editNewPasswordBtn = document.getElementById('edit-newpassword-btn');
-var editNewPasswordIcon = document.getElementById('edit-newpassword-icon');
-var editCurrentPasswordBtn = document.getElementById('edit-currentpassword-btn');
-var editCurrentPasswordIcon = document.getElementById('edit-currentpassword-icon');
+const profileBadPasswordIcon = document.getElementById('profile-badPasswordIcon');
+const profileGoodPasswordIcon = document.getElementById('profile-goodPasswordIcon');
+const profileBadConfirmPasswordIcon = document.getElementById('profile-badConfirmPasswordIcon');
+const profileGoodConfirmPasswordIcon = document.getElementById('profile-goodConfirmPasswordIcon');
+const editConfirmPasswordBtn = document.getElementById('edit-confirmpassword-btn');
+const editConfirmPasswordIcon = document.getElementById('edit-confirmpassword-icon');
+const editNewPasswordBtn = document.getElementById('edit-newpassword-btn');
+const editNewPasswordIcon = document.getElementById('edit-newpassword-icon');
+const editCurrentPasswordBtn = document.getElementById('edit-currentpassword-btn');
+const editCurrentPasswordIcon = document.getElementById('edit-currentpassword-icon');
 if (editNewPasswordInput && editConfirmNewPasswordInput) {
-    editNewPasswordInput.addEventListener('input', checkPasswordMatchinprofile);
-    editConfirmNewPasswordInput.addEventListener('input', checkPasswordMatchinprofile);
+    editNewPasswordInput.addEventListener('input', () => { checkPasswordMatch(editNewPasswordInput, editConfirmNewPasswordInput, profileBadPasswordIcon, profileBadConfirmPasswordIcon, profileGoodPasswordIcon, profileGoodConfirmPasswordIcon); });
+    editConfirmNewPasswordInput.addEventListener('input', () => { checkPasswordMatch(editNewPasswordInput, editConfirmNewPasswordInput, profileBadPasswordIcon, profileBadConfirmPasswordIcon, profileGoodPasswordIcon, profileGoodConfirmPasswordIcon); });
 }
 if (editNewPasswordInput && editNewPasswordBtn && editNewPasswordIcon) {
-    togglepassword(editNewPasswordInput, editNewPasswordBtn, editNewPasswordIcon);
+    togglePassword(editNewPasswordInput, editNewPasswordBtn, editNewPasswordIcon);
 }
 if (editConfirmNewPasswordInput && editConfirmPasswordBtn && editConfirmPasswordIcon) {
-    togglepassword(editConfirmNewPasswordInput, editConfirmPasswordBtn, editConfirmPasswordIcon);
+    togglePassword(editConfirmNewPasswordInput, editConfirmPasswordBtn, editConfirmPasswordIcon);
 }
 if (editCurrentPasswordInput && editCurrentPasswordBtn && editCurrentPasswordIcon) {
-    togglepassword(editCurrentPasswordInput, editCurrentPasswordBtn, editCurrentPasswordIcon);
+    togglePassword(editCurrentPasswordInput, editCurrentPasswordBtn, editCurrentPasswordIcon);
 }
-function togglepassword(Input, Btn, Icon) {
-    Btn.addEventListener('click', function () {
-        var isVisible = Input.type === 'text';
-        Input.type = isVisible ? 'password' : 'text';
-        Icon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
-    });
-}
-exports.togglepassword = togglepassword;
-//const saveBtnEditPassword = document.getElementById('save-btn-edit-password') as HTMLButtonElement;
 if (editPasswordForm) {
-    editPasswordForm.addEventListener('submit', function (event) {
+    editPasswordForm.addEventListener('submit', (event) => {
         event.preventDefault();
         if (editNewPasswordInput.value !== editConfirmNewPasswordInput.value) {
             alert('les mots de passe sont pas bon');
@@ -153,6 +118,11 @@ if (editPasswordForm) {
         else if (editNewPasswordInput.value === editCurrentPasswordInput.value) {
             alert('change pas ton mot de passe par le meme debile !!!');
             return;
+        }
+        if (editCurrentPasswordInput && editCurrentPasswordBtn && editCurrentPasswordIcon && editConfirmNewPasswordInput && editConfirmPasswordBtn && editConfirmPasswordIcon && editNewPasswordInput && editNewPasswordBtn && editNewPasswordIcon) {
+            hidePassword(editCurrentPasswordInput, editCurrentPasswordIcon);
+            hidePassword(editConfirmNewPasswordInput, editConfirmPasswordIcon);
+            hidePassword(editNewPasswordInput, editNewPasswordIcon);
         }
         editCurrentPasswordInput.value = "";
         editNewPasswordInput.value = "";

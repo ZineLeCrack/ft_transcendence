@@ -1,89 +1,66 @@
-"use strict";
-exports.__esModule = true;
-var profile_1 = require("../profile/profile");
-var signIn = document.getElementById('sign-in');
-var signUp = document.getElementById('sign-up');
-var toSignUp = document.getElementById('to-sign-up');
-var toSignIn = document.getElementById('to-sign-in');
-toSignUp.addEventListener('click', function () {
+import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/utils.js';
+const signIn = document.getElementById('sign-in');
+const signUp = document.getElementById('sign-up');
+const toSignUp = document.getElementById('to-sign-up');
+const toSignIn = document.getElementById('to-sign-in');
+toSignUp.addEventListener('click', () => {
     signIn.classList.add('hidden');
     signUp.classList.remove('hidden');
+    hidePassword(signInPasswordInput, signInPasswordIcon);
 });
-toSignIn.addEventListener('click', function () {
+toSignIn.addEventListener('click', () => {
     signUp.classList.add('hidden');
     signIn.classList.remove('hidden');
+    hidePassword(signUpPasswordInput, signUpPasswordIcon);
+    hidePassword(signUpConfirmPasswordInput, signUpConfirmPasswordIcon);
 });
-var signInUsernameDiv = document.getElementById('sign-in-username-div');
-var signInEmailDiv = document.getElementById('sign-in-email-div');
-var signInWithEmail = document.getElementById('sign-in-with-email');
-var signInWithUsername = document.getElementById('sign-in-with-Username');
-var signInUsernameInput = document.getElementById('Sign-in-username');
-var signInEmailInput = document.getElementById('Sign-in-email');
-signInWithUsername.addEventListener('click', function () {
+const signInUsernameDiv = document.getElementById('sign-in-username-div');
+const signInEmailDiv = document.getElementById('sign-in-email-div');
+const signInWithEmail = document.getElementById('sign-in-with-email');
+const signInWithUsername = document.getElementById('sign-in-with-Username');
+const signInUsernameInput = document.getElementById('Sign-in-username');
+const signInEmailInput = document.getElementById('Sign-in-email');
+signInWithUsername.addEventListener('click', () => {
     signInEmailDiv.classList.add('hidden');
     signInUsernameDiv.classList.remove('hidden');
-    signInEmailInput.required = false;
     signInUsernameInput.required = true;
+    signInEmailInput.required = false;
 });
-signInWithEmail.addEventListener('click', function () {
+signInWithEmail.addEventListener('click', () => {
     signInUsernameDiv.classList.add('hidden');
     signInEmailDiv.classList.remove('hidden');
-    signInUsernameInput.required = false;
     signInEmailInput.required = true;
+    signInUsernameInput.required = false;
 });
-var signInPasswordInput = document.getElementById('sign-in-password-input');
-var signInPasswordBtn = document.getElementById('sign-in-password-btn');
-var signInPasswordIcon = document.getElementById('sign-in-password-icon');
-var signUpPasswordInput = document.getElementById('sign-up-password-input');
-var signUpPasswordBtn = document.getElementById('sign-up-password-btn');
-var signUpPasswordIcon = document.getElementById('sign-up-password-icon');
-var signUpConfirmPasswordInput = document.getElementById('sign-up-confirmpassword-input');
-var signUpConfirmPasswordBtn = document.getElementById('sign-up-confirmpassword-btn');
-var signUpConfirmPasswordIcon = document.getElementById('sign-up-confirmpassword-icon');
+const signInPasswordInput = document.getElementById('sign-in-password-input');
+const signInPasswordBtn = document.getElementById('sign-in-password-btn');
+const signInPasswordIcon = document.getElementById('sign-in-password-icon');
+const signUpPasswordInput = document.getElementById('sign-up-password-input');
+const signUpPasswordBtn = document.getElementById('sign-up-password-btn');
+const signUpPasswordIcon = document.getElementById('sign-up-password-icon');
+const signUpConfirmPasswordInput = document.getElementById('sign-up-confirmpassword-input');
+const signUpConfirmPasswordBtn = document.getElementById('sign-up-confirmpassword-btn');
+const signUpConfirmPasswordIcon = document.getElementById('sign-up-confirmpassword-icon');
 if (signInPasswordInput && signInPasswordBtn && signInPasswordIcon) {
-    (0, profile_1.togglepassword)(signInPasswordInput, signInPasswordBtn, signInPasswordIcon);
+    togglePassword(signInPasswordInput, signInPasswordBtn, signInPasswordIcon);
 }
 if (signUpPasswordInput && signUpPasswordBtn && signUpPasswordIcon) {
-    (0, profile_1.togglepassword)(signUpPasswordInput, signUpPasswordBtn, signUpPasswordIcon);
+    togglePassword(signUpPasswordInput, signUpPasswordBtn, signUpPasswordIcon);
 }
 if (signUpConfirmPasswordInput && signUpConfirmPasswordBtn && signUpConfirmPasswordIcon) {
-    (0, profile_1.togglepassword)(signUpConfirmPasswordInput, signUpConfirmPasswordBtn, signUpConfirmPasswordIcon);
+    togglePassword(signUpConfirmPasswordInput, signUpConfirmPasswordBtn, signUpConfirmPasswordIcon);
 }
-var badPasswordIcon = document.getElementById('badPasswordIcon');
-var goodPasswordIcon = document.getElementById('goodPasswordIcon');
-var badConfirmPasswordIcon = document.getElementById('badConfirmPasswordIcon');
-var goodConfirmPasswordIcon = document.getElementById('goodConfirmPasswordIcon');
-//refaire fonction pour qu'elle soit utilisable partout
-function checkPasswordMatch() {
-    if (signUpPasswordInput && signUpConfirmPasswordInput && badPasswordIcon && goodPasswordIcon && badConfirmPasswordIcon && goodConfirmPasswordIcon) {
-        if (signUpConfirmPasswordInput.value === "" && signUpPasswordInput.value === "") {
-            badConfirmPasswordIcon.classList.add('hidden');
-            badPasswordIcon.classList.add('hidden');
-            goodConfirmPasswordIcon.classList.add('hidden');
-            goodPasswordIcon.classList.add('hidden');
-            return;
-        }
-        else if (signUpPasswordInput.value === signUpConfirmPasswordInput.value) {
-            badConfirmPasswordIcon.classList.add('hidden');
-            badPasswordIcon.classList.add('hidden');
-            goodConfirmPasswordIcon.classList.remove('hidden');
-            goodPasswordIcon.classList.remove('hidden');
-        }
-        else {
-            goodConfirmPasswordIcon.classList.add('hidden');
-            goodPasswordIcon.classList.add('hidden');
-            badConfirmPasswordIcon.classList.remove('hidden');
-            badPasswordIcon.classList.remove('hidden');
-        }
-    }
-}
+const badPasswordIcon = document.getElementById('badPasswordIcon');
+const goodPasswordIcon = document.getElementById('goodPasswordIcon');
+const badConfirmPasswordIcon = document.getElementById('badConfirmPasswordIcon');
+const goodConfirmPasswordIcon = document.getElementById('goodConfirmPasswordIcon');
 if (signUpPasswordInput && signUpConfirmPasswordInput) {
-    signUpPasswordInput.addEventListener('input', checkPasswordMatch);
-    signUpConfirmPasswordInput.addEventListener('input', checkPasswordMatch);
+    signUpPasswordInput.addEventListener('input', () => { checkPasswordMatch(signUpPasswordInput, signUpConfirmPasswordInput, badPasswordIcon, badConfirmPasswordIcon, goodPasswordIcon, goodConfirmPasswordIcon); });
+    signUpConfirmPasswordInput.addEventListener('input', () => { checkPasswordMatch(signUpPasswordInput, signUpConfirmPasswordInput, badPasswordIcon, badConfirmPasswordIcon, goodPasswordIcon, goodConfirmPasswordIcon); });
 }
-var signupform = document.getElementById('sign-up');
+const signupform = document.getElementById('sign-up');
 if (signupform) {
-    signupform.addEventListener('submit', function (event) {
+    signupform.addEventListener('submit', (event) => {
         event.preventDefault();
         if (signUpPasswordInput && signUpConfirmPasswordInput) {
             if (signUpPasswordInput.value !== signUpConfirmPasswordInput.value) {
@@ -94,9 +71,9 @@ if (signupform) {
         }
     });
 }
-var signinform = document.getElementById('sign-in');
+const signinform = document.getElementById('sign-in');
 if (signinform) {
-    signinform.addEventListener('submit', function (event) {
+    signinform.addEventListener('submit', (event) => {
         event.preventDefault();
         window.location.href = "../../index.html";
     });

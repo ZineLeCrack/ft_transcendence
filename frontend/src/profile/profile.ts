@@ -1,3 +1,5 @@
+import { hidePassword, togglePassword, checkPasswordMatch } from './utils.js';
+
 const editBtn = document.getElementById('edit-btn') as HTMLButtonElement;
 const statsBtn = document.getElementById('stats-btn') as HTMLButtonElement;
 const statsForm = document.getElementById('stats-form') as HTMLFormElement;
@@ -108,37 +110,6 @@ const profileGoodPasswordIcon = document.getElementById('profile-goodPasswordIco
 const profileBadConfirmPasswordIcon = document.getElementById('profile-badConfirmPasswordIcon') as HTMLImageElement;
 const profileGoodConfirmPasswordIcon = document.getElementById('profile-goodConfirmPasswordIcon') as HTMLImageElement;
 
-//fonction a enlever quand checkpassword sera utilisable partout
-function checkPasswordMatchinprofile() {
-
-	if (editNewPasswordInput && editConfirmNewPasswordInput && profileBadPasswordIcon && profileGoodPasswordIcon && profileBadConfirmPasswordIcon && profileGoodConfirmPasswordIcon)
-	{
-		if (editNewPasswordInput.value === "" && editConfirmNewPasswordInput.value === "")
-		{
-			profileBadConfirmPasswordIcon.classList.add('hidden');
-			profileGoodPasswordIcon.classList.add('hidden');
-			profileBadPasswordIcon.classList.add('hidden');
-			profileGoodConfirmPasswordIcon.classList.add('hidden');
-			return ;
-		}
-		else if (editNewPasswordInput.value === editConfirmNewPasswordInput.value)
-		{
-			profileBadConfirmPasswordIcon.classList.add('hidden');
-			profileBadPasswordIcon.classList.add('hidden');
-			profileGoodConfirmPasswordIcon.classList.remove('hidden');
-			profileGoodPasswordIcon.classList.remove('hidden');
-		}
-		else
-		{
-			profileGoodPasswordIcon.classList.add('hidden');
-			profileGoodConfirmPasswordIcon.classList.add('hidden');
-			profileBadConfirmPasswordIcon.classList.remove('hidden');
-			profileBadPasswordIcon.classList.remove('hidden');
-		}
-
-	}
-}
-
 const editConfirmPasswordBtn = document.getElementById('edit-confirmpassword-btn') as HTMLButtonElement | null;
 const editConfirmPasswordIcon = document.getElementById('edit-confirmpassword-icon') as HTMLImageElement | null;
 
@@ -150,34 +121,23 @@ const editCurrentPasswordIcon = document.getElementById('edit-currentpassword-ic
 
 if (editNewPasswordInput && editConfirmNewPasswordInput)
 {
-    editNewPasswordInput.addEventListener('input', checkPasswordMatchinprofile);
-    editConfirmNewPasswordInput.addEventListener('input', checkPasswordMatchinprofile);
+    editNewPasswordInput.addEventListener('input', ()=> { checkPasswordMatch(editNewPasswordInput, editConfirmNewPasswordInput, profileBadPasswordIcon, profileBadConfirmPasswordIcon, profileGoodPasswordIcon, profileGoodConfirmPasswordIcon) });
+    editConfirmNewPasswordInput.addEventListener('input',  ()=> { checkPasswordMatch(editNewPasswordInput, editConfirmNewPasswordInput, profileBadPasswordIcon, profileBadConfirmPasswordIcon, profileGoodPasswordIcon, profileGoodConfirmPasswordIcon) });
 }
 
 
 if (editNewPasswordInput && editNewPasswordBtn && editNewPasswordIcon) {
-	togglepassword(editNewPasswordInput, editNewPasswordBtn, editNewPasswordIcon);
+	togglePassword(editNewPasswordInput, editNewPasswordBtn, editNewPasswordIcon);
 }
 
 if (editConfirmNewPasswordInput && editConfirmPasswordBtn && editConfirmPasswordIcon) {
-	togglepassword(editConfirmNewPasswordInput, editConfirmPasswordBtn, editConfirmPasswordIcon);
+	togglePassword(editConfirmNewPasswordInput, editConfirmPasswordBtn, editConfirmPasswordIcon);
 }
 
 if (editCurrentPasswordInput && editCurrentPasswordBtn && editCurrentPasswordIcon) {
-	togglepassword(editCurrentPasswordInput, editCurrentPasswordBtn, editCurrentPasswordIcon);
+	togglePassword(editCurrentPasswordInput, editCurrentPasswordBtn, editCurrentPasswordIcon);
 }
 
-export function togglepassword(Input: HTMLInputElement, Btn: HTMLButtonElement, Icon: HTMLImageElement)
-{
-    Btn.addEventListener('click', () => {
-        const isVisible = Input.type === 'text';
-        Input.type = isVisible ? 'password' : 'text';
-        Icon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
-
-    })
-}
-
-//const saveBtnEditPassword = document.getElementById('save-btn-edit-password') as HTMLButtonElement;
 
 if (editPasswordForm)
 {
@@ -192,6 +152,12 @@ if (editPasswordForm)
         {
             alert('change pas ton mot de passe par le meme debile !!!');
 			return ;
+        }
+        if (editCurrentPasswordInput && editCurrentPasswordBtn && editCurrentPasswordIcon && editConfirmNewPasswordInput && editConfirmPasswordBtn && editConfirmPasswordIcon && editNewPasswordInput && editNewPasswordBtn && editNewPasswordIcon)
+        {
+            hidePassword(editCurrentPasswordInput, editCurrentPasswordIcon);
+            hidePassword(editConfirmNewPasswordInput, editConfirmPasswordIcon);
+            hidePassword(editNewPasswordInput, editNewPasswordIcon);
         }
         editCurrentPasswordInput.value = "";
         editNewPasswordInput.value = "";
