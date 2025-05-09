@@ -64,16 +64,43 @@
     <div class="md:w-2/3 mt-20 space-y-5">
       <div id="edit-current-password-div" class="">
         <label class="block text-sm font-bold mb-1">current password</label>
-        <input id="edit-currentpassword-input" type="password" placeholder="current password" class="w-full md:w-2/3 px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+          <div class="relative w-full md:w-2/3">
+          <input id="edit-currentpassword-input" required type="password" placeholder="current password" class="w-full px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+          <button type="button" id="edit-currentpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+					  <img id="edit-currentpassword-icon" src="../images/cacher.svg" class="w-6 h-10" />
+					</button>
+          </div>
       </div>
-      <div id="edit-new-password-div" class="" >
+
+      <div id="edit-new-password-div">
         <label class="block text-sm font-bold mb-1">new password</label>
-        <input id="edit-newpassword-input"  type="password" placeholder="new password" class="w-full md:w-2/3 px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+      
+        <div class="flex items-center md:w-2/3">
+          <div class="relative w-full">
+          <input id="edit-newpassword-input" required type="password" placeholder="new password" class="w-full px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+          <button type="button" id="edit-newpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+					  <img id="edit-newpassword-icon" src="../images/cacher.svg" class="w-6 h-10" />
+					</button>
+          </div>
+          <img id="profile-badPasswordIcon" src="../images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+          <img id="profile-goodPasswordIcon" src="../images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+        </div>
       </div>
-      <div id="edit-confirm-new-password-div" class="">
+      <div id="edit-confirm-new-password-div">
         <label class="block text-sm font-bold mb-1">confirm password</label>
-        <input id="edit-confirmpassword-input"  type="password" placeholder="confirm password" class="w-full md:w-2/3 px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+      
+        <div class="flex items-center md:w-2/3">
+          <div class="relative w-full">
+          <input id="edit-confirmpassword-input" required type="password" placeholder="confirm password" class="w-full px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
+          <button type="button" id="edit-confirmpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <img id="edit-confirmpassword-icon" src="../images/cacher.svg" class="w-6 h-10" />
+        </button>
+        </div>
+          <img id="profile-badConfirmPasswordIcon" src="../images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+          <img id="profile-goodConfirmPasswordIcon" src="../images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+        </div>
       </div>
+
       
       <!-- Boutons -->
       <div class="flex justify-start gap-6 pt-8">
@@ -84,6 +111,8 @@
 
   </div>
 </form>
+
+
       <form id="stats-form" class="border rounded-xl p-6 bg-red-500 h-[calc(100%-100px)] overflow-auto"></form>
   
     </div>

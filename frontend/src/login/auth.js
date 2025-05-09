@@ -1,78 +1,75 @@
-"use strict";
-const signIn = document.getElementById('sign-in');
-const signUp = document.getElementById('sign-up');
-const toSignUp = document.getElementById('to-sign-up');
-const toSignIn = document.getElementById('to-sign-in');
-toSignUp.addEventListener('click', () => {
+var signIn = document.getElementById('sign-in');
+var signUp = document.getElementById('sign-up');
+var toSignUp = document.getElementById('to-sign-up');
+var toSignIn = document.getElementById('to-sign-in');
+toSignUp.addEventListener('click', function () {
     signIn.classList.add('hidden');
     signUp.classList.remove('hidden');
 });
-toSignIn.addEventListener('click', () => {
+toSignIn.addEventListener('click', function () {
     signUp.classList.add('hidden');
     signIn.classList.remove('hidden');
 });
-const signinusernamediv = document.getElementById('sign-in-username-div');
-const signinemaildiv = document.getElementById('sign-in-email-div');
-const signinwithemail = document.getElementById('sign-in-with-email');
-const signinwithUsername = document.getElementById('sign-in-with-Username');
-const signinusernameinput = document.getElementById('Sign-in-username');
-const signinemailinput = document.getElementById('Sign-in-email');
-signinwithUsername.addEventListener('click', () => {
-    signinemaildiv.classList.add('hidden');
-    signinusernamediv.classList.remove('hidden');
-    signinemailinput.required = false;
-    signinusernameinput.required = true;
+var signInUsernameDiv = document.getElementById('sign-in-username-div');
+var signInEmailDiv = document.getElementById('sign-in-email-div');
+var signInWithEmail = document.getElementById('sign-in-with-email');
+var signInWithUsername = document.getElementById('sign-in-with-Username');
+var signInUsernameInput = document.getElementById('Sign-in-username');
+var signInEmailInput = document.getElementById('Sign-in-email');
+signInWithUsername.addEventListener('click', function () {
+    signInEmailDiv.classList.add('hidden');
+    signInUsernameDiv.classList.remove('hidden');
+    signInEmailInput.required = false;
+    signInUsernameInput.required = true;
 });
-signinwithemail.addEventListener('click', () => {
-    signinusernamediv.classList.add('hidden');
-    signinemaildiv.classList.remove('hidden');
-    signinusernameinput.required = false;
-    signinemailinput.required = true;
+signInWithEmail.addEventListener('click', function () {
+    signInUsernameDiv.classList.add('hidden');
+    signInEmailDiv.classList.remove('hidden');
+    signInUsernameInput.required = false;
+    signInEmailInput.required = true;
 });
-const signinpasswordinput = document.getElementById('sign-in-password-input');
-const signinpasswordbtn = document.getElementById('sign-in-password-btn');
-const signinpasswordicon = document.getElementById('sign-in-password-icon');
-const signuppasswordinput = document.getElementById('sign-up-password-input');
-const signuppasswordbtn = document.getElementById('sign-up-password-btn');
-const signuppasswordicon = document.getElementById('sign-up-password-icon');
-const signupconfirmpasswordinput = document.getElementById('sign-up-confirmpassword-input');
-const signupconfirmpasswordbtn = document.getElementById('sign-up-confirmpassword-btn');
-const signupconfirmpasswordicon = document.getElementById('sign-up-confirmpassword-icon');
-if (signinpasswordinput && signinpasswordbtn && signinpasswordicon) {
-    signinpasswordbtn.addEventListener('click', () => {
-        const isVisible = signinpasswordinput.type === 'text';
-        signinpasswordinput.type = isVisible ? 'password' : 'text';
-        signinpasswordicon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
+var signInPasswordInput = document.getElementById('sign-in-password-input');
+var signInPasswordBtn = document.getElementById('sign-in-password-btn');
+var signInPasswordIcon = document.getElementById('sign-in-password-icon');
+var signUpPasswordInput = document.getElementById('sign-up-password-input');
+var signUpPasswordBtn = document.getElementById('sign-up-password-btn');
+var signUpPasswordIcon = document.getElementById('sign-up-password-icon');
+var signUpConfirmPasswordInput = document.getElementById('sign-up-confirmpassword-input');
+var signUpConfirmPasswordBtn = document.getElementById('sign-up-confirmpassword-btn');
+var signUpConfirmPasswordIcon = document.getElementById('sign-up-confirmpassword-icon');
+//importer togglepassword : import { togglepassword } from '?';
+// if (signInPasswordInput && signInPasswordBtn && signInPasswordIcon) {
+// 	togglepassword(signInPasswordInput, signInPasswordBtn, signInPasswordIcon);
+// }
+if (signUpPasswordInput && signUpPasswordBtn && signUpPasswordIcon) {
+    signUpPasswordBtn.addEventListener('click', function () {
+        var isVisible = signUpPasswordInput.type === 'text';
+        signUpPasswordInput.type = isVisible ? 'password' : 'text';
+        signUpPasswordIcon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
     });
 }
-if (signuppasswordinput && signuppasswordbtn && signuppasswordicon) {
-    signuppasswordbtn.addEventListener('click', () => {
-        const isVisible = signuppasswordinput.type === 'text';
-        signuppasswordinput.type = isVisible ? 'password' : 'text';
-        signuppasswordicon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
+if (signUpConfirmPasswordInput && signUpConfirmPasswordBtn && signUpConfirmPasswordIcon) {
+    signUpConfirmPasswordBtn.addEventListener('click', function () {
+        var isVisible = signUpConfirmPasswordInput.type === 'text';
+        signUpConfirmPasswordInput.type = isVisible ? 'password' : 'text';
+        signUpConfirmPasswordIcon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
     });
 }
-if (signupconfirmpasswordinput && signupconfirmpasswordbtn && signupconfirmpasswordicon) {
-    signupconfirmpasswordbtn.addEventListener('click', () => {
-        const isVisible = signupconfirmpasswordinput.type === 'text';
-        signupconfirmpasswordinput.type = isVisible ? 'password' : 'text';
-        signupconfirmpasswordicon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
-    });
-}
-const badPasswordIcon = document.getElementById('badPasswordIcon');
-const goodPasswordIcon = document.getElementById('goodPasswordIcon');
-const badConfirmPasswordIcon = document.getElementById('badConfirmPasswordIcon');
-const goodConfirmPasswordIcon = document.getElementById('goodConfirmPasswordIcon');
+var badPasswordIcon = document.getElementById('badPasswordIcon');
+var goodPasswordIcon = document.getElementById('goodPasswordIcon');
+var badConfirmPasswordIcon = document.getElementById('badConfirmPasswordIcon');
+var goodConfirmPasswordIcon = document.getElementById('goodConfirmPasswordIcon');
+//refaire fonction pour qu'elle soit utilisable partout
 function checkPasswordMatch() {
-    if (signuppasswordinput && signupconfirmpasswordinput && badPasswordIcon && goodPasswordIcon && badConfirmPasswordIcon && goodConfirmPasswordIcon) {
-        if (signupconfirmpasswordinput.value === "" && signuppasswordinput.value === "") {
+    if (signUpPasswordInput && signUpConfirmPasswordInput && badPasswordIcon && goodPasswordIcon && badConfirmPasswordIcon && goodConfirmPasswordIcon) {
+        if (signUpConfirmPasswordInput.value === "" && signUpPasswordInput.value === "") {
             badConfirmPasswordIcon.classList.add('hidden');
             badPasswordIcon.classList.add('hidden');
             goodConfirmPasswordIcon.classList.add('hidden');
             goodPasswordIcon.classList.add('hidden');
             return;
         }
-        else if (signuppasswordinput.value === signupconfirmpasswordinput.value) {
+        else if (signUpPasswordInput.value === signUpConfirmPasswordInput.value) {
             badConfirmPasswordIcon.classList.add('hidden');
             badPasswordIcon.classList.add('hidden');
             goodConfirmPasswordIcon.classList.remove('hidden');
@@ -86,16 +83,16 @@ function checkPasswordMatch() {
         }
     }
 }
-if (signuppasswordinput && signupconfirmpasswordinput) {
-    signuppasswordinput.addEventListener('input', checkPasswordMatch);
-    signupconfirmpasswordinput.addEventListener('input', checkPasswordMatch);
+if (signUpPasswordInput && signUpConfirmPasswordInput) {
+    signUpPasswordInput.addEventListener('input', checkPasswordMatch);
+    signUpConfirmPasswordInput.addEventListener('input', checkPasswordMatch);
 }
-const signupform = document.getElementById('sign-up');
+var signupform = document.getElementById('sign-up');
 if (signupform) {
-    signupform.addEventListener('submit', (event) => {
+    signupform.addEventListener('submit', function (event) {
         event.preventDefault();
-        if (signuppasswordinput && signupconfirmpasswordinput) {
-            if (signuppasswordinput.value !== signupconfirmpasswordinput.value) {
+        if (signUpPasswordInput && signUpConfirmPasswordInput) {
+            if (signUpPasswordInput.value !== signUpConfirmPasswordInput.value) {
                 alert('les mots de passe sont pas bon');
                 return;
             }
@@ -103,9 +100,9 @@ if (signupform) {
         }
     });
 }
-const signinform = document.getElementById('sign-in');
+var signinform = document.getElementById('sign-in');
 if (signinform) {
-    signinform.addEventListener('submit', (event) => {
+    signinform.addEventListener('submit', function (event) {
         event.preventDefault();
         window.location.href = "../../index.html";
     });
