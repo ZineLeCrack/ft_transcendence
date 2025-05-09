@@ -1,3 +1,6 @@
+"use strict";
+exports.__esModule = true;
+var profile_1 = require("../profile/profile");
 var signIn = document.getElementById('sign-in');
 var signUp = document.getElementById('sign-up');
 var toSignUp = document.getElementById('to-sign-up');
@@ -37,23 +40,14 @@ var signUpPasswordIcon = document.getElementById('sign-up-password-icon');
 var signUpConfirmPasswordInput = document.getElementById('sign-up-confirmpassword-input');
 var signUpConfirmPasswordBtn = document.getElementById('sign-up-confirmpassword-btn');
 var signUpConfirmPasswordIcon = document.getElementById('sign-up-confirmpassword-icon');
-//importer togglepassword : import { togglepassword } from '?';
-// if (signInPasswordInput && signInPasswordBtn && signInPasswordIcon) {
-// 	togglepassword(signInPasswordInput, signInPasswordBtn, signInPasswordIcon);
-// }
+if (signInPasswordInput && signInPasswordBtn && signInPasswordIcon) {
+    (0, profile_1.togglepassword)(signInPasswordInput, signInPasswordBtn, signInPasswordIcon);
+}
 if (signUpPasswordInput && signUpPasswordBtn && signUpPasswordIcon) {
-    signUpPasswordBtn.addEventListener('click', function () {
-        var isVisible = signUpPasswordInput.type === 'text';
-        signUpPasswordInput.type = isVisible ? 'password' : 'text';
-        signUpPasswordIcon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
-    });
+    (0, profile_1.togglepassword)(signUpPasswordInput, signUpPasswordBtn, signUpPasswordIcon);
 }
 if (signUpConfirmPasswordInput && signUpConfirmPasswordBtn && signUpConfirmPasswordIcon) {
-    signUpConfirmPasswordBtn.addEventListener('click', function () {
-        var isVisible = signUpConfirmPasswordInput.type === 'text';
-        signUpConfirmPasswordInput.type = isVisible ? 'password' : 'text';
-        signUpConfirmPasswordIcon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
-    });
+    (0, profile_1.togglepassword)(signUpConfirmPasswordInput, signUpConfirmPasswordBtn, signUpConfirmPasswordIcon);
 }
 var badPasswordIcon = document.getElementById('badPasswordIcon');
 var goodPasswordIcon = document.getElementById('goodPasswordIcon');

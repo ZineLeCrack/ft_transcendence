@@ -1,3 +1,5 @@
+import { togglepassword } from '../profile/profile';
+
 
 const signIn = document.getElementById('sign-in') as HTMLElement;
 const signUp = document.getElementById('sign-up') as HTMLElement;
@@ -51,27 +53,17 @@ const signUpConfirmPasswordBtn = document.getElementById('sign-up-confirmpasswor
 const signUpConfirmPasswordIcon = document.getElementById('sign-up-confirmpassword-icon') as HTMLImageElement | null;
 
 
-//importer togglepassword : import { togglepassword } from '?';
-// if (signInPasswordInput && signInPasswordBtn && signInPasswordIcon) {
-// 	togglepassword(signInPasswordInput, signInPasswordBtn, signInPasswordIcon);
-// }
+
+if (signInPasswordInput && signInPasswordBtn && signInPasswordIcon) {
+	togglepassword(signInPasswordInput, signInPasswordBtn, signInPasswordIcon);
+}
 
 if (signUpPasswordInput && signUpPasswordBtn && signUpPasswordIcon) {
-	signUpPasswordBtn.addEventListener('click', () => 
-	{
-		const isVisible = signUpPasswordInput.type === 'text';
-		signUpPasswordInput.type = isVisible ? 'password' : 'text';
-		signUpPasswordIcon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
-	});
+	togglepassword(signUpPasswordInput, signUpPasswordBtn, signUpPasswordIcon);
 }
 
 if (signUpConfirmPasswordInput && signUpConfirmPasswordBtn && signUpConfirmPasswordIcon) {
-	signUpConfirmPasswordBtn.addEventListener('click', () => 
-	{
-		const isVisible = signUpConfirmPasswordInput.type === 'text';
-		signUpConfirmPasswordInput.type = isVisible ? 'password' : 'text';
-		signUpConfirmPasswordIcon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
-	});
+	togglepassword(signUpConfirmPasswordInput, signUpConfirmPasswordBtn, signUpConfirmPasswordIcon);
 }
 
 const badPasswordIcon = document.getElementById('badPasswordIcon') as HTMLImageElement | null;
