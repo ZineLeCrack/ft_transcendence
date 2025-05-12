@@ -32,7 +32,7 @@ game.font = "80px 'Caveat'";
 // scores et dessine
 async function fetchState()
 {
-	const res = await fetch('http://localhost:80/state');
+	const res = await fetch('http://localhost:3000/state');
 	const data = await res.json();
 	ballX = data.ballX;
 	ballY = data.ballY;
@@ -49,7 +49,11 @@ document.addEventListener("keydown", (e) =>
 {
 	if (e.key in keys) keys[e.key] = true;
 	if (e.key === " ") {
-        fetch("http://localhost:80/start", { method: "POST" });
+<<<<<<< HEAD
+        fetch("http://localhost:3000/start", { method: "POST" });
+=======
+        fetch("http://localhost:3000/start", { method: "POST" });
+>>>>>>> origin/ebroudic
         gameStarted = true;
     }
 });
@@ -83,7 +87,7 @@ function draw()
 // envoie l'etat des touches 100x par seconde
 setInterval(() =>
 {
-	fetch('http://localhost:80/move',
+	fetch('http://localhost:3000/move',
 	{
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
