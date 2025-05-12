@@ -49,11 +49,7 @@ document.addEventListener("keydown", (e) =>
 {
 	if (e.key in keys) keys[e.key] = true;
 	if (e.key === " ") {
-<<<<<<< HEAD
         fetch("http://localhost:3000/start", { method: "POST" });
-=======
-        fetch("http://localhost:3000/start", { method: "POST" });
->>>>>>> origin/ebroudic
         gameStarted = true;
     }
 });
