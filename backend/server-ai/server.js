@@ -67,10 +67,60 @@ function updateGame() {
         ballY += ballSpeedY;
         if (ballY <= 0 || ballY >= 600)
             ballSpeedY = -ballSpeedY;
-        if (ballX <= 30 && ballY >= leftPaddleY && ballY <= leftPaddleY + 100)
-            ballSpeedX = -ballSpeedX;
-        if (ballX >= 770 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100)
-            ballSpeedX = -ballSpeedX;
+        if (ballSpeedX < 0) {
+            if (ballX <= 15 && ballY >= leftPaddleY && ballY <= leftPaddleY + 100) {
+                ballSpeedX = -ballSpeedX;
+                if (ballSpeedX < 10)
+                    ballSpeedX += 0.5;
+                if (ballSpeedY < 0) {
+                    if (ballY < leftPaddleY + 34) {
+                        if (ballSpeedY > -7)
+                            ballSpeedY -= 2;
+                    }
+                    else if (ballY > leftPaddleY + 66) {
+                        if (ballSpeedY < -3)
+                            ballSpeedY += 2;
+                    }
+                }
+                else {
+                    if (ballY < leftPaddleY + 34) {
+                        if (ballSpeedY > 3)
+                            ballSpeedY -= 2;
+                    }
+                    else if (ballY > leftPaddleY + 66) {
+                        if (ballSpeedY < 7)
+                            ballSpeedY += 2;
+                    }
+                }
+            }
+        }
+        else {
+            if (ballX >= 785 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100) {
+                if (ballSpeedX < 10)
+                    ballSpeedX += 0.5;
+                ballSpeedX = -ballSpeedX;
+                if (ballSpeedY < 0) {
+                    if (ballY < rightPaddleY + 34) {
+                        if (ballSpeedY > -7)
+                            ballSpeedY -= 2;
+                    }
+                    else if (ballY > rightPaddleY + 66) {
+                        if (ballSpeedY < -3)
+                            ballSpeedY += 2;
+                    }
+                }
+                else {
+                    if (ballY < rightPaddleY + 34) {
+                        if (ballSpeedY > 3)
+                            ballSpeedY -= 2;
+                    }
+                    else if (ballY > rightPaddleY + 66) {
+                        if (ballSpeedY < 7)
+                            ballSpeedY += 2;
+                    }
+                }
+            }
+        }
         if (ballX <= 0) {
             rightScore++;
             resetBall();
@@ -85,8 +135,8 @@ function updateGame() {
 function resetBall() {
     ballX = 400;
     ballY = 300;
-    newSpeedX = -ballSpeedX;
-    newSpeedY = -ballSpeedY;
+    newSpeedX = ballSpeedX < 0 ? 5 : -5;
+    newSpeedY = ballSpeedY < 0 ? 5 : -5;
     ballSpeedX = 0;
     ballSpeedY = 0;
     if (leftScore != 5 && rightScore != 5) {
