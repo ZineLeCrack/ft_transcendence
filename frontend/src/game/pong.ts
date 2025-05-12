@@ -1,3 +1,20 @@
+/* ------------------------------- STAT PART ---------------------------------------- */
+
+const leftCanvas = document.getElementById("statPlayer1") as HTMLCanvasElement;
+const rightCanvas = document.getElementById("statPlayer2") as HTMLCanvasElement;
+const left = leftCanvas.getContext("2d")!;
+const right = rightCanvas.getContext("2d")!;
+
+left.font = "40px 'Caveat'";
+right.font = "40px 'Caveat'";
+
+left.fillText("⬆️: up", 0, 40, leftCanvas.width);
+left.fillText("⬇️: down", 0, 85, leftCanvas.width);
+right.fillText("W: up", 0, 40, rightCanvas.width);
+right.fillText("S: down", 0, 85, rightCanvas.width);
+
+/* ------------------------------- GAME PART ---------------------------------------- */
+
 const gameCanvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 const topCanvas = document.getElementById("topCanvas") as HTMLCanvasElement;
 const game = gameCanvas.getContext("2d")!;

@@ -1,4 +1,5 @@
 "use strict";
+/* ------------------------------- STAT PART ---------------------------------------- */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,6 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const leftCanvas = document.getElementById("statPlayer1");
+const rightCanvas = document.getElementById("statPlayer2");
+const left = leftCanvas.getContext("2d");
+const right = rightCanvas.getContext("2d");
+left.font = "40px 'Caveat'";
+right.font = "40px 'Caveat'";
+left.fillText("⬆️: up", 0, 40, leftCanvas.width);
+left.fillText("⬇️: down", 0, 85, leftCanvas.width);
+right.fillText("W: up", 0, 40, rightCanvas.width);
+right.fillText("S: down", 0, 85, rightCanvas.width);
+/* ------------------------------- GAME PART ---------------------------------------- */
 const gameCanvas = document.getElementById("gameCanvas");
 const topCanvas = document.getElementById("topCanvas");
 const game = gameCanvas.getContext("2d");
