@@ -5,14 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const https_1 = __importDefault(require("https"));
-const fs_1 = __importDefault(require("fs"));
 const app = (0, express_1.default)();
 const port = 3000;
-const options = {
-    key: fs_1.default.readFileSync('transcend.key'),
-    cert: fs_1.default.readFileSync('transcend.crt')
-};
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 let ballX = 400;
@@ -73,10 +67,60 @@ function updateGame() {
         ballY += ballSpeedY;
         if (ballY <= 0 || ballY >= 600)
             ballSpeedY = -ballSpeedY;
-        if (ballX <= 30 && ballY >= leftPaddleY && ballY <= leftPaddleY + 100)
-            ballSpeedX = -ballSpeedX;
-        if (ballX >= 770 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100)
-            ballSpeedX = -ballSpeedX;
+        if (ballSpeedX < 0) {
+            if (ballX <= 15 && ballY >= leftPaddleY && ballY <= leftPaddleY + 100) {
+                ballSpeedX = -ballSpeedX;
+                if (ballSpeedX < 10)
+                    ballSpeedX += 0.5;
+                if (ballSpeedY < 0) {
+                    if (ballY < leftPaddleY + 34) {
+                        if (ballSpeedY > -7)
+                            ballSpeedY -= 2;
+                    }
+                    else if (ballY > leftPaddleY + 66) {
+                        if (ballSpeedY < -3)
+                            ballSpeedY += 2;
+                    }
+                }
+                else {
+                    if (ballY < leftPaddleY + 34) {
+                        if (ballSpeedY > 3)
+                            ballSpeedY -= 2;
+                    }
+                    else if (ballY > leftPaddleY + 66) {
+                        if (ballSpeedY < 7)
+                            ballSpeedY += 2;
+                    }
+                }
+            }
+        }
+        else {
+            if (ballX >= 785 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100) {
+                if (ballSpeedX < 10)
+                    ballSpeedX += 0.5;
+                ballSpeedX = -ballSpeedX;
+                if (ballSpeedY < 0) {
+                    if (ballY < rightPaddleY + 34) {
+                        if (ballSpeedY > -7)
+                            ballSpeedY -= 2;
+                    }
+                    else if (ballY > rightPaddleY + 66) {
+                        if (ballSpeedY < -3)
+                            ballSpeedY += 2;
+                    }
+                }
+                else {
+                    if (ballY < rightPaddleY + 34) {
+                        if (ballSpeedY > 3)
+                            ballSpeedY -= 2;
+                    }
+                    else if (ballY > rightPaddleY + 66) {
+                        if (ballSpeedY < 7)
+                            ballSpeedY += 2;
+                    }
+                }
+            }
+        }
         if (ballX <= 0) {
             rightScore++;
             resetBall();
@@ -91,8 +135,8 @@ function updateGame() {
 function resetBall() {
     ballX = 400;
     ballY = 300;
-    newSpeedX = -ballSpeedX;
-    newSpeedY = -ballSpeedY;
+    newSpeedX = ballSpeedX < 0 ? 5 : -5;
+    newSpeedY = ballSpeedY < 0 ? 5 : -5;
     ballSpeedX = 0;
     ballSpeedY = 0;
     if (leftScore != 5 && rightScore != 5) {
@@ -110,7 +154,7 @@ function resetBall() {
         }, 3000);
     }
 }
-https_1.default.createServer(options, app).listen(port, '0.0.0.0', () => {
-    console.log(`HTTPS server running at https://0.0.0.0:${port}`);
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
     updateGame();
 });
