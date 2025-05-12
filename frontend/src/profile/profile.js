@@ -1,58 +1,28 @@
-import { hidePassword, togglePassword, checkPasswordMatch } from './utils.js';
+import { hidePassword, togglePassword, checkPasswordMatch, setButton } from './utils.js';
 const editBtn = document.getElementById('edit-btn');
 const statsBtn = document.getElementById('stats-btn');
-const statsForm = document.getElementById('stats-form');
+const statsDiv = document.getElementById('stats-div');
 const editProfilForm = document.getElementById('edit-profil-form');
-let editBtnIsActive = false;
-let statsBtnIsActive = true;
+const buttonStates = {
+    editBtnIsActive: false,
+    statsBtnIsActive: true
+};
 editBtn.addEventListener('click', () => {
-    if (editBtnIsActive)
-        return;
-    editBtnIsActive = true;
-    statsBtnIsActive = false;
-    statsBtn.classList.add('bg-gray-200');
-    statsBtn.classList.remove('bg-blue-600');
-    editBtn.classList.remove('bg-gray-200');
-    editBtn.classList.add('bg-blue-500');
-    editBtn.classList.add('text-white');
-    editBtn.classList.remove('text-gray-700');
-    statsBtn.classList.remove('text-white');
-    statsBtn.classList.add('text-gray-700');
-    statsBtn.classList.remove('hover:bg-blue-700');
-    statsBtn.classList.add('hover:bg-gray-300');
-    editBtn.classList.remove('hover:bg-gray-300');
-    editBtn.classList.add('hover:bg-blue-700');
-    statsForm.classList.add('hidden');
-    editProfilForm.classList.remove('hidden');
+    setButton(editBtn, statsBtn, null, editProfilForm, statsDiv, null, buttonStates, "editBtnIsActive", "statsBtnIsActive", "");
     editPasswordForm.classList.add('hidden');
-    editPasswordBtn.classList.remove('hidden');
+    editBtn.classList.remove('hidden');
+    editProfilForm.classList.remove('hidden');
 });
 statsBtn.addEventListener('click', () => {
-    if (statsBtnIsActive)
-        return;
-    editBtnIsActive = false;
-    statsBtnIsActive = true;
-    statsBtn.classList.remove('bg-gray-200');
-    statsBtn.classList.add('bg-blue-600');
-    editBtn.classList.add('bg-gray-200');
-    editBtn.classList.remove('bg-blue-500');
-    statsBtn.classList.add('text-white');
-    statsBtn.classList.remove('text-gray-700');
-    editBtn.classList.remove('text-white');
-    editBtn.classList.add('text-gray-700');
-    editBtn.classList.remove('hover:bg-blue-700');
-    editBtn.classList.add('hover:bg-gray-300');
-    statsBtn.classList.remove('hover:bg-gray-300');
-    statsBtn.classList.add('hover:bg-blue-700');
-    statsForm.classList.remove('hidden');
-    editProfilForm.classList.add('hidden');
-    editPasswordForm.classList.add('hidden');
-    editPasswordBtn.classList.remove('hidden');
+    setButton(statsBtn, editBtn, null, statsDiv, editProfilForm, null, buttonStates, "statsBtnIsActive", "editBtnIsActive", "");
     editUsernameInput.value = "";
     editEmailInput.value = "";
     editCurrentPasswordInput.value = "";
     editNewPasswordInput.value = "";
     editConfirmNewPasswordInput.value = "";
+    editPasswordForm.classList.add('hidden');
+    statsDiv.classList.remove('hidden');
+    editBtn.classList.remove('hidden');
 });
 const editPasswordBtn = document.getElementById('edit-password-btn');
 const editPasswordForm = document.getElementById('edit-password-form');

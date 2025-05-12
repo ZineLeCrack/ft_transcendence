@@ -11,7 +11,9 @@
     "local":  "tsc src/game/pong.ts --watch",
     "profil":  "tsc src/profile/profile.ts --module ES6 --target ES6 --watch",
     "redir": "tsc src/profile/redirectionbtn.ts --watch",
-    "utils": "tsc src/profile/utils.ts --module ES6 --target ES6 --watch"
+    "utils": "tsc src/profile/utils.ts --module ES6 --target ES6 --watch",
+    "stats": "tsc src/profile/stats.ts --module ES6 --target ES6 --watch"
+
   },
   "keywords": [],
   "author": "",

@@ -1,11 +1,11 @@
 export function togglePassword(Input: HTMLInputElement, Btn: HTMLButtonElement, Icon: HTMLImageElement)
 {
-    Btn.addEventListener('click', () => {
-        const isVisible = Input.type === 'text';
-        Input.type = isVisible ? 'password' : 'text';
-        Icon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
+	Btn.addEventListener('click', () => {
+		const isVisible = Input.type === 'text';
+		Input.type = isVisible ? 'password' : 'text';
+		Icon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
 
-    });
+	});
 }
 
 export function hidePassword(Input: HTMLInputElement, Icon: HTMLImageElement)
@@ -42,4 +42,42 @@ export function checkPasswordMatch(firstPassword: HTMLInputElement, secondPasswo
 		}
 
 	}
+}
+
+export function setButton(firstBtn: HTMLButtonElement, secondBtn: HTMLButtonElement,
+	 thirdBtn :HTMLButtonElement | null , firstDiv: HTMLDivElement | HTMLFormElement,
+	 secondDiv: HTMLDivElement | HTMLFormElement, thirdDiv: HTMLDivElement | HTMLFormElement | null,
+	  state: { [key: string]: boolean }, firstKey: string,secondKey: string, thirdKey:string)
+
+{
+	if (state[firstKey]) return;
+	state[firstKey] = true;
+	state[secondKey] = false;
+	state[thirdKey] = false;
+	secondBtn.classList.add('bg-gray-200');
+	secondBtn.classList.remove('bg-blue-600');
+	firstBtn.classList.remove('bg-gray-200');
+	firstBtn.classList.add('bg-blue-500');
+	firstBtn.classList.add('text-white');
+	firstBtn.classList.remove('text-gray-700');
+	secondBtn.classList.remove('text-white');
+	secondBtn.classList.add('text-gray-700');
+	secondBtn.classList.remove('hover:bg-blue-700');
+	secondBtn.classList.add('hover:bg-gray-300');
+	firstBtn.classList.remove('hover:bg-gray-300');
+	firstBtn.classList.add('hover:bg-blue-700');
+	secondDiv.classList.add('hidden')
+	firstDiv.classList.remove('hidden');
+	console.log("dwadwa");
+	if (thirdBtn && thirdDiv)
+	{
+		thirdDiv.classList.add('hidden');
+		thirdBtn.classList.remove('text-white');
+		thirdBtn.classList.add('text-gray-700');
+		thirdBtn.classList.remove('hover:bg-blue-700');
+		thirdBtn.classList.add('hover:bg-gray-300');
+		thirdBtn.classList.add('bg-gray-200');
+		thirdBtn.classList.remove('bg-blue-600');
+	}
+
 }
