@@ -14,9 +14,6 @@ const buttonStates = {
 
 editBtn.addEventListener('click', () => {
     setButton(editBtn, statsBtn, null, editProfilForm,statsDiv, null ,buttonStates, "editBtnIsActive", "statsBtnIsActive", ""); 
-    editPasswordForm.classList.add('hidden');
-    editBtn.classList.remove('hidden');
-    editProfilForm.classList.remove('hidden');
 });
 
 statsBtn.addEventListener('click', () => {
@@ -27,8 +24,15 @@ statsBtn.addEventListener('click', () => {
     editNewPasswordInput.value = "";
     editConfirmNewPasswordInput.value = "";
     editPasswordForm.classList.add('hidden');
-    statsDiv.classList.remove('hidden');
-    editBtn.classList.remove('hidden');
+    editPasswordBtn.classList.remove('hidden');
+    if (editCurrentPasswordInput && editCurrentPasswordBtn && editCurrentPasswordIcon && editConfirmNewPasswordInput && editConfirmPasswordBtn && editConfirmPasswordIcon && editNewPasswordInput && editNewPasswordBtn && editNewPasswordIcon)
+    {
+            hidePassword(editCurrentPasswordInput, editCurrentPasswordIcon,null ,null);
+            hidePassword(editConfirmNewPasswordInput, editConfirmPasswordIcon, profileGoodConfirmPasswordIcon ,profileBadConfirmPasswordIcon);
+            hidePassword(editNewPasswordInput, editNewPasswordIcon,profileGoodPasswordIcon ,profileBadPasswordIcon);
+    }
+
+
 });
 
 const editPasswordBtn = document.getElementById('edit-password-btn') as HTMLButtonElement;
@@ -65,10 +69,12 @@ unsaveBtnEditPassword.addEventListener('click', () =>{
     editProfilForm.classList.remove('hidden');
     editPasswordForm.classList.add('hidden');
     editPasswordBtn.classList.remove('hidden');
-    profileBadConfirmPasswordIcon.classList.add('hidden');
-	profileGoodPasswordIcon.classList.add('hidden');
-	profileBadPasswordIcon.classList.add('hidden');
-	profileGoodConfirmPasswordIcon.classList.add('hidden');
+    if (editCurrentPasswordInput && editCurrentPasswordBtn && editCurrentPasswordIcon && editConfirmNewPasswordInput && editConfirmPasswordBtn && editConfirmPasswordIcon && editNewPasswordInput && editNewPasswordBtn && editNewPasswordIcon)
+    {
+            hidePassword(editCurrentPasswordInput, editCurrentPasswordIcon,null ,null);
+            hidePassword(editConfirmNewPasswordInput, editConfirmPasswordIcon, profileGoodConfirmPasswordIcon ,profileBadConfirmPasswordIcon);
+            hidePassword(editNewPasswordInput, editNewPasswordIcon,profileGoodPasswordIcon ,profileBadPasswordIcon);
+    }
 });
 
 const profileBadPasswordIcon = document.getElementById('profile-badPasswordIcon') as HTMLImageElement;
@@ -121,9 +127,9 @@ if (editPasswordForm)
         }
         if (editCurrentPasswordInput && editCurrentPasswordBtn && editCurrentPasswordIcon && editConfirmNewPasswordInput && editConfirmPasswordBtn && editConfirmPasswordIcon && editNewPasswordInput && editNewPasswordBtn && editNewPasswordIcon)
         {
-            hidePassword(editCurrentPasswordInput, editCurrentPasswordIcon);
-            hidePassword(editConfirmNewPasswordInput, editConfirmPasswordIcon);
-            hidePassword(editNewPasswordInput, editNewPasswordIcon);
+            hidePassword(editCurrentPasswordInput, editCurrentPasswordIcon,null ,null);
+            hidePassword(editConfirmNewPasswordInput, editConfirmPasswordIcon, profileGoodConfirmPasswordIcon ,profileBadConfirmPasswordIcon);
+            hidePassword(editNewPasswordInput, editNewPasswordIcon,profileGoodPasswordIcon ,profileBadPasswordIcon);
         }
         editCurrentPasswordInput.value = "";
         editNewPasswordInput.value = "";
@@ -131,9 +137,6 @@ if (editPasswordForm)
         editProfilForm.classList.remove('hidden');
         editPasswordForm.classList.add('hidden');
         editPasswordBtn.classList.remove('hidden');
-        profileBadConfirmPasswordIcon.classList.add('hidden');
-		profileGoodPasswordIcon.classList.add('hidden');
-		profileBadPasswordIcon.classList.add('hidden');
-		profileGoodConfirmPasswordIcon.classList.add('hidden');
+
     });
 }

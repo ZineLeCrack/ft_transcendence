@@ -7,10 +7,10 @@
 		<link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="bg-gray-300 min-h-screen m-0 p-0">
-		<div class="w-screen h-screen bg-black p-8">
+		<div class="w-screen h-screen bg-black p-3">
 	
 			<!-- Onglets -->
-			<div class="flex justify-center gap-4 mb-8">
+			<div class="flex justify-center gap-4 mt-3 mb-6">
 				<button id="stats-btn" class="tab-button px-10 py-3 rounded-xl font-semibold bg-blue-600 text-white hover:bg-blue-700 transition">Statistiques</button>
 				<button id="edit-btn" class="tab-button px-10 py-3 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Modifier le profil</button>
 			</div>
@@ -112,21 +112,25 @@
 	</div>
 </form>
 
-	<div id="stats-div" class="border rounded-xl p-6 bg-gray-300 h-[calc(100%-75px)] overflow-auto">
-		<div class="flex justify-center gap-4 mb-8">
-			<button id="History-btn" type="button" class="tab-button px-10 py-3 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300  transition">History</button>
-			<button id="Global-btn" type="button" class="tab-button px-10 py-3 rounded-xl font-semibold bg-blue-600 text-white hover:bg-blue-700 transition">Global</button>
-			<button id="Tournament-btn" type="button" class="tab-button px-10 py-3 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Tournament</button>
+	<div id="stats-div" class="border rounded-xl p-4 bg-gray-300 h-[calc(100vh-125px)] overflow-hidden flex flex-col">
+		<div class="flex justify-center gap-4 mb-4">
+			<button id="History-btn" type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300  transition">History</button>
+			<button id="Global-btn" type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-blue-600 text-white hover:bg-blue-700 transition">Global</button>
+			<button id="Tournament-btn" type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Tournament</button>
 		</div>
-		<div id="History-Div" class="hidden w-full h-full bg-yellow-500">
+		<div class="flex-1 relative">
+			<div id="History-Div" class="hidden rounded-2xl w-full h-full bg-yellow-500">
 
-		</div>
-		<div id="Global-Div" class="w-full h-full bg-purple-500">
+			</div>
+			<div id="Global-Div" class="rounded-2xl w-full h-full bg-purple-500">
 
-		</div>
-		<div id="Tournament-Div" class="hidden w-full h-full bg-red-500">
+			</div>
+			<div id="Tournament-Div" class="rounded-2xl hidden w-full h-full bg-red-500">
 
+			</div>
 		</div>
+	</div>
+
 	</div>
 	
 		</div>

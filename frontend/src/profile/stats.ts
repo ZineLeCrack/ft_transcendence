@@ -30,3 +30,4 @@ globalBtn.addEventListener('click', () => {
 tournamentBtn.addEventListener('click', () => {
     setButton(tournamentBtn, globalBtn, historyBtn, tournamentDiv, globalDiv, historyDiv, buttonStatesStats, "tournamentIsActive", "globalIsActive", "historyIsActive" );
 });
+
