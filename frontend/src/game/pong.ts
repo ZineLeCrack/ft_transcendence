@@ -15,7 +15,7 @@ const paddleHeight = 100;
 
 // Dictionnaire pour stocker les touches pressees ou non
 let keys: { [key: string]: boolean } =
-{
+{ 
 	w: false,
 	s: false,
 	ArrowUp: false,

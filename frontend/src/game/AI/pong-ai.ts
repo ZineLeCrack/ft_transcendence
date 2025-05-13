@@ -6,10 +6,10 @@ const score = topCanvas.getContext("2d")!;
 // position et score par defaut
 let ballX = 400;
 let ballY = 300;
-let ballVX = ballX
-let ballVY = ballY
-let previousBallX = ballX;
-let previousBallY = ballY;
+let ballVX = 0;
+let ballVY = 0;
+let oldBallX = 400;
+let oldBallY = 300;
 let leftPaddleY = 250;
 let rightPaddleY = 250;
 let leftScore = 0;
@@ -19,7 +19,7 @@ const paddleHeight = 100;
 
 // Dictionnaire pour stocker les touches pressees ou non
 let keys: { [key: string]: boolean } =
-{
+{ 
 	w: false,
 	s: false,
 	ArrowUp: false,
@@ -38,19 +38,86 @@ async function fetchState()
 {
 	const res = await fetch('http://localhost:3000/state');
 	const data = await res.json();
+	ballVX = data.ballX - ballX;
+	ballVY = data.ballY - ballY;
+	oldBallX = ballX;
+	oldBallY = ballY;
 	ballX = data.ballX;
 	ballY = data.ballY;
-	ballVX = data.ballX - previousBallX;
-	ballVY = data.ballY - previousBallY;
-	previousBallX = data.ballX;
-	previousBallY = data.ballY;
 	leftPaddleY = data.leftPaddleY;
 	rightPaddleY = data.rightPaddleY;
 	leftScore = data.leftScore;
 	rightScore = data.rightScore;
 	message = data.message;
+	if (ballVX == 0)
+		ballVX = 5
 	draw();
 }
+
+let aiAction: 'up' | 'down' | 'none' = 'none';
+let aiTimeout: number | null = null;
+
+async function callAI() {
+	//if (!gameStarted) return;
+	try {
+		const res = await fetch("http://localhost:8000/ai.php", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				paddlePosition: rightPaddleY,
+				ballPosition: { x: ballX, y: ballY },
+				ballDirection: { x: ballVX, y: ballVY }
+			})			
+		});
+
+		const data = await res.json();
+
+		// Annule toute action précédente si elle existe
+		if (aiTimeout !== null) {
+			clearTimeout(aiTimeout);
+			aiTimeout = null;
+		}
+
+		// Réinitialise les touches IA
+		keys["ArrowUp"] = false;
+		keys["ArrowDown"] = false;
+
+		// Applique la direction pour la durée spécifiée
+		if (data.direction === "up") {
+			keys["ArrowUp"] = true;
+			aiAction = "up";
+			console.log("----------------");
+			console.log("Go Up");
+			console.log("Y:" + ballVY);
+			console.log("X:" + ballVX);
+			console.log("----------------");
+		} else if (data.direction === "down") {
+			keys["ArrowDown"] = true;
+			aiAction = "down";
+			console.log("----------------");
+			console.log("Go Down");
+			console.log("Y:" + ballVY);
+			console.log("X:" + ballVX);
+			console.log("----------------");
+		} else {
+			aiAction = "none";
+		}
+
+		// Définir le timeout pour relâcher la touche après `duration` ms
+		if (data.direction !== "none" && data.duration > 0) {
+			aiTimeout = window.setTimeout(() => {
+				if (data.direction === "up") keys["ArrowUp"] = false;
+				if (data.direction === "down") keys["ArrowDown"] = false;
+				aiAction = "none";
+				aiTimeout = null;
+			}, data.duration / 2);
+		}
+
+	} catch (e) {
+		console.error("Erreur IA:", e);
+	}
+}
+
 
 // evenement de touche pressee
 document.addEventListener("keydown", (e) =>
@@ -88,43 +155,19 @@ function draw()
 	score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
 }
 
-async function askAI() {
-	try {
-		const response = await fetch("http://localhost:8000/ai.php", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				paddlePosition: rightPaddleY,
-				ballPosition: { x: ballX, y: ballY },
-				ballDirection: { x: ballVX, y: ballVY }, // ces valeurs doivent être calculées
-			}),
-		});
-		const data = await response.json();
-
-		if (data.direction === "up") {
-			keys["ArrowUp"] = true;
-			keys["ArrowDown"] = false;
-		} else if (data.direction === "down") {
-			keys["ArrowDown"] = true;
-			keys["ArrowUp"] = false;
-		} else {
-			keys["ArrowUp"] = false;
-			keys["ArrowDown"] = false;
-		}
-	} catch (e) {
-		console.error("Erreur dans l'appel à l'IA :", e);
-	}
-}
-
+setInterval(callAI, 1000);
 
 // envoie l'etat des touches 100x par seconde
-setInterval(() => {
-	fetchState();
-	askAI(); // Appel de l'IA toutes les 10ms
+setInterval(() =>
+{
+	fetch('http://localhost:3000/move',
+	{
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ keys })
+	});
 }, 10);
 
-
 // recupere toutes les valeurs et dessine avec 100 fps
-setInterval(fetchState, 14);
+setInterval(fetchState, 10);
+

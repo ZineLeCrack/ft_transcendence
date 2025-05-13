@@ -54,13 +54,13 @@ $PADDLE_HEIGHT = 100;
 
 // Si la balle va vers la gauche, on retourne doucement au centre
 if ($ballDirection['x'] < 0) {
-    $target = ($GAME_HEIGHT - $PADDLE_HEIGHT) / 2;
-    $delta = $target - $paddlePosition;
+    // $target = ($GAME_HEIGHT - $PADDLE_HEIGHT) / 2;
+    // $delta = $target - $paddlePosition;
 
-    if (abs($delta) > 10) { // Seuil pour éviter de gigoter pour rien
-        $direction = $delta > 0 ? 'down' : 'up';
-        $duration = min(500, max(10, abs($delta) * 2));
-    }
+    // if (abs($delta) > 10) { // Seuil pour éviter de gigoter pour rien
+    //     $direction = $delta > 0 ? 'down' : 'up';
+    //     $duration = min(500, max(10, abs($delta) * 2));
+    // }
 } else {
     $framesToRightWall = ($GAME_WIDTH - $BALL_SIZE - $ballPosition['x']) / $ballDirection['x'];
 
@@ -85,7 +85,7 @@ if ($ballDirection['x'] < 0) {
 
     $delta = ($future_y - 50) - $paddlePosition;
     $direction = $delta > 0 ? 'down' : 'up';
-    $duration = min(1000, max(10, abs($delta) * 4));
+    $duration = min(10000, max(10, abs($delta) * 4));
 }
 
 // Résultat
