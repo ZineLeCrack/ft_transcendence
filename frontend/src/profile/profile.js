@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-"use strict";
-const editbtn = document.getElementById('edit-btn');
-const statsbtn = document.getElementById('stats-btn');
-const statsform = document.getElementById('stats-form');
-const editprofilform = document.getElementById('edit-profil-form');
-let editbtnisactive = false;
-let statsbtnisactive = true;
-editbtn.addEventListener('click', () => {
-    if (editbtnisactive)
-=======
 import { hidePassword, togglePassword, checkPasswordMatch } from './utils.js';
 const editBtn = document.getElementById('edit-btn');
 const statsBtn = document.getElementById('stats-btn');
@@ -18,7 +7,6 @@ let editBtnIsActive = false;
 let statsBtnIsActive = true;
 editBtn.addEventListener('click', () => {
     if (editBtnIsActive)
->>>>>>> origin/ebroudic
         return;
     editBtnIsActive = true;
     statsBtnIsActive = false;
@@ -39,13 +27,8 @@ editBtn.addEventListener('click', () => {
     editPasswordForm.classList.add('hidden');
     editPasswordBtn.classList.remove('hidden');
 });
-<<<<<<< HEAD
-statsbtn.addEventListener('click', () => {
-    if (statsbtnisactive)
-=======
 statsBtn.addEventListener('click', () => {
     if (statsBtnIsActive)
->>>>>>> origin/ebroudic
         return;
     editBtnIsActive = false;
     statsBtnIsActive = true;
@@ -71,34 +54,6 @@ statsBtn.addEventListener('click', () => {
     editNewPasswordInput.value = "";
     editConfirmNewPasswordInput.value = "";
 });
-<<<<<<< HEAD
-const editpasswordbtn = document.getElementById('edit-password-btn');
-const editpasswordform = document.getElementById('edit-password-form');
-editpasswordbtn.addEventListener('click', () => {
-    editprofilform.classList.add('hidden');
-    editpasswordform.classList.remove('hidden');
-    editpasswordbtn.classList.add('hidden');
-});
-const unsavebtn = document.getElementById('unsave-btn');
-const savebtn = document.getElementById('save-btn');
-const editusernameinput = document.getElementById('edit-username-input');
-const editemailinput = document.getElementById('edit-email-input');
-const editcurrentpasswordinput = document.getElementById('edit-currentpassword-input');
-const editnewpasswordinput = document.getElementById('edit-newpassword-input');
-const editconfirmnewpasswordinput = document.getElementById('edit-confirmpassword-input');
-const unsavebtneditpassword = document.getElementById('unsave-btn-edit-password');
-unsavebtn.addEventListener('click', () => {
-    editusernameinput.value = "";
-    editemailinput.value = "";
-});
-unsavebtneditpassword.addEventListener('click', () => {
-    editcurrentpasswordinput.value = "";
-    editnewpasswordinput.value = "";
-    editconfirmnewpasswordinput.value = "";
-    editprofilform.classList.remove('hidden');
-    editpasswordform.classList.add('hidden');
-    editpasswordbtn.classList.remove('hidden');
-=======
 const editPasswordBtn = document.getElementById('edit-password-btn');
 const editPasswordForm = document.getElementById('edit-password-form');
 editPasswordBtn.addEventListener('click', () => {
@@ -129,7 +84,6 @@ unsaveBtnEditPassword.addEventListener('click', () => {
     profileGoodPasswordIcon.classList.add('hidden');
     profileBadPasswordIcon.classList.add('hidden');
     profileGoodConfirmPasswordIcon.classList.add('hidden');
->>>>>>> origin/ebroudic
 });
 const profileBadPasswordIcon = document.getElementById('profile-badPasswordIcon');
 const profileGoodPasswordIcon = document.getElementById('profile-goodPasswordIcon');

@@ -1,10 +1,23 @@
 import express from 'express';
 import cors from 'cors';
+import fs from 'fs';
+import https from 'https';
+import http from 'http';
 
 const app = express();
-const port = 3000;
+const httpsPort = 3000;
 
-app.use(cors());
+const privateKey = fs.readFileSync('serv.key', 'utf8');
+const certificate = fs.readFileSync('serv.crt', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+
+const corsOptions = {
+
+  origin: 'https://localhost:443',
+  credentials: true,
+};
+
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 let ballX = 400;
@@ -69,7 +82,7 @@ function updateGame()
 		if (leftScore === 5 || rightScore === 5)
 		{
 			gameStarted = false;
-			message = leftScore === 5 ? "Player 1 win !": "Player 2 win !";
+			message = leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
 			setTimeout(() =>
 			{
 				leftScore = 0;
@@ -172,8 +185,8 @@ function resetBall()
 {
 	ballX = 400;
 	ballY = 300;
-	newSpeedX = ballSpeedX < 0 ? 5: -5;
-	newSpeedY = ballSpeedY < 0 ? 5: -5;
+	newSpeedX = ballSpeedX < 0 ? 5 : -5;
+	newSpeedY = ballSpeedY < 0 ? 5 : -5;
 	ballSpeedX = 0;
 	ballSpeedY = 0;
 
@@ -198,8 +211,7 @@ function resetBall()
 	}
 }
 
-app.listen(port, () =>        
-{
-	console.log(`Server running on http://localhost:${port}`);
+https.createServer(credentials, app).listen(httpsPort, '0.0.0.0' ,() => {
+	console.log(`HTTPS server running at https://localhost:${httpsPort}`);
 	updateGame();
 });
