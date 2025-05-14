@@ -5,18 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const fs_1 = __importDefault(require("fs"));
 const https_1 = __importDefault(require("https"));
+const fs_1 = __importDefault(require("fs"));
 const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
 const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
 const app = (0, express_1.default)();
 const port = 3000;
-const credentials = { key: privateKey, cert: certificate };
-const corsOptions = {
-    origin: 'https://localhost:443',
-    credentials: true,
-};
-app.use((0, cors_1.default)({ origin: true, credentials: true }));
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 let ballX = 400;
 let ballY = 300;
