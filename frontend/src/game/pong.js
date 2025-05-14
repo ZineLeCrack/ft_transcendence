@@ -15,10 +15,12 @@ const left = leftCanvas.getContext("2d");
 const right = rightCanvas.getContext("2d");
 left.font = "40px 'Caveat'";
 right.font = "40px 'Caveat'";
-left.fillText("⬆️: up", 0, 40, leftCanvas.width);
-left.fillText("⬇️: down", 0, 85, leftCanvas.width);
-right.fillText("W: up", 0, 40, rightCanvas.width);
-right.fillText("S: down", 0, 85, rightCanvas.width);
+setTimeout(() => {
+    left.fillText("⬆️: up", 0, 40, leftCanvas.width);
+    left.fillText("⬇️: down", 0, 85, leftCanvas.width);
+    right.fillText("W: up", 0, 40, rightCanvas.width);
+    right.fillText("S: down", 0, 85, rightCanvas.width);
+}, 1000);
 /* ------------------------------- GAME PART ---------------------------------------- */
 const gameCanvas = document.getElementById("gameCanvas");
 const topCanvas = document.getElementById("topCanvas");
@@ -89,13 +91,13 @@ function draw() {
     score.fillText(leftScore.toString(), 20, 50);
     score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
 }
-// envoie l'etat des touches 100x par seconde
+// envoie l'etat des touches 60x par seconde
 setInterval(() => {
     fetch('http://localhost:3000/move', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ keys })
     });
-}, 10);
-// recupere toutes les valeurs et dessine avec 100 fps
-setInterval(fetchState, 10);
+}, 16);
+// recupere toutes les valeurs et dessine avec 60 fps
+setInterval(fetchState, 16);

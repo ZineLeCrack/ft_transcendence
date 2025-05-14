@@ -99,7 +99,7 @@ function draw()
 	score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
 }
 
-// envoie l'etat des touches 100x par seconde
+// envoie l'etat des touches 60x par seconde
 setInterval(() =>
 {
 	fetch('http://localhost:3000/move',
@@ -108,7 +108,7 @@ setInterval(() =>
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ keys })
 	});
-}, 10);
+}, 16);
 
-// recupere toutes les valeurs et dessine avec 100 fps
-setInterval(fetchState, 10);
+// recupere toutes les valeurs et dessine avec 60 fps
+setInterval(fetchState, 16);
