@@ -1,16 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-<<<<<<< HEAD
 import fs from 'fs';
 import https from 'https';
 import http from 'http';
-=======
-import https from 'https';
-import fs from 'fs';
->>>>>>> origin/rlebaill
 
-const privateKey = fs.readFileSync('serv.key', 'utf8');
-const certificate = fs.readFileSync('serv.crt', 'utf8');
 const app = express();
 const httpsPort = 3000;
 const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
@@ -221,14 +214,8 @@ function resetBall()
 	}
 }
 
-<<<<<<< HEAD
 https.createServer(credentials, app).listen(httpsPort, '0.0.0.0' ,() => {
 	console.log(`HTTPS server running at https://localhost:${httpsPort}`);
 	updateGame();
-=======
-https.createServer({ key: privateKey, cert: certificate }, app)
-	.listen(port, () => {
-		console.log(`HTTPS server running on https://localhost:${port}`);
-		updateGame();
->>>>>>> origin/rlebaill
+
 });

@@ -1,18 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-<<<<<<< HEAD
 const express_1 = require("express");
 const cors_1 = require("cors");
 const fs_1 = require("fs");
 const https_1 = require("https");
-=======
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const https_1 = __importDefault(require("https"));
-const fs_1 = __importDefault(require("fs"));
-const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
-const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
->>>>>>> origin/rlebaill
 const app = (0, express_1.default)();
 const httpsPort = 3000;
 const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
@@ -171,14 +162,9 @@ function resetBall() {
         }, 3000);
     }
 }
-<<<<<<< HEAD
+
 // HTTPS main server
 https_1.default.createServer(credentials, app).listen(httpsPort, () => {
     console.log(`HTTPS server running at https://localhost:${httpsPort}`);
-=======
-https_1.default.createServer({ key: privateKey, cert: certificate }, app)
-    .listen(port, () => {
-    console.log(`HTTPS server running on https://localhost:${port}`);
->>>>>>> origin/rlebaill
     updateGame();
 });
