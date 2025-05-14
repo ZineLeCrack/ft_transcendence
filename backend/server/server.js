@@ -5,17 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const fs_1 = __importDefault(require("fs"));
-const https_1 = __importDefault(require("https"));
 const app = (0, express_1.default)();
-const httpsPort = 3000;
-const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
-const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
-const corsOptions = {
-    origin: 'https://localhost:443',
-    credentials: true,
-};
+const port = 3000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 let ballX = 400;
@@ -50,13 +41,13 @@ app.post('/start', (req, res) => {
 app.post('/move', (req, res) => {
     const { keys } = req.body;
     if (keys.ArrowUp)
-        rightPaddleY -= 10;
+        rightPaddleY -= 5;
     if (keys.ArrowDown)
-        rightPaddleY += 10;
+        rightPaddleY += 5;
     if (keys.w)
-        leftPaddleY -= 10;
+        leftPaddleY -= 5;
     if (keys.s)
-        leftPaddleY += 10;
+        leftPaddleY += 5;
     rightPaddleY = Math.max(0, Math.min(500, rightPaddleY));
     leftPaddleY = Math.max(0, Math.min(500, leftPaddleY));
     res.sendStatus(200);
@@ -67,11 +58,9 @@ function updateGame() {
             gameStarted = false;
             message = leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
             setTimeout(() => {
-                if (!gameStarted) {
-                    leftScore = 0;
-                    rightScore = 0;
-                    message = "Press space to start !";
-                }
+                leftScore = 0;
+                rightScore = 0;
+                message = "Press space to start !";
             }, 5000);
         }
         ballX += ballSpeedX;
@@ -165,7 +154,7 @@ function resetBall() {
         }, 3000);
     }
 }
-https_1.default.createServer(credentials, app).listen(httpsPort, '0.0.0.0', () => {
-    console.log(`HTTPS server running at https://localhost:${httpsPort}`);
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
     updateGame();
 });
