@@ -15,10 +15,12 @@ const left = leftCanvas.getContext("2d");
 const right = rightCanvas.getContext("2d");
 left.font = "40px 'Caveat'";
 right.font = "40px 'Caveat'";
-left.fillText("⬆️: up", 0, 40, leftCanvas.width);
-left.fillText("⬇️: down", 0, 85, leftCanvas.width);
-right.fillText("W: up", 0, 40, rightCanvas.width);
-right.fillText("S: down", 0, 85, rightCanvas.width);
+setTimeout(() => {
+    left.fillText("W: up", 0, 40, rightCanvas.width);
+    left.fillText("S: down", 0, 85, rightCanvas.width);
+    right.fillText("⬆️: up", 0, 40, leftCanvas.width);
+    right.fillText("⬇️: down", 0, 85, leftCanvas.width);
+}, 100);
 /* ------------------------------- GAME PART ---------------------------------------- */
 const gameCanvas = document.getElementById("gameCanvas");
 const topCanvas = document.getElementById("topCanvas");
