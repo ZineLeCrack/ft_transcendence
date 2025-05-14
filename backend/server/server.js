@@ -1,13 +1,19 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
+const express_1 = require("express");
+const cors_1 = require("cors");
+const fs_1 = require("fs");
+const https_1 = require("https");
 const app = (0, express_1.default)();
-const port = 3000;
-app.use((0, cors_1.default)());
+const httpsPort = 3000;
+const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
+const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+const corsOptions = {
+    origin: 'https://localhost:443',
+    credentials: true,
+};
+app.use((0, cors_1.default)({ origin: true, credentials: true }));
 app.use(express_1.default.json());
 let ballX = 400;
 let ballY = 300;
@@ -154,7 +160,8 @@ function resetBall() {
         }, 3000);
     }
 }
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+// HTTPS main server
+https_1.default.createServer(credentials, app).listen(httpsPort, () => {
+    console.log(`HTTPS server running at https://localhost:${httpsPort}`);
     updateGame();
 });

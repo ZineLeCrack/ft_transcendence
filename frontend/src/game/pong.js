@@ -24,7 +24,7 @@ const gameCanvas = document.getElementById("gameCanvas");
 const topCanvas = document.getElementById("topCanvas");
 const game = gameCanvas.getContext("2d");
 const score = topCanvas.getContext("2d");
-// position et score par defaut
+// position et score par défaut
 let ballX = 400;
 let ballY = 300;
 let leftPaddleY = 250;
@@ -33,7 +33,7 @@ let leftScore = 0;
 let rightScore = 0;
 const paddleWidth = 10;
 const paddleHeight = 100;
-// Dictionnaire pour stocker les touches pressees ou non
+// Dictionnaire pour stocker les touches pressées
 let keys = {
     w: false,
     s: false,
@@ -44,37 +44,42 @@ let gameStarted = false;
 let message = "";
 score.font = "40px 'Caveat'";
 game.font = "80px 'Caveat'";
-// fonction qui reload les positions des pads et de la balle ainsi que les
-// scores et dessine
+// 🔐 Mettre ici l'adresse du serveur HTTPS
+const SERVER_URL = 'https://10.12.200.35:3000';
 function fetchState() {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch('http://localhost:3000/state');
-        const data = yield res.json();
-        ballX = data.ballX;
-        ballY = data.ballY;
-        leftPaddleY = data.leftPaddleY;
-        rightPaddleY = data.rightPaddleY;
-        leftScore = data.leftScore;
-        rightScore = data.rightScore;
-        message = data.message;
-        draw();
+        try {
+            const res = yield fetch(`${SERVER_URL}/state`);
+            const data = yield res.json();
+            ballX = data.ballX;
+            ballY = data.ballY;
+            leftPaddleY = data.leftPaddleY;
+            rightPaddleY = data.rightPaddleY;
+            leftScore = data.leftScore;
+            rightScore = data.rightScore;
+            message = data.message;
+            draw();
+        }
+        catch (error) {
+            console.error("Erreur de fetchState:", error);
+        }
     });
 }
-// evenement de touche pressee
+// Événement touche pressée
 document.addEventListener("keydown", (e) => {
     if (e.key in keys)
         keys[e.key] = true;
     if (e.key === " ") {
-        fetch("http://localhost:3000/start", { method: "POST" });
+        fetch(`${SERVER_URL}/start`, { method: "POST" });
         gameStarted = true;
     }
 });
-// evenement de touche relachee
+// Événement touche relâchée
 document.addEventListener("keyup", (e) => {
     if (e.key in keys)
         keys[e.key] = false;
 });
-// fonction qui dessine dans le canvas
+// Dessin sur canvas
 function draw() {
     game.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
     score.clearRect(0, 0, topCanvas.width, topCanvas.height);
@@ -89,13 +94,12 @@ function draw() {
     score.fillText(leftScore.toString(), 20, 50);
     score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
 }
-// envoie l'etat des touches 100x par seconde
+// Envoi des touches 100x par seconde
 setInterval(() => {
-    fetch('http://localhost:3000/move', {
+    fetch(`${SERVER_URL}/move`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ keys })
-    });
+    }).catch(err => console.error("Erreur POST /move:", err));
 }, 10);
-// recupere toutes les valeurs et dessine avec 100 fps
 setInterval(fetchState, 10);
