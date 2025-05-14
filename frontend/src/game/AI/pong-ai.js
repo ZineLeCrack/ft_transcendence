@@ -163,7 +163,7 @@ document.addEventListener("keydown", (e) => {
     if (e.key in keys)
         keys[e.key] = true;
     if (e.key === " ") {
-        fetch("http://localhost:3000/start", { method: "POST" });
+        fetch("http://localhost:3100/start", { method: "POST" });
         gameStarted = true;
     }
 });
@@ -176,7 +176,7 @@ setInterval(callAI, 1000);
 setInterval(callAI_second, 100);
 // envoie l'etat des touches 100x par seconde
 setInterval(() => {
-    fetch('http://localhost:3000/move', {
+    fetch('http://localhost:3100/move', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ keys })
