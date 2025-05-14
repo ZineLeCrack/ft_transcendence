@@ -47,13 +47,13 @@ app.post('/start', (req, res) => {
 app.post('/move', (req, res) => {
     const { keys } = req.body;
     if (keys.ArrowUp)
-        rightPaddleY -= 5;
+        rightPaddleY -= 10;
     if (keys.ArrowDown)
-        rightPaddleY += 5;
+        rightPaddleY += 10;
     if (keys.w)
-        leftPaddleY -= 5;
+        leftPaddleY -= 10;
     if (keys.s)
-        leftPaddleY += 5;
+        leftPaddleY += 10;
     rightPaddleY = Math.max(0, Math.min(500, rightPaddleY));
     leftPaddleY = Math.max(0, Math.min(500, leftPaddleY));
     res.sendStatus(200);
@@ -64,9 +64,11 @@ function updateGame() {
             gameStarted = false;
             message = leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
             setTimeout(() => {
-                leftScore = 0;
-                rightScore = 0;
-                message = "Press space to start !";
+                if (!gameStarted) {
+                    leftScore = 0;
+                    rightScore = 0;
+                    message = "Press space to start !";
+                }
             }, 5000);
         }
         ballX += ballSpeedX;
@@ -160,6 +162,7 @@ function resetBall() {
         }, 3000);
     }
 }
+
 // HTTPS main server
 https_1.default.createServer(credentials, app).listen(httpsPort, () => {
     console.log(`HTTPS server running at https://localhost:${httpsPort}`);
