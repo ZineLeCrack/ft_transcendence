@@ -1,14 +1,23 @@
 import express from 'express';
 import cors from 'cors';
-import https from 'https';
 import fs from 'fs';
+import https from 'https';
+import http from 'http';
 
-const privateKey = fs.readFileSync('serv.key', 'utf8');
-const certificate = fs.readFileSync('serv.crt', 'utf8');
 const app = express();
-const port = 3000;
+const httpsPort = 3000;
+const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
 
-app.use(cors());
+const credentials = { key: privateKey, cert: certificate };
+
+const corsOptions = {
+
+  origin: 'https://localhost:443',
+  credentials: true,
+};
+
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 let ballX = 400;
@@ -73,7 +82,7 @@ function updateGame()
 		if (leftScore === 5 || rightScore === 5)
 		{
 			gameStarted = false;
-			message = leftScore === 5 ? "Player 1 win !": "Player 2 win !";
+			message = leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
 			setTimeout(() =>
 			{
 				if (!gameStarted)
@@ -179,8 +188,8 @@ function resetBall()
 {
 	ballX = 400;
 	ballY = 300;
-	newSpeedX = ballSpeedX < 0 ? 5: -5;
-	newSpeedY = ballSpeedY < 0 ? 5: -5;
+	newSpeedX = ballSpeedX < 0 ? 5 : -5;
+	newSpeedY = ballSpeedY < 0 ? 5 : -5;
 	ballSpeedX = 0;
 	ballSpeedY = 0;
 
@@ -205,8 +214,8 @@ function resetBall()
 	}
 }
 
-https.createServer({ key: privateKey, cert: certificate }, app)
-	.listen(port, () => {
-		console.log(`HTTPS server running on https://localhost:${port}`);
-		updateGame();
+https.createServer(credentials, app).listen(httpsPort, '0.0.0.0' ,() => {
+	console.log(`HTTPS server running at https://localhost:${httpsPort}`);
+	updateGame();
+
 });

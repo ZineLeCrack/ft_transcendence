@@ -5,13 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const https_1 = __importDefault(require("https"));
 const fs_1 = __importDefault(require("fs"));
-const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
-const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
+const https_1 = __importDefault(require("https"));
 const app = (0, express_1.default)();
-const port = 3000;
-app.use((0, cors_1.default)());
+const httpsPort = 3000;
+const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+const corsOptions = {
+    origin: 'https://localhost:443',
+    credentials: true,
+};
+app.use((0, cors_1.default)({ origin: true, credentials: true }));
 app.use(express_1.default.json());
 let ballX = 400;
 let ballY = 300;
@@ -160,8 +165,7 @@ function resetBall() {
         }, 3000);
     }
 }
-https_1.default.createServer({ key: privateKey, cert: certificate }, app)
-    .listen(port, () => {
-    console.log(`HTTPS server running on https://localhost:${port}`);
+https_1.default.createServer(credentials, app).listen(httpsPort, '0.0.0.0', () => {
+    console.log(`HTTPS server running at https://localhost:${httpsPort}`);
     updateGame();
 });
