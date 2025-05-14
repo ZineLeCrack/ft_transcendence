@@ -8,10 +8,14 @@ export function togglePassword(Input: HTMLInputElement, Btn: HTMLButtonElement, 
 	});
 }
 
-export function hidePassword(Input: HTMLInputElement, Icon: HTMLImageElement)
+export function hidePassword(Input: HTMLInputElement, Icon: HTMLImageElement, IconGood: HTMLImageElement | null, IconBad: HTMLImageElement | null)
 {
 	Input.type = 'password';
 	Icon.src = '../images/cacher.svg';
+	if (IconGood)
+		IconGood.classList.add('hidden');
+	if (IconBad)
+		IconBad.classList.add('hidden');
 }
 
 export function checkPasswordMatch(firstPassword: HTMLInputElement, secondPassword: HTMLInputElement, badFirstPasswordIcon: HTMLImageElement, badSecondPasswordIcon: HTMLImageElement, goodFirstPasswordIcon: HTMLImageElement, goodSecondPasswordIcon: HTMLImageElement) {
@@ -68,7 +72,6 @@ export function setButton(firstBtn: HTMLButtonElement, secondBtn: HTMLButtonElem
 	firstBtn.classList.add('hover:bg-blue-700');
 	secondDiv.classList.add('hidden')
 	firstDiv.classList.remove('hidden');
-	console.log("dwadwa");
 	if (thirdBtn && thirdDiv)
 	{
 		thirdDiv.classList.add('hidden');

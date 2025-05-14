@@ -6,13 +6,13 @@ const toSignIn = document.getElementById('to-sign-in');
 toSignUp.addEventListener('click', () => {
     signIn.classList.add('hidden');
     signUp.classList.remove('hidden');
-    hidePassword(signInPasswordInput, signInPasswordIcon);
+    hidePassword(signInPasswordInput, signInPasswordIcon, null, null);
 });
 toSignIn.addEventListener('click', () => {
     signUp.classList.add('hidden');
     signIn.classList.remove('hidden');
-    hidePassword(signUpPasswordInput, signUpPasswordIcon);
-    hidePassword(signUpConfirmPasswordInput, signUpConfirmPasswordIcon);
+    hidePassword(signUpPasswordInput, signUpPasswordIcon, goodPasswordIcon, badPasswordIcon);
+    hidePassword(signUpConfirmPasswordInput, signUpConfirmPasswordIcon, goodConfirmPasswordIcon, badConfirmPasswordIcon);
 });
 const signInUsernameDiv = document.getElementById('sign-in-username-div');
 const signInEmailDiv = document.getElementById('sign-in-email-div');
