@@ -5,6 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const https_1 = __importDefault(require("https"));
+const fs_1 = __importDefault(require("fs"));
+const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
+const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
 const app = (0, express_1.default)();
 const port = 3000;
 app.use((0, cors_1.default)());
@@ -41,13 +45,13 @@ app.post('/start', (req, res) => {
 app.post('/move', (req, res) => {
     const { keys } = req.body;
     if (keys.ArrowUp)
-        rightPaddleY -= 5;
+        rightPaddleY -= 10;
     if (keys.ArrowDown)
-        rightPaddleY += 5;
+        rightPaddleY += 10;
     if (keys.w)
-        leftPaddleY -= 5;
+        leftPaddleY -= 10;
     if (keys.s)
-        leftPaddleY += 5;
+        leftPaddleY += 10;
     rightPaddleY = Math.max(0, Math.min(500, rightPaddleY));
     leftPaddleY = Math.max(0, Math.min(500, leftPaddleY));
     res.sendStatus(200);
@@ -58,9 +62,11 @@ function updateGame() {
             gameStarted = false;
             message = leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
             setTimeout(() => {
-                leftScore = 0;
-                rightScore = 0;
-                message = "Press space to start !";
+                if (!gameStarted) {
+                    leftScore = 0;
+                    rightScore = 0;
+                    message = "Press space to start !";
+                }
             }, 5000);
         }
         ballX += ballSpeedX;
@@ -154,7 +160,8 @@ function resetBall() {
         }, 3000);
     }
 }
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+https_1.default.createServer({ key: privateKey, cert: certificate }, app)
+    .listen(port, () => {
+    console.log(`HTTPS server running on https://localhost:${port}`);
     updateGame();
 });

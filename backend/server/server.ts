@@ -1,6 +1,10 @@
 import express from 'express';
 import cors from 'cors';
+import https from 'https';
+import fs from 'fs';
 
+const privateKey = fs.readFileSync('serv.key', 'utf8');
+const certificate = fs.readFileSync('serv.crt', 'utf8');
 const app = express();
 const port = 3000;
 
@@ -51,10 +55,10 @@ app.post('/move', (req, res) =>
 {
 	const { keys } = req.body;
 	
-	if (keys.ArrowUp) rightPaddleY -= 5;
-	if (keys.ArrowDown) rightPaddleY += 5;
-	if (keys.w) leftPaddleY -= 5;
-	if (keys.s) leftPaddleY += 5;
+	if (keys.ArrowUp) rightPaddleY -= 10;
+	if (keys.ArrowDown) rightPaddleY += 10;
+	if (keys.w) leftPaddleY -= 10;
+	if (keys.s) leftPaddleY += 10;
 	
 	rightPaddleY = Math.max(0, Math.min(500, rightPaddleY));
 	leftPaddleY = Math.max(0, Math.min(500, leftPaddleY));
@@ -72,9 +76,12 @@ function updateGame()
 			message = leftScore === 5 ? "Player 1 win !": "Player 2 win !";
 			setTimeout(() =>
 			{
-				leftScore = 0;
-				rightScore = 0;
-				message = "Press space to start !";
+				if (!gameStarted)
+				{
+					leftScore = 0;
+					rightScore = 0;
+					message = "Press space to start !";
+				}
 			}, 5000);
 		}
 		ballX += ballSpeedX;
@@ -198,8 +205,8 @@ function resetBall()
 	}
 }
 
-app.listen(port, () =>        
-{
-	console.log(`Server running on http://localhost:${port}`);
-	updateGame();
+https.createServer({ key: privateKey, cert: certificate }, app)
+	.listen(port, () => {
+		console.log(`HTTPS server running on https://localhost:${port}`);
+		updateGame();
 });

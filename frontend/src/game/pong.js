@@ -20,7 +20,7 @@ setTimeout(() => {
     left.fillText("⬇️: down", 0, 85, leftCanvas.width);
     right.fillText("W: up", 0, 40, rightCanvas.width);
     right.fillText("S: down", 0, 85, rightCanvas.width);
-}, 1000);
+}, 100);
 /* ------------------------------- GAME PART ---------------------------------------- */
 const gameCanvas = document.getElementById("gameCanvas");
 const topCanvas = document.getElementById("topCanvas");
@@ -50,7 +50,7 @@ game.font = "80px 'Caveat'";
 // scores et dessine
 function fetchState() {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch('http://localhost:3000/state');
+        const res = yield fetch('https://localhost:3000/state');
         const data = yield res.json();
         ballX = data.ballX;
         ballY = data.ballY;
@@ -67,7 +67,7 @@ document.addEventListener("keydown", (e) => {
     if (e.key in keys)
         keys[e.key] = true;
     if (e.key === " ") {
-        fetch("http://localhost:3000/start", { method: "POST" });
+        fetch("https://localhost:3000/start", { method: "POST" });
         gameStarted = true;
     }
 });
@@ -93,7 +93,7 @@ function draw() {
 }
 // envoie l'etat des touches 60x par seconde
 setInterval(() => {
-    fetch('http://localhost:3000/move', {
+    fetch('https://localhost:3000/move', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ keys })
