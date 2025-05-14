@@ -43,26 +43,29 @@ export function setButton(firstBtn, secondBtn, thirdBtn, firstDiv, secondDiv, th
     state[secondKey] = false;
     state[thirdKey] = false;
     secondBtn.classList.add('bg-gray-200');
-    secondBtn.classList.remove('bg-blue-600');
+    secondBtn.classList.remove('bg-[#00FFFF]');
+    secondBtn.classList.remove('drop-shadow-[0_0_10px_#00FFFF]');
     firstBtn.classList.remove('bg-gray-200');
-    firstBtn.classList.add('bg-blue-500');
-    firstBtn.classList.add('text-white');
+    firstBtn.classList.add('bg-[#00FFFF]');
+    firstBtn.classList.add('text-black');
     firstBtn.classList.remove('text-gray-700');
-    secondBtn.classList.remove('text-white');
+    firstBtn.classList.add('drop-shadow-[0_0_10px_#00FFFF]');
+    secondBtn.classList.remove('text-black');
     secondBtn.classList.add('text-gray-700');
-    secondBtn.classList.remove('hover:bg-blue-700');
+    secondBtn.classList.remove('hover:brightness-125');
     secondBtn.classList.add('hover:bg-gray-300');
     firstBtn.classList.remove('hover:bg-gray-300');
-    firstBtn.classList.add('hover:bg-blue-700');
+    firstBtn.classList.add('hover:brightness-125');
     secondDiv.classList.add('hidden');
     firstDiv.classList.remove('hidden');
     if (thirdBtn && thirdDiv) {
         thirdDiv.classList.add('hidden');
-        thirdBtn.classList.remove('text-white');
+        thirdBtn.classList.remove('text-black');
         thirdBtn.classList.add('text-gray-700');
-        thirdBtn.classList.remove('hover:bg-blue-700');
+        thirdBtn.classList.remove('hover:brightness-125');
         thirdBtn.classList.add('hover:bg-gray-300');
         thirdBtn.classList.add('bg-gray-200');
-        thirdBtn.classList.remove('bg-blue-600');
+        thirdBtn.classList.remove('bg-[#00FFFF]');
+        thirdBtn.classList.remove('drop-shadow-[0_0_10px_#00FFFF]');
     }
 }
