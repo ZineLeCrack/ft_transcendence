@@ -2,32 +2,27 @@ services:
   frontend:
     build: frontend/.
     container_name: frontend
-    depends_on:
-      - backend
     ports:
       - "443:443"
+    volumes:
+      - certs:/certs
     networks:
       - transcendence
+
   backend:
     build: backend/.
     container_name: backend
     ports:
       - "3000:3000"
     volumes:
-      - database:/app
+      - certs:/certs
     networks:
       - transcendence
 
 volumes:
-  database:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/lelanglo/data/database
-      o: bind
+  certs:
 
 networks:
   transcendence:
     name: transcendence
     driver: bridge
-

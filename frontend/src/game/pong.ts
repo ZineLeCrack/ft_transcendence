@@ -28,7 +28,7 @@ score.font = "40px 'Caveat'";
 game.font = "80px 'Caveat'";
 
 // 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = 'https://localhost:3000';
+const SERVER_URL = 'https://10.12.200.35:3000';
 
 async function fetchState() {
 	try {
