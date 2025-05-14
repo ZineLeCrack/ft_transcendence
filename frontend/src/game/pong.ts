@@ -17,8 +17,8 @@ right.fillText("S: down", 0, 85, rightCanvas.width);
 
 const gameCanvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 const topCanvas = document.getElementById("topCanvas") as HTMLCanvasElement;
-const game = gameCanvas.getContext("2d")!;
-const score = topCanvas.getContext("2d")!;
+export const game = gameCanvas.getContext("2d")!;
+export const score = topCanvas.getContext("2d")!;
 
 // position et score par défaut
 let ballX = 400;
@@ -31,7 +31,7 @@ const paddleWidth = 10;
 const paddleHeight = 100;
 
 // Dictionnaire pour stocker les touches pressées
-let keys: { [key: string]: boolean } = {
+export let keys: { [key: string]: boolean } = {
 	w: false,
 	s: false,
 	ArrowUp: false,
@@ -79,7 +79,7 @@ document.addEventListener("keyup", (e) => {
 });
 
 // Dessin sur canvas
-function draw() {
+export function draw() {
 	game.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 	score.clearRect(0, 0, topCanvas.width, topCanvas.height);
 

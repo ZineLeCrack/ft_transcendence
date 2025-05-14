@@ -1,14 +1,18 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+import express from 'express';
+import cors from 'cors';
+import fs from 'fs';
+import https from 'https';
+const app = express();
+const httpsPort = 3000;
+const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+const corsOptions = {
+    origin: 'https://localhost:443',
+    credentials: true,
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const app = (0, express_1.default)();
-const port = 3000;
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
+app.use(cors({ origin: true, credentials: true }));
+app.use(express.json());
 let ballX = 400;
 let ballY = 300;
 let ballSpeedX = 0;
@@ -54,9 +58,9 @@ app.post('/move', (req, res) => {
 });
 function updateGame() {
     if (gameStarted) {
-        if (leftScore === 5000 || rightScore === 5000) {
+        if (leftScore === 5 || rightScore === 5) {
             gameStarted = false;
-            message = leftScore === 5000 ? "Player 1 win !" : "Player 2 win !";
+            message = leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
             setTimeout(() => {
                 leftScore = 0;
                 rightScore = 0;
@@ -139,22 +143,22 @@ function resetBall() {
     newSpeedY = ballSpeedY < 0 ? 5 : -5;
     ballSpeedX = 0;
     ballSpeedY = 0;
-    if (leftScore != 5000 && rightScore != 5000) {
+    if (leftScore != 5 && rightScore != 5) {
         message = "3";
         setTimeout(() => {
             message = "2";
-        }, 1);
+        }, 1000);
         setTimeout(() => {
             message = "1";
-        }, 2);
+        }, 2000);
         setTimeout(() => {
             ballSpeedX = newSpeedX;
             ballSpeedY = newSpeedY;
             message = "";
-        }, 3);
+        }, 3000);
     }
 }
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+https.createServer(credentials, app).listen(httpsPort, '0.0.0.0', () => {
+    console.log(`HTTPS server running at https://localhost:${httpsPort}`);
     updateGame();
 });

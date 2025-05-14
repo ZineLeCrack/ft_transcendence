@@ -4,19 +4,24 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>local</title>
-		<link rel="stylesheet" href="../style.css" />
+		<link rel="stylesheet"/>
 		<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
 	</head>
 <!---------------------------------------------------------------------->
-	<body>
+	<body style="margin: 0; background-color: white; display: flex; justify-content: center; align-items: center; height: 100vh;">
 		<div style="display: flex; justify-content: center; align-items: flex-start;">
-			<canvas id="statPlayer1" width="250" height="600" style="margin-right: 50px; margin-top: 95px;"></canvas>
-			<!-- Colonne centrale avec deux canvases -->
-			<div style="display: flex; flex-direction: column; align-items: center;">
-			  <canvas id="topCanvas" width="300" height="70" style="margin-bottom: 20px;"></canvas>
-			  <canvas id="gameCanvas" width="800" height="600"></canvas>
+			<div style="margin-right: 50px;">
+				<h1 style="text-align: center; font-family: 'Caveat'; font-size: 50px;">Player 1</h1>
+				<canvas id="statPlayer1" width="250" height="600" style="margin-top: 10px; border: 2px solid black; border-radius: 10px;"></canvas>
 			</div>
-			<canvas id="statPlayer2" width="250" height="600" style="margin-left: 50px; margin-top: 95px;"></canvas>
+			<div style="margin-top: 30px; display: flex; flex-direction: column; align-items: center;">
+			  <canvas id="topCanvas" width="300" height="70" style="margin-bottom: 35px; border: 2px solid black; border-radius: 1%;"></canvas>
+			  <canvas id="gameCanvas" width="800" height="600" style="border: 2px solid black; border-radius: 10px;"></canvas>
+			</div>
+			<div style="margin-left: 50px;">
+				<h1 style="text-align: center; font-family: 'Caveat'; font-size: 50px ;">Player 2</h1>
+				<canvas id="statPlayer2" width="250" height="600" style="margin-top: 10px; border: 2px solid black; border-radius: 10px;"></canvas>
+			</div>
 		</div>
 		<script type="module" src="pong-ai.js"></script>
 	</body>

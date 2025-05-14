@@ -1,30 +1,18 @@
-const gameCanvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
-const topCanvas = document.getElementById("topCanvas") as HTMLCanvasElement;
-const game = gameCanvas.getContext("2d")!;
-const score = topCanvas.getContext("2d")!;
+import {draw, keys, game, score} from './../pong.js';
 
 // position et score par defaut
-let ballX = 400;
-let ballY = 300;
 let ballVX = 0;
 let ballVY = 0;
+let ballX = 400;
+let ballY = 300;
+let leftScore = 0;
+let rightScore = 0;
 let oldBallX = 400;
 let oldBallY = 300;
 let leftPaddleY = 250;
 let rightPaddleY = 250;
-let leftScore = 0;
-let rightScore = 0;
 const paddleWidth = 10;
 const paddleHeight = 100;
-
-// Dictionnaire pour stocker les touches pressees ou non
-let keys: { [key: string]: boolean } =
-{ 
-	w: false,
-	s: false,
-	ArrowUp: false,
-	ArrowDown: false
-};
 
 let gameStarted = false;
 let message = "";
@@ -32,26 +20,31 @@ let message = "";
 score.font = "40px 'Caveat'";
 game.font = "80px 'Caveat'";
 
-// fonction qui reload les positions des pads et de la balle ainsi que les
+const SERVER_URL = 'https://10.12.200.35:3100';
+
 // scores et dessine
-async function fetchState()
+async function FetchState()
 {
-	const res = await fetch('http://localhost:3000/state');
-	const data = await res.json();
-	ballVX = data.ballX - ballX;
-	ballVY = data.ballY - ballY;
-	oldBallX = ballX;
-	oldBallY = ballY;
-	ballX = data.ballX;
-	ballY = data.ballY;
-	leftPaddleY = data.leftPaddleY;
-	rightPaddleY = data.rightPaddleY;
-	leftScore = data.leftScore;
-	rightScore = data.rightScore;
-	message = data.message;
-	if (ballVX == 0)
-		ballVX = 5
-	draw();
+	try {
+		const res = await fetch(`${SERVER_URL}/state`);
+		const data = await res.json();
+		ballVX = data.ballX - ballX;
+		ballVY = data.ballY - ballY;
+		oldBallX = ballX;
+		oldBallY = ballY;
+		ballX = data.ballX;
+		ballY = data.ballY;
+		leftPaddleY = data.leftPaddleY;
+		rightPaddleY = data.rightPaddleY;
+		leftScore = data.leftScore;
+		rightScore = data.rightScore;
+		message = data.message;
+		if (ballVX == 0)
+			ballVX = 5
+		draw();
+	} catch (error) {
+		console.error("Erreur de fetchState:", error);
+	}
 }
 
 let aiAction_second: 'up' | 'down' | 'none' = 'none';
@@ -179,26 +172,6 @@ document.addEventListener("keyup", (e) =>
 	if (e.key in keys) keys[e.key] = false;
 });
 
-// fonction qui dessine dans le canvas
-function draw()
-{
-	game.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
-	score.clearRect(0, 0, topCanvas.width, topCanvas.height);
-
-	game.fillStyle = "black";
-	game.fillText(message, 400 - (message.length * 14), 150);
-	for (let i = 0; i < 600; i += 18.9)
-		game.fillRect(404, i, 2, 15);
-		
-	game.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
-	game.fillRect(gameCanvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
-	game.fillRect(ballX, ballY, 10, 10);
-
-	score.fillStyle = "black";
-	score.fillText(leftScore.toString(), 20, 50);
-	score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
-}
-
 setInterval(callAI, 1000);
 
 setInterval(callAI_second, 100);
@@ -215,5 +188,5 @@ setInterval(() =>
 }, 10);
 
 // recupere toutes les valeurs et dessine avec 100 fps
-setInterval(fetchState, 10);
+setInterval(FetchState, 10);
 
