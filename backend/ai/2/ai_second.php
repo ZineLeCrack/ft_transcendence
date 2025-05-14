@@ -73,7 +73,7 @@ if ($dir['x'] < 0) {
     $targetY = $predictedY - $PADDLE_CENTER_OFFSET;
 } else {
     // Balle repart, on retourne au centre
-    //$targetY = ($GAME_HEIGHT - $PADDLE_HEIGHT) / 2;
+    $targetY = ($GAME_HEIGHT - $PADDLE_HEIGHT) / 2;
 }
 
 $delta = $targetY - $paddleY;

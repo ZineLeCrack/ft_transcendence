@@ -20,7 +20,7 @@ let message = "";
 score.font = "40px 'Caveat'";
 game.font = "80px 'Caveat'";
 
-const SERVER_URL = 'https://10.12.200.35:3100';
+const SERVER_URL = 'https://localhost:4000';
 
 // scores et dessine
 async function FetchState()
@@ -161,7 +161,7 @@ document.addEventListener("keydown", (e) =>
 {
 	if (e.key in keys) keys[e.key] = true;
 	if (e.key === " ") {
-        fetch("http://localhost:3100/start", { method: "POST" });
+        fetch("http://localhost:4000/start", { method: "POST" });
         gameStarted = true;
     }
 });
@@ -179,7 +179,7 @@ setInterval(callAI_second, 100);
 // envoie l'etat des touches 100x par seconde
 setInterval(() =>
 {
-	fetch('http://localhost:3100/move',
+	fetch('http://localhost:4000/move',
 	{
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
