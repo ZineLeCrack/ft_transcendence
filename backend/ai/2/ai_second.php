@@ -34,7 +34,7 @@ $GAME_HEIGHT = 600;
 $BALL_SIZE = 10;
 $PADDLE_HEIGHT = 100;
 $PADDLE_CENTER_OFFSET = $PADDLE_HEIGHT / 2;
-$PADDLE_SPEED = 5; // Vitesse par 10ms dans ton moteur JS
+$PADDLE_SPEED = 3; // Vitesse par 10ms dans ton moteur JS
 $TICK_INTERVAL = 1000; // en ms (1 seconde ici)
 $TICKS_PER_SECOND = 1000 / 10; // car tu simules toutes les 10ms
 $MAX_DURATION = 1000;
@@ -67,13 +67,13 @@ function predict_ball_y($ballX, $ballY, $vx, $vy, $targetX, $gameHeight, $ballSi
 $direction = 'none';
 $duration = 0;
 
-if ($dir['x'] < 0) {
+if ($dir['x'] > 0) {
     // Balle vient vers la gauche, on prédit la position future
     $predictedY = predict_ball_y($ball['x'], $ball['y'], $dir['x'], $dir['y'], 10, $GAME_HEIGHT, $BALL_SIZE);
     $targetY = $predictedY - $PADDLE_CENTER_OFFSET;
 } else {
     // Balle repart, on retourne au centre
-    $targetY = ($GAME_HEIGHT - $PADDLE_HEIGHT) / 2;
+    //$targetY = ($GAME_HEIGHT - $PADDLE_HEIGHT) / 2;
 }
 
 $delta = $targetY - $paddleY;
@@ -81,7 +81,7 @@ $delta = $targetY - $paddleY;
 if (abs($delta) > 3) {
     $direction = $delta > 0 ? 'down' : 'up';
     // Convertit le déplacement requis en durée, arrondi à 10ms près
-    $duration = min($MAX_DURATION, max(100, abs($delta / $PADDLE_SPEED) * 10));
+    $duration = min($MAX_DURATION, max(1, abs($delta / $PADDLE_SPEED) * 10));
 }
 
 echo json_encode([

@@ -1,9 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const cors_1 = require("cors");
-const fs_1 = require("fs");
-const https_1 = require("https");
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const fs_1 = __importDefault(require("fs"));
+const https_1 = __importDefault(require("https"));
 const app = (0, express_1.default)();
 const httpsPort = 3000;
 const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
@@ -162,9 +165,7 @@ function resetBall() {
         }, 3000);
     }
 }
-
-// HTTPS main server
-https_1.default.createServer(credentials, app).listen(httpsPort, () => {
+https_1.default.createServer(credentials, app).listen(httpsPort, '0.0.0.0', () => {
     console.log(`HTTPS server running at https://localhost:${httpsPort}`);
     updateGame();
 });
