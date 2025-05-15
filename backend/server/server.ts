@@ -12,12 +12,6 @@ const certificate = fs.readFileSync('serv.crt', 'utf8');
 
 const credentials = { key: privateKey, cert: certificate };
 
-const corsOptions = {
-
-  origin: 'https://localhost:443',
-  credentials: true,
-};
-
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 

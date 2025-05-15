@@ -12,10 +12,6 @@ const httpsPort = parseInt(process.argv[2], 10);
 const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
 const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
-const corsOptions = {
-    origin: 'https://localhost:443',
-    credentials: true,
-};
 app.use((0, cors_1.default)({ origin: true, credentials: true }));
 app.use(express_1.default.json());
 let ballX = 400;
