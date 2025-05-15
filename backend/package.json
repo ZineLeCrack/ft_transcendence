@@ -11,7 +11,10 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "typecript": "^0.0.1-security"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
