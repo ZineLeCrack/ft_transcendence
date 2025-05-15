@@ -60,8 +60,6 @@ document.addEventListener("keyup", (e) => {
     if (e.key in keys)
         keys[e.key] = false;
 });
-// Dessin sur canvas
-// Envoi des touches 100x par seconde
 setInterval(() => {
     fetch(`${SERVER_URL}/move`, {
         method: 'POST',

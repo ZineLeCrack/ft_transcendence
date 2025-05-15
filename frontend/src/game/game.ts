@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () =>
 	}
 	else if (mode === "AI")
 	{
-		playBtn.onclick = () => window.location.href = "src/game/AI.html";
+		playBtn.onclick = () => window.location.href = "src/game/AI/AI.html";
 		document.body.style.backgroundImage = "url('/src/images/AItemp.png')";
 	}
 }
