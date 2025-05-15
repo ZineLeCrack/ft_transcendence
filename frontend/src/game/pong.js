@@ -14,7 +14,7 @@ export let leftPaddleY = 250;
 export let rightPaddleY = 250;
 export let leftScore = 0;
 export let rightScore = 0;
-export const paddleWidth = 10;
+export const paddleWidth = 8;
 export const paddleHeight = 100;
 export let message = "";
 // Dictionnaire pour stocker les touches pressées
