@@ -77,7 +77,7 @@ function updateGame() {
         }
         ballX += ballSpeedX;
         ballY += ballSpeedY;
-        if (ballY <= 0 || ballY >= 600)
+        if (ballY <= 0 || ballY >= 590)
             ballSpeedY = -ballSpeedY;
         if (ballSpeedX < 0) {
             if (ballX <= 15 && ballY >= leftPaddleY && ballY <= leftPaddleY + 100) {
@@ -107,7 +107,7 @@ function updateGame() {
             }
         }
         else {
-            if (ballX >= 785 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100) {
+            if (ballX >= 775 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100) {
                 if (ballSpeedX < 10)
                     ballSpeedX += 0.5;
                 ballSpeedX = -ballSpeedX;
@@ -145,7 +145,7 @@ function updateGame() {
     if (rightOldY === rightPaddleY && leftOldY === leftPaddleY) {
         countDown++;
         if (countDown > 2000) {
-            message = "SEVER DOWN: INACTIVITY";
+            message = "TIMEOUT";
             setTimeout(() => {
                 process.exit(0);
             }, 100);
