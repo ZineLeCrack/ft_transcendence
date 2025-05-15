@@ -1,4 +1,4 @@
-import {draw, keys, game, score} from './../pong.js';
+import { draw } from './../drawmap.js';
 
 // position et score par defaut
 let ballVX = 0;
@@ -17,8 +17,12 @@ const paddleHeight = 100;
 let gameStarted = false;
 let message = "";
 
-score.font = "40px 'Caveat'";
-game.font = "80px 'Caveat'";
+let keys: { [key: string]: boolean } = {
+	w: false,
+	s: false,
+	ArrowUp: false,
+	ArrowDown: false
+};
 
 const SERVER_URL = 'https://localhost:4000';
 
