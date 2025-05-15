@@ -21,7 +21,7 @@ let keys: { [key: string]: boolean } = {
 let gameStarted = false;
 
 // 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = 'https://10.12.200.35:3000';
+const SERVER_URL = 'https://10.12.200.35/app1/';
 
 async function fetchState() {
 	try {
