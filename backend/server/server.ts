@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import fs from 'fs';
 import https from 'https';
-import http from 'http';
 
 const app = express();
 const httpsPort = 3000;
@@ -10,12 +9,6 @@ const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
 
 const credentials = { key: privateKey, cert: certificate };
-
-const corsOptions = {
-
-  origin: 'https://localhost:443',
-  credentials: true,
-};
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());

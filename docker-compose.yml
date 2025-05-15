@@ -19,8 +19,17 @@ services:
     networks:
       - transcendence
 
+  database:
+    build: database/.
+    container_name: database
+    volumes:
+      - database:/database
+    networks:
+      - transcendence
+
 volumes:
   certs:
+  database:
 
 networks:
   transcendence:
