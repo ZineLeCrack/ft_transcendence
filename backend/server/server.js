@@ -8,9 +8,9 @@ const cors_1 = __importDefault(require("cors"));
 const fs_1 = __importDefault(require("fs"));
 const https_1 = __importDefault(require("https"));
 const app = (0, express_1.default)();
-const httpsPort = 3000;
-const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
-const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
+const httpsPort = parseInt(process.argv[2], 10);
+const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
+const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 const corsOptions = {
     origin: 'https://localhost:443',
@@ -26,9 +26,12 @@ let leftPaddleY = 250;
 let rightPaddleY = 250;
 let leftScore = 0;
 let rightScore = 0;
+let countDown = 0;
 let newSpeedX = 0;
 let newSpeedY = 0;
 let gameStarted = false;
+let leftOldY = leftPaddleY;
+let rightOldY = rightPaddleY;
 let message = "Press space to start !";
 app.get('/state', (req, res) => {
     res.json({ ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore, message });
@@ -49,6 +52,8 @@ app.post('/start', (req, res) => {
 });
 app.post('/move', (req, res) => {
     const { keys } = req.body;
+    leftOldY = leftPaddleY;
+    rightOldY = rightPaddleY;
     if (keys.ArrowUp)
         rightPaddleY -= 10;
     if (keys.ArrowDown)
@@ -141,6 +146,17 @@ function updateGame() {
             resetBall();
         }
     }
+    if (rightOldY === rightPaddleY && leftOldY === leftPaddleY) {
+        countDown++;
+        if (countDown > 2000) {
+            message = "SEVER DOWN: INACTIVITY";
+            setTimeout(() => {
+                process.exit(0);
+            }, 100);
+        }
+    }
+    else
+        countDown = 0;
     setTimeout(updateGame, 16);
 }
 function resetBall() {

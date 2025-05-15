@@ -19,4 +19,3 @@ RUN sqlite3 chat.db < tools/chat.sql
 
 EXPOSE 3000
 CMD ["node", "server/server.js"]
-

@@ -29,7 +29,7 @@ let leftPaddleY = 250;
 let rightPaddleY = 250;
 let leftScore = 0;
 let rightScore = 0;
-const paddleWidth = 10;
+const paddleWidth = 8;
 const paddleHeight = 100;
 
 // Dictionnaire pour stocker les touches pressées
@@ -46,8 +46,11 @@ let message = "";
 score.font = "40px 'Caveat'";
 game.font = "80px 'Caveat'";
 
+const port = localStorage.getItem("pongServerPort");
+console.log(port);
+
 // 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = 'https://10.12.200.35:3000';
+const SERVER_URL = `https://localhost:${port}`;
 
 async function fetchState() {
 	try {
@@ -100,13 +103,12 @@ function draw() {
 	score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
 }
 
-// Envoi des touches 100x par seconde
 setInterval(() => {
 	fetch(`${SERVER_URL}/move`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ keys })
 	}).catch(err => console.error("Erreur POST /move:", err));
-}, 10);
+}, 16);
 
-setInterval(fetchState, 10);
+setInterval(fetchState, 16);
