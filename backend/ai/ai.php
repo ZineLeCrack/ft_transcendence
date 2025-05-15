@@ -37,7 +37,7 @@ if (!$data || !isset($data['paddlePosition']) || !isset($data['ballPosition']) |
 
 //pos_paddle max = 500
 //pos_paddle min = 0
-//paddle_speed = 5
+//paddle_speed = 10
 //angle de la balle(y) entre 3 et 7 en fonction de ou tape la ball sur le paddle
 //vitesse de ball(x) = 5 + 0.5 a chaque touche de ball max = 10
 $paddlePosition = $data['paddlePosition'];
@@ -51,49 +51,51 @@ $GAME_WIDTH = 800;
 $GAME_HEIGHT = 600;
 $BALL_SIZE = 10;
 $PADDLE_HEIGHT = 100;
+$PADDLE_SPEED = 10;
 
-// Si la balle va vers la gauche, on retourne doucement au centre
-if ($ballDirection['x'] < 0) {
-    $target = ($GAME_HEIGHT - $PADDLE_HEIGHT) / 2;
-    $delta = $target - $paddlePosition;
+// Clone position/direction pour simulation
+$x = $ballPosition['x'];
+$y = $ballPosition['y'];
+$vx = $ballDirection['x'];
+$vy = $ballDirection['y'];
 
-    if (abs($delta) > 10) { // Seuil pour éviter de gigoter pour rien
-        $direction = $delta > 0 ? 'down' : 'up';
-        $duration = min(500, max(10, abs($delta) * 2));
+// Simulation simple : prédire où la balle frappera le mur droit
+while ($x < $GAME_WIDTH - $BALL_SIZE) {
+    $x += $vx;
+    $y += $vy;
+
+    // rebond haut/bas
+    if ($y <= 0 || $y >= $GAME_HEIGHT - $BALL_SIZE) {
+        $vy *= -1;
     }
-} else {
-    $framesToRightWall = ($GAME_WIDTH - $BALL_SIZE - $ballPosition['x']) / $ballDirection['x'];
-
-    // if ($framesToRightWall > 35)
-    //     $framesToRightWall = 35;
-    $future_y = $ballPosition['y'];
-    $dir_y = $ballDirection['y'];
-
-    for ($i = 0; $i < $framesToRightWall; $i++) {
-        $future_y += $dir_y;
-
-        if ($future_y <= 0) {
-            $future_y = -$future_y;
-            $dir_y = -$dir_y;
-        }
-
-        if ($future_y >= $GAME_HEIGHT - $BALL_SIZE) {
-            $future_y = 2 * ($GAME_HEIGHT - $BALL_SIZE) - $future_y;
-            $dir_y = -$dir_y;
-        }
-    }
-
-    $delta = ($future_y - 50) - $paddlePosition;
-    $direction = $delta > 0 ? 'down' : 'up';
-    $duration = min(1000, max(10, abs($delta) * 4));
 }
 
-// Résultat
+// On ajoute un peu de "réflexion humaine" : au lieu de viser le centre
+// on vise un offset aléatoire sur la raquette (haut, milieu, bas)
+$targetY = $y - $PADDLE_HEIGHT / 2 + rand(-20, 20);
+
+// Calcul du mouvement nécessaire
+$diff = $targetY - $paddlePosition;
+$maxMove = $PADDLE_SPEED * 1000 / 60; // estimation du max possible en 1s
+
+// Clamp le mouvement pour simuler la limite de vitesse
+$diff = max(-$maxMove, min($diff, $maxMove));
+
+// Choix de direction et durée
+if (abs($diff) < 5) {
+    $direction = 'none';
+    $duration = 0;
+} else if ($diff > 0) {
+    $direction = 'down';
+    $duration = abs($diff) / $PADDLE_SPEED * 10; // ms
+} else {
+    $direction = 'up';
+    $duration = abs($diff) / $PADDLE_SPEED * 10;
+}
+
 $response = [
     'direction' => $direction,
     'duration' => $duration
 ];
 
 echo json_encode($response);
-
-

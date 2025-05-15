@@ -11,7 +11,7 @@ let oldBallX = 400;
 let oldBallY = 300;
 export let leftPaddleY = 250;
 export let rightPaddleY = 250;
-export const paddleWidth = 10;
+export const paddleWidth = 8;
 export const paddleHeight = 100;
 
 let gameStarted = false;
@@ -24,7 +24,7 @@ let keys: { [key: string]: boolean } = {
 	ArrowDown: false
 };
 
-const SERVER_URL = 'https://localhost:3000';
+const SERVER_URL = 'https://10.12.200.35:3000';
 
 // scores et dessine
 async function FetchState()
@@ -57,7 +57,7 @@ let aiTimeout: number | null = null;
 async function callAI() {
 	//if (!gameStarted) return;
 	try {
-		const res = await fetch("http://localhost:8000/ai_second.php", {
+		const res = await fetch("http://localhost:8000/ai.php", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
@@ -108,19 +108,21 @@ async function callAI() {
 
 // evenement de touche pressee
 document.addEventListener("keydown", (e) =>
-{
-	if (e.key in keys) keys[e.key] = true;
-	if (e.key === " ") {
-        fetch(`${SERVER_URL}/start`, { method: "POST" });
-        gameStarted = true;
-    }
-});
-
-// evenement de touche relachee
+	{
+		if (e.key === "ArrowUp" || e.key === "ArrowDown") return; // ← bloque ces touches
+		if (e.key in keys) keys[e.key] = true;
+		if (e.key === " ") {
+			fetch(`${SERVER_URL}/start`, { method: "POST" });
+			gameStarted = true;
+		}
+	});
+	
 document.addEventListener("keyup", (e) =>
 {
+	if (e.key === "ArrowUp" || e.key === "ArrowDown") return; // ← bloque aussi ici
 	if (e.key in keys) keys[e.key] = false;
 });
+	
 
 setInterval(callAI, 1000);
 

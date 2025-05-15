@@ -29,7 +29,7 @@ let keys = {
     ArrowUp: false,
     ArrowDown: false
 };
-const SERVER_URL = 'https://localhost:3000';
+const SERVER_URL = 'https://10.12.200.35:3000';
 // scores et dessine
 function FetchState() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -62,7 +62,7 @@ function callAI() {
     return __awaiter(this, void 0, void 0, function* () {
         //if (!gameStarted) return;
         try {
-            const res = yield fetch("http://localhost:8000/ai_second.php", {
+            const res = yield fetch("http://localhost:8000/ai.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -111,6 +111,8 @@ function callAI() {
 }
 // evenement de touche pressee
 document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp" || e.key === "ArrowDown")
+        return; // ← bloque ces touches
     if (e.key in keys)
         keys[e.key] = true;
     if (e.key === " ") {
@@ -118,8 +120,9 @@ document.addEventListener("keydown", (e) => {
         gameStarted = true;
     }
 });
-// evenement de touche relachee
 document.addEventListener("keyup", (e) => {
+    if (e.key === "ArrowUp" || e.key === "ArrowDown")
+        return; // ← bloque aussi ici
     if (e.key in keys)
         keys[e.key] = false;
 });
