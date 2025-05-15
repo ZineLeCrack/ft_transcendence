@@ -23,12 +23,10 @@ const signUpPasswordIcon = document.getElementById('sign-up-password-icon');
 const signUpConfirmPasswordInput = document.getElementById('sign-up-confirmpassword-input');
 const signUpConfirmPasswordBtn = document.getElementById('sign-up-confirmpassword-btn');
 const signUpConfirmPasswordIcon = document.getElementById('sign-up-confirmpassword-icon');
-// Icônes de validation
 const badPasswordIcon = document.getElementById('badPasswordIcon');
 const goodPasswordIcon = document.getElementById('goodPasswordIcon');
 const badConfirmPasswordIcon = document.getElementById('badConfirmPasswordIcon');
 const goodConfirmPasswordIcon = document.getElementById('goodConfirmPasswordIcon');
-// Switch entre sign in / sign up
 toSignUp.addEventListener('click', () => {
     signIn.classList.add('hidden');
     signUp.classList.remove('hidden');
@@ -86,7 +84,7 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
         password: signUpPasswordInput.value,
     };
     try {
-        const response = yield fetch('https://backend:3000/submit', {
+        const response = yield fetch('https://backend:3451/submit', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -104,10 +102,8 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
         alert('Erreur : ' + err.message);
     }
 }));
-// Soumission du formulaire de connexion
 const signinform = document.getElementById('sign-in');
 signinform === null || signinform === void 0 ? void 0 : signinform.addEventListener('submit', (event) => {
     event.preventDefault();
-    // TODO: intégrer logique de connexion avec le backend
     window.location.href = "../../index.html";
 });

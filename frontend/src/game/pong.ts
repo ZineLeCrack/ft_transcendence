@@ -6,7 +6,7 @@ export let leftPaddleY = 250;
 export let rightPaddleY = 250;
 export let leftScore = 0;
 export let rightScore = 0;
-export const paddleWidth = 10;
+export const paddleWidth = 8;
 export const paddleHeight = 100;
 export let message = "";
 
@@ -54,9 +54,7 @@ document.addEventListener("keyup", (e) => {
 	if (e.key in keys) keys[e.key] = false;
 });
 
-// Dessin sur canvas
 
-// Envoi des touches 100x par seconde
 setInterval(() => {
 	fetch(`${SERVER_URL}/move`, {
 		method: 'POST',

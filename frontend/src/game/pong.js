@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,18 +7,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.message = exports.paddleHeight = exports.paddleWidth = exports.rightScore = exports.leftScore = exports.rightPaddleY = exports.leftPaddleY = exports.ballY = exports.ballX = void 0;
-const drawmap_js_1 = require("./drawmap.js");
-exports.ballX = 400;
-exports.ballY = 300;
-exports.leftPaddleY = 250;
-exports.rightPaddleY = 250;
-exports.leftScore = 0;
-exports.rightScore = 0;
-exports.paddleWidth = 10;
-exports.paddleHeight = 100;
-exports.message = "";
+import { draw } from "./drawmap.js";
+export let ballX = 400;
+export let ballY = 300;
+export let leftPaddleY = 250;
+export let rightPaddleY = 250;
+export let leftScore = 0;
+export let rightScore = 0;
+export const paddleWidth = 8;
+export const paddleHeight = 100;
+export let message = "";
 // Dictionnaire pour stocker les touches pressées
 let keys = {
     w: false,
@@ -29,20 +26,20 @@ let keys = {
 };
 let gameStarted = false;
 // 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = 'https://10.12.200.35:3000';
+const SERVER_URL = 'https://10.12.200.35/app1/';
 function fetchState() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const res = yield fetch(`${SERVER_URL}/state`);
             const data = yield res.json();
-            exports.ballX = data.ballX;
-            exports.ballY = data.ballY;
-            exports.leftPaddleY = data.leftPaddleY;
-            exports.rightPaddleY = data.rightPaddleY;
-            exports.leftScore = data.leftScore;
-            exports.rightScore = data.rightScore;
-            exports.message = data.message;
-            (0, drawmap_js_1.draw)();
+            ballX = data.ballX;
+            ballY = data.ballY;
+            leftPaddleY = data.leftPaddleY;
+            rightPaddleY = data.rightPaddleY;
+            leftScore = data.leftScore;
+            rightScore = data.rightScore;
+            message = data.message;
+            draw();
         }
         catch (error) {
             console.error("Erreur de fetchState:", error);
