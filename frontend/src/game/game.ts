@@ -24,14 +24,17 @@ document.addEventListener("DOMContentLoaded", () =>
 	if (mode === "LOCAL")
 	{
 		playBtn.onclick = () => window.location.href = "src/game/pong.html";
+		document.body.style.backgroundImage = "url('/frontend/src/images/localgame.png')";
 	}
 	else if (mode === "MULTI")
 	{
 		playBtn.onclick = () => window.location.href = "src/game/multiplayer.html";
+		document.body.style.backgroundImage = "url('/frontend/src/images/tournament.png')";
 	}
 	else if (mode === "AI")
 	{
 		playBtn.onclick = () => window.location.href = "src/game/AI.html";
+		document.body.style.backgroundImage = "url('/frontend/src/images/AItemp.png')";
 	}
 }
 
