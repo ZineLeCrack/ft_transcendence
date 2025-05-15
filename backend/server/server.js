@@ -9,8 +9,8 @@ const fs_1 = __importDefault(require("fs"));
 const https_1 = __importDefault(require("https"));
 const app = (0, express_1.default)();
 const httpsPort = 3000;
-const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
-const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
+const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 const corsOptions = {
     origin: 'https://localhost:443',

@@ -6,8 +6,8 @@ import http from 'http';
 
 const app = express();
 const httpsPort = 3000;
-const privateKey = fs.readFileSync('serv.key', 'utf8');
-const certificate = fs.readFileSync('serv.crt', 'utf8');
+const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
 
 const credentials = { key: privateKey, cert: certificate };
 
