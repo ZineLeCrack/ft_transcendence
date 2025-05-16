@@ -80,7 +80,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
         else if (mode === "MULTI") {
+<<<<<<< HEAD
             playBtn.onclick = function () { return window.location.href = "src/game/multiplayer.html"; };
+=======
+            playBtn.onclick = () => window.location.href = "src/game/multiplayer.html";
+>>>>>>> origin/ebroudic
             document.body.style.backgroundImage = "url('/src/images/tournament.png')";
         }
         else if (mode === "AI") {

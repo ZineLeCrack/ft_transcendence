@@ -113,23 +113,25 @@
 		<div id="stats-div" class="border-4 border-blue-300 rounded-3xl p-4 h-[calc(100vh-125px)] bg-white/5 backdrop-blur-sm shadow-[0_0_10px_#00FFFF] overflow-hidden flex flex-col relative">
   
 			<div class="flex justify-center gap-4 mb-4 relative z-10">
-    			<button id="History-btn" type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition ">History</button>
-    			<button id="Global-btn" type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-[#00FFFF] text-black hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">Global</button>
+    			<button id="History-btn" type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-[#00FFFF]  text-black hover:brightness-125 transition ">History</button>
+    			<button id="Global-btn" type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition shadow-[0_0_10px_#00FFFF]">Global</button>
     			<button id="Tournament-btn" type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Tournament</button>
   			</div>
 
 			<div class="flex-1 relative flex items-center justify-center">
 
-				<div id="History-Div" class="hidden rounded-2xl w-11/12 h-full bg-white/5 backdrop-blur p-6" style="filter: shadow(0 0 20px rgba(0,0,0,1)) shadow(0 0 40px rgba(0,0,0,0.9)) shadow(0 0 60px rgba(0,0,0,0.8));">
-					<div class=""></div>
+				<div id="History-Div" class="w-11/12 h-[70vh] overflow-y-auto bg-white/5 backdrop-blur p-6 rounded-2xl shadow-[0_0_20px_rgba(0,0,0,1),0_0_40px_rgba(0,0,0,0.9),0_0_60px_rgba(0,0,0,0.8)] space-y-4 mx-auto">
+					<div class="bg-black p-24 rounded-xl"></div>
+					<div class="bg-black p-24 rounded-xl"></div>
+					<div class="bg-black p-24 rounded-xl"></div>
 
 				</div>
-				
-				<div id="Global-Div" class="rounded-2xl w-11/12 h-full bg-white/5 backdrop-blur p-6" style="filter: shadow(0 0 20px rgba(0,0,0,1)) shadow(0 0 40px rgba(0,0,0,0.9)) shadow(0 0 60px rgba(0,0,0,0.8));">
+
+				<div id="Global-Div" class="hidden rounded-2xl w-11/12 h-full bg-white/5 backdrop-blur p-6 shadow-[0_0_20px_rgba(0,0,0,1),0_0_40px_rgba(0,0,0,0.9),0_0_60px_rgba(0,0,0,0.8)]" >
 
 				</div>
 			
-				<div id="Tournament-Div" class="hidden rounded-2xl w-11/12 h-full bg-white/5 backdrop-blur p-6" style="filter: shadow(0 0 20px rgba(0,0,0,1)) shadow(0 0 40px rgba(0,0,0,0.9)) shadow(0 0 60px rgba(0,0,0,0.8));"">
+				<div id="Tournament-Div" class="hidden rounded-2xl w-11/12 h-full bg-white/5 backdrop-blur p-6 shadow-[0_0_20px_rgba(0,0,0,1),0_0_40px_rgba(0,0,0,0.9),0_0_60px_rgba(0,0,0,0.8)]" >
 
 				</div>
 			</div>
