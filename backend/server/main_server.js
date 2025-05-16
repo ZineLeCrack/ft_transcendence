@@ -29,15 +29,24 @@ https_1.default.createServer(credentials, app).listen(4000, '0.0.0.0', () => {
 });
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+let canGo = true;
 app.post('/start', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    while (!canGo)
+        ;
+    canGo = false;
     let port = baseGamePort;
     while (!(yield isPortFree(port)))
         port++;
+    if (port > 3050) {
+        console.log(`Cannot start game server, all ports are used`);
+        return;
+    }
     const child = (0, child_process_1.spawn)('node', ['server/server.js', port.toString()], {
         stdio: 'inherit',
     });
     console.log(`🎮 Game server starting on port ${port}`);
     res.json({ url: `https://10.12.200.65:${port}` });
+    canGo = true;
 }));
 function isPortFree(port) {
     return new Promise((resolve) => {
