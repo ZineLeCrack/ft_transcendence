@@ -23,8 +23,25 @@ document.addEventListener("DOMContentLoaded", () =>
 
 	if (mode === "LOCAL")
 	{
-		playBtn.onclick = () => window.location.href = "src/game/pong.html";
-		document.body.style.backgroundImage = "url('/src/images/localgame.png')";
+		try
+		{
+			playBtn.onclick = async () =>
+			{
+				const response = await fetch("https://localhost:4000/start",
+				{
+					method: 'POST',
+				});
+				const data = await response.json();
+				const gameUrl = data.url;
+				localStorage.setItem("pongServerPort", new URL(gameUrl).port);
+				window.location.href = "src/game/pong.html";
+			};
+		}
+		catch (err)
+		{
+			console.error("❌ Erreur lors du démarrage du serveur local :", err);
+			alert("Erreur : impossible de démarrer le serveur local.\n" + err);
+		}
 	}
 	else if (mode === "MULTI")
 	{
@@ -33,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () =>
 	}
 	else if (mode === "AI")
 	{
-		playBtn.onclick = () => window.location.href = "src/game/AI.html";
+		playBtn.onclick = () => window.location.href = "src/game/AI/AI.html";
 		document.body.style.backgroundImage = "url('/src/images/AItemp.png')";
 	}
 }

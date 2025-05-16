@@ -2,11 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import fs from 'fs';
 import https from 'https';
+import { count } from 'console';
+import { TIMEOUT } from 'dns';
 
 const app = express();
-const httpsPort = 3000;
-const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
-const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
+const httpsPort = parseInt(process.argv[2], 10);
+const privateKey = fs.readFileSync('serv.key', 'utf8');
+const certificate = fs.readFileSync('serv.crt', 'utf8');
 
 const credentials = { key: privateKey, cert: certificate };
 
@@ -21,11 +23,15 @@ let leftPaddleY = 250;
 let rightPaddleY = 250;
 let leftScore = 0;
 let rightScore = 0;
+let countDown = 0;
 
 let newSpeedX = 0;
 let newSpeedY = 0;
 
 let gameStarted = false;
+
+let leftOldY = leftPaddleY;
+let rightOldY = rightPaddleY;
 
 let message = "Press space to start !";
 
@@ -56,7 +62,9 @@ app.post('/start', (req, res) =>
 app.post('/move', (req, res) =>
 {
 	const { keys } = req.body;
-	
+
+	leftOldY = leftPaddleY;
+	rightOldY = rightPaddleY
 	if (keys.ArrowUp) rightPaddleY -= 10;
 	if (keys.ArrowDown) rightPaddleY += 10;
 	if (keys.w) leftPaddleY -= 10;
@@ -89,7 +97,7 @@ function updateGame()
 		ballX += ballSpeedX;
 		ballY += ballSpeedY;
 
-		if (ballY <= 0 || ballY >= 600)
+		if (ballY <= 0 || ballY >= 590)
 			ballSpeedY = -ballSpeedY;
 
 		if (ballSpeedX < 0)
@@ -129,7 +137,7 @@ function updateGame()
 		}
 		else
 		{
-			if (ballX >= 785 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100)
+			if (ballX >= 775 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100)
 			{
 				if (ballSpeedX < 10)
 					ballSpeedX += 0.5;
@@ -174,6 +182,20 @@ function updateGame()
 			resetBall();
 		}
 	}
+	if (rightOldY === rightPaddleY && leftOldY === leftPaddleY)
+	{
+		countDown++;
+		if (countDown > 2000)
+		{
+			message = "TIMEOUT";
+			setTimeout(() =>
+			{
+				process.exit(0);
+			}, 100);
+		}
+	}
+	else
+		countDown = 0;
 	setTimeout(updateGame, 16);
 }
 
@@ -207,8 +229,8 @@ function resetBall()
 	}
 }
 
-https.createServer(credentials, app).listen(httpsPort, '0.0.0.0' ,() => {
+https.createServer(credentials, app).listen(httpsPort, '0.0.0.0' ,() =>
+{
 	console.log(`HTTPS server running at https://localhost:${httpsPort}`);
 	updateGame();
-
 });

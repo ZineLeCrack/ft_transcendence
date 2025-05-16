@@ -25,8 +25,9 @@ let keys = {
     ArrowDown: false
 };
 let gameStarted = false;
+const port = localStorage.getItem("pongServerPort");
 // 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = 'https://10.12.200.35/app1/';
+const SERVER_URL = `https://localhost:${port}`;
 function fetchState() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -60,13 +61,11 @@ document.addEventListener("keyup", (e) => {
     if (e.key in keys)
         keys[e.key] = false;
 });
-// Dessin sur canvas
-// Envoi des touches 100x par seconde
 setInterval(() => {
     fetch(`${SERVER_URL}/move`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ keys })
     }).catch(err => console.error("Erreur POST /move:", err));
-}, 10);
-setInterval(fetchState, 10);
+}, 16);
+setInterval(fetchState, 16);
