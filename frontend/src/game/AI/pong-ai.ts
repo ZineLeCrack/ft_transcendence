@@ -38,7 +38,11 @@ async function FetchState()
 		oldBallY = ballY;
 		ballX = data.ballX;
 		ballY = data.ballY;
-		leftPaddleY = data.leftPaddleY;
+
+		leftPaddleY = ballY - paddleHeight / 2;
+		leftPaddleY = Math.max(0, Math.min(600 - paddleHeight, leftPaddleY));
+		
+		//leftPaddleY = data.leftPaddleY;
 		rightPaddleY = data.rightPaddleY;
 		leftScore = data.leftScore;
 		rightScore = data.rightScore;
