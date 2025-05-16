@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("❌ Erreur lors du démarrage du serveur local :", err);
                 alert("Erreur : impossible de démarrer le serveur local.\n" + err);
             }
+            document.body.style.backgroundImage = "url('/src/images/localgame.png')";
         }
         else if (mode === "MULTI") {
             playBtn.onclick = () => window.location.href = "src/game/multiplayer.html";
