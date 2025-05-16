@@ -7,8 +7,8 @@ import { TIMEOUT } from 'dns';
 
 const app = express();
 const httpsPort = parseInt(process.argv[2], 10);
-const privateKey = fs.readFileSync('serv.key', 'utf8');
-const certificate = fs.readFileSync('serv.crt', 'utf8');
+const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
 
 const credentials = { key: privateKey, cert: certificate };
 
@@ -231,6 +231,6 @@ function resetBall()
 
 https.createServer(credentials, app).listen(httpsPort, '0.0.0.0' ,() =>
 {
-	console.log(`HTTPS server running at https://localhost:${httpsPort}`);
+	console.log(`HTTPS server running at https://10.0.2.15:${httpsPort}`);
 	updateGame();
 });

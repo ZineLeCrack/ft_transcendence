@@ -5,17 +5,17 @@ import https from 'https';
 import fs from 'fs';
 import net from 'net';
 
-const privateKey = fs.readFileSync('serv.key', 'utf8');
-const certificate = fs.readFileSync('serv.crt', 'utf8');
+const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const app = express();
 const baseGamePort = 3000;
 let nextPort = baseGamePort;
 
-https.createServer(credentials, app).listen(4000, () =>
+https.createServer(credentials, app).listen(4000, '0.0.0.0', () =>
 {
-	console.log('🔐 HTTPS Master server running at https://localhost:4000');
+	console.log('🔐 HTTPS Master server running at https://10.0.2.15:4000');
 });
 
 app.use(cors());
@@ -26,12 +26,12 @@ app.post('/start', async (req, res) =>
 	let port = baseGamePort;
 	while (!(await isPortFree(port)))
 		port++;
-	const child = spawn('node', ['server.js', port.toString()],
+	const child = spawn('node', ['server/server.js', port.toString()],
 	{
 		stdio: 'inherit',
 	});
 	console.log(`🎮 Game server starting on port ${port}`);
-	res.json({ url: `https://localhost:${port}` });
+	res.json({ url: `https://10.0.2.15:${port}` });
 });
 
 function isPortFree(port: number): Promise<boolean>
@@ -49,7 +49,7 @@ function isPortFree(port: number): Promise<boolean>
 	});
 }
 
-app.listen(4000, () =>
-{
-	console.log('🌐 Master server running on https://localhost:4000');
-});
+// app.listen(4000, () =>
+// {
+// 	console.log('🌐 Master server running on https://10.0.2.15:4000');
+// });
