@@ -96,6 +96,10 @@ function updateGame()
 		ballX += ballSpeedX;
 		ballY += ballSpeedY;
 
+		// IA basique : la raquette gauche suit la balle parfaitement
+		leftPaddleY = ballY - 50;
+		leftPaddleY = Math.max(0, Math.min(500, leftPaddleY)); // Pour rester dans les limites
+
 		if (ballY <= 0 || ballY >= 600)
 			ballSpeedY = -ballSpeedY;
 
