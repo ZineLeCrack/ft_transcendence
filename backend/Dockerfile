@@ -8,10 +8,11 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-
+RUN chmod +x exec.sh
 RUN npx tsc -p server
 
 EXPOSE 3000
+EXPOSE 3002
 EXPOSE 3451
-CMD ["node", "server/server.js"]
+CMD ["./exec.sh"]
 
