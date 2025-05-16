@@ -16,11 +16,21 @@ services:
       - "3000:3000"
     volumes:
       - certs:/certs
+      - database:/database
+    networks:
+      - transcendence
+
+  database:
+    build: database/.
+    container_name: database
+    volumes:
+      - database:/database
     networks:
       - transcendence
 
 volumes:
   certs:
+  database:
 
 networks:
   transcendence:

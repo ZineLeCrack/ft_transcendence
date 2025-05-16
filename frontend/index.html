@@ -10,14 +10,14 @@
 
 <body id="body" class="bg-black bg-cover bg-center bg-no-repeat h-screen flex" style="background-image: url('/src/images/localgame.png'); background-size: 1920px 1080px;">
 	<!-- CHAT BOX -->
-	<div class="w-1/4 min-w-[200px] rounded-2xl m-5 p-4 flex flex-col border-4 border-blue-300 bg-white/5 backdrop-blur-lg  drop-shadow-[0_0_10px_#00FFFF]">
+	<div class="w-1/4 min-w-[200px] rounded-2xl m-5 p-4 flex flex-col border-4 border-blue-300 bg-white/5 backdrop-blur-lg  shadow-[0_0_10px_#00FFFF]">
 		<div class="text-center text-xl font-bold mb-4 text-white">CHAT</div>
 		<!-- Zone d'affichage des messages -->
 		<div id="chat-messages" class="flex-1 overflow-y-auto flex flex-col mb-4 space-y-2 whitespace-pre-wrap pb-2"></div>
 		<!-- Zone d'entrée + bouton -->
 		<div class="flex items-center gap-2 w-full">
-	 		<input id="chat-input" type="text" placeholder="Enter a message" class="p-2 border3 rounded-2xl flex-grow min-w-0 border-2 border-blue-200 bg-white/5 backdrop-blur-lg  drop-shadow-[0_0_10px_#00FFFF]" />
-			<button id="chat-send" class="w-8 h-8 bg-gray-500 text-white rounded-full flex items-center justify-center shrink-0 bg-white/5 backdrop-blur-lg  drop-shadow-[0_0_10px_#00FFFF]">➤</button>
+	 		<input id="chat-input" type="text" placeholder="Enter a message" class="p-2 border3 rounded-2xl flex-grow min-w-0 border-2 border-blue-200 bg-white/5 backdrop-blur-lg  shadow-[0_0_10px_#00FFFF]" />
+			<button id="chat-send" class="w-8 h-8 bg-gray-500 text-white rounded-full flex items-center justify-center shrink-0 bg-white/5 backdrop-blur-lg  shadow-[0_0_10px_#00FFFF]">➤</button>
 		</div>
 		<script src="src/chat/chat.js"></script>
 	</div>
@@ -25,7 +25,7 @@
 	<div class="flex-1 flex flex-col">
 		<!-- TOP BAR -->
 		<div class="flex items-center justify-between border-b p-5">
-			<input type="search" placeholder="search" class="border-2 border-spacing-4 p-3 rounded-xl w-5/6 border-blue-300 bg-white/5 backdrop-blur-lg  drop-shadow-[0_0_10px_#00FFFF]"/>
+			<input type="search" placeholder="search" class="border-2 border-spacing-4 p-3 rounded-xl w-5/6 border-blue-300 bg-white/5 backdrop-blur-lg  shadow-[0_0_10px_#00FFFF]"/>
 			<div id="topbar-buttons" class="flex items-center gap-6">
 				<!-- Bouton Notification avec tooltip -->
 				<div class="relative group">
@@ -48,7 +48,7 @@
 			<!-- Carrousel -->
 			<div class="flex items-center gap-4 relative ">
 				<button id="left-button-game" class="text-5xl text-white">&lt;</button>
-				<div class="w-96 h-80 bg-gray-200 rounded-lg relative flex flex-col items-center justify-center gap-4 border-4 border-blue-300 bg-white/5 backdrop-blur-lg  drop-shadow-[0_0_10px_#00FFFF]">
+				<div class="w-96 h-80 bg-gray-200 rounded-lg relative flex flex-col items-center justify-center gap-4 border-4 border-blue-300 bg-white/5 backdrop-blur-lg  shadow-[0_0_10px_#00FFFF]">
 					<div id="game-mode" class="text-white px-4 py-1.5 rounded text-3xl font-bold"></div>
 					<div id="description-game-mode" class="text-white px-4 py-10 rounded text-md font-bold"></div>
 					<button id="game-play-button" class="bg-green-500 text-white font-bold py-2 px-6 rounded-full hover:bg-green-600 transition duration-200">Play</button>
@@ -57,7 +57,7 @@
 				<button id="right-button-game" class="text-5xl text-white">&gt;</button>
 			</div>
 
-			<div class="w-full max-w-4xl h-48 bg-gray-200 rounded-xl border-4 border-blue-300 bg-white/5 backdrop-blur-lg  drop-shadow-[0_0_10px_#00FFFF]"></div>
+			<div class="w-full max-w-4xl h-48 bg-gray-200 rounded-xl border-4 border-blue-300 bg-white/5 backdrop-blur-lg  shadow-[0_0_10px_#00FFFF]"></div>
 		</div>
 	</div>
 </body>

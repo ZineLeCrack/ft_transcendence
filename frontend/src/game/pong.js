@@ -26,7 +26,7 @@ let keys = {
 };
 let gameStarted = false;
 // 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = 'https://10.12.200.35:3000';
+const SERVER_URL = 'https://10.12.200.35/app1/';
 function fetchState() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
