@@ -29,7 +29,7 @@ let keys = {
     ArrowUp: false,
     ArrowDown: false
 };
-const SERVER_URL = 'https://10.12.200.35:3000';
+const SERVER_URL = 'https://localhost:3000';
 // scores et dessine
 function FetchState() {
     return __awaiter(this, void 0, void 0, function* () {

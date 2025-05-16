@@ -76,6 +76,8 @@ function updateGame() {
         }
         ballX += ballSpeedX;
         ballY += ballSpeedY;
+        leftPaddleY = ballY - 50;
+        leftPaddleY = Math.max(0, Math.min(500, leftPaddleY));
         if (ballY <= 0 || ballY >= 600)
             ballSpeedY = -ballSpeedY;
         if (ballSpeedX < 0) {

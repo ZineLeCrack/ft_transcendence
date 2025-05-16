@@ -53,6 +53,23 @@ $BALL_SIZE = 10;
 $PADDLE_HEIGHT = 100;
 $PADDLE_SPEED = 10; // px par frame
 
+function getMovementInfo(float $paddlePos, float $targetPos, float $paddleSpeed, float $framesUntilBall): array {
+    $delta = $targetPos - $paddlePos;
+    $distance = abs($delta);
+    $direction = $delta > 0 ? 'down' : 'up';
+
+    $framesNeeded = ceil($distance / $paddleSpeed);
+    $durationMs = $framesNeeded * 20;
+
+    $canReachInTime = $framesNeeded <= $framesUntilBall;
+
+    return [
+        'direction' => $direction,
+        'duration' => $durationMs,
+        'canReach' => $canReachInTime
+    ];
+}
+
 // Si la balle va vers la gauche → retour au centre
 if ($ballDirection['x'] < 0) {
     $target = ($GAME_HEIGHT - $PADDLE_HEIGHT) / 2;
@@ -85,13 +102,12 @@ if ($ballDirection['x'] < 0) {
 
     // Centre de la balle future et centre de la raquette
     $target = $future_y - $PADDLE_HEIGHT / 2 + $BALL_SIZE / 2;
-    $delta = $target - $paddlePosition;
+    $move = getMovementInfo($paddlePosition, $target, $PADDLE_SPEED, $framesToRightWall);
 
-    if (abs($delta) > 5) { // seuil pour éviter de trop gigoter
-        $direction = $delta > 0 ? 'down' : 'up';
-        $framesNeeded = abs($delta) / $PADDLE_SPEED;
-        $duration = min(1000, max(10, $framesNeeded * 10)); // 10ms par frame simulée
-    }
+    if ($move['canReach']) {
+        $direction = $move['direction'];
+        $duration = $move['duration'];
+    }    
 }
 
 $response = [
