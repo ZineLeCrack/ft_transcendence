@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         else if (mode === "MULTI") {
-            playBtn.onclick = () => window.location.href = "src/game/multiplayer.html";
+            playBtn.onclick = () => window.location.href = "src/game/matchmaking.html";
             document.body.style.backgroundImage = "url('/src/images/tournament.png')";
         }
         else if (mode === "AI") {
