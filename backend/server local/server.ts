@@ -79,10 +79,10 @@ function updateGame()
 {
 	if (gameStarted)
 	{
-		if (leftScore === 5 || rightScore === 5)
+		if (leftScore === 5000 || rightScore === 5000)
 		{
 			gameStarted = false;
-			message = leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
+			message = leftScore === 5000 ? "Player 1 win !" : "Player 2 win !";
 			setTimeout(() =>
 			{
 				if (!gameStarted)
@@ -197,7 +197,7 @@ function resetBall()
 	ballSpeedX = 0;
 	ballSpeedY = 0;
 
-	if (leftScore != 5 && rightScore != 5)
+	if (leftScore != 5000 && rightScore != 5000)
 	{
 		message = "3";
 		setTimeout(() =>

@@ -59,7 +59,7 @@ function getMovementInfo(float $paddlePos, float $targetPos, float $paddleSpeed,
     $direction = $delta > 0 ? 'down' : 'up';
 
     $framesNeeded = ceil($distance / $paddleSpeed);
-    $durationMs = $framesNeeded * 20;
+    $durationMs = $framesNeeded * 16;
 
     $canReachInTime = $framesNeeded <= $framesUntilBall;
 
@@ -96,7 +96,6 @@ if ($ballDirection['x'] < 0) {
 
         if ($future_y >= $GAME_HEIGHT - $BALL_SIZE) {
             $future_y = 2 * ($GAME_HEIGHT - $BALL_SIZE) - $future_y;
-            $dir_y = -$dir_y;
         }
     }
 
