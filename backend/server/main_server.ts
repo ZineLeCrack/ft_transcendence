@@ -21,12 +21,8 @@ https.createServer(credentials, app).listen(4000, '0.0.0.0', () =>
 app.use(cors());
 app.use(express.json());
 
-let canGo = true;
-
 app.post('/start', async (req, res) =>
 {
-	while (!canGo);
-	canGo = false;
 	let port = baseGamePort;
 	while (!(await isPortFree(port)))
 		port++;
@@ -41,7 +37,6 @@ app.post('/start', async (req, res) =>
 	});
 	console.log(`🎮 Game server starting on port ${port}`);
 	res.json({ url: `https://10.12.200.65:${port}` });
-	canGo = true;
 });
 
 function isPortFree(port: number): Promise<boolean>
