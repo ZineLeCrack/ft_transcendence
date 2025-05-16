@@ -25,7 +25,7 @@ const app = (0, express_1.default)();
 const baseGamePort = 3000;
 let nextPort = baseGamePort;
 https_1.default.createServer(credentials, app).listen(4000, '0.0.0.0', () => {
-    console.log('🔐 HTTPS Master server running at https://10.0.2.15:4000');
+    console.log('🔐 HTTPS Master server running at https://10.12.200.65:4000');
 });
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -33,11 +33,11 @@ app.post('/start', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     let port = baseGamePort;
     while (!(yield isPortFree(port)))
         port++;
-    const child = (0, child_process_1.spawn)('node', ['server.js', port.toString()], {
+    const child = (0, child_process_1.spawn)('node', ['server/server.js', port.toString()], {
         stdio: 'inherit',
     });
     console.log(`🎮 Game server starting on port ${port}`);
-    res.json({ url: `https://10.0.2.15:${port}` });
+    res.json({ url: `https://10.12.200.65:${port}` });
 }));
 function isPortFree(port) {
     return new Promise((resolve) => {
@@ -52,5 +52,5 @@ function isPortFree(port) {
 }
 // app.listen(4000, () =>
 // {
-// 	console.log('🌐 Master server running on https://10.0.2.15:4000');
+// 	console.log('🌐 Master server running on https://10.12.200.65:4000');
 // });
