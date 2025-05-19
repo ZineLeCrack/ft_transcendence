@@ -9,8 +9,8 @@ const fs_1 = __importDefault(require("fs"));
 const https_1 = __importDefault(require("https"));
 const app = (0, express_1.default)();
 const httpsPort = parseInt(process.argv[2], 10);
-const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
-const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
+const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 app.use((0, cors_1.default)({ origin: true, credentials: true }));
 app.use(express_1.default.json());
@@ -178,6 +178,6 @@ function resetBall() {
     }
 }
 https_1.default.createServer(credentials, app).listen(httpsPort, '0.0.0.0', () => {
-    console.log(`HTTPS server running at https://localhost:${httpsPort}`);
+    console.log(`HTTPS server running at https://10.12.200.65:${httpsPort}`);
     updateGame();
 });

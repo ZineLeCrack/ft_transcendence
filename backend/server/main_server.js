@@ -18,14 +18,14 @@ const child_process_1 = require("child_process");
 const https_1 = __importDefault(require("https"));
 const fs_1 = __importDefault(require("fs"));
 const net_1 = __importDefault(require("net"));
-const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
-const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
+const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 const app = (0, express_1.default)();
 const baseGamePort = 3000;
 let nextPort = baseGamePort;
-https_1.default.createServer(credentials, app).listen(4000, () => {
-    console.log('🔐 HTTPS Master server running at https://localhost:4000');
+https_1.default.createServer(credentials, app).listen(4000, '0.0.0.0', () => {
+    console.log('🔐 HTTPS Master server running at https://10.12.200.65:4000');
 });
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -33,11 +33,15 @@ app.post('/start', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     let port = baseGamePort;
     while (!(yield isPortFree(port)))
         port++;
-    const child = (0, child_process_1.spawn)('node', ['server.js', port.toString()], {
+    if (port > 3050) {
+        console.log(`Cannot start game server, all ports are used`);
+        return;
+    }
+    const child = (0, child_process_1.spawn)('node', ['server/server.js', port.toString()], {
         stdio: 'inherit',
     });
     console.log(`🎮 Game server starting on port ${port}`);
-    res.json({ url: `https://localhost:${port}` });
+    res.json({ url: `https://10.12.200.65:${port}` });
 }));
 function isPortFree(port) {
     return new Promise((resolve) => {
@@ -50,6 +54,7 @@ function isPortFree(port) {
             .listen(port);
     });
 }
-app.listen(4000, () => {
-    console.log('🌐 Master server running on https://localhost:4000');
-});
+// app.listen(4000, () =>
+// {
+// 	console.log('🌐 Master server running on https://10.12.200.65:4000');
+// });
