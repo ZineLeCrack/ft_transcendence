@@ -27,7 +27,7 @@ let keys = {
 let gameStarted = false;
 const port = localStorage.getItem("pongServerPort");
 // 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = `https://10.12.200.65:${port}`;
+const SERVER_URL = `https://10.12.200.81:${port}`;
 function fetchState() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
