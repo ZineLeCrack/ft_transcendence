@@ -107,7 +107,7 @@ signupform?.addEventListener('submit', async (event) => {
 			throw new Error(error || 'Erreur lors de l’inscription');
 		}
 
-		alert('Inscription réussie !');
+		// alert('Inscription réussie !');
 		window.location.href = "../../index.html";
 	} catch (err) {
 		alert('Erreur : ' + (err as Error).message);
