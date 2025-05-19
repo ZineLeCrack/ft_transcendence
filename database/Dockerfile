@@ -12,4 +12,7 @@ COPY . .
 RUN sqlite3 user.db < tools/users.sql
 RUN sqlite3 chat.db < tools/chat.sql
 
-CMD ["tail", "-f", "/dev/null"]
+EXPOSE 3451
+
+CMD ["node", "database.js"]
+# CMD ["tail", "-f", "/dev/null"]
