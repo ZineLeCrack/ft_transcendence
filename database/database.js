@@ -9,8 +9,8 @@ const fs_1 = __importDefault(require("fs"));
 const https_1 = __importDefault(require("https"));
 const sqlite3_1 = __importDefault(require("sqlite3"));
 const sqlite_1 = require("sqlite");
-const privateKey = fs_1.default.readFileSync('serv.key', 'utf8');
-const certificate = fs_1.default.readFileSync('serv.crt', 'utf8');
+const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 const app = (0, express_1.default)();
 const dbPath = './user.db';
@@ -20,14 +20,14 @@ https_1.default.createServer(credentials, app).listen(3451, '0.0.0.0', () => {
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.post('/submit', async (req, res) => {
-    const { userData } = req.body;
-    if (!userData.username || !userData.email || !userData.password) {
+    const { username, email, password } = req.body;
+    if (!username || !email || !password) {
         res.status(400).send('Incomplete data');
         return;
     }
     try {
         const db = await getDb();
-        await db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [userData.username, userData.email, userData.password]);
+        await db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [username, email, password]);
         res.status(200).send('User created');
     }
     catch (err) {

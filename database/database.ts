@@ -24,9 +24,9 @@ app.use(express.json());
 
 app.post('/submit', async (req, res) =>
 {
-	const { userData } = req.body;
+	const { username, email, password } = req.body;
 
-	if (!userData.username || !userData.email || !userData.password)
+	if (!username || !email || !password)
 	{
 		res.status(400).send('Incomplete data');
 		return ;
@@ -36,7 +36,7 @@ app.post('/submit', async (req, res) =>
 		const db = await getDb();
 		await db.run(
 			`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
-			[userData.username, userData.email, userData.password]
+			[username, email, password]
 		);
 		res.status(200).send('User created');
 	} catch (err) {
