@@ -5,8 +5,8 @@ import https from 'https';
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 
-const privateKey = fs.readFileSync('serv.key', 'utf8');
-const certificate = fs.readFileSync('serv.crt', 'utf8');
+const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
+const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const app = express();

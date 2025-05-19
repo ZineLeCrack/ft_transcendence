@@ -64,7 +64,7 @@ services:
       - "3048:3048"
       - "3049:3049"
       - "3050:3050"
-      - "3451-3451"
+      - "3451:3451"
       - "4000:4000"
     volumes:
       - certs:/certs
@@ -76,8 +76,9 @@ services:
     build: database/.
     container_name: database
     ports:
-      - "3451-3451"
+      - "3451:3451"
     volumes:
+      - certs:/certs
       - database:/database
     networks:
       - transcendence
