@@ -15,7 +15,7 @@ const credentials = { key: privateKey, cert: certificate };
 const app = (0, express_1.default)();
 const dbPath = './user.db';
 https_1.default.createServer(credentials, app).listen(3451, '0.0.0.0', () => {
-    console.log('HTTPS database server running at https://10.12.200.81:3451');
+    console.log('HTTPS database server running at https://10.12.200.78:3451');
 });
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());

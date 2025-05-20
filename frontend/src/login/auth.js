@@ -84,7 +84,7 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
         password: signUpPasswordInput.value,
     };
     try {
-        const response = yield fetch('https://10.12.200.81:3451/submit', {
+        const response = yield fetch('https://10.12.200.78:3451/submit', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

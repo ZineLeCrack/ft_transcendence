@@ -1,0 +1,1 @@
+node database.js & node chat.js

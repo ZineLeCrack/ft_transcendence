@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () =>
 		{
 			playBtn.onclick = async () =>
 			{
-				const response = await fetch("https://10.12.200.81:4000/start",
+				const response = await fetch("https://10.12.200.78:4000/start",
 				{
 					method: 'POST',
 				});
