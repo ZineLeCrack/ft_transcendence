@@ -1,3 +1,4 @@
+import { stringify } from 'uuid';
 import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/utils.js';
 
 // Elements de navigation
@@ -24,13 +25,15 @@ const goodPasswordIcon = document.getElementById('goodPasswordIcon') as HTMLImag
 const badConfirmPasswordIcon = document.getElementById('badConfirmPasswordIcon') as HTMLImageElement;
 const goodConfirmPasswordIcon = document.getElementById('goodConfirmPasswordIcon') as HTMLImageElement;
 
-toSignUp.addEventListener('click', () => {
+toSignUp.addEventListener('click', () =>
+{
 	signIn.classList.add('hidden');
 	signUp.classList.remove('hidden');
 	hidePassword(signInPasswordInput, signInPasswordIcon, null, null);
 });
 
-toSignIn.addEventListener('click', () => {
+toSignIn.addEventListener('click', () =>
+{
 	signUp.classList.add('hidden');
 	signIn.classList.remove('hidden');
 	hidePassword(signUpPasswordInput, signUpPasswordIcon, goodPasswordIcon, badPasswordIcon);
@@ -45,14 +48,16 @@ const signInWithUsername = document.getElementById('sign-in-with-Username') as H
 const signInUsernameInput = document.getElementById('Sign-in-username') as HTMLInputElement;
 const signInEmailInput = document.getElementById('Sign-In-email') as HTMLInputElement;
 
-signInWithUsername.addEventListener('click', () => {
+signInWithUsername.addEventListener('click', () =>
+{
 	signInEmailDiv.classList.add('hidden');
 	signInUsernameDiv.classList.remove('hidden');
 	signInUsernameInput.required = true;
 	signInEmailInput.required = false;
 });
 
-signInWithEmail.addEventListener('click', () => {
+signInWithEmail.addEventListener('click', () =>
+{
 	signInUsernameDiv.classList.add('hidden');
 	signInEmailDiv.classList.remove('hidden');
 	signInEmailInput.required = true;
@@ -65,58 +70,95 @@ togglePassword(signUpPasswordInput, signUpPasswordBtn, signUpPasswordIcon);
 togglePassword(signUpConfirmPasswordInput, signUpConfirmPasswordBtn, signUpConfirmPasswordIcon);
 
 // Vérification des mots de passe en temps réel
-signUpPasswordInput.addEventListener('input', () => {
+signUpPasswordInput.addEventListener('input', () =>
+{
 	checkPasswordMatch(signUpPasswordInput, signUpConfirmPasswordInput, badPasswordIcon, badConfirmPasswordIcon, goodPasswordIcon, goodConfirmPasswordIcon);
 });
 
-signUpConfirmPasswordInput.addEventListener('input', () => {
+signUpConfirmPasswordInput.addEventListener('input', () =>
+{
 	checkPasswordMatch(signUpPasswordInput, signUpConfirmPasswordInput, badPasswordIcon, badConfirmPasswordIcon, goodPasswordIcon, goodConfirmPasswordIcon);
 });
 
 // Soumission du formulaire d'inscription
 const signupform = document.getElementById('sign-up') as HTMLFormElement;
 
-signupform?.addEventListener('submit', async (event) => {
+signupform?.addEventListener('submit', async (event) =>
+{
 	event.preventDefault();
 
-	if (signUpPasswordInput.value !== signUpConfirmPasswordInput.value) {
+	if (signUpPasswordInput.value !== signUpConfirmPasswordInput.value)
+	{
 		alert('Les mots de passe ne correspondent pas.');
-		return;
+		return ;
 	}
 
 	const usernameInput = document.getElementById('sign-up-username') as HTMLInputElement;
 	const emailInput = document.getElementById('sign-up-email') as HTMLInputElement;
 
-	const userData = {
+	const userData =
+	{
 		username: usernameInput.value,
 		email: emailInput.value,
 		password: signUpPasswordInput.value,
 	};
 
-	try {
-		const response = await fetch('https://10.12.200.81:3451/submit', {
+	try
+	{
+		const response = await fetch('https://10.12.200.81:3451/submit',
+		{
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
+			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(userData),
 		});
 
-		if (!response.ok) {
+		if (!response.ok)
+		{
 			const error = await response.text();
-			throw new Error(error || 'Erreur lors de l’inscription');
+			throw new Error(error || 'Erreur lors de l\'inscription');
 		}
 
 		// alert('Inscription réussie !');
 		window.location.href = "../../index.html";
-	} catch (err) {
+	}
+	catch (err)
+	{
 		alert('Erreur : ' + (err as Error).message);
 	}
 });
 
 const signinform = document.getElementById('sign-in') as HTMLFormElement;
 
-signinform?.addEventListener('submit', (event) => {
+signinform?.addEventListener('submit', async (event) =>
+{
 	event.preventDefault();
-	window.location.href = "../../index.html";
+
+	const userData =
+	{
+		required: signInEmailInput.required ? "email": "username",
+		login: signInEmailInput.required ? signInEmailInput.value: signInUsernameInput.value,
+		password: signInPasswordInput.value
+	}
+
+	try
+	{
+		const response = await fetch('https://10.12.200.81:3451/login',
+		{
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(userData)
+		});
+
+		if (!response.ok)
+		{
+			const error = await response.text();
+			throw new Error(error || 'Erreur lors de la connection');
+		}
+
+		window.location.href = "../../index.html";
+	}
+	catch (err)
+	{
+		alert('Erreur : ' + (err as Error).message);
+	}
 });
