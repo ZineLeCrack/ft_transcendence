@@ -29,7 +29,7 @@ let keys = {
     ArrowUp: false,
     ArrowDown: false
 };
-const SERVER_URL = 'https://10.12.200.35:4242';
+const SERVER_URL = 'https://10.12.200.35/app2/';
 // scores et dessine
 function FetchState() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -62,7 +62,7 @@ function callAI() {
     return __awaiter(this, void 0, void 0, function* () {
         //if (!gameStarted) return;
         try {
-            const res = yield fetch("http://localhost:8000/ai.php", {
+            const res = yield fetch("https://localhost:4242/ai/ai.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

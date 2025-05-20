@@ -57,7 +57,7 @@ let aiTimeout: number | null = null;
 async function callAI() {
 	//if (!gameStarted) return;
 	try {
-		const res = await fetch("http://localhost:8000/ai.php", {
+		const res = await fetch("https://10.12.200.35/app2/ai/ai.php", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({

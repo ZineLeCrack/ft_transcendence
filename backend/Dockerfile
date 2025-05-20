@@ -1,6 +1,6 @@
 FROM node:18-slim
 
-RUN apt-get update && apt-get install -y openssl
+RUN apt-get update && apt-get install -y openssl php
 
 WORKDIR /app
 
@@ -12,7 +12,6 @@ RUN chmod +x exec.sh
 RUN npx tsc -p server
 
 EXPOSE 3000
-EXPOSE 3002
 EXPOSE 3451
 CMD ["./exec.sh"]
 

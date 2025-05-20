@@ -207,6 +207,18 @@ function resetBall()
 	}
 }
 
+app.post('/ai/ai.php', (req, res) => {
+	const { paddlePosition, ballPosition } = req.body;
+	const paddleY = paddlePosition;
+	const ballY = ballPosition.y;
+
+	let direction = 'none';
+	if (ballY < paddleY) direction = 'up';
+	else if (ballY > paddleY + 100) direction = 'down';
+
+	res.json({ direction, duration: 200 });
+});
+
 https.createServer(credentials, app).listen(httpsPort, '0.0.0.0' ,() => {
 	console.log(`HTTPS server running at https://localhost:${httpsPort}`);
 	updateGame();
