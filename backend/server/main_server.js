@@ -1,57 +1,60 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const child_process_1 = require("child_process");
+const https_1 = __importDefault(require("https"));
 const fs_1 = __importDefault(require("fs"));
-const uuid_1 = require("uuid");
-const game_session_1 = require("./game_session");
+const net_1 = __importDefault(require("net"));
 const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)({ origin: true, credentials: true }));
-app.use(express_1.default.json());
-const sessions = new Map();
-// Start a new game session
-app.post('/start', (req, res) => {
-    const id = (0, uuid_1.v4)();
-    const session = new game_session_1.GameSession(id);
-    sessions.set(id, session);
-    res.json({ id, url: `https://10.12.200.81/game/local/${id}` });
+const baseGamePort = 3000;
+let nextPort = baseGamePort;
+https_1.default.createServer(credentials, app).listen(4000, '0.0.0.0', () => {
+    console.log('🔐 HTTPS Master server running at https://10.12.200.81:4000');
 });
-// Middleware to load session
-app.use('/game/local/:id', (req, res, next) => {
-    const session = sessions.get(req.params.id);
-    if (!session) {
-        res.status(404).send('Session not found');
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.post('/start', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let port = baseGamePort;
+    while (!(yield isPortFree(port)))
+        port++;
+    if (port > 3050) {
+        console.log(`Cannot start game server, all ports are used`);
         return;
     }
-    req.session = session;
-    next();
-});
-// Game state endpoint
-app.get('/game/local/:id/state', (req, res) => {
-    const s = req.session;
-    res.json({
-        ballX: s.ballX,
-        ballY: s.ballY,
-        leftPaddleY: s.leftPaddleY,
-        rightPaddleY: s.rightPaddleY,
-        leftScore: s.leftScore,
-        rightScore: s.rightScore,
-        message: s.message,
+    const child = (0, child_process_1.spawn)('node', ['server/server.js', port.toString()], {
+        stdio: 'inherit',
     });
-});
-// Start game endpoint
-app.post('/game/local/:id/start', (req, res) => {
-    req.session.startGame();
-    res.sendStatus(200);
-});
-// Paddle movement endpoint
-app.post('/game/local/:id/move', (req, res) => {
-    req.session.move(req.body.keys);
-    res.sendStatus(200);
-});
+    console.log(`🎮 Game server starting on port ${port}`);
+    res.json({ url: `https://10.12.200.81:${port}` });
+}));
+function isPortFree(port) {
+    return new Promise((resolve) => {
+        const tester = net_1.default.createServer()
+            .once('error', () => resolve(false))
+            .once('listening', () => {
+            tester.close();
+            resolve(true);
+        })
+            .listen(port);
+    });
+}
+// app.listen(4000, () =>
+// {
+// 	console.log('🌐 Master server running on https://10.12.200.65:4000');
+// });

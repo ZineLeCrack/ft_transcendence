@@ -20,10 +20,10 @@ let keys: { [key: string]: boolean } = {
 
 let gameStarted = false;
 
-const sessionId = localStorage.getItem("pongSessionId");
+const port = localStorage.getItem("pongServerPort");
 
 // 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = `https://10.12.200.81/game/local/${sessionId}`;
+const SERVER_URL = `https://10.12.200.81:${port}`;
 
 async function fetchState() {
 	try {
