@@ -137,7 +137,7 @@ signinform?.addEventListener('submit', async (event) =>
 		required: signInEmailInput.required ? "email": "name",
 		login: signInEmailInput.required ? signInEmailInput.value: signInUsernameInput.value,
 		password: signInPasswordInput.value
-	}
+	};
 
 	try
 	{

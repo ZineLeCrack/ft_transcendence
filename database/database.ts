@@ -46,9 +46,9 @@ app.post('/login', async (req, res) =>
 {
 	const { required, login, password } = req.body;
 
-	if (!login || !password || (required !== 'email' && required !== 'username'))
+	if (!login || !password || (required !== 'email' && required !== 'name'))
 	{
-		res.status(400).send('Incomplete or invalid data');
+		res.status(400).send(`Incomplete or invalid data`);
 		return ;
 	}
 
@@ -62,7 +62,7 @@ app.post('/login', async (req, res) =>
 		if (!user)
 		{
 			res.status(401).send('Invalid credentials');
-			return;
+			return ;
 		}
 
 		console.log('User log in:', user);
