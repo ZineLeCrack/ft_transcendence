@@ -1,60 +1,71 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { spawn } from 'child_process';
 import https from 'https';
 import fs from 'fs';
-import net from 'net';
+import { v4 as uuidv4 } from 'uuid';
+import { GameSession } from './game_session';
 
 const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const app = express();
-const baseGamePort = 3000;
-let nextPort = baseGamePort;
-
-https.createServer(credentials, app).listen(4000, '0.0.0.0', () =>
-{
-	console.log('🔐 HTTPS Master server running at https://10.12.200.81:4000');
-});
-
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
-app.post('/start', async (req, res) =>
-{
-	let port = baseGamePort;
-	while (!(await isPortFree(port)))
-		port++;
-	if (port > 3050)
-	{
-		console.log(`Cannot start game server, all ports are used`);
-		return ;
-	}
-	const child = spawn('node', ['server/server.js', port.toString()],
-	{
-		stdio: 'inherit',
-	});
-	console.log(`🎮 Game server starting on port ${port}`);
-	res.json({ url: `https://10.12.200.81:${port}` });
-});
+const sessions = new Map<string, GameSession>();
 
-function isPortFree(port: number): Promise<boolean>
-{
-	return new Promise((resolve) =>
-	{
-		const tester = net.createServer()
-			.once('error', () => resolve(false))
-			.once('listening', () =>
-			{
-				tester.close();
-				resolve(true);
-			})
-			.listen(port);
-	});
+// Extend Express Request with session
+declare global {
+	namespace Express {
+		interface Request {
+			session?: GameSession;
+		}
+	}
 }
 
-// app.listen(4000, () =>
-// {
-// 	console.log('🌐 Master server running on https://10.12.200.65:4000');
-// });
+// Start a new game session
+app.post('/start', (req: Request, res: Response) => {
+	const id = uuidv4();
+	const session = new GameSession(id);
+	sessions.set(id, session);
+	res.json({ id, url: `https://10.12.200.81/game/local/${id}` });
+});
+
+// Middleware to load session
+app.use('/game/local/:id', (req, res, next) => {
+	const session = sessions.get(req.params.id);
+	if (!session)
+	{
+		res.status(404).send('Session not found');
+		return ;
+	}
+	req.session = session;
+	next();
+});
+
+// Game state endpoint
+app.get('/game/local/:id/state', (req: Request, res: Response) => {
+	const s = req.session!;
+	res.json({
+		ballX: s.ballX,
+		ballY: s.ballY,
+		leftPaddleY: s.leftPaddleY,
+		rightPaddleY: s.rightPaddleY,
+		leftScore: s.leftScore,
+		rightScore: s.rightScore,
+		message: s.message,
+	});
+});
+
+// Start game endpoint
+app.post('/game/local/:id/start', (req: Request, res: Response) => {
+	req.session!.startGame();
+	res.sendStatus(200);
+});
+
+// Paddle movement endpoint
+app.post('/game/local/:id/move', (req: Request, res: Response) => {
+	req.session!.move(req.body.keys);
+	res.sendStatus(200);
+});
