@@ -154,6 +154,11 @@ signinform?.addEventListener('submit', async (event) =>
 			throw new Error(error || 'Erreur lors de la connection');
 		}
 
+		const data = await response.json();
+
+		localStorage.setItem('userId', data.id);
+		localStorage.setItem('userName', data.name);
+
 		window.location.href = "../../index.html";
 	}
 	catch (err)

@@ -48,7 +48,7 @@ app.post('/login', async (req, res) => {
             return;
         }
         console.log('User log in:', user);
-        res.status(200).send('Connection success');
+        res.status(200).json({ id: user.id, name: user.name });
     }
     catch (err) {
         console.error(err);

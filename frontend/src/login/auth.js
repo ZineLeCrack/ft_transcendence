@@ -118,6 +118,9 @@ signinform === null || signinform === void 0 ? void 0 : signinform.addEventListe
             const error = yield response.text();
             throw new Error(error || 'Erreur lors de la connection');
         }
+        const data = yield response.json();
+        localStorage.setItem('userId', data.id);
+        localStorage.setItem('userName', data.name);
         window.location.href = "../../index.html";
     }
     catch (err) {
