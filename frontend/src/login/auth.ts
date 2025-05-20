@@ -94,7 +94,7 @@ signupform?.addEventListener('submit', async (event) => {
 	};
 
 	try {
-		const response = await fetch('https://10.12.200.65:3451/submit', {
+		const response = await fetch('https://10.12.200.81:3451/submit', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ signupform?.addEventListener('submit', async (event) => {
 			throw new Error(error || 'Erreur lors de l’inscription');
 		}
 
-		alert('Inscription réussie !');
+		// alert('Inscription réussie !');
 		window.location.href = "../../index.html";
 	} catch (err) {
 		alert('Erreur : ' + (err as Error).message);

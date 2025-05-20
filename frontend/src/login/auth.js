@@ -84,7 +84,7 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
         password: signUpPasswordInput.value,
     };
     try {
-        const response = yield fetch('https://10.12.200.65:3451/submit', {
+        const response = yield fetch('https://10.12.200.81:3451/submit', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
             const error = yield response.text();
             throw new Error(error || 'Erreur lors de l’inscription');
         }
-        alert('Inscription réussie !');
+        // alert('Inscription réussie !');
         window.location.href = "../../index.html";
     }
     catch (err) {

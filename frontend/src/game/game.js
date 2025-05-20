@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (mode === "LOCAL") {
             try {
                 playBtn.onclick = () => __awaiter(this, void 0, void 0, function* () {
-                    const response = yield fetch("https://10.12.200.65:4000/start", {
+                    const response = yield fetch("https://10.12.200.81:4000/start", {
                         method: 'POST',
                     });
                     const data = yield response.json();
