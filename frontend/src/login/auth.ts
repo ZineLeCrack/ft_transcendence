@@ -1,4 +1,3 @@
-import { stringify } from 'uuid';
 import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/utils.js';
 
 // Elements de navigation
@@ -159,6 +158,6 @@ signinform?.addEventListener('submit', async (event) =>
 	}
 	catch (err)
 	{
-		alert('Erreur : ' + (err as Error).message);
+		console.log('Erreur : ' + (err as Error).message);
 	}
 });

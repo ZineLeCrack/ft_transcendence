@@ -13,11 +13,6 @@ const app = express();
 
 const dbPath = './user.db';
 
-https.createServer(credentials, app).listen(3451, '0.0.0.0', () =>
-{
-	console.log('HTTPS database server running at https://10.12.200.81:3451');
-});
-
 app.use(cors());
 app.use(express.json());
 
@@ -61,6 +56,7 @@ app.post('/login', async (req, res) =>
 	{
 		const db = await getDb();
 		const query = `SELECT * FROM users WHERE ${required} = ? AND password = ?`;
+		console.log(query);
 		const user = await db.get(query, [login, password]);
 
 		if (!user)
@@ -86,3 +82,8 @@ async function getDb()
 		driver: sqlite3.Database,
 	});
 }
+
+https.createServer(credentials, app).listen(3451, '0.0.0.0', () =>
+{
+	console.log('HTTPS database server running at https://10.12.200.81:3451');
+});
