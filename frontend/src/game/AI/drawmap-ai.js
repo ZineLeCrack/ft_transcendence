@@ -11,6 +11,7 @@ const gameCanvas = document.getElementById("gameCanvas");
 const topCanvas = document.getElementById("topCanvas");
 const game = gameCanvas.getContext("2d");
 const score = topCanvas.getContext("2d");
+const gameDiv = document.getElementById('gameDiv');
 // position et score par défaut
 score.font = "40px 'Caveat'";
 game.font = "80px 'Caveat'";
@@ -26,11 +27,11 @@ export function draw_ai() {
     game.fillStyle = "#00FFFF";
     game.shadowColor = "#00FFFF";
     game.shadowBlur = 10;
-    game.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
+    game.fillRect(5, leftPaddleY, paddleWidth, paddleHeight);
     game.fillStyle = "#FF007A";
     game.shadowColor = "#FF007A";
     game.shadowBlur = 10;
-    game.fillRect(gameCanvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+    game.fillRect(gameCanvas.width - paddleWidth - 5, rightPaddleY, paddleWidth, paddleHeight);
     game.fillStyle = "#FFFFFF";
     game.shadowColor = "#FFFFFF";
     game.shadowBlur = 10;

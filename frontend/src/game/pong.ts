@@ -20,8 +20,10 @@ let keys: { [key: string]: boolean } = {
 
 let gameStarted = false;
 
+const port = localStorage.getItem("pongServerPort");
+
 // 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = 'https://10.12.200.35/app1/';
+const SERVER_URL = `https://localhost:${port}`;
 
 async function fetchState() {
 	try {
@@ -61,6 +63,6 @@ setInterval(() => {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ keys })
 	}).catch(err => console.error("Erreur POST /move:", err));
-}, 10);
+}, 16);
 
-setInterval(fetchState, 10);
+setInterval(fetchState, 16);
