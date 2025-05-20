@@ -32,8 +32,7 @@ document.addEventListener("DOMContentLoaded", () =>
 					method: 'POST',
 				});
 				const data = await response.json();
-				const gameUrl = data.url;
-				localStorage.setItem("pongServerPort", new URL(gameUrl).port);
+				localStorage.setItem("pongSessionId", data.id); // stocke l'ID de session
 				window.location.href = "src/game/pong.html";
 			};
 		}
