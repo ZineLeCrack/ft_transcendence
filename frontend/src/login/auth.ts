@@ -135,7 +135,7 @@ signinform?.addEventListener('submit', async (event) =>
 
 	const userData =
 	{
-		required: signInEmailInput.required ? "email": "username",
+		required: signInEmailInput.required ? "email": "name",
 		login: signInEmailInput.required ? signInEmailInput.value: signInUsernameInput.value,
 		password: signInPasswordInput.value
 	}

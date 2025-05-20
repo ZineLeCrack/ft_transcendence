@@ -31,16 +31,45 @@ app.post('/submit', async (req, res) =>
 		return ;
 	}
 
-	try {
+	try
+	{
 		const db = await getDb();
 		await db.run(
 			`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
 			[username, email, password]
 		);
 		res.status(200).send('User created');
-	} catch (err) {
+	}
+	catch (err)
+	{
 		console.error(err);
-		res.status(500).send('Server error');
+		res.status(500).send('Error');
+	}
+});
+
+app.post('/login', async (req, res) =>
+{
+	const { required, login, password } = req.body;
+
+	if (!login || !password)
+	{
+		res.status(400).send('Incomplete data');
+		return ;
+	}
+
+	try
+	{
+		const db = await getDb();
+		const response = await db.run(
+			`SELECT * FROM users WHERE ${required}=${login} AND password=${password}`
+		)
+		console.log(response);
+		res.status(200).send('Connection success');
+	}
+	catch (err)
+	{
+		console.error(err);
+		res.status(500).send('Error');
 	}
 });
 
