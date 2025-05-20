@@ -3,5 +3,24 @@
     "cors": "^2.8.5",
     "uuid": "^11.1.0",
     "uuidv4": "^6.2.13"
-  }
+  },
+  "name": "ft_transcendence",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZineLeCrack/ft_transcendence.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZineLeCrack/ft_transcendence/issues"
+  },
+  "homepage": "https://github.com/ZineLeCrack/ft_transcendence#readme",
+  "description": ""
 }

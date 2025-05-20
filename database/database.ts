@@ -21,21 +21,21 @@ https.createServer(credentials, app).listen(3451, '0.0.0.0', () =>
 app.use(cors());
 app.use(express.json());
 
-app.post('/submit', async (req, res) =>
-{
+const bcrypt = require('bcrypt');
+
+app.post('/submit', async (req, res) => {
 	const { username, email, password } = req.body;
 
-	if (!username || !email || !password)
-	{
+	if (!username || !email || !password) {
 		res.status(400).send('Incomplete data');
-		return ;
+		return;
 	}
-
 	try {
 		const db = await getDb();
+		const hashedPassword = await bcrypt.hash(password, 10);
 		await db.run(
 			`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
-			[username, email, password]
+			[username, email, hashedPassword]
 		);
 		res.status(200).send('User created');
 	} catch (err) {

@@ -1,4 +1,6 @@
 import { draw } from "./drawmap.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
 export let ballX = 400;
 export let ballY = 300;
@@ -9,6 +11,7 @@ export let rightScore = 0;
 export const paddleWidth = 8;
 export const paddleHeight = 100;
 export let message = "";
+const IP_NAME: string | undefined = process.env.IP_NAME;
 
 // Dictionnaire pour stocker les touches pressées
 let keys: { [key: string]: boolean } = {
@@ -23,7 +26,7 @@ let gameStarted = false;
 const port = localStorage.getItem("pongServerPort");
 
 // 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = `https://10.12.200.35:${port}`;
+const SERVER_URL = `https://${IP_NAME}:${port}`;
 
 async function fetchState() {
 	try {
