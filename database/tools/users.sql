@@ -8,13 +8,13 @@ CREATE TABLE users (
 );
 
 CREATE TABLE stats (
-    game_played INTEGER NOT NULL,
-    win INTEGER NOT NULL,
-    lose INTEGER NOT NULL,
-    total_point INTEGER NOT NULL,
-    tournament_played INTEGER NOT NULL,
-    tournament_win INTEGER NOT NULL,
-    tournament_lose INTEGER NOT NULL,
+    game_playeds INTEGER NOT NULL,
+    wins INTEGER NOT NULL,
+    looses INTEGER NOT NULL,
+    total_points INTEGER NOT NULL,
+    tournament_playeds INTEGER NOT NULL,
+    tournament_wins INTEGER NOT NULL,
+    tournament_looses INTEGER NOT NULL,
     id_player INTEGER NOT NULL,
     FOREIGN KEY (id_player) REFERENCES users(id) ON DELETE CASCADE
 );
