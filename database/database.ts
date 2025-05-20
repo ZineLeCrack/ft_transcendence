@@ -51,19 +51,25 @@ app.post('/login', async (req, res) =>
 {
 	const { required, login, password } = req.body;
 
-	if (!login || !password)
+	if (!login || !password || (required !== 'email' && required !== 'username'))
 	{
-		res.status(400).send('Incomplete data');
+		res.status(400).send('Incomplete or invalid data');
 		return ;
 	}
 
 	try
 	{
 		const db = await getDb();
-		const response = await db.run(
-			`SELECT * FROM users WHERE ${required}=${login} AND password=${password}`
-		)
-		console.log(response);
+		const query = `SELECT * FROM users WHERE ${required} = ? AND password = ?`;
+		const user = await db.get(query, [login, password]);
+
+		if (!user)
+		{
+			res.status(401).send('Invalid credentials');
+			return;
+		}
+
+		console.log('User log in:', user);
 		res.status(200).send('Connection success');
 	}
 	catch (err)
