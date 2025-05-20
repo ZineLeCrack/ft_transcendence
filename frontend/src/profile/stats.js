@@ -21,8 +21,8 @@ tournamentBtn.addEventListener('click', () => {
 });
 const cardsHistory = [
     {
-        imageplayer1: "/frontend/src//images/pdp_cle-berr.png",
-        imageplayer2: "/frontend/src/images/pdp_rlebaill.jpeg",
+        imageplayer1: "/src/images/pdp_cle-berr.png",
+        imageplayer2: "/src/images/pdp_rlebaill.jpeg",
         usernameplayer2: "rlebaill",
         pointplayer1: 5,
         pointplayer2: 3,
@@ -30,8 +30,8 @@ const cardsHistory = [
         result: 'win',
     },
     {
-        imageplayer1: "/frontend/src/images/pdp_cle-berr.png",
-        imageplayer2: "/frontend/src/images/pdp_rlebaill.jpeg",
+        imageplayer1: "/src/images/pdp_cle-berr.png",
+        imageplayer2: "/src/images/pdp_rlebaill.jpeg",
         usernameplayer2: "rlebaill",
         pointplayer1: 2,
         pointplayer2: 5,
@@ -39,8 +39,8 @@ const cardsHistory = [
         result: 'loose',
     },
     {
-        imageplayer1: "/frontend/src/images/pdp_cle-berr.png",
-        imageplayer2: "/frontend/src/images/pdp_rlebaill.jpeg",
+        imageplayer1: "/src/images/pdp_cle-berr.png",
+        imageplayer2: "/src/images/pdp_rlebaill.jpeg",
         usernameplayer2: "rlebaill",
         pointplayer1: 5,
         pointplayer2: 0,

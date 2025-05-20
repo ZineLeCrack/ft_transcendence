@@ -15,7 +15,7 @@ const dbPath = './user.db';
 
 https.createServer(credentials, app).listen(3451, '0.0.0.0', () =>
 {
-	console.log('HTTPS database server running at https://10.12.200.81:3451');
+	console.log('HTTPS database server running at https://10.12.200.86:3451');
 });
 
 app.use(cors());

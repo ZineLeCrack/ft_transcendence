@@ -15,7 +15,7 @@ CREATE TABLE stats (
     tournament_playeds INTEGER NOT NULL,
     tournament_wins INTEGER NOT NULL,
     tournament_looses INTEGER NOT NULL,
-    id_player PRIMARY KEY INTEGER NOT NULL,
+    id_player INTEGER NOT NULL,
     FOREIGN KEY (id_player) REFERENCES users(id) ON DELETE CASCADE
 );
 

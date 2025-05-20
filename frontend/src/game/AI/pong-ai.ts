@@ -24,7 +24,7 @@ let keys: { [key: string]: boolean } = {
 	ArrowDown: false
 };
 
-const SERVER_URL = 'https://10.12.200.35/app2/';
+const SERVER_URL = 'https://10.12.200.86/app2/';
 
 // scores et dessine
 async function FetchState()
