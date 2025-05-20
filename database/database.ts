@@ -30,9 +30,11 @@ app.post('/submit', async (req, res) => {
 		res.status(400).send('Incomplete data');
 		return;
 	}
+
 	try {
 		const db = await getDb();
 		const hashedPassword = await bcrypt.hash(password, 10);
+
 		await db.run(
 			`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
 			[username, email, hashedPassword]

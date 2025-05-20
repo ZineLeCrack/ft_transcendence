@@ -6,8 +6,6 @@ services:
       - "443:443"
     volumes:
       - certs:/certs
-    env_file:
-      - .env
     networks:
       - transcendence
 
@@ -16,7 +14,6 @@ services:
     container_name: backend
     ports:
       - "3000:3000"
-      - "4242:4242"
       - "3001:3001"
       - "3002:3002"
       - "3003:3003"
@@ -72,8 +69,6 @@ services:
     volumes:
       - certs:/certs
       - database:/database
-    env_file:
-      - .env
     networks:
       - transcendence
 
@@ -85,8 +80,6 @@ services:
     volumes:
       - certs:/certs
       - database:/database
-    env_file:
-      - .env
     networks:
       - transcendence
 

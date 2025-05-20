@@ -15,4 +15,4 @@ EXPOSE 3000-3100
 EXPOSE 3451
 EXPOSE 4000
 
-CMD ["./exec.sh"]
+CMD ["node", "server/main_server.js"]

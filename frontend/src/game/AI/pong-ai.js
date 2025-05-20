@@ -29,7 +29,7 @@ let keys = {
     ArrowUp: false,
     ArrowDown: false
 };
-const SERVER_URL = 'https://10.12.200.35/app2/';
+const SERVER_URL = 'https://10.12.200.86/app2/';
 // scores et dessine
 function FetchState() {
     return __awaiter(this, void 0, void 0, function* () {

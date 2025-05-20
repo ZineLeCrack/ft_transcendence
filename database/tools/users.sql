@@ -18,3 +18,13 @@ CREATE TABLE stats (
     id_player INTEGER NOT NULL,
     FOREIGN KEY (id_player) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE history (
+    id_player1 INTEGER NOT NULL,
+    id_player2 INTEGER NOT NULL,
+    point_player1 INTEGER NOT NULL,
+    point_player2 INTEGER NOT NULL,
+    game_date DATE NOT NULL,
+    FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
+);

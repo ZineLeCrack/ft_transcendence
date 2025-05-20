@@ -9,11 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.15.19",
     "typescript": "^4.5.5"
   },
-  "description": "",
-  "dependencies": {
-    "dotenv": "^16.5.0"
-  }
+  "description": ""
 }
