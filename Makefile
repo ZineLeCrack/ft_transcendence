@@ -5,7 +5,8 @@ down:
 	@docker compose -f ./docker-compose.yml down
 
 re:
-	@docker compose -f ./docker-compose.yml up -d --build
+	@docker compose -f ./docker-compose.yml down; \
+	docker compose -f ./docker-compose.yml up -d --build;
 
 clean:
 	@docker stop $$(docker ps -qa) 2>/dev/null || true; \
