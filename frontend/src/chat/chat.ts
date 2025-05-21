@@ -29,7 +29,27 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	sendBtn.addEventListener("click", sendMessage);
-	input.addEventListener("keydown", (e) => {
-		if (e.key === "Enter") sendMessage();
+	input.addEventListener("keydown", async (e) => {
+		if (e.key === "Enter") {
+			try {
+		const response = await fetch('https://10.12.200.87:3451/submit', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(input.value),
+		});
+
+		if (!response.ok) {
+			const error = await response.text();
+			throw new Error(error || 'Erreur lors de l’inscription');
+		}
+
+		// alert('Inscription réussie !');
+		window.location.href = "../../index.html";
+	} catch (err) {
+		alert('Erreur : ' + (err as Error).message);
+	}
+		};
 	});
 });
