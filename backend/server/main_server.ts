@@ -16,7 +16,7 @@ let nextPort = baseGamePort;
 
 https.createServer(credentials, app).listen(4000, '0.0.0.0', () => 
 {
-	console.log('🔐 HTTPS Master server running at https://${IP_NAME}:4000');
+	console.log(`🔐 HTTPS Master server running at https://${IP_NAME}:4000`);
 });
 
 app.use(cors());

@@ -95,7 +95,7 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
             throw new Error(error || 'Erreur lors de l\'inscription');
         }
         // alert('Inscription réussie !');
-        window.location.href = "../../index.html";
+        window.location.href = "login.html";
     }
     catch (err) {
         alert('Erreur : ' + err.message);

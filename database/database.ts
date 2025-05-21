@@ -66,6 +66,7 @@ app.post('/login', async (req, res) => {
 		if (!isPasswordValid) {
 			res.status(401).send('Invalid credentials');
 			return;
+			return;
 		}
 
 		console.log('User log in:', user);

@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () =>
 		{
 			playBtn.onclick = async () =>
 			{
-				const response = await fetch(`https://${IP_NAME}:4000/star`,
+				const response = await fetch(`https://${IP_NAME}:4000/start`,
 				{
 					method: 'POST'
 				});
