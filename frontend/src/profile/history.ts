@@ -1,3 +1,5 @@
+import { userData } from "../game/game.js";
+
 interface CardHistory {
 	imageplayer1: string;
 	imageplayer2: string;
@@ -5,7 +7,7 @@ interface CardHistory {
 	pointplayer1: number;
 	pointplayer2: number;
 	date: string;
-	result: 'win' | 'loose';
+	result: 'win' | 'lose';
 }
 
 const cardsHistory: CardHistory[] = [
@@ -26,7 +28,7 @@ const cardsHistory: CardHistory[] = [
 	pointplayer1: 2,
 	pointplayer2: 5,
 	date: "20/05/25 at 10:00",
-	result: 'loose',
+	result: 'lose',
   },
   {
 	imageplayer1: "/src/images/pdp_cle-berr.png",
@@ -48,7 +50,7 @@ function generateCards(cardsHistory: CardHistory[]): void
 	{
 		cardsHistory.forEach(CardHistory => {
 			const cardElement = document.createElement('div');
-			if (CardHistory.result === 'loose')
+			if (CardHistory.result === 'lose')
 			{
 				cardElement.className = 'bg-red-600/30 border-4 border-red-500 shadow-[0_0_10px_#ff0000,0_0_20px_#ff0000,0_0_40px_#ff0000] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
 			}
@@ -77,6 +79,23 @@ function generateCards(cardsHistory: CardHistory[]): void
  	}
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  generateCards(cardsHistory);
+document.addEventListener('DOMContentLoaded', async () => {
+
+	try
+	{
+		const response = await fetch('https://10.12.200.86:3453/history',
+		{
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({userId: userData.userId}),
+		});
+
+		const data = await response.json();
+		console.log(data.point_player1);
+		generateCards(data);
+	}
+	catch (err)
+	{
+		console.error('Erreur lors de la récupération de l\'historique :', err);
+	}
 });
