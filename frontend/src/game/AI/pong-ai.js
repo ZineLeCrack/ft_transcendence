@@ -62,7 +62,7 @@ function callAI() {
     return __awaiter(this, void 0, void 0, function* () {
         //if (!gameStarted) return;
         try {
-            const res = yield fetch("https://10.12.200.35/app2/ai/ai.php", {
+            const res = yield fetch("https://10.12.200.35:4242/app2/ai/ai.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

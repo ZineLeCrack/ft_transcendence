@@ -9,6 +9,7 @@ const fs_1 = __importDefault(require("fs"));
 const https_1 = __importDefault(require("https"));
 const sqlite3_1 = __importDefault(require("sqlite3"));
 const sqlite_1 = require("sqlite");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
@@ -24,7 +25,8 @@ app.post('/submit', async (req, res) => {
     }
     try {
         const db = await getDb();
-        await db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [username, email, password]);
+        const hashedPassword = await bcrypt_1.default.hash(password, 10);
+        await db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [username, email, hashedPassword]);
         res.status(200).send('User created');
     }
     catch (err) {
@@ -35,19 +37,22 @@ app.post('/submit', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { required, login, password } = req.body;
     if (!login || !password || (required !== 'email' && required !== 'name')) {
-        res.status(400).send(`Incomplete or invalid data`);
+        res.status(400).send('Incomplete or invalid data');
         return;
     }
     try {
         const db = await getDb();
-        const query = `SELECT * FROM users WHERE ${required} = ? AND password = ?`;
-        console.log(query);
-        const user = await db.get(query, [login, password]);
+        const query = `SELECT * FROM users WHERE ${required} = ?`;
+        const user = await db.get(query, [login]);
         if (!user) {
             res.status(401).send('Invalid credentials');
             return;
         }
-        console.log('User log in:', user);
+        const isPasswordValid = await bcrypt_1.default.compare(password, user.password);
+        if (!isPasswordValid) {
+            res.status(401).send('Invalid credentials');
+            return;
+        }
         res.status(200).json({ id: user.id, name: user.name });
     }
     catch (err) {
