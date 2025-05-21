@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/utils.js';
+const IP_NAME = process.env.IP_NAME || "10.12.200.0";
 // Elements de navigation
 const signIn = document.getElementById('sign-in');
 const signUp = document.getElementById('sign-up');
@@ -84,7 +85,7 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
         password: signUpPasswordInput.value,
     };
     try {
-        const response = yield fetch('https://10.12.200.81:3451/submit', {
+        const response = yield fetch(`https://${IP_NAME}:3451/submit`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData),
@@ -109,7 +110,7 @@ signinform === null || signinform === void 0 ? void 0 : signinform.addEventListe
         password: signInPasswordInput.value
     };
     try {
-        const response = yield fetch('https://10.12.200.81:3451/login', {
+        const response = yield fetch(`https://${IP_NAME}:3451/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData)

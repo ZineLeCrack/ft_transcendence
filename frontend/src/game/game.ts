@@ -3,7 +3,7 @@ const userData =
 	userId: localStorage.getItem('userId'),
 	userName: localStorage.getItem('userName'),	
 };
-
+const IP_NAME = '10.12.200.35';
 document.addEventListener("DOMContentLoaded", () => 
 	{
 	const leftBtn = document.getElementById("left-button-game") as HTMLButtonElement;
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () =>
 		{
 			playBtn.onclick = async () =>
 			{
-				const response = await fetch("https://10.12.200.35:4000/start",
+				const response = await fetch(`https://${IP_NAME}:4000/star`,
 				{
 					method: 'POST'
 				});

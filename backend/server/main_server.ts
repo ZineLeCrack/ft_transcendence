@@ -8,14 +8,15 @@ import net from 'net';
 const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
+const IP_NAME = process.env.IP_NAME || "10.12.200.0";
 
 const app = express();
 const baseGamePort = 3000;
 let nextPort = baseGamePort;
 
-https.createServer(credentials, app).listen(4000, '0.0.0.0', () =>
+https.createServer(credentials, app).listen(4000, '0.0.0.0', () => 
 {
-	console.log('🔐 HTTPS Master server running at https://10.12.200.35:4000');
+	console.log('🔐 HTTPS Master server running at https://${IP_NAME}:4000');
 });
 
 app.use(cors());
@@ -36,7 +37,7 @@ app.post('/start', async (req, res) =>
 		stdio: 'inherit',
 	});
 	console.log(`🎮 Game server starting on port ${port}`);
-	res.json({ url: `https://10.12.200.35:${port}` });
+	res.json({ url: `https://${IP_NAME}:${port}` });
 });
 
 function isPortFree(port: number): Promise<boolean>

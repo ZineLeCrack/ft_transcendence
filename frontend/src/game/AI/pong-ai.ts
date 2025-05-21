@@ -1,4 +1,5 @@
 import { draw_ai } from './drawmap-ai.js';
+const IP_NAME = '10.12.200.35';
 
 // position et score par defaut
 let ballVX = 0;
@@ -24,7 +25,7 @@ let keys: { [key: string]: boolean } = {
 	ArrowDown: false
 };
 
-const SERVER_URL = 'https://10.12.200.35/app2/';
+const SERVER_URL = 'https://${IP_NAME}/app2/';
 
 // scores et dessine
 async function FetchState()
@@ -57,7 +58,7 @@ let aiTimeout: number | null = null;
 async function callAI() {
 	//if (!gameStarted) return;
 	try {
-		const res = await fetch("https://10.12.200.35:4242/app2/ai/ai.php", {
+		const res = await fetch(`https://${IP_NAME}:4242/app2/ai/ai.php`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({

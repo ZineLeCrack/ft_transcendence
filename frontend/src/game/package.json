@@ -9,7 +9,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^22.15.21",
     "typescript": "^4.5.5"
   },
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^6.0.0"
+  }
 }
