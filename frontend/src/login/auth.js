@@ -86,24 +86,44 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
     try {
         const response = yield fetch('https://10.12.200.87:3451/submit', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData),
         });
         if (!response.ok) {
             const error = yield response.text();
-            throw new Error(error || 'Erreur lors de l’inscription');
+            throw new Error(error || 'Erreur lors de l\'inscription');
         }
         // alert('Inscription réussie !');
-        window.location.href = "../../index.html";
+        window.location.href = "login.html";
     }
     catch (err) {
         alert('Erreur : ' + err.message);
     }
 }));
 const signinform = document.getElementById('sign-in');
-signinform === null || signinform === void 0 ? void 0 : signinform.addEventListener('submit', (event) => {
+signinform === null || signinform === void 0 ? void 0 : signinform.addEventListener('submit', (event) => __awaiter(void 0, void 0, void 0, function* () {
     event.preventDefault();
-    window.location.href = "../../index.html";
-});
+    const userData = {
+        required: signInEmailInput.required ? "email" : "name",
+        login: signInEmailInput.required ? signInEmailInput.value : signInUsernameInput.value,
+        password: signInPasswordInput.value
+    };
+    try {
+        const response = yield fetch('https://10.12.200.87:3451/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData)
+        });
+        if (!response.ok) {
+            const error = yield response.text();
+            throw new Error(error || 'Erreur lors de la connection');
+        }
+        const data = yield response.json();
+        localStorage.setItem('userId', data.id);
+        localStorage.setItem('userName', data.name);
+        window.location.href = "../../index.html";
+    }
+    catch (err) {
+        console.log('Erreur : ' + err.message);
+    }
+}));

@@ -11,7 +11,7 @@ const credentials = { key: privateKey, cert: certificate };
 
 const app = express();
 
-const dbPath = './user.db';
+const dbPath = './chat.db';
 
 https.createServer(credentials, app).listen(3452, '0.0.0.0', () =>
 {
@@ -21,10 +21,7 @@ https.createServer(credentials, app).listen(3452, '0.0.0.0', () =>
 app.use(cors());
 app.use(express.json());
 
-// Route unique pour envoyer (POST) et récupérer (GET) les messages
-app.route('/sendinfo')
-    .post(async (req, res) =>
-    {
+app.post('/sendinfo', async (req, res) => {
         const { username, content } = req.body;
 
         if (!username || !content)
@@ -39,28 +36,17 @@ app.route('/sendinfo')
                 `INSERT INTO chat (username, content) VALUES (?, ?)`,
                 [username, content]
             );
-            res.status(200).send('Info sent');
+            res.status(200).json({username: username, content: content});
         } catch (err) {
             console.error(err);
             res.status(500).send('Server error');
         }
-    })
-    // .get(async (req, res) =>
-    // {
-    //     try {
-    //         const db = await getDb();
-    //         const rows = await db.all(`SELECT username, content FROM chat`);
-    //         res.status(200).json(rows);
-    //     } catch (err) {
-    //         console.error(err);
-    //         res.status(500).send('Server error');
-    //     }
-    // });
+    });
 
 async function getDb()
 {
-    return open({
-        filename: dbPath,
-        driver: sqlite3.Database,
-    });
+	return open({
+		filename: dbPath,
+		driver: sqlite3.Database,
+	});
 }

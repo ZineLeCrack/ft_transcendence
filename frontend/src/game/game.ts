@@ -1,3 +1,9 @@
+export const userData =
+{
+	userId: localStorage.getItem('userId'),
+	userName: localStorage.getItem('userName'),	
+};
+
 document.addEventListener("DOMContentLoaded", () => 
 	{
 	const leftBtn = document.getElementById("left-button-game") as HTMLButtonElement;
@@ -29,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () =>
 			{
 				const response = await fetch("https://10.12.200.87:4000/start",
 				{
-					method: 'POST',
+					method: 'POST'
 				});
 				const data = await response.json();
 				const gameUrl = data.url;
