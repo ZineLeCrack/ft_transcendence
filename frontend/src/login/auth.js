@@ -118,6 +118,7 @@ signinform === null || signinform === void 0 ? void 0 : signinform.addEventListe
         });
         if (!response.ok) {
             const error = yield response.text();
+            alert("Mauvais identifiant ou mot de passe");
             throw new Error(error || 'Erreur lors de la connection');
         }
         const data = yield response.json();

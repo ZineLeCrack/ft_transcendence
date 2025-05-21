@@ -161,7 +161,7 @@ signinform?.addEventListener('submit', async (event) =>
 		localStorage.setItem('userId', data.id);
 		localStorage.setItem('userName', data.name);
 
-		window.location.href = "a2f.html";
+		window.location.href = "../../index.html";
 	}
 	catch (err)
 	{
