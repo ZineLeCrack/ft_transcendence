@@ -4,7 +4,7 @@ export const userData =
 	userName: localStorage.getItem('userName'),	
 };
 
-const IP_NAME = '10.12.200.81';
+const IP_NAME = '10.12.200.86';
 
 document.addEventListener("DOMContentLoaded", () => 
 	{

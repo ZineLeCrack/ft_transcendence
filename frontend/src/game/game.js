@@ -11,7 +11,7 @@ export const userData = {
     userId: localStorage.getItem('userId'),
     userName: localStorage.getItem('userName'),
 };
-const IP_NAME = '10.12.200.81';
+const IP_NAME = '10.12.200.86';
 document.addEventListener("DOMContentLoaded", () => {
     const leftBtn = document.getElementById("left-button-game");
     const rightBtn = document.getElementById("right-button-game");
