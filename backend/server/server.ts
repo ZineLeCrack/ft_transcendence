@@ -6,7 +6,7 @@ import { count } from 'console';
 import { TIMEOUT } from 'dns';
 
 const app = express();
-const httpsPort = parseInt(process.argv[2], 10);
+const httpsPort = 3000;
 const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
 

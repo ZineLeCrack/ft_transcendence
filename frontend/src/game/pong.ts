@@ -20,7 +20,7 @@ let keys: { [key: string]: boolean } = {
 
 let gameStarted = false;
 
-const port = localStorage.getItem("pongServerPort");
+const port = 3000;
 
 // 🔐 Mettre ici l'adresse du serveur HTTPS
 const SERVER_URL = `https://10.12.200.35:${port}`;
