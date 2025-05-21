@@ -150,6 +150,7 @@ signinform?.addEventListener('submit', async (event) =>
 		if (!response.ok)
 		{
 			const error = await response.text();
+			alert("Mauvais identifiant ou mot de passe");
 			throw new Error(error || 'Erreur lors de la connection');
 		}
 
