@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { draw_ai } from './drawmap-ai.js';
+const IP_NAME = '10.12.200.35';
 // position et score par defaut
 let ballVX = 0;
 let ballVY = 0;
@@ -29,7 +30,7 @@ let keys = {
     ArrowUp: false,
     ArrowDown: false
 };
-const SERVER_URL = 'https://10.12.200.86/app2/';
+const SERVER_URL = `https://${IP_NAME}/app2/`;
 // scores et dessine
 function FetchState() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -62,7 +63,7 @@ function callAI() {
     return __awaiter(this, void 0, void 0, function* () {
         //if (!gameStarted) return;
         try {
-            const res = yield fetch("https://10.12.200.35/app2/ai/ai.php", {
+            const res = yield fetch(`https://${IP_NAME}:4242/app2/ai/ai.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

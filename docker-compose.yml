@@ -6,6 +6,8 @@ services:
       - "443:443"
     volumes:
       - certs:/certs
+    env_file:
+      - .env
     networks:
       - transcendence
 
@@ -69,6 +71,8 @@ services:
     volumes:
       - certs:/certs
       - database:/database
+    env_file:
+      - .env
     networks:
       - transcendence
 
@@ -81,6 +85,8 @@ services:
     volumes:
       - certs:/certs
       - database:/database
+    env_file:
+      - .env
     networks:
       - transcendence
 

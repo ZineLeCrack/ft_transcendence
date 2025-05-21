@@ -4,6 +4,8 @@ export const userData =
 	userName: localStorage.getItem('userName'),	
 };
 
+const IP_NAME = '10.12.200.81';
+
 document.addEventListener("DOMContentLoaded", () => 
 	{
 	const leftBtn = document.getElementById("left-button-game") as HTMLButtonElement;
@@ -33,9 +35,9 @@ document.addEventListener("DOMContentLoaded", () =>
 		{
 			playBtn.onclick = async () =>
 			{
-				const response = await fetch("https://10.12.200.86:4000/start",
+				const response = await fetch(`https://${IP_NAME}:4000/start`,
 				{
-					method: 'POST',
+					method: 'POST'
 				});
 				const data = await response.json();
 				const gameUrl = data.url;

@@ -4,11 +4,13 @@ import fs from 'fs';
 import https from 'https';
 import { count } from 'console';
 import { TIMEOUT } from 'dns';
+import dotenv from 'dotenv';
 
 const app = express();
 const httpsPort = parseInt(process.argv[2], 10);
 const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
+const IP_NAME = process.env.IP_NAME || "10.12.200.0";
 
 const credentials = { key: privateKey, cert: certificate };
 
@@ -231,6 +233,6 @@ function resetBall()
 
 https.createServer(credentials, app).listen(httpsPort, '0.0.0.0' ,() =>
 {
-	console.log(`HTTPS server running at https://10.12.200.86:${httpsPort}`);
+	console.log(`HTTPS server running at https://${IP_NAME}:${httpsPort}`);
 	updateGame();
 });

@@ -7,6 +7,7 @@ const app = express();
 const httpsPort = 4242;
 const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
+const IP_NAME = process.env.IP_NAME || "10.12.200.0";
 
 const credentials = { key: privateKey, cert: certificate };
 
@@ -220,7 +221,7 @@ app.post('/ai/ai.php', (req, res) => {
 });
 
 https.createServer(credentials, app).listen(httpsPort, '0.0.0.0' ,() => {
-	console.log(`HTTPS server running at https://localhost:${httpsPort}`);
+	console.log(`HTTPS server running at https://${IP_NAME}:${httpsPort}`);
 	updateGame();
 
 });

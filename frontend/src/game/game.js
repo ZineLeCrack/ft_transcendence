@@ -11,6 +11,7 @@ export const userData = {
     userId: localStorage.getItem('userId'),
     userName: localStorage.getItem('userName'),
 };
+const IP_NAME = '10.12.200.81';
 document.addEventListener("DOMContentLoaded", () => {
     const leftBtn = document.getElementById("left-button-game");
     const rightBtn = document.getElementById("right-button-game");
@@ -31,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (mode === "LOCAL") {
             try {
                 playBtn.onclick = () => __awaiter(this, void 0, void 0, function* () {
-                    const response = yield fetch("https://10.12.200.86:4000/start", {
-                        method: 'POST',
+                    const response = yield fetch(`https://${IP_NAME}:4000/start`, {
+                        method: 'POST'
                     });
                     const data = yield response.json();
                     const gameUrl = data.url;
