@@ -23,8 +23,23 @@ document.addEventListener("DOMContentLoaded", () => {
         messageWrapper.appendChild(msg);
         messageBox.appendChild(messageWrapper);
 
-        input.value = "";
         messageBox.scrollTop = messageBox.scrollHeight;
+    }
+
+    async function displayAllMessages() {
+        try {
+            const response = await fetch('https://10.12.200.81:3452/getmessages', {
+                method: 'POST',
+            });
+            const data = await response.json();
+            const tab = data.tab;
+            messageBox.innerHTML = "";
+            for (let i = 0; i < tab.length; i++)
+                sendMessage(tab[i].username, tab[i].content);
+        } catch (err) {
+            console.error("Erreur lors de la récupération des messages :", err);
+        }
+        setTimeout(displayAllMessages, 1000);
     }
 
     sendBtn.addEventListener("click", () => {
@@ -50,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     body: JSON.stringify(chatdata),
                 });
                 if (!response.ok) throw new Error('Erreur serveur');
+                input.value = "";
                 const data = await response.json();
                 sendMessage(data.username, data.content);
             } catch (err) {
@@ -57,4 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
+
+    displayAllMessages();
 });

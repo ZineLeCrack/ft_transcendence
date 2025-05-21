@@ -35,6 +35,17 @@ app.post('/sendinfo', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+app.post('/getmessages', async (req, res) => {
+    try {
+        const db = await getDb();
+        const messages = await db.all(`SELECT * FROM chat`);
+        res.status(200).json({ tab: messages });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
 async function getDb() {
     return (0, sqlite_1.open)({
         filename: dbPath,

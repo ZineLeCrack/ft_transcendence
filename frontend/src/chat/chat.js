@@ -26,8 +26,26 @@ document.addEventListener("DOMContentLoaded", () => {
         messageWrapper.appendChild(usernameDiv);
         messageWrapper.appendChild(msg);
         messageBox.appendChild(messageWrapper);
-        input.value = "";
+        // input.value = "";
         messageBox.scrollTop = messageBox.scrollHeight;
+    }
+    function displayAllMessages() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield fetch('https://10.12.200.81:3452/getmessages', {
+                    method: 'POST',
+                });
+                const data = yield response.json();
+                const tab = data.tab;
+                messageBox.innerHTML = "";
+                for (let i = 0; i < tab.length; i++)
+                    sendMessage(tab[i].username, tab[i].content);
+            }
+            catch (err) {
+                console.error("Erreur lors de la récupération des messages :", err);
+            }
+            setTimeout(displayAllMessages, 1000);
+        });
     }
     sendBtn.addEventListener("click", () => {
         const username = userData.userName;
@@ -52,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
                 if (!response.ok)
                     throw new Error('Erreur serveur');
+                input.value = "";
                 const data = yield response.json();
                 sendMessage(data.username, data.content);
             }
@@ -60,4 +79,5 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     }));
+    displayAllMessages();
 });
