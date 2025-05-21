@@ -152,6 +152,7 @@ signinform?.addEventListener('submit', async (event) =>
 		if (!response.ok)
 		{
 			const error = await response.text();
+			alert("Mauvais identifiant ou mot de passe");
 			throw new Error(error || 'Erreur lors de la connection');
 		}
 
@@ -160,7 +161,7 @@ signinform?.addEventListener('submit', async (event) =>
 		localStorage.setItem('userId', data.id);
 		localStorage.setItem('userName', data.name);
 
-		window.location.href = "../../index.html";
+		window.location.href = "a2f.html";
 	}
 	catch (err)
 	{
