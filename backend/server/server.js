@@ -1,41 +1,38 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const fs_1 = __importDefault(require("fs"));
-const https_1 = __importDefault(require("https"));
-const app = (0, express_1.default)();
-const httpsPort = parseInt(process.argv[2], 10);
-const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
-const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
-app.use((0, cors_1.default)({ origin: true, credentials: true }));
-app.use(express_1.default.json());
-let ballX = 400;
-let ballY = 300;
-let ballSpeedX = 0;
-let ballSpeedY = 0;
-let leftPaddleY = 250;
-let rightPaddleY = 250;
-let leftScore = 0;
-let rightScore = 0;
-let countDown = 0;
-let newSpeedX = 0;
-let newSpeedY = 0;
-let gameStarted = false;
-let leftOldY = leftPaddleY;
-let rightOldY = rightPaddleY;
-let message = "Press space to start !";
-app.get('/state', (req, res) => {
-    res.json({ ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore, message });
+exports.__esModule = true;
+var express_1 = require("express");
+var cors_1 = require("cors");
+var fs_1 = require("fs");
+var https_1 = require("https");
+var app = (0, express_1["default"])();
+var httpsPort = parseInt(process.argv[2], 10);
+var privateKey = fs_1["default"].readFileSync('/certs/transcend.key', 'utf8');
+var certificate = fs_1["default"].readFileSync('/certs/transcend.crt', 'utf8');
+var credentials = { key: privateKey, cert: certificate };
+app.use((0, cors_1["default"])({ origin: true, credentials: true }));
+app.use(express_1["default"].json());
+var ballX = 400;
+var ballY = 300;
+var ballSpeedX = 0;
+var ballSpeedY = 0;
+var leftPaddleY = 250;
+var rightPaddleY = 250;
+var leftScore = 0;
+var rightScore = 0;
+var countDown = 0;
+var newSpeedX = 0;
+var newSpeedY = 0;
+var gameStarted = false;
+var leftOldY = leftPaddleY;
+var rightOldY = rightPaddleY;
+var message = "Press space to start !";
+app.get('/state', function (req, res) {
+    res.json({ ballX: ballX, ballY: ballY, leftPaddleY: leftPaddleY, rightPaddleY: rightPaddleY, leftScore: leftScore, rightScore: rightScore, message: message });
 });
-app.get('/start', (req, res) => {
-    res.json({ gameStarted });
+app.get('/start', function (req, res) {
+    res.json({ gameStarted: gameStarted });
 });
-app.post('/start', (req, res) => {
+app.post('/start', function (req, res) {
     if (!gameStarted) {
         message = "";
         gameStarted = true;
@@ -46,8 +43,8 @@ app.post('/start', (req, res) => {
     }
     res.sendStatus(200);
 });
-app.post('/move', (req, res) => {
-    const { keys } = req.body;
+app.post('/move', function (req, res) {
+    var keys = req.body.keys;
     leftOldY = leftPaddleY;
     rightOldY = rightPaddleY;
     if (keys.ArrowUp)
@@ -67,7 +64,7 @@ function updateGame() {
         if (leftScore === 5 || rightScore === 5) {
             gameStarted = false;
             message = leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
-            setTimeout(() => {
+            setTimeout(function () {
                 if (!gameStarted) {
                     leftScore = 0;
                     rightScore = 0;
@@ -146,7 +143,7 @@ function updateGame() {
         countDown++;
         if (countDown > 2000) {
             message = "TIMEOUT";
-            setTimeout(() => {
+            setTimeout(function () {
                 process.exit(0);
             }, 100);
         }
@@ -164,20 +161,20 @@ function resetBall() {
     ballSpeedY = 0;
     if (leftScore != 5 && rightScore != 5) {
         message = "3";
-        setTimeout(() => {
+        setTimeout(function () {
             message = "2";
         }, 1000);
-        setTimeout(() => {
+        setTimeout(function () {
             message = "1";
         }, 2000);
-        setTimeout(() => {
+        setTimeout(function () {
             ballSpeedX = newSpeedX;
             ballSpeedY = newSpeedY;
             message = "";
         }, 3000);
     }
 }
-https_1.default.createServer(credentials, app).listen(httpsPort, '0.0.0.0', () => {
-    console.log(`HTTPS server running at https://10.12.200.78:${httpsPort}`);
+https_1["default"].createServer(credentials, app).listen(httpsPort, '0.0.0.0', function () {
+    console.log("HTTPS server running at https://10.12.200.87:".concat(httpsPort));
     updateGame();
 });

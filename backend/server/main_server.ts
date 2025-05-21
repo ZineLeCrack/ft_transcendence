@@ -15,7 +15,7 @@ let nextPort = baseGamePort;
 
 https.createServer(credentials, app).listen(4000, '0.0.0.0', () =>
 {
-	console.log('🔐 HTTPS Master server running at https://10.12.200.78:4000');
+	console.log('🔐 HTTPS Master server running at https://10.12.200.87:4000');
 });
 
 app.use(cors());
@@ -36,7 +36,7 @@ app.post('/start', async (req, res) =>
 		stdio: 'inherit',
 	});
 	console.log(`🎮 Game server starting on port ${port}`);
-	res.json({ url: `https://10.12.200.78:${port}` });
+	res.json({ url: `https://10.12.200.87:${port}` });
 });
 
 function isPortFree(port: number): Promise<boolean>
