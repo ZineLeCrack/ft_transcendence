@@ -94,7 +94,7 @@ signupform?.addEventListener('submit', async (event) => {
 	};
 
 	try {
-		const response = await fetch('https://10.12.200.81:3451/submit', {
+		const response = await fetch('https://10.12.200.86:3451/submit', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

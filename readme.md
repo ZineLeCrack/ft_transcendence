@@ -1,0 +1,1 @@
+insert into history (id_player1, id_player2, point_player1, point_player2, game_date) values (1, 2, 4, 5, '21/05/25 9:06');
