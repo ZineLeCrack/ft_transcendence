@@ -1,1 +1,1 @@
-node database.js & node history.js
+node database.js & node history.js & node chat.js

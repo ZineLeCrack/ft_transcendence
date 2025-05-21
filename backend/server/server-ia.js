@@ -59,9 +59,9 @@ app.post('/move', (req, res) => {
 });
 function updateGame() {
     if (gameStarted) {
-        if (leftScore === 5 || rightScore === 5) {
+        if (leftScore === 5000 || rightScore === 5000) {
             gameStarted = false;
-            message = leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
+            message = leftScore === 5000 ? "Player 1 win !" : "Player 2 win !";
             setTimeout(() => {
                 if (!gameStarted) {
                     leftScore = 0;
@@ -72,6 +72,9 @@ function updateGame() {
         }
         ballX += ballSpeedX;
         ballY += ballSpeedY;
+        // IA basique : la raquette gauche suit la balle parfaitement
+        leftPaddleY = ballY - 50;
+        leftPaddleY = Math.max(0, Math.min(500, leftPaddleY)); // Pour rester dans les limites
         if (ballY <= 0 || ballY >= 600)
             ballSpeedY = -ballSpeedY;
         if (ballSpeedX < 0) {
@@ -146,7 +149,7 @@ function resetBall() {
     newSpeedY = ballSpeedY < 0 ? 5 : -5;
     ballSpeedX = 0;
     ballSpeedY = 0;
-    if (leftScore != 5 && rightScore != 5) {
+    if (leftScore != 5000 && rightScore != 5000) {
         message = "3";
         setTimeout(() => {
             message = "2";

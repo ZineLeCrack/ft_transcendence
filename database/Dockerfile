@@ -14,6 +14,7 @@ RUN sqlite3 chat.db < tools/chat.sql
 RUN chmod +x start.sh
 
 EXPOSE 3451
+EXPOSE 3452
 EXPOSE 3453
 
 CMD ["./start.sh"]
