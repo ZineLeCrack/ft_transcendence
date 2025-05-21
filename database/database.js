@@ -14,9 +14,6 @@ const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 const app = (0, express_1.default)();
 const dbPath = './user.db';
-https_1.default.createServer(credentials, app).listen(3451, '0.0.0.0', () => {
-    console.log('HTTPS database server running at https://10.12.200.86:3451');
-});
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.post('/submit', async (req, res) => {
@@ -32,7 +29,30 @@ app.post('/submit', async (req, res) => {
     }
     catch (err) {
         console.error(err);
-        res.status(500).send('Server error');
+        res.status(500).send('Error');
+    }
+});
+app.post('/login', async (req, res) => {
+    const { required, login, password } = req.body;
+    if (!login || !password || (required !== 'email' && required !== 'name')) {
+        res.status(400).send(`Incomplete or invalid data`);
+        return;
+    }
+    try {
+        const db = await getDb();
+        const query = `SELECT * FROM users WHERE ${required} = ? AND password = ?`;
+        console.log(query);
+        const user = await db.get(query, [login, password]);
+        if (!user) {
+            res.status(401).send('Invalid credentials');
+            return;
+        }
+        console.log('User log in:', user);
+        res.status(200).json({ id: user.id, name: user.name });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
     }
 });
 async function getDb() {
@@ -41,3 +61,6 @@ async function getDb() {
         driver: sqlite3_1.default.Database,
     });
 }
+https_1.default.createServer(credentials, app).listen(3451, '0.0.0.0', () => {
+    console.log('HTTPS database server running at https://10.12.200.86:3451');
+});
