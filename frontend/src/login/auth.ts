@@ -118,7 +118,7 @@ signupform?.addEventListener('submit', async (event) =>
 		}
 
 		// alert('Inscription réussie !');
-		window.location.href = "../../index.html";
+		window.location.href = "login.html";
 	}
 	catch (err)
 	{
