@@ -102,8 +102,10 @@ signupform?.addEventListener('submit', async (event) =>
 		password: signUpPasswordInput.value,
 	};
 
-	try {
-		const response = await fetch('https://10.12.200.86:3451/submit', {
+	try
+	{
+		const response = await fetch('https://10.12.200.86:3451/submit',
+		{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(userData),
@@ -129,5 +131,38 @@ const signinform = document.getElementById('sign-in') as HTMLFormElement;
 signinform?.addEventListener('submit', async (event) =>
 {
 	event.preventDefault();
-	window.location.href = "../../index.html";
+
+	const userData =
+	{
+		required: signInEmailInput.required ? "email": "name",
+		login: signInEmailInput.required ? signInEmailInput.value: signInUsernameInput.value,
+		password: signInPasswordInput.value
+	};
+
+	try
+	{
+		const response = await fetch('https://10.12.200.86:3451/login',
+		{
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(userData)
+		});
+
+		if (!response.ok)
+		{
+			const error = await response.text();
+			throw new Error(error || 'Erreur lors de la connection');
+		}
+
+		const data = await response.json();
+
+		localStorage.setItem('userId', data.id);
+		localStorage.setItem('userName', data.name);
+
+		window.location.href = "../../index.html";
+	}
+	catch (err)
+	{
+		console.log('Erreur : ' + (err as Error).message);
+	}
 });
