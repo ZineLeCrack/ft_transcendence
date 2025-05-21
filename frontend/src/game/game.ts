@@ -1,4 +1,4 @@
-const userData =
+export const userData =
 {
 	userId: localStorage.getItem('userId'),
 	userName: localStorage.getItem('userName'),	
