@@ -23,8 +23,8 @@ app.post('/history', async (req, res) => {
         const rows = await db.all('SELECT h.point_player1, h.point_player2, h.game_date, u2.name AS usernameplayer2 FROM history h \
 			 						JOIN users u1 ON h.id_player1 = u1.id \
 									JOIN users u2 ON h.id_player2 = u2.id \
-									WHERE u1.id = ? \
-									ORDER BY h.game_date DESC', [userId]);
+									WHERE u1.id = ? OR u2.id = ? \
+									ORDER BY h.game_date DESC', [userId, userId]);
         const formatted = rows.map(row => ({
             imageplayer1: "/src/images/pdp_cle-berr.png",
             imageplayer2: "/src/images/pdp_rlebaill.jpeg",
