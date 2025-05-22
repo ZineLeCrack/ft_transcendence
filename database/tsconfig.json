@@ -110,5 +110,5 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "include": ["database.ts", "history.ts"]
+  "include": ["database.ts", "history_back.ts", "server_api.ts", "auth_back.ts"]
 }

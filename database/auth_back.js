@@ -1,0 +1,47 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const database_js_1 = require("./database.js");
+const router = (0, express_1.Router)();
+router.post('/submit', async (req, res) => {
+    const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+        res.status(400).send('Incomplete data');
+        return;
+    }
+    try {
+        const db = await (0, database_js_1.getDb)();
+        const hashedPassword = await bcrypt_1.default.hash(password, 10);
+        await db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [username, email, hashedPassword]);
+        res.status(200).send('User created');
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+router.post('/login', async (req, res) => {
+    const { required, login, password } = req.body;
+    if (!login || !password || (required !== 'email' && required !== 'name')) {
+        res.status(400).send('Incomplete or invalid data');
+        return;
+    }
+    try {
+        const db = await (0, database_js_1.getDb)();
+        const user = await db.get(`SELECT * FROM users WHERE ${required} = ?`, [login]);
+        if (!user || !(await bcrypt_1.default.compare(password, user.password))) {
+            res.status(401).send('Invalid credentials');
+            return;
+        }
+        res.status(200).json({ id: user.id, name: user.name });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send('Error');
+    }
+});
+exports.default = router;
