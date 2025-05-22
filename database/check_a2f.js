@@ -38,14 +38,14 @@ app.post('/a2f', async (req, res) => {
             .padStart(6, '0');
         // Envoie du code par email
         const transporter = nodemailer_1.default.createTransport({
-            host: 'gmail',
+            service: 'gmail',
             auth: {
                 user: EMAIL,
                 pass: EMAIL_SMP,
             }
         });
         await transporter.sendMail({
-            from: '"Transcend Auth" <your_email@example.com>',
+            from: EMAIL,
             to: user.email,
             subject: "Votre code de vérification",
             text: `Voici votre code de vérification : ${realcode}`,

@@ -51,7 +51,7 @@ app.post('/a2f', async (req, res) => {
 		});
 
 		await transporter.sendMail({
-			from: '"Transcend Auth" <your_email@example.com>',
+			from: EMAIL,
 			to: user.email,
 			subject: "Votre code de vérification",
 			text: `Voici votre code de vérification : ${realcode}`,
