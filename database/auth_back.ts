@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
-import { getDb } from './database.js';
+import { getDb_user } from './database.js';
 
 const router = Router();
 
@@ -13,7 +13,7 @@ router.post('/submit', async (req, res) => {
     }
 
 	try {
-		const db = await getDb();
+		const db = await getDb_user();
 		const hashedPassword = await bcrypt.hash(password, 10);
 		await db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [username, email, hashedPassword]);
 		res.status(200).send('User created');
@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
     }
 
 	try {
-		const db = await getDb();
+		const db = await getDb_user();
 		const user = await db.get(`SELECT * FROM users WHERE ${required} = ?`, [login]);
 
 		if (!user || !(await bcrypt.compare(password, user.password)))

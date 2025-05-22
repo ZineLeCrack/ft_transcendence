@@ -124,6 +124,7 @@
     "node-gyp": "^8.4.1",
     "nopt": "^5.0.0",
     "npmlog": "^6.0.2",
+    "npx": "^10.2.2",
     "object-assign": "^4.1.1",
     "object-inspect": "^1.13.4",
     "on-finished": "^2.4.1",
@@ -186,6 +187,7 @@
     "which": "^2.0.2",
     "wide-align": "^1.1.5",
     "wrappy": "^1.0.2",
+    "ws": "^8.18.2",
     "yallist": "^4.0.0"
   },
   "scripts": {
@@ -199,6 +201,7 @@
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
     "@types/node": "^22.15.19",
+    "@types/ws": "^8.18.1",
     "typescript": "^5.8.3"
   }
 }

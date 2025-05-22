@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 
 import authRoutes from './auth_back.js';
 import historyRoutes from './history_back.js';
+import { setupWebSocket } from './websocket_chat.js';
+import chatRoutes from './chat_back.js';
 
 dotenv.config();
 
@@ -19,10 +21,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Utilisation des routes
 app.use(authRoutes);
 app.use(historyRoutes);
+app.use(chatRoutes);
 
-https.createServer(credentials, app).listen(3451, '0.0.0.0', () => {
+const httpsServer = https.createServer(credentials, app);
+
+setupWebSocket(httpsServer); // 👈 ici on branche le WebSocket
+
+httpsServer.listen(3451, '0.0.0.0', () => {
 	console.log(`HTTPS server running at https://${IP_NAME}:3451`);
 });

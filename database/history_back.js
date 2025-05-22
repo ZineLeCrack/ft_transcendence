@@ -6,7 +6,7 @@ const router = (0, express_1.Router)();
 router.post('/history', async (req, res) => {
     const { userId } = req.body;
     try {
-        const db = await (0, database_js_1.getDb)();
+        const db = await (0, database_js_1.getDb_user)();
         const rows = await db.all(`
 			SELECT h.point_player1, h.point_player2, h.game_date,
 				   u1.name AS usernameplayer1, u2.name AS usernameplayer2

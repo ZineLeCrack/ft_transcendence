@@ -14,7 +14,7 @@ router.post('/submit', async (req, res) => {
         return;
     }
     try {
-        const db = await (0, database_js_1.getDb)();
+        const db = await (0, database_js_1.getDb_user)();
         const hashedPassword = await bcrypt_1.default.hash(password, 10);
         await db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [username, email, hashedPassword]);
         res.status(200).send('User created');
@@ -31,7 +31,7 @@ router.post('/login', async (req, res) => {
         return;
     }
     try {
-        const db = await (0, database_js_1.getDb)();
+        const db = await (0, database_js_1.getDb_user)();
         const user = await db.get(`SELECT * FROM users WHERE ${required} = ?`, [login]);
         if (!user || !(await bcrypt_1.default.compare(password, user.password))) {
             res.status(401).send('Invalid credentials');

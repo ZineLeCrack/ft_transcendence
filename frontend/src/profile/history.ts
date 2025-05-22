@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 		});
 
 		const data = await response.json();
-		console.log(data.point_player1);
 		generateCards(data);
 	}
 	catch (err)

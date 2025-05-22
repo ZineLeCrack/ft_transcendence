@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getDb } from './database.js';
+import { getDb_user } from './database.js';
 
 const router = Router();
 
@@ -7,7 +7,7 @@ router.post('/history', async (req, res) => {
 	const { userId } = req.body;
 
 	try {
-		const db = await getDb();
+		const db = await getDb_user();
 		const rows = await db.all(`
 			SELECT h.point_player1, h.point_player2, h.game_date,
 				   u1.name AS usernameplayer1, u2.name AS usernameplayer2

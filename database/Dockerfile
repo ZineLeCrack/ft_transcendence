@@ -11,7 +11,6 @@ COPY . .
 
 RUN sqlite3 user.db < tools/users.sql
 RUN sqlite3 chat.db < tools/chat.sql
-RUN chmod +x start.sh
 
 EXPOSE 3451
 
