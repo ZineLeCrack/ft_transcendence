@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const database_js_1 = require("../database.js");
+const fs_1 = __importDefault(require("fs"));
+const uuid_1 = require("uuid");
 const router = (0, express_1.Router)();
 router.post('/submit', async (req, res) => {
     const { username, email, password } = req.body;
@@ -16,7 +18,10 @@ router.post('/submit', async (req, res) => {
     try {
         const db = await (0, database_js_1.getDb_user)();
         const hashedPassword = await bcrypt_1.default.hash(password, 10);
-        await db.run(`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`, [username, email, hashedPassword]);
+        // Générer un nom unique pour l’image de profil
+        const uniqueFilename = `uploads/${(0, uuid_1.v4)()}.png`;
+        fs_1.default.copyFileSync('uploads/default.png', uniqueFilename);
+        await db.run(`INSERT INTO users (name, email, password, profile_pic) VALUES (?, ?, ?, ?)`, [username, email, hashedPassword, uniqueFilename]);
         res.status(200).send('User created');
     }
     catch (err) {
@@ -37,7 +42,7 @@ router.post('/login', async (req, res) => {
             res.status(401).send('Invalid credentials');
             return;
         }
-        res.status(200).json({ id: user.id, name: user.name });
+        res.status(200).json({ id: user.id, name: user.name, profile_pic: user.profile_pic });
     }
     catch (err) {
         console.error(err);
