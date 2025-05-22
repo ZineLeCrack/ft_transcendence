@@ -11,7 +11,7 @@ export const userData = {
     userId: localStorage.getItem('userId'),
     userName: localStorage.getItem('userName'),
 };
-const IP_NAME = '10.12.200.86';
+const IP_NAME = '10.12.200.81';
 document.addEventListener("DOMContentLoaded", () => {
     const leftBtn = document.getElementById("left-button-game");
     const rightBtn = document.getElementById("right-button-game");
@@ -30,21 +30,28 @@ document.addEventListener("DOMContentLoaded", () => {
         gameModeDiv.textContent = mode;
         descriptionmode.textContent = description[mode];
         if (mode === "LOCAL") {
-            try {
-                playBtn.onclick = () => __awaiter(this, void 0, void 0, function* () {
-                    const response = yield fetch(`https://${IP_NAME}:4000/start`, {
-                        method: 'POST'
+            playBtn.onclick = () => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    const response = yield fetch(`https://${IP_NAME}:4000/game/start`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            userId: userData.userId,
+                            userName: userData.userName
+                        })
                     });
+                    if (!response.ok)
+                        throw new Error(`Erreur HTTP: ${response.status}`);
                     const data = yield response.json();
-                    const gameUrl = data.url;
-                    localStorage.setItem("pongServerPort", new URL(gameUrl).port);
+                    const gameId = data.gameId;
+                    localStorage.setItem("gameId", gameId);
                     window.location.href = "src/game/pong.html";
-                });
-            }
-            catch (err) {
-                console.error("❌ Erreur lors du démarrage du serveur local :", err);
-                alert("Erreur : impossible de démarrer le serveur local.\n" + err);
-            }
+                }
+                catch (err) {
+                    console.error("❌ Erreur lors du démarrage du mode local :", err);
+                    alert("Erreur : impossible de démarrer le jeu local.\n" + err);
+                }
+            });
             document.body.style.backgroundImage = "url('/src/images/localgame.png')";
         }
         else if (mode === "MULTI") {

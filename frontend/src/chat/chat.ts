@@ -1,6 +1,6 @@
 import { userData } from "../game/game.js";
 
-const IP_NAME = '10.12.200.86';
+const IP_NAME = '10.12.200.81';
 
 document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("chat-input") as HTMLInputElement;
