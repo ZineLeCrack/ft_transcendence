@@ -16,6 +16,7 @@ RUN chmod +x start.sh
 EXPOSE 3451
 EXPOSE 3452
 EXPOSE 3453
+EXPOSE 3534
 
 CMD ["./start.sh"]
 # CMD ["tail", "-f", "/dev/null"]

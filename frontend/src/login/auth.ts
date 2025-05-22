@@ -119,7 +119,6 @@ signupform?.addEventListener('submit', async (event) =>
 
 		// alert('Inscription réussie !');
 		window.location.href = "login.html";
-		window.location.href = "login.html";
 	}
 	catch (err)
 	{
@@ -161,7 +160,7 @@ signinform?.addEventListener('submit', async (event) =>
 		localStorage.setItem('userId', data.id);
 		localStorage.setItem('userName', data.name);
 
-		window.location.href = "../../index.html";
+		window.location.href = "a2f.html";
 	}
 	catch (err)
 	{
