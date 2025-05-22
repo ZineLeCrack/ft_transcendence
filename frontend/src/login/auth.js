@@ -124,6 +124,7 @@ signinform === null || signinform === void 0 ? void 0 : signinform.addEventListe
         const data = yield response.json();
         localStorage.setItem('userId', data.id);
         localStorage.setItem('userName', data.name);
+        localStorage.setItem('userName', data.profile_pic);
         window.location.href = "../../index.html";
     }
     catch (err) {

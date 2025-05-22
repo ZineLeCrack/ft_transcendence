@@ -81,8 +81,6 @@ services:
     container_name: database
     ports:
       - "3451:3451"
-      - "3452:3452"
-      - "3453:3453"
     volumes:
       - certs:/certs
       - database:/database

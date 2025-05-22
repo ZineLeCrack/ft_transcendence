@@ -160,6 +160,7 @@ signinform?.addEventListener('submit', async (event) =>
 
 		localStorage.setItem('userId', data.id);
 		localStorage.setItem('userName', data.name);
+		localStorage.setItem('userName', data.profile_pic);
 
 		window.location.href = "../../index.html";
 	}

@@ -110,5 +110,5 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "include": ["database.ts", "history_back.ts", "server_api.ts", "auth_back.ts", "websocket_chat.ts", "chat_back.ts"]
+  "include": ["database.ts", "stats/history_back.ts", "server_api.ts", "auth/auth_back.ts", "chat/websocket_chat.ts", "chat/chat_back.ts"]
 }

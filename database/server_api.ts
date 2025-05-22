@@ -4,10 +4,10 @@ import https from 'https';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import authRoutes from './auth_back.js';
-import historyRoutes from './history_back.js';
-import { setupWebSocket } from './websocket_chat.js';
-import chatRoutes from './chat_back.js';
+import authRoutes from './auth/auth_back.js';
+import historyRoutes from './stats/history_back.js';
+import { setupWebSocket } from './chat/websocket_chat.js';
+import chatRoutes from './chat/chat_back.js';
 
 dotenv.config();
 
