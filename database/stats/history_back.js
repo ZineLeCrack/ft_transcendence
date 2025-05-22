@@ -24,7 +24,6 @@ router.post('/history', async (req, res) => {
             pointplayer1: row.point_player1,
             pointplayer2: row.point_player2,
             date: row.game_date,
-            result: row.point_player1 > row.point_player2 ? 'win' : 'lose',
         }));
         res.json(formatted);
     }
