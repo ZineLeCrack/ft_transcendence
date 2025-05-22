@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const database_js_1 = require("./database.js");
+const database_js_1 = require("../database.js");
 const router = (0, express_1.Router)();
 router.post('/history', async (req, res) => {
     const { userId } = req.body;

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupWebSocket = setupWebSocket;
 const ws_1 = require("ws");
-const database_js_1 = require("./database.js");
+const database_js_1 = require("../database.js");
 const clients = new Set();
 function setupWebSocket(server) {
     const wss = new ws_1.WebSocketServer({ server });

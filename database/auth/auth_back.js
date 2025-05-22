@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const database_js_1 = require("./database.js");
+const database_js_1 = require("../database.js");
 const router = (0, express_1.Router)();
 router.post('/submit', async (req, res) => {
     const { username, email, password } = req.body;

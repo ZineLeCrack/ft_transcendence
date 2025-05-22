@@ -1,6 +1,6 @@
 import { WebSocketServer } from 'ws';
 import type { WebSocket } from 'ws';
-import { getDb_chat } from './database.js';
+import { getDb_chat } from '../database.js';
 
 const clients = new Set<WebSocket>();
 
