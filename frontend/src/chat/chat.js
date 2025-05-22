@@ -26,9 +26,24 @@ document.addEventListener("DOMContentLoaded", () => {
         messageWrapper.appendChild(usernameDiv);
         messageWrapper.appendChild(msg);
         messageBox.appendChild(messageWrapper);
-        // input.value = "";
         messageBox.scrollTop = messageBox.scrollHeight;
     }
+    const ws = new WebSocket('wss://10.12.200.81:3452');
+    ws.onopen = () => {
+        console.log("WebSocket connecté !");
+    };
+    ws.onerror = (err) => {
+        console.error("WebSocket erreur:", err);
+    };
+    ws.onmessage = (event) => {
+        try {
+            const data = JSON.parse(event.data);
+            sendMessage(data.username, data.content);
+        }
+        catch (err) {
+            console.error("Erreur lors du parsing WebSocket message :", err);
+        }
+    };
     function displayAllMessages() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -44,40 +59,28 @@ document.addEventListener("DOMContentLoaded", () => {
             catch (err) {
                 console.error("Erreur lors de la récupération des messages :", err);
             }
-            setTimeout(displayAllMessages, 1000);
         });
     }
     sendBtn.addEventListener("click", () => {
         const username = userData.userName;
-        const content = input.value;
-        sendMessage(username, content);
+        const content = input.value.trim();
+        if (content === "")
+            return;
+        const chatdata = { username, content };
+        ws.send(JSON.stringify(chatdata));
+        input.value = "";
     });
-    input.addEventListener("keydown", (e) => __awaiter(void 0, void 0, void 0, function* () {
+    input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
+            e.preventDefault();
             const username = userData.userName;
-            const content = input.value;
-            const chatdata = {
-                username: username,
-                content: content
-            };
-            try {
-                const response = yield fetch('https://10.12.200.81:3452/sendinfo', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(chatdata),
-                });
-                if (!response.ok)
-                    throw new Error('Erreur serveur');
-                input.value = "";
-                const data = yield response.json();
-                sendMessage(data.username, data.content);
-            }
-            catch (err) {
-                alert('Erreur : ' + err.message);
-            }
+            const content = input.value.trim();
+            if (content === "")
+                return;
+            const chatdata = { username, content };
+            ws.send(JSON.stringify(chatdata));
+            input.value = "";
         }
-    }));
+    });
     displayAllMessages();
 });
