@@ -19,7 +19,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 const server = https_1.default.createServer(credentials, app);
 server.listen(3452, '0.0.0.0', () => {
-    console.log('HTTPS database server running at https://10.12.200.81:3452');
+    console.log('HTTPS database server running at https://10.12.200.35:3452');
 });
 const wss = new ws_1.WebSocketServer({ server });
 const clients = new Set();

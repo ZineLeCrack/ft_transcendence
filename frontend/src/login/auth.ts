@@ -1,6 +1,6 @@
 import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/utils.js';
 
-const IP_NAME = '10.12.200.81';
+const IP_NAME = '10.12.200.35';
 
 // Elements de navigation
 const signIn = document.getElementById('sign-in') as HTMLElement;
@@ -105,7 +105,7 @@ signupform?.addEventListener('submit', async (event) =>
 	};
 
 	try {
-		const response = await fetch(`https://10.12.200.81:3451/submit`, {
+		const response = await fetch(`https://10.12.200.35:3451/submit`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(userData),

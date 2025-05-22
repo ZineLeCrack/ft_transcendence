@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageBox.scrollTop = messageBox.scrollHeight;
     }
 
-    const ws = new WebSocket('wss://10.12.200.81:3452');
+    const ws = new WebSocket('wss://10.12.200.35:3452');
 
     ws.onopen = () => {
         console.log("WebSocket connecté !");
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function displayAllMessages() {
         try {
-            const response = await fetch('https://10.12.200.81:3452/getmessages', {
+            const response = await fetch('https://10.12.200.35:3452/getmessages', {
                 method: 'POST',
             });
             const data = await response.json();
