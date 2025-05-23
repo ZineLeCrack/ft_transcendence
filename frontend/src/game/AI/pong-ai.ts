@@ -55,56 +55,56 @@ async function FetchState()
 let aiAction: 'up' | 'down' | 'none' = 'none';
 let aiTimeout: number | null = null;
 
-async function callAI() {
-	//if (!gameStarted) return;
-	try {
-		const res = await fetch(`https://${IP_NAME}:4242/app2/ai/ai.php`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				paddlePosition: rightPaddleY,
-				ballPosition: { x: ballX, y: ballY },
-				ballDirection: { x: ballVX, y: ballVY }
-			})			
-		});
+// async function callAI() {
+// 	//if (!gameStarted) return;
+// 	try {
+// 		const res = await fetch(`https://${IP_NAME}:4242/app2/ai/ai.php`, {
+// 			method: "POST",
+// 			headers: { "Content-Type": "application/json" },
+// 			body: JSON.stringify({
+// 				paddlePosition: rightPaddleY,
+// 				ballPosition: { x: ballX, y: ballY },
+// 				ballDirection: { x: ballVX, y: ballVY }
+// 			})			
+// 		});
 
-		const data = await res.json();
+// 		const data = await res.json();
 
-		// Annule toute action précédente si elle existe
-		if (aiTimeout !== null) {
-			clearTimeout(aiTimeout);
-			aiTimeout = null;
-		}
+// 		// Annule toute action précédente si elle existe
+// 		if (aiTimeout !== null) {
+// 			clearTimeout(aiTimeout);
+// 			aiTimeout = null;
+// 		}
 
-		// Réinitialise les touches IA
-		keys["ArrowUp"] = false;
-		keys["ArrowDown"] = false;
+// 		// Réinitialise les touches IA
+// 		keys["ArrowUp"] = false;
+// 		keys["ArrowDown"] = false;
 
-		// Applique la direction pour la durée spécifiée
-		if (data.direction === "up") {
-			keys["ArrowUp"] = true;
-			aiAction = "up";
-		} else if (data.direction === "down") {
-			keys["ArrowDown"] = true;
-			aiAction = "down";
-		} else {
-			aiAction = "none";
-		}
+// 		// Applique la direction pour la durée spécifiée
+// 		if (data.direction === "up") {
+// 			keys["ArrowUp"] = true;
+// 			aiAction = "up";
+// 		} else if (data.direction === "down") {
+// 			keys["ArrowDown"] = true;
+// 			aiAction = "down";
+// 		} else {
+// 			aiAction = "none";
+// 		}
 
-		// Définir le timeout pour relâcher la touche après `duration` ms
-		if (data.direction !== "none" && data.duration > 0) {
-			aiTimeout = window.setTimeout(() => {
-				if (data.direction === "up") keys["ArrowUp"] = false;
-				if (data.direction === "down") keys["ArrowDown"] = false;
-				aiAction = "none";
-				aiTimeout = null;
-			}, data.duration / 2);
-		}
+// 		// Définir le timeout pour relâcher la touche après `duration` ms
+// 		if (data.direction !== "none" && data.duration > 0) {
+// 			aiTimeout = window.setTimeout(() => {
+// 				if (data.direction === "up") keys["ArrowUp"] = false;
+// 				if (data.direction === "down") keys["ArrowDown"] = false;
+// 				aiAction = "none";
+// 				aiTimeout = null;
+// 			}, data.duration / 2);
+// 		}
 
-	} catch (e) {
-		console.error("Erreur IA:", e);
-	}
-}
+// 	} catch (e) {
+// 		console.error("Erreur IA:", e);
+// 	}
+// }
 
 
 // evenement de touche pressee
@@ -125,7 +125,7 @@ document.addEventListener("keyup", (e) =>
 });
 	
 
-setInterval(callAI, 1000);
+//setInterval(callAI, 1000);
 
 // setInterval(callAI_second, 100);
 
