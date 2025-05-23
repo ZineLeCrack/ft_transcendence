@@ -123,7 +123,7 @@ signinform === null || signinform === void 0 ? void 0 : signinform.addEventListe
         localStorage.setItem('userId', data.id);
         localStorage.setItem('userName', data.name);
         localStorage.setItem('userPicture', data.profile_pic);
-        window.location.href = "../../index.html";
+        window.location.href = "a2f.html";
     }
     catch (err) {
         console.log('Erreur : ' + err.message);
