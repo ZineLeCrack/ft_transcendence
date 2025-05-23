@@ -11,7 +11,11 @@ export const userData = {
     userId: localStorage.getItem('userId'),
     userName: localStorage.getItem('userName'),
 };
+<<<<<<< HEAD
 const IP_NAME = '10.12.200.35';
+=======
+const IP_NAME = '10.12.200.35';
+>>>>>>> origin/ebroudic
 document.addEventListener("DOMContentLoaded", () => {
     const leftBtn = document.getElementById("left-button-game");
     const rightBtn = document.getElementById("right-button-game");

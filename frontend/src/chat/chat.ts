@@ -1,5 +1,7 @@
 import { userData } from "../game/game.js";
 
+const IP_NAME = '10.12.200.86';
+
 document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("chat-input") as HTMLInputElement;
     const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
@@ -26,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageBox.scrollTop = messageBox.scrollHeight;
     }
 
-    const ws = new WebSocket('wss://10.12.200.35:3452');
+    const ws = new WebSocket(`wss://${IP_NAME}:3451`);
 
     ws.onopen = () => {
         console.log("WebSocket connecté !");
@@ -47,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function displayAllMessages() {
         try {
-            const response = await fetch('https://10.12.200.35:3452/getmessages', {
+            const response = await fetch(`https://${IP_NAME}:3451/getmessages`, {
                 method: 'POST',
             });
             const data = await response.json();

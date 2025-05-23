@@ -105,7 +105,7 @@ signupform?.addEventListener('submit', async (event) =>
 	};
 
 	try {
-		const response = await fetch(`https://10.12.200.35:3451/submit`, {
+		const response = await fetch(`https://${IP_NAME}:3451/submit`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(userData),
@@ -159,6 +159,7 @@ signinform?.addEventListener('submit', async (event) =>
 
 		localStorage.setItem('userId', data.id);
 		localStorage.setItem('userName', data.name);
+		localStorage.setItem('userName', data.profile_pic);
 
 		window.location.href = "a2f.html";
 	}

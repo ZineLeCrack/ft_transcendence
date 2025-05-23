@@ -1,1 +1,0 @@
-node database.js & node history.js & node chat.js & node check_a2f.js
