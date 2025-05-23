@@ -10,11 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 export const userData = {
     userId: localStorage.getItem('userId'),
     userName: localStorage.getItem('userName'),
+    userPicture: localStorage.getItem('profile_pic')
 };
 <<<<<<< HEAD
-const IP_NAME = '10.12.200.35';
+const IP_NAME = '10.12.200.86';
 =======
-const IP_NAME = '10.12.200.35';
+const IP_NAME = '10.12.200.86';
 >>>>>>> origin/ebroudic
 document.addEventListener("DOMContentLoaded", () => {
     const leftBtn = document.getElementById("left-button-game");

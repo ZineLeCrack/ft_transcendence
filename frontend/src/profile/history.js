@@ -70,7 +70,7 @@ function generateCards(cardsHistory) {
 }
 document.addEventListener('DOMContentLoaded', () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield fetch('https://10.12.200.35:3451/history', {
+        const response = yield fetch('https://10.12.200.86:3451/history', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId: userData.userId }),

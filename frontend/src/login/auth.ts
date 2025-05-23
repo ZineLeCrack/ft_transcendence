@@ -1,6 +1,6 @@
 import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/utils.js';
 
-const IP_NAME = '10.12.200.35';
+const IP_NAME = '10.12.200.86';
 
 // Elements de navigation
 const signIn = document.getElementById('sign-in') as HTMLElement;
@@ -117,7 +117,6 @@ signupform?.addEventListener('submit', async (event) =>
 			throw new Error(error || 'Erreur lors de l\'inscription');
 		}
 
-		// alert('Inscription réussie !');
 		window.location.href = "login.html";
 	}
 	catch (err)
@@ -159,7 +158,7 @@ signinform?.addEventListener('submit', async (event) =>
 
 		localStorage.setItem('userId', data.id);
 		localStorage.setItem('userName', data.name);
-		localStorage.setItem('userName', data.profile_pic);
+		localStorage.setItem('userPicture', data.profile_pic);
 
 		window.location.href = "a2f.html";
 	}

@@ -8,11 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/utils.js';
-<<<<<<< HEAD
-const IP_NAME = '10.12.200.35';
-=======
-const IP_NAME = '10.12.200.35';
->>>>>>> origin/ebroudic
+const IP_NAME = '10.12.200.86';
 // Elements de navigation
 const signIn = document.getElementById('sign-in');
 const signUp = document.getElementById('sign-up');
@@ -89,11 +85,7 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
         password: signUpPasswordInput.value,
     };
     try {
-<<<<<<< HEAD
-        const response = yield fetch(`https://10.12.200.35:3451/submit`, {
-=======
         const response = yield fetch(`https://${IP_NAME}:3451/submit`, {
->>>>>>> origin/ebroudic
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData),
@@ -102,8 +94,6 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
             const error = yield response.text();
             throw new Error(error || 'Erreur lors de l\'inscription');
         }
-        // alert('Inscription réussie !');
-        window.location.href = "login.html";
         window.location.href = "login.html";
     }
     catch (err) {
@@ -132,6 +122,7 @@ signinform === null || signinform === void 0 ? void 0 : signinform.addEventListe
         const data = yield response.json();
         localStorage.setItem('userId', data.id);
         localStorage.setItem('userName', data.name);
+        localStorage.setItem('userPicture', data.profile_pic);
         window.location.href = "../../index.html";
     }
     catch (err) {
