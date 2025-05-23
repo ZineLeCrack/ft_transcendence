@@ -20,12 +20,14 @@ const dbPath = './user.db';
 app.use(cors());
 app.use(express.json());
 
-app.post('/a2f', async (req, res) => {
-	const { code, IdUser } = req.body;
+const verificationCodes = new Map()
 
-	if (!code || !IdUser) {
-		res.status(400).send('Incomplete data');
-		return;
+app.post('/a2f/send', async (req, res) => {
+	const { IdUser } = req.body;
+
+	if (!IdUser) {
+		 res.status(400).send('Missing IdUser');
+		 return;
 	}
 
 	try {
@@ -33,15 +35,14 @@ app.post('/a2f', async (req, res) => {
 		const user = await db.get(`SELECT email FROM users WHERE id = ?`, [IdUser]);
 
 		if (!user || !user.email) {
-			res.status(404).send('User not found');
-			return;
+			 res.status(404).send('User not found');
+			 return;
 		}
 
-		const realcode = Math.floor(Math.random() * 1000000)
-			.toString()
-			.padStart(6, '0');
+		const realcode = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
 
-		// Envoie du code par email
+		verificationCodes.set(IdUser, realcode);
+
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
@@ -57,16 +58,40 @@ app.post('/a2f', async (req, res) => {
 			text: `Voici votre code de vérification : ${realcode}`,
 		});
 
-		if (code === realcode) {
-			res.status(200).send('good answer');
-		} else {
-			res.status(500).send('bad code');
-		}
+		res.status(200).send('Code sent');
 	} catch (err) {
 		console.error(err);
-		res.status(500).send('Error');
+		res.status(500).send('Error sending code');
 	}
 });
+
+
+app.post('/a2f/verify', (req, res) => {
+	const { code, IdUser } = req.body;
+
+	if (!code || !IdUser) {
+		res.status(400).send('Incomplete data');
+		return;
+	}
+
+	const expectedCode = verificationCodes.get(IdUser);
+
+	if (!expectedCode) {
+		res.status(404).send('No code found or expired');
+		return;
+	}
+
+	if (code === expectedCode) {
+		verificationCodes.delete(IdUser);
+		res.status(200).send('good answer');
+		return;
+	}
+	else {
+		res.status(400).send('bad code');
+		return;
+	}
+});
+
 
 
 async function getDb()
