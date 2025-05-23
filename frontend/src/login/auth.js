@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/utils.js';
-const IP_NAME = '10.12.200.86';
+const IP_NAME = '10.12.200.35';
 // Elements de navigation
 const signIn = document.getElementById('sign-in');
 const signUp = document.getElementById('sign-up');

@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { userData } from "../game/game.js";
-const IP_NAME = '10.12.200.86';
+const IP_NAME = '10.12.200.35';
 document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("chat-input");
     const sendBtn = document.getElementById("chat-send");
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageBox.scrollTop = messageBox.scrollHeight;
     }
 <<<<<<< HEAD
-    const ws = new WebSocket('wss://10.12.200.86:3452');
+    const ws = new WebSocket('wss://10.12.200.35:3452');
 =======
     const ws = new WebSocket(`wss://${IP_NAME}:3451`);
 >>>>>>> origin/ebroudic
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return __awaiter(this, void 0, void 0, function* () {
             try {
 <<<<<<< HEAD
-                const response = yield fetch('https://10.12.200.86:3452/getmessages', {
+                const response = yield fetch('https://10.12.200.35:3452/getmessages', {
 =======
                 const response = yield fetch(`https://${IP_NAME}:3451/getmessages`, {
 >>>>>>> origin/ebroudic
