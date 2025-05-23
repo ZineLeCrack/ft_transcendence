@@ -1,11 +1,12 @@
 import express from 'express';
-import fs from 'fs';
+import fs, { stat } from 'fs';
 import https from 'https';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
 import authRoutes from './auth/auth_back.js';
 import historyRoutes from './stats/history_back.js';
+import statsRoutes from './stats/stats_back.js';
 import { setupWebSocket } from './chat/websocket_chat.js';
 import chatRoutes from './chat/chat_back.js';
 
@@ -23,6 +24,7 @@ app.use(express.json());
 
 app.use(authRoutes);
 app.use(historyRoutes);
+app.use(statsRoutes);
 app.use(chatRoutes);
 
 const httpsServer = https.createServer(credentials, app);

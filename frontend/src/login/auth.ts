@@ -1,6 +1,6 @@
 import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/utils.js';
 
-const IP_NAME = '10.12.200.86';
+const IP_NAME = '10.12.200.87';
 
 // Elements de navigation
 const signIn = document.getElementById('sign-in') as HTMLElement;

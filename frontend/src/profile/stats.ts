@@ -1,4 +1,5 @@
 import { setButton } from "./utils.js";
+import { userData } from "../game/game.js";
 
 const historyBtn = document.getElementById("History-btn") as HTMLButtonElement;
 const globalBtn = document.getElementById("Global-btn") as HTMLButtonElement;
@@ -29,4 +30,24 @@ globalBtn.addEventListener('click', () => {
 
 tournamentBtn.addEventListener('click', () => {
 	setButton(tournamentBtn, globalBtn, historyBtn, tournamentDiv, globalDiv, historyDiv, buttonStatesStats, "tournamentIsActive", "globalIsActive", "historyIsActive" );
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+	try
+	{
+		const response = await fetch('https://10.12.200.87:3451/global',
+		{
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({userId: userData.userId}),
+		});
+
+		const data = await response.json();
+		console.log(data);
+	}
+	catch (err)
+	{
+		console.error('Erreur lors de la récupération de l\'historique :', err);
+	}
 });
