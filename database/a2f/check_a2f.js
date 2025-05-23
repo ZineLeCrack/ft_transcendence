@@ -5,18 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = a2fRoutes;
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const sqlite_1 = require("sqlite");
-const sqlite3_1 = __importDefault(require("sqlite3"));
+const database_1 = require("../database");
 const EMAIL = process.env.EMAIL || 'admin@example.com';
 const EMAIL_SMP = process.env.PASSWORD_SMP || 'password';
-const dbPath = './user.db';
 const verificationCodes = new Map();
-async function getDb() {
-    return (0, sqlite_1.open)({
-        filename: dbPath,
-        driver: sqlite3_1.default.Database,
-    });
-}
 async function a2fRoutes(fastify) {
     fastify.post('/a2f/send', async (request, reply) => {
         const { IdUser } = request.body;
@@ -25,7 +17,7 @@ async function a2fRoutes(fastify) {
             return;
         }
         try {
-            const db = await getDb();
+            const db = await (0, database_1.getDb_user)();
             const user = await db.get(`SELECT email FROM users WHERE id = ?`, [IdUser]);
             if (!user.email) {
                 reply.status(404).send('User not found');
@@ -47,6 +39,7 @@ async function a2fRoutes(fastify) {
                 text: `Voici votre code de vérification : ${code}`,
             });
             reply.status(200).send('Code sent');
+            alert("code envoye");
         }
         catch (err) {
             console.error(err);
