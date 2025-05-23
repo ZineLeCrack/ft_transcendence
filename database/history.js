@@ -49,5 +49,5 @@ async function getDb() {
     });
 }
 https_1.default.createServer(credentials, app).listen(3453, '0.0.0.0', () => {
-    console.log(`TTPS database server running at https://${IP_NAME}:3453`);
+    console.log(`HTTPS database server running at https://${IP_NAME}:3453`);
 });
