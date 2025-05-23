@@ -52,6 +52,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
       });
 
       reply.status(200).send('Code sent');
+      alert("code envoye");
     } 
 	catch (err) {
       console.error(err);
