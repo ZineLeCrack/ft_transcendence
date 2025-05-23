@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 export const userData = {
     userId: localStorage.getItem('userId'),
     userName: localStorage.getItem('userName'),
+    userPicture: localStorage.getItem('profile_pic')
 };
 const IP_NAME = '10.12.200.86';
 document.addEventListener("DOMContentLoaded", () => {
