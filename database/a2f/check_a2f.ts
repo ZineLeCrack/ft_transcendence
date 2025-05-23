@@ -1,20 +1,12 @@
 import { FastifyInstance } from 'fastify';
 import nodemailer from 'nodemailer';
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3';
+import { getDb_user } from '../database';
 
 const EMAIL = process.env.EMAIL || 'admin@example.com';
 const EMAIL_SMP = process.env.PASSWORD_SMP || 'password';
-const dbPath = './user.db';
 
 const verificationCodes = new Map();
 
-async function getDb() {
-  return open({
-    filename: dbPath,
-    driver: sqlite3.Database,
-  });
-}
 
 export default async function a2fRoutes(fastify: FastifyInstance) {
   fastify.post('/a2f/send', async (request, reply) => {
@@ -26,7 +18,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
     }
 
     try {
-      const db = await getDb();
+      const db = await getDb_user();
       const user = await db.get(`SELECT email FROM users WHERE id = ?`, [IdUser]);
       if (!user.email) {
         reply.status(404).send('User not found');
