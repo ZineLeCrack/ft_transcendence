@@ -11,6 +11,7 @@ const websocket_chat_js_1 = require("./chat/websocket_chat.js");
 const auth_back_js_1 = __importDefault(require("./auth/auth_back.js"));
 const history_back_js_1 = __importDefault(require("./stats/history_back.js"));
 const chat_back_js_1 = __importDefault(require("./chat/chat_back.js"));
+const check_a2f_js_1 = __importDefault(require("./a2f/check_a2f.js"));
 dotenv_1.default.config();
 const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
@@ -27,6 +28,7 @@ async function main() {
     await app.register(auth_back_js_1.default);
     await app.register(history_back_js_1.default);
     await app.register(chat_back_js_1.default);
+    await app.register(check_a2f_js_1.default);
     await app.listen({ port: 3451, host: '0.0.0.0' });
     // Récupérer le serveur HTTP natif après le démarrage
     const server = app.server; // <- voilà ce qu'il te faut pour `WebSocketServer`
