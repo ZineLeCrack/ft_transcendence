@@ -1,36 +1,43 @@
-import express from 'express';
-import fs, { stat } from 'fs';
-import https from 'https';
-import cors from 'cors';
+import Fastify from 'fastify';
+import cors from '@fastify/cors';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import { setupWebSocket } from './chat/websocket_chat.js';
 
 import authRoutes from './auth/auth_back.js';
 import historyRoutes from './stats/history_back.js';
-import statsRoutes from './stats/stats_back.js';
-import { setupWebSocket } from './chat/websocket_chat.js';
 import chatRoutes from './chat/chat_back.js';
+import a2fRoutes from './a2f/check_a2f.js';
 
 dotenv.config();
 
 const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
 const IP_NAME = process.env.IP_NAME || '10.12.200.0';
 
-const app = express();
+async function main() {
+  const app = Fastify({
+    logger: false,
+    https: {
+      key: privateKey,
+      cert: certificate,
+    },
+  });
 
-app.use(cors());
-app.use(express.json());
+  await app.register(cors, { origin: true });
+  await app.register(authRoutes);
+  await app.register(historyRoutes);
+  await app.register(chatRoutes);
+  await app.register(a2fRoutes);
 
-app.use(authRoutes);
-app.use(historyRoutes);
-app.use(statsRoutes);
-app.use(chatRoutes);
+  await app.listen({ port: 3451, host: '0.0.0.0' });
 
-const httpsServer = https.createServer(credentials, app);
+  // Récupérer le serveur HTTP natif après le démarrage
+  const server = app.server; // <- voilà ce qu'il te faut pour `WebSocketServer`
 
-setupWebSocket(httpsServer); // 👈 ici on branche le WebSocket
+  setupWebSocket(server); // Connecte ton WebSocket ici
 
-httpsServer.listen(3451, '0.0.0.0', () => {
-	console.log(`HTTPS server running at https://${IP_NAME}:3451`);
-});
+  console.log(`HTTPS server running at https://${IP_NAME}:3451`);
+}
+
+main();

@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<title>a2f</title>
 	<link rel="stylesheet" href="../css/style.css">
+	<link rel="icon" type="image/png" href="../images/logoallpage32.png"/>
+
 </head>
 
 <body class="bg-center bg-no-repeat min-h-screen flex items-center justify-center" style="background-image: url('../images/logincyberpunk.png')">
@@ -14,7 +16,9 @@
 			<label for="code-input" class="block text-white font-semibold mb-1">Code</label>
 			<input id="code-input" type="text"  placeholder="enter code here" class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
 		</div>
-		<button type="submit" class="w-full bg-[#00FFFF] text-black font-bold px-4 py-2 rounded-lg hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">Connexion</button>
+		<button type="button" id="to-send-a2f" class="w-full bg-[#00FFFF] text-black font-bold px-4 py-2 rounded-lg hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">M'envoyer le code</button>
+		<button type="submit" id="to-click-a2f" class="w-full bg-[#00FFFF] text-black font-bold px-4 py-2 rounded-lg hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">Connexion</button>
 	</form>
+	<script type="module" src="a2f.js"></script>
 </body>
 </html>

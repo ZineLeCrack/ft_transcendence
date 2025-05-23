@@ -8,7 +8,6 @@ interface CardHistory {
 	pointplayer1: number;
 	pointplayer2: number;
 	date: string;
-	result: 'win' | 'lose';
 }
 
 function generateCards(cardsHistory: CardHistory[]): void 
@@ -26,16 +25,17 @@ function generateCards(cardsHistory: CardHistory[]): void
 		}
 		cardsHistory.forEach(CardHistory => {
 			const cardElement = document.createElement('div');
-			if (CardHistory.result === 'lose')
-			{
-				cardElement.className = 'bg-red-600/30 border-4 border-red-500 shadow-[0_0_10px_#ff0000,0_0_20px_#ff0000,0_0_40px_#ff0000] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
-			}
-			else
-			{
-				cardElement.className = 'bg-[#00ff88]/30 border-4 border-[#00ff88] shadow-[0_0_10px_#00ff88,0_0_20px_#00ff88,0_0_40px_#00ff88] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
-			}
 			if (userData.userName === CardHistory.usernameplayer1)
 			{
+				if (CardHistory.pointplayer1 > CardHistory.pointplayer2)
+				{
+					cardElement.className = 'bg-[#00ff88]/30 border-4 border-[#00ff88] shadow-[0_0_10px_#00ff88,0_0_20px_#00ff88,0_0_40px_#00ff88] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
+				}
+				else
+				{
+					cardElement.className = 'bg-red-600/30 border-4 border-red-500 shadow-[0_0_10px_#ff0000,0_0_20px_#ff0000,0_0_40px_#ff0000] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
+				}
+
 				cardElement.innerHTML = `
 					<div class=" ml-28 flex flex-col items-center">
       					<img src="${CardHistory.imageplayer1}" class="rounded-full w-[150px]" alt="">
@@ -53,6 +53,14 @@ function generateCards(cardsHistory: CardHistory[]): void
 			}
 			else
 			{
+				if (CardHistory.pointplayer1 < CardHistory.pointplayer2)
+				{
+					cardElement.className = 'bg-[#00ff88]/30 border-4 border-[#00ff88] shadow-[0_0_10px_#00ff88,0_0_20px_#00ff88,0_0_40px_#00ff88] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
+				}
+				else
+				{
+					cardElement.className = 'bg-red-600/30 border-4 border-red-500 shadow-[0_0_10px_#ff0000,0_0_20px_#ff0000,0_0_40px_#ff0000] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
+				}
 					cardElement.innerHTML = `
 					<div class=" ml-28 flex flex-col items-center">
       					<img src="${CardHistory.imageplayer2}" class="rounded-full w-[150px]" alt="">

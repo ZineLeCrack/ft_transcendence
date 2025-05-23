@@ -117,8 +117,6 @@ signupform?.addEventListener('submit', async (event) =>
 			throw new Error(error || 'Erreur lors de l\'inscription');
 		}
 
-		// alert('Inscription réussie !');
-		window.location.href = "login.html";
 		window.location.href = "login.html";
 	}
 	catch (err)
@@ -160,8 +158,9 @@ signinform?.addEventListener('submit', async (event) =>
 
 		localStorage.setItem('userId', data.id);
 		localStorage.setItem('userName', data.name);
+		localStorage.setItem('userPicture', data.profile_pic);
 
-		window.location.href = "../../index.html";
+		window.location.href = "a2f.html";
 	}
 	catch (err)
 	{
