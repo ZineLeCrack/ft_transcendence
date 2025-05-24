@@ -12,7 +12,7 @@ export const userData = {
     userName: localStorage.getItem('userName'),
     userPicture: localStorage.getItem('profile_pic')
 };
-const IP_NAME = '10.12.200.86';
+const IP_NAME = '172.17.0.1';
 document.addEventListener("DOMContentLoaded", () => {
     const leftBtn = document.getElementById("left-button-game");
     const rightBtn = document.getElementById("right-button-game");

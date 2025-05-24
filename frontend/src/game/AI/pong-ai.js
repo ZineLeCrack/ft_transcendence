@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { draw_ai } from './drawmap-ai.js';
-const IP_NAME = '10.12.200.86';
+const IP_NAME = '172.17.0.1';
 // position et score par defaut
 let ballVX = 0;
 let ballVY = 0;

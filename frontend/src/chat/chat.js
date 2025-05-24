@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { userData } from "../game/game.js";
-const IP_NAME = '10.12.200.86';
+const IP_NAME = '172.17.0.1';
 document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("chat-input");
     const sendBtn = document.getElementById("chat-send");

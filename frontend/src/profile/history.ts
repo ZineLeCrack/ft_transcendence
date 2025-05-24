@@ -1,6 +1,6 @@
 import { userData } from "../game/game.js";
 
-interface CardHistory {
+export interface CardHistory {
 	imageplayer1: string;
 	imageplayer2: string;
 	usernameplayer1: string;
@@ -10,9 +10,9 @@ interface CardHistory {
 	date: string;
 }
 
-function generateCards(cardsHistory: CardHistory[]): void 
+export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): void 
 {
-	const container = document.getElementById('History-Div');
+	const container = document.getElementById(div);
 	if (container)
 	{
 		if (cardsHistory.length === 0)
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 	try
 	{
-		const response = await fetch('https://10.12.200.86:3451/history',
+		const response = await fetch('https://172.17.0.1:3451/history',
 		{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 		});
 
 		const data = await response.json();
-		generateCards(data);
+		generateCardsHistory('History-Div', data);
 	}
 	catch (err)
 	{

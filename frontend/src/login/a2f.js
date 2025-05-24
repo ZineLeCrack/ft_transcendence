@@ -15,7 +15,7 @@ sendBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0, functi
     const Data = {
         IdUser: localStorage.getItem('userId'),
     };
-    const response = yield fetch(`https://10.12.200.86:3451/a2f/send`, {
+    const response = yield fetch(`https://172.17.0.1:3451/a2f/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Data),
@@ -32,7 +32,7 @@ form.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0, fun
         code: codeInput.value,
         IdUser: localStorage.getItem('userId'),
     };
-    const response = yield fetch(`https://10.12.200.86:3451/a2f/verify`, {
+    const response = yield fetch(`https://172.17.0.1:3451/a2f/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Data),
