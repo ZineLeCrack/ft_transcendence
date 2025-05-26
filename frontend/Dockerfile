@@ -19,6 +19,10 @@ COPY . .
 RUN npm install -D tailwindcss postcss autoprefixer typescript
 RUN npx tailwindcss -i ./src/css/input.css -o ./src/css/style.css && npx tsc
 
+RUN npm install chart.js
+RUN npm install --save-dev @types/chart.js
+
+
 RUN mkdir -p /var/www/html && cp index.html /var/www/html && \
     cp -r src/ /var/www/html/
 
