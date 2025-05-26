@@ -8,8 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { userData } from "../game/game.js";
-function generateCards(cardsHistory) {
-    const container = document.getElementById('History-Div');
+export function generateCardsHistory(div, cardsHistory) {
+    const container = document.getElementById(div);
     if (container) {
         if (cardsHistory.length === 0) {
             const message = document.createElement('div');
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => __awaiter(void 0, void 0, vo
             body: JSON.stringify({ userId: userData.userId }),
         });
         const data = yield response.json();
-        generateCards(data);
+        generateCardsHistory('History-Div', data);
     }
     catch (err) {
         console.error('Erreur lors de la récupération de l\'historique :', err);

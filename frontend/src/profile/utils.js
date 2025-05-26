@@ -44,12 +44,12 @@ export function setButton(firstBtn, secondBtn, thirdBtn, firstDiv, secondDiv, th
     state[thirdKey] = false;
     secondBtn.classList.add('bg-gray-200');
     secondBtn.classList.remove('bg-[#00FFFF]');
-    secondBtn.classList.remove('drop-shadow-[0_0_10px_#00FFFF]');
+    secondBtn.classList.remove('shadow-[0_0_10px_#00FFFF]');
     firstBtn.classList.remove('bg-gray-200');
     firstBtn.classList.add('bg-[#00FFFF]');
     firstBtn.classList.add('text-black');
     firstBtn.classList.remove('text-gray-700');
-    firstBtn.classList.add('drop-shadow-[0_0_10px_#00FFFF]');
+    firstBtn.classList.add('shadow-[0_0_10px_#00FFFF]');
     secondBtn.classList.remove('text-black');
     secondBtn.classList.add('text-gray-700');
     secondBtn.classList.remove('hover:brightness-125');
@@ -66,6 +66,6 @@ export function setButton(firstBtn, secondBtn, thirdBtn, firstDiv, secondDiv, th
         thirdBtn.classList.add('hover:bg-gray-300');
         thirdBtn.classList.add('bg-gray-200');
         thirdBtn.classList.remove('bg-[#00FFFF]');
-        thirdBtn.classList.remove('drop-shadow-[0_0_10px_#00FFFF]');
+        thirdBtn.classList.remove('shadow-[0_0_10px_#00FFFF]');
     }
 }
