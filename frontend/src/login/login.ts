@@ -1,6 +1,7 @@
 import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/utils.js';
 
-const IP_NAME = '10.12.200.35';
+const IP_NAME = import.meta.env.VITE_IP_NAME;
+
 
 // Elements de navigation
 const signIn = document.getElementById('sign-in') as HTMLElement;
@@ -121,8 +122,7 @@ signupform?.addEventListener('submit', async (event) =>
 	}
 	catch (err)
 	{
-		console.log(err);
-		alert("Veuillez accepter le port 3451");
+		alert('Erreur : ' + (err as Error).message);
 	}
 });
 

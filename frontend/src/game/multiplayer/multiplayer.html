@@ -5,7 +5,8 @@
 	<title>local</title>
 	<link rel="stylesheet" href="../../css/style.css">
 	<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
-	<link rel="icon" type="image/png" href="../src/images/logoallpage32.png"/>
+	<link rel="icon" type="image/png" href="/images/logoallpage32.png"/>
+
 
 	<style>
 		h1 {font-family: 'Caveat', cursive;}
@@ -14,7 +15,7 @@
 </head>
 
 
-<body class="m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex" style="background-image: url('../../images/pong.png'); background-size: 1920px 1080px;">
+<body class="m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex" style="background-image: url('/images/pong.png'); background-size: 1920px 1080px;">
 
 	<div class="flex justify-center items-center">
 		<!-- Joueur 1 -->
@@ -25,11 +26,9 @@
 
 		<!-- Zone centrale -->
 		<div class="flex flex-col items-center">
-			
 			<div id="gameDiv" class="mb-9 p-0.5 bg-gradient-to-r from-[#00FFFF] to-[#FF007A] rounded-[10px]">
 				<canvas id="topCanvas" width="300" height="70" class="bg-black rounded-[10px]"></canvas>
 			</div>
-			
 			<div id="gameDiv" class="p-1 bg-gradient-to-r from-[#00FFFF] to-[#FF007A] rounded-[5px]">
 				<canvas id="gameCanvas" width="800" height="600" class="bg-black rounded-[5px]"></canvas>
 			</div>
@@ -42,6 +41,6 @@
 		</div>
 	</div>
 
-	<script type="module" src="pong-ai.js"></script>
+	<!-- <script type="module" src="multi.js"></script> -->
 </body>
 </html>

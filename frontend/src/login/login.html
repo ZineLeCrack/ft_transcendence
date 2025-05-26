@@ -5,11 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<title>Login</title>
 	<link rel="stylesheet" href="../css/style.css">
-	<link rel="icon" type="image/png" href="../images/logoallpage32.png"/>
+	<link rel="icon" type="image/png" href="/images/logoallpage32.png"/>
 
 </head>
 
-<body class="bg-center bg-no-repeat min-h-screen flex items-center justify-center" style="background-image: url('../images/logincyberpunk.png'); background-size: 1920px 1080px;">
+<body class="bg-center bg-no-repeat min-h-screen flex items-center justify-center" style="background-image: url('/images/logincyberpunk.png'); background-size: 1920px 1080px;">
 	
 	<!--formulaire de connection-->
 	<form id="sign-in" action="" method="POST" class="space-y-4 max-w-md w-full border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] bg-white/5 backdrop-blur p-6 rounded-2xl">
@@ -34,7 +34,7 @@
 			<div class="relative">
 				<input id="sign-in-password-input" name="password" type="password" required class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
 				<button type="button" id="sign-in-password-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
-					<img id="sign-in-password-icon" src="../images/cacher.svg" class="size-10" alt="eye icon"/>
+					<img id="sign-in-password-icon" src="/images/cacher.svg" class="size-10" alt="eye icon"/>
 				</button>
 			</div>
 		</div>
@@ -72,11 +72,11 @@
 				<div class="relative w-full">
 					<input id="sign-up-password-input" name="password" type="password" required class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
 					<button type="button" id="sign-up-password-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
-						<img id="sign-up-password-icon" src="../images/cacher.svg" class="w-6 h-10" />
+						<img id="sign-up-password-icon" src="/images/cacher.svg" class="w-6 h-10" />
 					</button>
 				</div>
-				<img id="badPasswordIcon" src="../images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
-				<img id="goodPasswordIcon" src="../images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+				<img id="badPasswordIcon" src="/images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+				<img id="goodPasswordIcon" src="/images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
 			</div>
 		</div>
 	
@@ -88,11 +88,11 @@
 				<div class="relative w-full">
 					<input id="sign-up-confirmpassword-input" name="confirmPassword" type="password" required class="w-full p-2 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
 					<button type="button" id="sign-up-confirmpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
-						<img id="sign-up-confirmpassword-icon" src="../images/cacher.svg" class="w-6 h-10" />
+						<img id="sign-up-confirmpassword-icon" src="/images/cacher.svg" class="w-6 h-10" />
 					</button>
 				</div>
-				<img id="badConfirmPasswordIcon" src="../images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
-				<img id="goodConfirmPasswordIcon" src="../images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+				<img id="badConfirmPasswordIcon" src="/images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+				<img id="goodConfirmPasswordIcon" src="/images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
 			</div>
 		</div>
 	  
@@ -102,6 +102,6 @@
 		</div>
 	</form>
 
-	<script type="module" src="auth.js"></script>
+	<script type="module" src="login.ts"></script>
 </body>
 </html>

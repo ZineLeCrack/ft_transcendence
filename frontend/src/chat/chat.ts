@@ -1,6 +1,6 @@
 import { userData } from "../game/game.js";
 
-const IP_NAME = '10.12.200.35';
+const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("chat-input") as HTMLInputElement;
@@ -11,15 +11,26 @@ document.addEventListener("DOMContentLoaded", () => {
         if (content === "") return;
 
         const messageWrapper = document.createElement("div");
-        messageWrapper.className = "flex flex-col items-end space-y-1"; // align right
-
         const usernameDiv = document.createElement("div");
-        usernameDiv.className = "text-sm font-semibold text-gray-500 text-right";
-        usernameDiv.textContent = username;
-        
         const msg = document.createElement("div");
-        msg.className = "bg-purple-500 text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap shadow-md shadow-black/50";
+
+        if (userData.userName === username)
+        {
+            messageWrapper.className = "flex flex-col items-end space-y-1";
+            usernameDiv.className = "text-sm font-semibold text-white text-right";
+            msg.className = "border-2 border-blue-300 bg-white/5 backdrop-blur-lg text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap";
+        }
+        else
+        {
+            messageWrapper.className = "flex flex-col items-start space-y-1";
+            usernameDiv.className = "text-sm font-semibold text-white text-left";
+            msg.className = "border-2 border-red-500 bg-white/5 backdrop-blur-lg text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap";
+
+        }
+        
+        usernameDiv.textContent = username;
         msg.textContent = content;
+
 
         messageWrapper.appendChild(usernameDiv);
         messageWrapper.appendChild(msg);
