@@ -5,7 +5,7 @@ export const userData =
 	userPicture: localStorage.getItem('profile_pic')
 };
 
-const IP_NAME = '172.17.0.1';
+const IP_NAME = '10.12.200.86';
 
 document.addEventListener("DOMContentLoaded", () => 
 	{

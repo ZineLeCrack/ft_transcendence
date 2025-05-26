@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 	try
 	{
-		const response = await fetch('https://172.17.0.1:3451/history',
+		const response = await fetch('https://10.12.200.86:3451/history',
 		{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
