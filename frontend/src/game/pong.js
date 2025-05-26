@@ -25,9 +25,8 @@ let keys = {
     ArrowDown: false
 };
 let gameStarted = false;
-const port = localStorage.getItem("pongServerPort");
-// 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = `https://10.12.200.86:${port}`;
+const gameId = localStorage.getItem("gameId");
+const SERVER_URL = `https://10.12.200.86:4000/game/${gameId}`;
 function fetchState() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -61,6 +60,7 @@ document.addEventListener("keyup", (e) => {
     if (e.key in keys)
         keys[e.key] = false;
 });
+// Envoi des mouvements régulièrement
 setInterval(() => {
     fetch(`${SERVER_URL}/move`, {
         method: 'POST',
@@ -68,4 +68,5 @@ setInterval(() => {
         body: JSON.stringify({ keys })
     }).catch(err => console.error("Erreur POST /move:", err));
 }, 16);
+// Récupération régulière de l’état du jeu
 setInterval(fetchState, 16);

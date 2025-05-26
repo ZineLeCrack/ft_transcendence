@@ -1,61 +1,37 @@
-import express from 'express';
-import cors from 'cors';
-import { spawn } from 'child_process';
-import https from 'https';
+import Fastify from 'fastify';
+import cors from '@fastify/cors';
+import dotenv from 'dotenv';
 import fs from 'fs';
-import net from 'net';
+import gameRoutes from './game_router.js'; // ton routeur de jeu en mode plugin Fastify
+
+dotenv.config();
 
 const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
-const IP_NAME = process.env.IP_NAME || "10.12.200.0";
+const IP_NAME = process.env.IP_NAME || '10.12.200.0';
 
-const app = express();
-const baseGamePort = 3000;
-let nextPort = baseGamePort;
+async function main() {
+  const app = Fastify({
+    logger: false,
+    https: {
+      key: privateKey,
+      cert: certificate,
+    },
+  });
 
-https.createServer(credentials, app).listen(4000, '0.0.0.0', () => 
-{
-	console.log(`🔐 HTTPS Master server running at https://${IP_NAME}:4000`);
-});
+  // 🔓 Autoriser les requêtes cross-origin
+  await app.register(cors, { origin: true });
 
-app.use(cors());
-app.use(express.json());
+  // 🕹️ Routes du jeu multijoueur
+  await app.register(gameRoutes, { prefix: '/game' });
 
-app.post('/start', async (req, res) =>
-{
-	let port = baseGamePort;
-	while (!(await isPortFree(port)))
-		port++;
-	if (port > 3050)
-	{
-		console.log(`Cannot start game server, all ports are used`);
-		return ;
-	}
-	const child = spawn('node', ['server/server.js', port.toString()],
-	{
-		stdio: 'inherit',
-	});
-	console.log(`🎮 Game server starting on port ${port}`);
-	res.json({ url: `https://${IP_NAME}:${port}` });
-});
+  // 🚀 Lancer le serveur
+  await app.listen({ port: 4000, host: '0.0.0.0' });
 
-function isPortFree(port: number): Promise<boolean>
-{
-	return new Promise((resolve) =>
-	{
-		const tester = net.createServer()
-			.once('error', () => resolve(false))
-			.once('listening', () =>
-			{
-				tester.close();
-				resolve(true);
-			})
-			.listen(port);
-	});
+  console.log(`🔐 HTTPS Master Game Server running at https://${IP_NAME}:4000`);
 }
 
-// app.listen(4000, () =>
-// {
-// 	console.log('🌐 Master server running on https://10.12.200.65:4000');
-// });
+main().catch(err => {
+  console.error("❌ Failed to start server:", err);
+  process.exit(1);
+});

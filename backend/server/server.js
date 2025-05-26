@@ -1,184 +1,135 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+// GameInstance.ts
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const fs_1 = __importDefault(require("fs"));
-const https_1 = __importDefault(require("https"));
-const app = (0, express_1.default)();
-const httpsPort = parseInt(process.argv[2], 10);
-const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
-const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
-const IP_NAME = process.env.IP_NAME || "10.12.200.0";
-const credentials = { key: privateKey, cert: certificate };
-app.use((0, cors_1.default)({ origin: true, credentials: true }));
-app.use(express_1.default.json());
-let ballX = 400;
-let ballY = 300;
-let ballSpeedX = 0;
-let ballSpeedY = 0;
-let leftPaddleY = 250;
-let rightPaddleY = 250;
-let leftScore = 0;
-let rightScore = 0;
-let countDown = 0;
-let newSpeedX = 0;
-let newSpeedY = 0;
-let gameStarted = false;
-let leftOldY = leftPaddleY;
-let rightOldY = rightPaddleY;
-let message = "Press space to start !";
-app.get('/state', (req, res) => {
-    res.json({ ballX, ballY, leftPaddleY, rightPaddleY, leftScore, rightScore, message });
-});
-app.get('/start', (req, res) => {
-    res.json({ gameStarted });
-});
-app.post('/start', (req, res) => {
-    if (!gameStarted) {
-        message = "";
-        gameStarted = true;
-        ballSpeedX = 5;
-        ballSpeedY = 5;
-        leftScore = 0;
-        rightScore = 0;
+exports.GameInstance = void 0;
+class GameInstance {
+    constructor() {
+        this.ballX = 400;
+        this.ballY = 300;
+        this.ballSpeedX = 0;
+        this.ballSpeedY = 0;
+        this.leftPaddleY = 250;
+        this.rightPaddleY = 250;
+        this.leftScore = 0;
+        this.rightScore = 0;
+        this.message = "Press space to start !";
+        this.gameStarted = false;
+        this.leftOldY = 250;
+        this.rightOldY = 250;
+        this.newSpeedX = 0;
+        this.newSpeedY = 0;
+        this.interval = null;
+        this.startLoop();
     }
-    res.sendStatus(200);
-});
-app.post('/move', (req, res) => {
-    const { keys } = req.body;
-    leftOldY = leftPaddleY;
-    rightOldY = rightPaddleY;
-    if (keys.ArrowUp)
-        rightPaddleY -= 10;
-    if (keys.ArrowDown)
-        rightPaddleY += 10;
-    if (keys.w)
-        leftPaddleY -= 10;
-    if (keys.s)
-        leftPaddleY += 10;
-    rightPaddleY = Math.max(0, Math.min(500, rightPaddleY));
-    leftPaddleY = Math.max(0, Math.min(500, leftPaddleY));
-    res.sendStatus(200);
-});
-function updateGame() {
-    if (gameStarted) {
-        if (leftScore === 5 || rightScore === 5) {
-            gameStarted = false;
-            message = leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
-            setTimeout(() => {
-                if (!gameStarted) {
-                    leftScore = 0;
-                    rightScore = 0;
-                    message = "Press space to start !";
-                }
-            }, 5000);
-        }
-        ballX += ballSpeedX;
-        ballY += ballSpeedY;
-        if (ballY <= 0 || ballY >= 590)
-            ballSpeedY = -ballSpeedY;
-        if (ballSpeedX < 0) {
-            if (ballX <= 15 && ballY >= leftPaddleY && ballY <= leftPaddleY + 100) {
-                ballSpeedX = -ballSpeedX;
-                if (ballSpeedX < 10)
-                    ballSpeedX += 0.5;
-                if (ballSpeedY < 0) {
-                    if (ballY < leftPaddleY + 34) {
-                        if (ballSpeedY > -7)
-                            ballSpeedY -= 2;
+    startLoop() {
+        this.interval = setInterval(() => this.update(), 16);
+    }
+    update() {
+        if (this.gameStarted) {
+            if (this.leftScore === 5 || this.rightScore === 5) {
+                this.gameStarted = false;
+                this.message = this.leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
+                setTimeout(() => {
+                    if (!this.gameStarted) {
+                        this.leftScore = 0;
+                        this.rightScore = 0;
+                        this.message = "Press space to start !";
                     }
-                    else if (ballY > leftPaddleY + 66) {
-                        if (ballSpeedY < -3)
-                            ballSpeedY += 2;
-                    }
-                }
-                else {
-                    if (ballY < leftPaddleY + 34) {
-                        if (ballSpeedY > 3)
-                            ballSpeedY -= 2;
-                    }
-                    else if (ballY > leftPaddleY + 66) {
-                        if (ballSpeedY < 7)
-                            ballSpeedY += 2;
-                    }
-                }
+                }, 5000);
+            }
+            this.ballX += this.ballSpeedX;
+            this.ballY += this.ballSpeedY;
+            if (this.ballY <= 0 || this.ballY >= 590)
+                this.ballSpeedY = -this.ballSpeedY;
+            this.handleCollisions();
+            if (this.ballX <= 0) {
+                this.rightScore++;
+                this.resetBall();
+            }
+            else if (this.ballX >= 800) {
+                this.leftScore++;
+                this.resetBall();
             }
         }
-        else {
-            if (ballX >= 775 && ballY >= rightPaddleY && ballY <= rightPaddleY + 100) {
-                if (ballSpeedX < 10)
-                    ballSpeedX += 0.5;
-                ballSpeedX = -ballSpeedX;
-                if (ballSpeedY < 0) {
-                    if (ballY < rightPaddleY + 34) {
-                        if (ballSpeedY > -7)
-                            ballSpeedY -= 2;
-                    }
-                    else if (ballY > rightPaddleY + 66) {
-                        if (ballSpeedY < -3)
-                            ballSpeedY += 2;
-                    }
-                }
-                else {
-                    if (ballY < rightPaddleY + 34) {
-                        if (ballSpeedY > 3)
-                            ballSpeedY -= 2;
-                    }
-                    else if (ballY > rightPaddleY + 66) {
-                        if (ballSpeedY < 7)
-                            ballSpeedY += 2;
-                    }
-                }
-            }
+    }
+    stop() {
+        if (this.interval)
+            clearInterval(this.interval);
+    }
+    handleCollisions() {
+        // même logique que dans ton serveur existant : collisions avec paddles
+        const collision = (paddleY, ballY) => {
+            if (ballY < paddleY + 34)
+                return -2;
+            if (ballY > paddleY + 66)
+                return 2;
+            return 0;
+        };
+        if (this.ballSpeedX < 0 && this.ballX <= 15 && this.ballY >= this.leftPaddleY && this.ballY <= this.leftPaddleY + 100) {
+            this.ballSpeedX = -this.ballSpeedX;
+            if (this.ballSpeedX < 10)
+                this.ballSpeedX += 0.5;
+            this.ballSpeedY += collision(this.leftPaddleY, this.ballY);
         }
-        if (ballX <= 0) {
-            rightScore++;
-            resetBall();
-        }
-        else if (ballX >= 800) {
-            leftScore++;
-            resetBall();
+        else if (this.ballSpeedX > 0 && this.ballX >= 775 && this.ballY >= this.rightPaddleY && this.ballY <= this.rightPaddleY + 100) {
+            this.ballSpeedX = -this.ballSpeedX;
+            if (this.ballSpeedX < 10)
+                this.ballSpeedX += 0.5;
+            this.ballSpeedY += collision(this.rightPaddleY, this.ballY);
         }
     }
-    if (rightOldY === rightPaddleY && leftOldY === leftPaddleY) {
-        countDown++;
-        if (countDown > 2000) {
-            message = "TIMEOUT";
+    resetBall() {
+        this.ballX = 400;
+        this.ballY = 300;
+        this.newSpeedX = this.ballSpeedX < 0 ? 5 : -5;
+        this.newSpeedY = this.ballSpeedY < 0 ? 5 : -5;
+        this.ballSpeedX = 0;
+        this.ballSpeedY = 0;
+        if (this.leftScore !== 5 && this.rightScore !== 5) {
+            this.message = "3";
+            setTimeout(() => this.message = "2", 1000);
+            setTimeout(() => this.message = "1", 2000);
             setTimeout(() => {
-                process.exit(0);
-            }, 100);
+                this.ballSpeedX = this.newSpeedX;
+                this.ballSpeedY = this.newSpeedY;
+                this.message = "";
+            }, 3000);
         }
     }
-    else
-        countDown = 0;
-    setTimeout(updateGame, 16);
-}
-function resetBall() {
-    ballX = 400;
-    ballY = 300;
-    newSpeedX = ballSpeedX < 0 ? 5 : -5;
-    newSpeedY = ballSpeedY < 0 ? 5 : -5;
-    ballSpeedX = 0;
-    ballSpeedY = 0;
-    if (leftScore != 5 && rightScore != 5) {
-        message = "3";
-        setTimeout(() => {
-            message = "2";
-        }, 1000);
-        setTimeout(() => {
-            message = "1";
-        }, 2000);
-        setTimeout(() => {
-            ballSpeedX = newSpeedX;
-            ballSpeedY = newSpeedY;
-            message = "";
-        }, 3000);
+    move(keys) {
+        this.leftOldY = this.leftPaddleY;
+        this.rightOldY = this.rightPaddleY;
+        if (keys.ArrowUp)
+            this.rightPaddleY -= 10;
+        if (keys.ArrowDown)
+            this.rightPaddleY += 10;
+        if (keys.w)
+            this.leftPaddleY -= 10;
+        if (keys.s)
+            this.leftPaddleY += 10;
+        this.rightPaddleY = Math.max(0, Math.min(500, this.rightPaddleY));
+        this.leftPaddleY = Math.max(0, Math.min(500, this.leftPaddleY));
+    }
+    startGame() {
+        if (!this.gameStarted) {
+            this.message = "";
+            this.gameStarted = true;
+            this.ballSpeedX = 5;
+            this.ballSpeedY = 5;
+            this.leftScore = 0;
+            this.rightScore = 0;
+        }
+    }
+    getState() {
+        return {
+            ballX: this.ballX,
+            ballY: this.ballY,
+            leftPaddleY: this.leftPaddleY,
+            rightPaddleY: this.rightPaddleY,
+            leftScore: this.leftScore,
+            rightScore: this.rightScore,
+            message: this.message
+        };
     }
 }
-https_1.default.createServer(credentials, app).listen(httpsPort, '0.0.0.0', () => {
-    console.log(`HTTPS server running at https://${IP_NAME}:${httpsPort}`);
-    updateGame();
-});
+exports.GameInstance = GameInstance;

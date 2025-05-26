@@ -12,50 +12,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const child_process_1 = require("child_process");
-const https_1 = __importDefault(require("https"));
+const fastify_1 = __importDefault(require("fastify"));
+const cors_1 = __importDefault(require("@fastify/cors"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
-const net_1 = __importDefault(require("net"));
+const game_router_js_1 = __importDefault(require("./game_router.js")); // ton routeur de jeu en mode plugin Fastify
+dotenv_1.default.config();
 const privateKey = fs_1.default.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs_1.default.readFileSync('/certs/transcend.crt', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
-const IP_NAME = process.env.IP_NAME || "10.12.200.0";
-const app = (0, express_1.default)();
-const baseGamePort = 3000;
-let nextPort = baseGamePort;
-https_1.default.createServer(credentials, app).listen(4000, '0.0.0.0', () => {
-    console.log(`🔐 HTTPS Master server running at https://${IP_NAME}:4000`);
-});
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
-app.post('/start', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let port = baseGamePort;
-    while (!(yield isPortFree(port)))
-        port++;
-    if (port > 3050) {
-        console.log(`Cannot start game server, all ports are used`);
-        return;
-    }
-    const child = (0, child_process_1.spawn)('node', ['server/server.js', port.toString()], {
-        stdio: 'inherit',
-    });
-    console.log(`🎮 Game server starting on port ${port}`);
-    res.json({ url: `https://${IP_NAME}:${port}` });
-}));
-function isPortFree(port) {
-    return new Promise((resolve) => {
-        const tester = net_1.default.createServer()
-            .once('error', () => resolve(false))
-            .once('listening', () => {
-            tester.close();
-            resolve(true);
-        })
-            .listen(port);
+const IP_NAME = process.env.IP_NAME || '10.12.200.0';
+function main() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const app = (0, fastify_1.default)({
+            logger: false,
+            https: {
+                key: privateKey,
+                cert: certificate,
+            },
+        });
+        // 🔓 Autoriser les requêtes cross-origin
+        yield app.register(cors_1.default, { origin: true });
+        // 🕹️ Routes du jeu multijoueur
+        yield app.register(game_router_js_1.default, { prefix: '/game' });
+        // 🚀 Lancer le serveur
+        yield app.listen({ port: 4000, host: '0.0.0.0' });
+        console.log(`🔐 HTTPS Master Game Server running at https://${IP_NAME}:4000`);
     });
 }
-// app.listen(4000, () =>
-// {
-// 	console.log('🌐 Master server running on https://10.12.200.65:4000');
-// });
+main().catch(err => {
+    console.error("❌ Failed to start server:", err);
+    process.exit(1);
+});
