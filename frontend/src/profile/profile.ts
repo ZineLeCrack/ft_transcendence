@@ -47,7 +47,7 @@ editPasswordBtn.addEventListener('click', () => {
 });
 
 const unsaveBtn = document.getElementById('unsave-btn') as HTMLButtonElement;
-const saveBtn = document.getElementById('save-btn') as HTMLButtonElement;
+// const saveBtn = document.getElementById('save-btn') as HTMLButtonElement;
 const editUsernameInput = document.getElementById('edit-username-input') as HTMLInputElement;
 const editEmailInput = document.getElementById('edit-email-input') as HTMLInputElement;
 const editCurrentPasswordInput = document.getElementById('edit-currentpassword-input') as HTMLInputElement;

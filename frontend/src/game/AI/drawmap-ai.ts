@@ -16,7 +16,7 @@ const gameCanvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 const topCanvas = document.getElementById("topCanvas") as HTMLCanvasElement;
 const game = gameCanvas.getContext("2d")!;
 const score = topCanvas.getContext("2d")!;
-const gameDiv = document.getElementById('gameDiv') as HTMLDivElement;
+// const gameDiv = document.getElementById('gameDiv') as HTMLDivElement;
 
 // position et score par défaut
 
