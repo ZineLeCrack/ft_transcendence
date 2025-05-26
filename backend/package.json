@@ -20,7 +20,7 @@
     "typecript": "^0.0.1-security"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.17",
+    "@types/cors": "^2.8.18",
     "@types/express": "^5.0.1",
     "@types/node": "^16.18.126",
     "typescript": "^5.8.3"
