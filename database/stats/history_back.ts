@@ -21,8 +21,8 @@ export default async function historyRoutes(fastify: FastifyInstance) {
       );
 
       const formatted = rows.map((row: any) => ({
-        imageplayer1: "/src/images/pdp_cle-berr.png",
-        imageplayer2: "/src/images/pdp_rlebaill.jpeg",
+        imageplayer1: "/images/pdp_cle-berr.png",
+        imageplayer2: "/images/pdp_rlebaill.jpeg",
         usernameplayer1: row.usernameplayer1,
         usernameplayer2: row.usernameplayer2,
         pointplayer1: row.point_player1,

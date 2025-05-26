@@ -1,5 +1,7 @@
 import { draw } from "./drawmap.js";
 
+const IP_NAME = import.meta.env.VITE_IP_NAME;
+
 export let ballX = 400;
 export let ballY = 300;
 export let leftPaddleY = 250;
@@ -21,7 +23,7 @@ let keys: { [key: string]: boolean } = {
 let gameStarted = false;
 
 const gameId = localStorage.getItem("gameId");
-const SERVER_URL = `https://10.12.200.86:4000/game/${gameId}`;
+const SERVER_URL = `https://${IP_NAME}:4000/game/${gameId}`;
 
 async function fetchState() {
 	try {

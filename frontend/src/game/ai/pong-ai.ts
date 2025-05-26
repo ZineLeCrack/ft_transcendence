@@ -1,5 +1,7 @@
 import { draw_ai } from './drawmap-ai.js';
-const IP_NAME = '10.12.200.86';
+
+const IP_NAME = import.meta.env.VITE_IP_NAME;
+
 
 // position et score par defaut
 let ballVX = 0;

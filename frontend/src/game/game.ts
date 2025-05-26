@@ -4,7 +4,7 @@ export const userData = {
 	userPicture: localStorage.getItem('profile_pic')
 };
 
-const IP_NAME = '10.12.200.86';
+const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 document.addEventListener("DOMContentLoaded", () => {
 	const leftBtn = document.getElementById("left-button-game") as HTMLButtonElement;
@@ -46,21 +46,21 @@ document.addEventListener("DOMContentLoaded", () => {
 					const gameId = data.gameId;
 					localStorage.setItem("gameId", gameId);
 
-					window.location.href = "src/game/pong.html";
+					window.location.href = "src/game/local/local.html";
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode local :", err);
 					alert("Erreur : impossible de démarrer le jeu local.\n" + err);
 				}
 			};
-			document.body.style.backgroundImage = "url('/src/images/localgame.png')";
+			document.body.style.backgroundImage = "url('/images/localgame.png')";
 		}
 		else if (mode === "MULTI") {
-			playBtn.onclick = () => window.location.href = "src/game/multiplayer.html";
-			document.body.style.backgroundImage = "url('/src/images/tournament.png')";
+			playBtn.onclick = () => window.location.href = "src/game/multiplayer/multiplayer.html";
+			document.body.style.backgroundImage = "url('/images/tournament.png')";
 		}
 		else if (mode === "AI") {
-			playBtn.onclick = () => window.location.href = "src/game/AI/AI.html";
-			document.body.style.backgroundImage = "url('/src/images/AItemp.png')";
+			playBtn.onclick = () => window.location.href = "src/game/ai/ai.html";
+			document.body.style.backgroundImage = "url('/images/AItemp.png')";
 		}
 	}
 

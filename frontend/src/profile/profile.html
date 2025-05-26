@@ -5,10 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
  	<title>Profil</title>
 	<link rel="stylesheet" href="../css/style.css">
-	<link rel="icon" type="image/png" href="../images/logoallpage32.png"/>
+	<link rel="icon" type="image/png" href="/images/logoallpage32.png"/>
 
 </head>
-<body class="bg-cover bg-center bg-no-repeat min-h-screen flex items-center justify-center" style="background-image: url('../images/statscyberpunk.png'); background-size: 1920px 1080px;">
+<body class="bg-cover bg-center bg-no-repeat min-h-screen flex items-center justify-center" style="background-image: url('/images/statscyberpunk.png'); background-size: 1920px 1080px;">
 
 	<div class="w-screen h-screen p-4">
 		<!-- Onglets -->
@@ -70,7 +70,7 @@
 						<div class="relative w-full md:w-2/3">
 							<input id="edit-currentpassword-input" required type="password" placeholder="current password" class="w-full px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
 							<button type="button" id="edit-currentpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
-							<img id="edit-currentpassword-icon" src="../images/cacher.svg" class="w-6 h-10" />
+							<img id="edit-currentpassword-icon" src="/images/cacher.svg" class="w-6 h-10" />
 							</button>
 						</div>
 					</div>
@@ -81,11 +81,11 @@
 							<div class="relative w-full">
 								<input id="edit-newpassword-input" required type="password" placeholder="new password" class="w-full px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
 								<button type="button" id="edit-newpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
-								<img id="edit-newpassword-icon" src="../images/cacher.svg" class="w-6 h-10" />
+								<img id="edit-newpassword-icon" src="/images/cacher.svg" class="w-6 h-10" />
 								</button>
 							</div>
-							<img id="profile-badPasswordIcon" src="../images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
-							<img id="profile-goodPasswordIcon" src="../images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+							<img id="profile-badPasswordIcon" src="/images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+							<img id="profile-goodPasswordIcon" src="/images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
 						</div>
 					</div>
 			
@@ -95,11 +95,11 @@
 							<div class="relative w-full">
 								<input id="edit-confirmpassword-input" required type="password" placeholder="confirm password" class="w-full px-4 py-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"/>
 								<button type="button" id="edit-confirmpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
-								<img id="edit-confirmpassword-icon" src="../images/cacher.svg" class="w-6 h-10" />
+								<img id="edit-confirmpassword-icon" src="/images/cacher.svg" class="w-6 h-10" />
 								</button>
 							</div>
-							<img id="profile-badConfirmPasswordIcon" src="../images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
-							<img id="profile-goodConfirmPasswordIcon" src="../images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+							<img id="profile-badConfirmPasswordIcon" src="/images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+							<img id="profile-goodConfirmPasswordIcon" src="/images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
 						</div>
 					</div>
 
@@ -138,10 +138,12 @@
 
 	</div>
 	
-	
+
+	<script type="module" src="profile.ts"></script>
+<!-- 	
 	<script type="module" src="profile.js"></script>
 	<script type="module" src="stats.js"></script>
-	<script type="module" src="history.js"></script>
+	<script type="module" src="history.js"></script> -->
 	<!-- <script type="module" src="global.js"></script> -->
 
 	
