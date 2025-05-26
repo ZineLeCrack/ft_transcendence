@@ -61,6 +61,7 @@ document.addEventListener("keyup", (e) => {
     if (e.key in keys)
         keys[e.key] = false;
 });
+// Envoi des mouvements régulièrement
 setInterval(() => {
     fetch(`${SERVER_URL}/move`, {
         method: 'POST',
@@ -68,4 +69,5 @@ setInterval(() => {
         body: JSON.stringify({ keys })
     }).catch(err => console.error("Erreur POST /move:", err));
 }, 16);
+// Récupération régulière de l’état du jeu
 setInterval(fetchState, 16);
