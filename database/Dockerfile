@@ -1,13 +1,18 @@
 FROM node:18-slim
 
 RUN apt-get update && apt-get install -y \
-    sqlite3 \
+    sqlite3 npm\
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir database 
+RUN mkdir database
 WORKDIR /database
 
+COPY package*.json ./
+RUN npm install
+
 COPY . .
+
+RUN npx tsc
 
 RUN sqlite3 user.db < tools/users.sql
 RUN sqlite3 chat.db < tools/chat.sql
