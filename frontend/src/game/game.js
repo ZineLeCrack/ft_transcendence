@@ -56,7 +56,30 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.style.backgroundImage = "url('/src/images/localgame.png')";
         }
         else if (mode === "MULTI") {
-            playBtn.onclick = () => window.location.href = "src/game/multiplayer.html";
+            playBtn.onclick = () => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    const response = yield fetch(`https://${IP_NAME}:4001/game/start`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            userId: userData.userId,
+                            userName: userData.userName,
+                        })
+                    });
+                    if (!response.ok)
+                        throw new Error(`Erreur HTTP: ${response.status}`);
+                    const data = yield response.json();
+                    const gameId = data.gameId;
+                    const player = data.player;
+                    localStorage.setItem("gameId", gameId);
+                    localStorage.setItem("player", player);
+                    window.location.href = "src/game/multiplayer.html";
+                }
+                catch (err) {
+                    console.error("❌ Erreur lors du démarrage du mode multijoueur :", err);
+                    alert("Erreur : impossible de démarrer le jeu local.\n" + err);
+                }
+            });
             document.body.style.backgroundImage = "url('/src/images/tournament.png')";
         }
         else if (mode === "AI") {
