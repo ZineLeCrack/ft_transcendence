@@ -1,38 +1,36 @@
-import { Router } from 'express';
+import { FastifyInstance } from 'fastify';
 import { getDb_chat } from '../database.js';
 
-const router = Router();
-
-router.post('/sendinfo', async (req, res) => {
-    const { username, content } = req.body;
+export default async function chatRoutes(fastify: FastifyInstance) {
+  fastify.post('/sendinfo', async (request, reply) => {
+    const { username, content } = request.body as { username: string, content: string };
 
     if (!username || !content) {
-        res.status(400).send('Incomplete data');
-        return;
+      reply.status(400).send('Incomplete data');
+      return;
     }
 
     try {
-        const db = await getDb_chat();
-        await db.run(
-            `INSERT INTO chat (username, content) VALUES (?, ?)`,
-            [username, content]
-        );
-        res.status(200).json({ username, content });
+      const db = await getDb_chat();
+      await db.run(
+        `INSERT INTO chat (username, content) VALUES (?, ?)`,
+        [username, content]
+      );
+      reply.status(200).send({ username, content });
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
+      console.error(err);
+      reply.status(500).send('Server error');
     }
-});
+  });
 
-router.post('/getmessages', async (req, res) => {
+  fastify.post('/getmessages', async (_request, reply) => {
     try {
-        const db = await getDb_chat();
-        const messages = await db.all(`SELECT * FROM chat`);
-        res.status(200).json({ tab: messages });
+      const db = await getDb_chat();
+      const messages = await db.all(`SELECT * FROM chat`);
+      reply.status(200).send({ tab: messages });
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
+      console.error(err);
+      reply.status(500).send('Server error');
     }
-});
-
-export default router;
+  });
+}

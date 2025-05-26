@@ -94,8 +94,6 @@ signupform === null || signupform === void 0 ? void 0 : signupform.addEventListe
             const error = yield response.text();
             throw new Error(error || 'Erreur lors de l\'inscription');
         }
-        // alert('Inscription réussie !');
-        window.location.href = "login.html";
         window.location.href = "login.html";
     }
     catch (err) {
@@ -124,8 +122,8 @@ signinform === null || signinform === void 0 ? void 0 : signinform.addEventListe
         const data = yield response.json();
         localStorage.setItem('userId', data.id);
         localStorage.setItem('userName', data.name);
-        localStorage.setItem('userName', data.profile_pic);
-        window.location.href = "../../index.html";
+        localStorage.setItem('userPicture', data.profile_pic);
+        window.location.href = "a2f.html";
     }
     catch (err) {
         console.log('Erreur : ' + err.message);

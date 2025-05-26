@@ -15,4 +15,3 @@ RUN sqlite3 chat.db < tools/chat.sql
 EXPOSE 3451
 
 CMD ["node", "server_api.js"]
-# CMD ["tail", "-f", "/dev/null"]
