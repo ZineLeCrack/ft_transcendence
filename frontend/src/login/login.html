@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Login</title>
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="icon" type="image/png" href="../images/logoallpage32.png"/>
+
+</head>
+
+<body class="bg-center bg-no-repeat min-h-screen flex items-center justify-center" style="background-image: url('../images/logincyberpunk.png'); background-size: 1920px 1080px;">
+	
+	<!--formulaire de connection-->
+	<form id="sign-in" action="" method="POST" class="space-y-4 max-w-md w-full border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] bg-white/5 backdrop-blur p-6 rounded-2xl">
+		<h2 class="text-center text-2xl text-[#00FFFF] font-bold drop-shadow-[0_0_10px_#00FFFF] mb-4">Sign In to ft_transcendence</h2>
+		
+		<div id="sign-in-username-div">
+			<label for="Sign-in-username" class="block text-white font-semibold mb-1">Username
+				<span id="sign-in-with-email" class="underline cursor-pointer text-[#00FFFF] font-bold ">or Email</span>
+			</label>
+			<input id="Sign-in-username" name="username" type="text" class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+		</div>
+		
+		<div id="sign-in-email-div" class="hidden">
+			<label for="Sign-in-email" class="block font-semibold mb-1 text-white">Email
+				<span id="sign-in-with-Username" class="underline cursor-pointer text-[#00FFFF] font-bold ">or Username</span>
+			</label>
+			<input id="Sign-In-email" name="email" type="email" class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+		</div>
+		
+		<div>
+			<label for="Sign-In-password" class="block font-semibold mb-1 text-white">Password</label>
+			<div class="relative">
+				<input id="sign-in-password-input" name="password" type="password" required class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+				<button type="button" id="sign-in-password-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+					<img id="sign-in-password-icon" src="../images/cacher.svg" class="size-10" alt="eye icon"/>
+				</button>
+			</div>
+		</div>
+
+		<button type="submit" class="w-full bg-[#00FFFF] text-black font-bold px-4 py-2 rounded-lg hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">Sign In</button>
+		<div class="flex justify-end mt-4">
+			<span id="to-sign-up" class="underline cursor-pointer text-[#00FFFF] font-bold ">Sign Up</span>
+		</div>
+	</form>
+	
+
+	<!--formulaire d'inscription-->
+	<form id="sign-up" action="" method="POST" class="hidden space-y-4 max-w-md w-full border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] bg-white/5 backdrop-blur p-6 rounded-2xl">
+		<h2 class="text-2xl font-bold text-center text-[#00FFFF] drop-shadow-[0_0_10px_#00FFFF] mb-4">Sign Up to ft_transcendence</h2>
+		
+		<div>
+			<label for="sign-up-username" class="block font-semibold mb-1 text-white">Username
+				<span class="text-red-500">*</span>
+			</label>
+			<input id="sign-up-username" name="username" type="text" required class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+		</div>
+
+		<div>
+			<label for="sign-up-email" class="block font-semibold mb-1 text-white">Email
+				<span class="text-red-500">*</span>
+			</label>
+			<input id="sign-up-email" name="email" type="email" required class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+		</div>
+		
+		<div>
+			<label for="sign-up-password" class="block font-semibold mb-1 text-white">Password
+				<span class="text-red-500">*</span>
+			</label>
+			<div class="flex items-center">
+				<div class="relative w-full">
+					<input id="sign-up-password-input" name="password" type="password" required class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+					<button type="button" id="sign-up-password-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+						<img id="sign-up-password-icon" src="../images/cacher.svg" class="w-6 h-10" />
+					</button>
+				</div>
+				<img id="badPasswordIcon" src="../images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+				<img id="goodPasswordIcon" src="../images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+			</div>
+		</div>
+	
+		<div>
+			<label for="sign-up-confirmpassword-input" class="block font-semibold mb-1 text-white">Confirm Password
+				<span class="text-red-500">*</span>
+			</label>
+			<div class="flex items-center">
+				<div class="relative w-full">
+					<input id="sign-up-confirmpassword-input" name="confirmPassword" type="password" required class="w-full p-2 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+					<button type="button" id="sign-up-confirmpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+						<img id="sign-up-confirmpassword-icon" src="../images/cacher.svg" class="w-6 h-10" />
+					</button>
+				</div>
+				<img id="badConfirmPasswordIcon" src="../images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+				<img id="goodConfirmPasswordIcon" src="../images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+			</div>
+		</div>
+	  
+		<button type="submit" class="w-full bg-[#00FFFF] text-black font-bold px-4 py-2 rounded-lg hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">Sign Up</button>
+		<div class="flex justify-end">
+			<span id="to-sign-in" class="underline cursor-pointer text-[#00FFFF] text-sm ">Already have an account ?</span>
+		</div>
+	</form>
+
+	<script type="module" src="auth.js"></script>
+</body>
+</html>

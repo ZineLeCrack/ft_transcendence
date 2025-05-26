@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8" />
+	<title>local</title>
+	<link rel="stylesheet" href="../css/style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+	<link rel="icon" type="image/png" href="../images/logoallpage32.png"/>
+
+
+	<style>
+		h1 {font-family: 'Caveat', cursive;}
+	</style>
+	
+</head>
+
+
+<body class="m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex" style="background-image: url('../images/pong.png'); background-size: 1920px 1080px;">
+
+	<div class="flex justify-center items-center">
+		<!-- Joueur 1 -->
+		<div class="mr-12 flex flex-col items-center">
+			<h1 class="text-center text-[50px] text-[#00FFFF] font-bold drop-shadow-[0_0_10px_#00FFFF]">Player 1</h1>
+			<canvas id="statPlayer1" width="250" height="600" class="mt-2 border-4 bg-black border-blue-300 shadow-[0_0_10px_#00FFFF] rounded-[10px]"></canvas>
+		</div>
+
+		<!-- Zone centrale -->
+		<div class="flex flex-col items-center">
+			<div id="gameDiv" class="mb-9 p-0.5 bg-gradient-to-r from-[#00FFFF] to-[#FF007A] rounded-[10px]">
+				<canvas id="topCanvas" width="300" height="70" class="bg-black rounded-[10px]"></canvas>
+			</div>
+			<div id="gameDiv" class="p-1 bg-gradient-to-r from-[#00FFFF] to-[#FF007A] rounded-[5px]">
+				<canvas id="gameCanvas" width="800" height="600" class="bg-black rounded-[5px]"></canvas>
+			</div>
+		</div>
+
+		<!-- Joueur 2 -->
+		<div class="ml-12 flex flex-col items-center">
+			<h1 class="text-center text-[50px] text-[#FF007A] font-bold drop-shadow-[0_0_10px_#FF007A]">Player 2</h1>
+			<canvas id="statPlayer2" width="250" height="600" class="mt-2 border-4 bg-black border-[#FF007A] shadow-[0_0_10px_#FF007A] rounded-[10px]"></canvas>
+		</div>
+	</div>
+
+	<script type="module" src="pong.js"></script>
+</body>
+</html>
