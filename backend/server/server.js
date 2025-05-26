@@ -14,7 +14,6 @@ class GameInstance {
         this.rightScore = 0;
         this.message = "Press space to start !";
         this.gameStarted = false;
-        this.countDown = 0;
         this.leftOldY = 250;
         this.rightOldY = 250;
         this.newSpeedX = 0;
@@ -51,16 +50,6 @@ class GameInstance {
                 this.leftScore++;
                 this.resetBall();
             }
-        }
-        if (this.rightOldY === this.rightPaddleY && this.leftOldY === this.leftPaddleY) {
-            this.countDown++;
-            if (this.countDown > 2000) {
-                this.message = "TIMEOUT";
-                this.stop();
-            }
-        }
-        else {
-            this.countDown = 0;
         }
     }
     stop() {

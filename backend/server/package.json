@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "dependencies": {
+    "@fastify/cors": "^11.0.1",
+    "@types/node": "^22.15.21",
     "accepts": "^2.0.0",
     "body-parser": "^2.2.0",
     "bytes": "^3.1.2",
@@ -25,6 +27,7 @@
     "escape-html": "^1.0.3",
     "etag": "^1.8.1",
     "express": "^5.1.0",
+    "fastify": "^5.3.3",
     "finalhandler": "^2.1.0",
     "forwarded": "^0.2.0",
     "fresh": "^2.0.0",
@@ -69,7 +72,6 @@
     "statuses": "^2.0.1",
     "toidentifier": "^1.0.1",
     "type-is": "^2.0.1",
-    "typescript": "^4.9.5",
     "unpipe": "^1.0.0",
     "vary": "^1.1.2",
     "wrappy": "^1.0.2"
@@ -81,5 +83,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
 }

@@ -1,52 +1,54 @@
-// gameRouter.ts
-import { Router } from 'express';
+// game_router.ts
+import { FastifyInstance } from 'fastify';
 import { GameInstance } from './server.js';
 
-const router = Router();
 const games = new Map<string, GameInstance>();
 
 function generateGameId(): string {
 	return Math.random().toString(36).substring(2, 10);
 }
 
-router.post('/start', (req, res) => {
-	const id = generateGameId();
-	const game = new GameInstance();
-	games.set(id, game);
-	console.log(`🎮 Partie créée : ${id}`);
-	res.json({ gameId: id });
-});
+export default async function gameRouter(fastify: FastifyInstance) {
 
-router.get('/:id/state', (req, res) => {
-	const game = games.get(req.params.id);
-	if (!game)
-    {
-        res.status(404).json({ error: "Game not found" });
-        return ;
-    }
-	res.json(game.getState());
-});
+	// 🎮 Créer une nouvelle partie
+	fastify.post('/start', async (_request, reply) => {
+		const id = generateGameId();
+		const game = new GameInstance();
+		games.set(id, game);
+		console.log(`🎮 Partie créée : ${id}`);
+		reply.send({ gameId: id });
+	});
 
-router.post('/:id/start', (req, res) => {
-	const game = games.get(req.params.id);
-	if (!game)
-    {
-        res.status(404).json({ error: "Game not found" });
-        return ;
-    }
-	game.startGame();
-	res.sendStatus(200);
-});
+	// 📦 Récupérer l'état de la partie
+	fastify.get('/:id/state', async (request, reply) => {
+		const { id } = request.params as { id: string };
+		const game = games.get(id);
+		if (!game)
+			return reply.status(404).send({ error: "Game not found" });
 
-router.post('/:id/move', (req, res) => {
-	const game = games.get(req.params.id);
-	if (!game)
-    {
-        res.status(404).json({ error: "Game not found" });
-        return ;
-    }
-	game.move(req.body.keys);
-	res.sendStatus(200);
-});
+		reply.send(game.getState());
+	});
 
-export default router;
+	// ▶️ Démarrer la partie
+	fastify.post('/:id/start', async (request, reply) => {
+		const { id } = request.params as { id: string };
+		const game = games.get(id);
+		if (!game)
+			return reply.status(404).send({ error: "Game not found" });
+
+		game.startGame();
+		reply.status(200).send({ status: "started" });
+	});
+
+	// 🎮 Déplacer les raquettes
+	fastify.post('/:id/move', async (request, reply) => {
+		const { id } = request.params as { id: string };
+		const game = games.get(id);
+		if (!game)
+			return reply.status(404).send({ error: "Game not found" });
+
+		const body = request.body as { keys: any };
+		game.move(body.keys);
+		reply.status(200).send({ status: "ok" });
+	});
+}
