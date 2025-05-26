@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	const modes = ["LOCAL", "MULTI", "AI"];
 	const description: Record<string, string> = {
-		"LOCAL": "Joue contre un ami sur le même clavier.",
-		"MULTI": "Affronte d'autres joueurs en ligne.",
-		"AI": "Teste tes compétences contre l'ordinateur."
+		"LOCAL": "Play against a friend on the same keyboard.",
+		"MULTI": "Compete against other players online.",
+		"AI": "Test your skills against the computer."
 	};
 
 	let currentIndex = 0;
