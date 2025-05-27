@@ -59,57 +59,50 @@ function FetchState() {
 }
 let aiAction = 'none';
 let aiTimeout = null;
-function callAI() {
-    return __awaiter(this, void 0, void 0, function* () {
-        //if (!gameStarted) return;
-        try {
-            const res = yield fetch(`https://${IP_NAME}:4242/app2/ai/ai.php`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    paddlePosition: rightPaddleY,
-                    ballPosition: { x: ballX, y: ballY },
-                    ballDirection: { x: ballVX, y: ballVY }
-                })
-            });
-            const data = yield res.json();
-            // Annule toute action précédente si elle existe
-            if (aiTimeout !== null) {
-                clearTimeout(aiTimeout);
-                aiTimeout = null;
-            }
-            // Réinitialise les touches IA
-            keys["ArrowUp"] = false;
-            keys["ArrowDown"] = false;
-            // Applique la direction pour la durée spécifiée
-            if (data.direction === "up") {
-                keys["ArrowUp"] = true;
-                aiAction = "up";
-            }
-            else if (data.direction === "down") {
-                keys["ArrowDown"] = true;
-                aiAction = "down";
-            }
-            else {
-                aiAction = "none";
-            }
-            // Définir le timeout pour relâcher la touche après `duration` ms
-            if (data.direction !== "none" && data.duration > 0) {
-                aiTimeout = window.setTimeout(() => {
-                    if (data.direction === "up")
-                        keys["ArrowUp"] = false;
-                    if (data.direction === "down")
-                        keys["ArrowDown"] = false;
-                    aiAction = "none";
-                    aiTimeout = null;
-                }, data.duration / 2);
-            }
-        }
-        catch (e) {
-            console.error("Erreur IA:", e);
-        }
-    });
-}
+// async function callAI() {
+// 	//if (!gameStarted) return;
+// 	try {
+// 		const res = await fetch(`https://${IP_NAME}:4242/app2/ai/ai.php`, {
+// 			method: "POST",
+// 			headers: { "Content-Type": "application/json" },
+// 			body: JSON.stringify({
+// 				paddlePosition: rightPaddleY,
+// 				ballPosition: { x: ballX, y: ballY },
+// 				ballDirection: { x: ballVX, y: ballVY }
+// 			})			
+// 		});
+// 		const data = await res.json();
+// 		// Annule toute action précédente si elle existe
+// 		if (aiTimeout !== null) {
+// 			clearTimeout(aiTimeout);
+// 			aiTimeout = null;
+// 		}
+// 		// Réinitialise les touches IA
+// 		keys["ArrowUp"] = false;
+// 		keys["ArrowDown"] = false;
+// 		// Applique la direction pour la durée spécifiée
+// 		if (data.direction === "up") {
+// 			keys["ArrowUp"] = true;
+// 			aiAction = "up";
+// 		} else if (data.direction === "down") {
+// 			keys["ArrowDown"] = true;
+// 			aiAction = "down";
+// 		} else {
+// 			aiAction = "none";
+// 		}
+// 		// Définir le timeout pour relâcher la touche après `duration` ms
+// 		if (data.direction !== "none" && data.duration > 0) {
+// 			aiTimeout = window.setTimeout(() => {
+// 				if (data.direction === "up") keys["ArrowUp"] = false;
+// 				if (data.direction === "down") keys["ArrowDown"] = false;
+// 				aiAction = "none";
+// 				aiTimeout = null;
+// 			}, data.duration / 2);
+// 		}
+// 	} catch (e) {
+// 		console.error("Erreur IA:", e);
+// 	}
+// }
 // evenement de touche pressee
 document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp" || e.key === "ArrowDown")
@@ -127,7 +120,7 @@ document.addEventListener("keyup", (e) => {
     if (e.key in keys)
         keys[e.key] = false;
 });
-setInterval(callAI, 1000);
+//setInterval(callAI, 1000);
 // setInterval(callAI_second, 100);
 // envoie l'etat des touches 100x par seconde
 setInterval(() => {

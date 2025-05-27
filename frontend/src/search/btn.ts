@@ -1,6 +1,11 @@
 import { setButton } from "../profile/utils.js";
 import { generateCardsHistory,  CardHistory } from "../profile/history.js";
 
+
+export const usernameh2 = document.getElementById("username-h2") as HTMLHeadingElement;
+
+
+
 const globalbtnsearch = document.getElementById('global-btn-search') as HTMLButtonElement;
 const historybtnsearch = document.getElementById('history-btn-search') as HTMLButtonElement;
 
