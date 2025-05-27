@@ -1,5 +1,6 @@
 import { setButton } from "../profile/utils.js";
-import { generateCardsHistory,  CardHistory } from "../profile/history.js";
+import { generateCardsHistory} from "../profile/history.js";
+import type {CardHistory} from "../profile/history.js";
 
 
 export const usernameh2 = document.getElementById("username-h2") as HTMLHeadingElement;
@@ -48,8 +49,8 @@ const cardsHistory: CardHistory[] = [
 	  date: "20/05/25 at 10:00"
 	},
 	{
-	  imageplayer1: "/src/images/pdp_cle-berr.png",
-	  imageplayer2: "/src/images/pdp_rlebaill.jpeg",
+	  imageplayer1: "/images/pdp_cle-berr.png",
+	  imageplayer2: "/images/pdp_rlebaill.jpeg",
 	  usernameplayer1: "cle-berr",
 	  usernameplayer2: "rlebaill",
 	  pointplayer1: 5,

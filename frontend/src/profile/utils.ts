@@ -3,7 +3,7 @@ export function togglePassword(Input: HTMLInputElement, Btn: HTMLButtonElement, 
 	Btn.addEventListener('click', () => {
 		const isVisible = Input.type === 'text';
 		Input.type = isVisible ? 'password' : 'text';
-		Icon.src = isVisible ? '../images/cacher.svg' : '../images/content.svg';
+		Icon.src = isVisible ? '/images/cacher.svg' : '/images/content.svg';
 
 	});
 }
@@ -11,7 +11,7 @@ export function togglePassword(Input: HTMLInputElement, Btn: HTMLButtonElement, 
 export function hidePassword(Input: HTMLInputElement, Icon: HTMLImageElement, IconGood: HTMLImageElement | null, IconBad: HTMLImageElement | null)
 {
 	Input.type = 'password';
-	Icon.src = '../images/cacher.svg';
+	Icon.src = '/images/cacher.svg';
 	if (IconGood)
 		IconGood.classList.add('hidden');
 	if (IconBad)

@@ -1,5 +1,7 @@
 import { draw } from "./drawmap.js";
 
+const IP_NAME = import.meta.env.VITE_IP_NAME;
+
 export let ballX = 400;
 export let ballY = 300;
 export let leftPaddleY = 250;
@@ -20,10 +22,8 @@ let keys: { [key: string]: boolean } = {
 
 let gameStarted = false;
 
-const port = localStorage.getItem("pongServerPort");
-
-// 🔐 Mettre ici l'adresse du serveur HTTPS
-const SERVER_URL = `https://10.12.200.87:${port}`;
+const gameId = localStorage.getItem("gameId");
+const SERVER_URL = `https://${IP_NAME}:4000/game/${gameId}`;
 
 async function fetchState() {
 	try {
@@ -56,7 +56,7 @@ document.addEventListener("keyup", (e) => {
 	if (e.key in keys) keys[e.key] = false;
 });
 
-
+// Envoi des mouvements régulièrement
 setInterval(() => {
 	fetch(`${SERVER_URL}/move`, {
 		method: 'POST',
@@ -65,4 +65,5 @@ setInterval(() => {
 	}).catch(err => console.error("Erreur POST /move:", err));
 }, 16);
 
+// Récupération régulière de l’état du jeu
 setInterval(fetchState, 16);

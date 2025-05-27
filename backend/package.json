@@ -10,10 +10,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@fastify/cors": "^11.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "npx": "^10.2.2",
+    "fastify": "^5.3.3",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
     "tsc": "^2.0.4",
@@ -23,6 +24,6 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/node": "^16.18.126",
-    "typescript": "^4.9.5"
+    "typescript": "^5.8.3"
   }
 }

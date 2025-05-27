@@ -10,8 +10,9 @@ run npm install -g typescript
 
 COPY . .
 RUN chmod +x exec.sh
+RUN npx tsc -p server_local
+RUN npx tsc -p server_multi
 
-EXPOSE 3000-3050
-EXPOSE 4000
+EXPOSE 4000-4001
 
 CMD ["./exec.sh"]
