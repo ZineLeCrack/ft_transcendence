@@ -29,11 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageBox.appendChild(messageWrapper);
         messageBox.scrollTop = messageBox.scrollHeight;
     }
-<<<<<<< HEAD
-    const ws = new WebSocket('wss://10.12.200.86:3452');
-=======
     const ws = new WebSocket(`wss://${IP_NAME}:3451`);
->>>>>>> origin/ebroudic
     ws.onopen = () => {
         console.log("WebSocket connecté !");
     };
@@ -52,11 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function displayAllMessages() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-<<<<<<< HEAD
-                const response = yield fetch('https://10.12.200.86:3452/getmessages', {
-=======
                 const response = yield fetch(`https://${IP_NAME}:3451/getmessages`, {
->>>>>>> origin/ebroudic
                     method: 'POST',
                 });
                 const data = yield response.json();
