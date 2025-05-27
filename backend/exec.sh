@@ -1,3 +1,4 @@
 #!/bin/bash
-node server/main_server.js &
-node server/server-ia.js
+node server_local/main_server.js &
+node server_local/server-ia.js &
+node server_multi/server_multi.js
