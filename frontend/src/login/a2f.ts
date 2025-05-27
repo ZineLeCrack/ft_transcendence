@@ -42,6 +42,9 @@ form.addEventListener("submit", async (event) => {
 		alert("Mauvais code a2f");
 		throw new Error(error || 'Erreur lors de la connection');
 	}
+	const result = await response.json();
+	const jwtToken = result.token;
+	sessionStorage.setItem(`${Data.IdUser}`, jwtToken);
     console.log("Code 2FA saisi :", Data.code);
     window.location.href = "../../index.html";
 });
