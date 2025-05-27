@@ -1,7 +1,11 @@
+const IP_NAME = process.env.IP_NAME || '10.12.200.0';
+
 export class GameInstance {
+	gameId = "";
 	player1 = { id: "", name: "" }; 
 	player2 = { id: "", name: "" };
 	full = false;
+	end = false;
 	ballX = 400;
 	ballY = 300;
 	ballSpeedX = 0;
@@ -19,7 +23,8 @@ export class GameInstance {
 
 	private interval: NodeJS.Timeout | null = null;
 
-	constructor(userId: string, userName: string) {
+	constructor(gameId: string, userId: string, userName: string) {
+		this.gameId = gameId;
 		this.player1.id = userId;
 		this.player1.name = userName;
 		this.startLoop();
@@ -34,9 +39,7 @@ export class GameInstance {
 			if (this.leftScore === 5 || this.rightScore === 5) {
 				this.gameStarted = false;
 				this.message = this.leftScore === 5 ? `${this.player1.name} win !` : `${this.player2.name} win !`;
-				/*
-					METTRE ICI LE CODE POUR METTRE DANS LA BDD L'HISTORIQUE DE CETTE PARTIE !!!!!!!!!!!!!!!!!!!!!!!
-				*/
+				this.end = true;
 			}
 
 			this.ballX += this.ballSpeedX;
@@ -144,7 +147,9 @@ export class GameInstance {
 			rightPaddleY: this.rightPaddleY,
 			leftScore: this.leftScore,
 			rightScore: this.rightScore,
-			message: this.message
+			message: this.message,
+			id: this.gameId,
+			end: this.end,
 		};
 	}
 }

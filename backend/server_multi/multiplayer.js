@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GameInstance = void 0;
+const IP_NAME = process.env.IP_NAME || '10.12.200.0';
 class GameInstance {
-    constructor(userId, userName) {
+    constructor(gameId, userId, userName) {
+        this.gameId = "";
         this.player1 = { id: "", name: "" };
         this.player2 = { id: "", name: "" };
         this.full = false;
@@ -21,6 +23,7 @@ class GameInstance {
         this.newSpeedX = 0;
         this.newSpeedY = 0;
         this.interval = null;
+        this.gameId = gameId;
         this.player1.id = userId;
         this.player1.name = userName;
         this.startLoop();

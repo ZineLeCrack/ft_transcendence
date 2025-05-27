@@ -2,7 +2,6 @@ import { togglePassword, checkPasswordMatch, hidePassword } from '../profile/uti
 
 const IP_NAME = import.meta.env.VITE_IP_NAME;
 
-
 // Elements de navigation
 const signIn = document.getElementById('sign-in') as HTMLElement;
 const signUp = document.getElementById('sign-up') as HTMLElement;
