@@ -122,7 +122,8 @@ signupform?.addEventListener('submit', async (event) =>
 	}
 	catch (err)
 	{
-		alert('Erreur : ' + (err as Error).message);
+		console.log(err);
+		alert("Accept the 3451 port !");
 	}
 });
 
@@ -165,6 +166,7 @@ signinform?.addEventListener('submit', async (event) =>
 	}
 	catch (err)
 	{
-		console.log('Erreur : ' + (err as Error).message);
+		console.log(err);
+		alert("Accept the 3451 port !");
 	}
 });
