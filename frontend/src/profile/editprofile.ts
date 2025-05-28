@@ -1,5 +1,7 @@
 import { hidePassword, togglePassword, checkPasswordMatch, setButton } from './utils.js';
 
+const IP_NAME = import.meta.env.VITE_IP_NAME;
+
 const editBtn = document.getElementById('edit-btn') as HTMLButtonElement;
 const statsBtn = document.getElementById('stats-btn') as HTMLButtonElement;
 const statsDiv = document.getElementById('stats-div') as HTMLFormElement;
@@ -113,7 +115,7 @@ if (editCurrentPasswordInput && editCurrentPasswordBtn && editCurrentPasswordIco
 
 if (editPasswordForm)
 {
-    editPasswordForm.addEventListener('submit', (event) =>{
+    editPasswordForm.addEventListener('submit', async (event) =>{
         event.preventDefault();
         if (editNewPasswordInput.value !== editConfirmNewPasswordInput.value)
         {
@@ -127,6 +129,30 @@ if (editPasswordForm)
         }
         if (editCurrentPasswordInput && editCurrentPasswordBtn && editCurrentPasswordIcon && editConfirmNewPasswordInput && editConfirmPasswordBtn && editConfirmPasswordIcon && editNewPasswordInput && editNewPasswordBtn && editNewPasswordIcon)
         {
+            //ici
+            try {
+                const EditData =
+                {
+                    current: editCurrentPasswordInput.value,
+                    newpass: editConfirmNewPasswordInput,
+                    IdUser : localStorage.getItem('userId'),
+                }
+                const response = await fetch(`https://${IP_NAME}:3451/edit`,
+                {
+			        method: 'POST',
+			        headers: { 'Content-Type': 'application/json' },
+			        body: JSON.stringify(EditData),
+                });
+                if (!response.ok)
+                {
+                    const err = await response.text();
+                    throw new Error(err || "Fail change");
+                }
+            } 
+            catch (error) 
+            {
+                console.log(error);
+            }
             hidePassword(editCurrentPasswordInput, editCurrentPasswordIcon,null ,null);
             hidePassword(editConfirmNewPasswordInput, editConfirmPasswordIcon, profileGoodConfirmPasswordIcon ,profileBadConfirmPasswordIcon);
             hidePassword(editNewPasswordInput, editNewPasswordIcon,profileGoodPasswordIcon ,profileBadPasswordIcon);
