@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					window.location.href = "src/game/local/local.html";
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode local :", err);
-					alert("Erreur : impossible de démarrer le jeu local.\n" + err);
+					alert("Accept the 4000 port !");
 				}
 			};
 			document.body.style.backgroundImage = "url('/images/localgame.png')";
