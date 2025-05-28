@@ -9,8 +9,7 @@ RUN npm install
 
 COPY . .
 RUN chmod +x exec.sh
-RUN npx tsc -p server_local
-RUN npx tsc -p server_multi
+RUN npx tsc
 
 EXPOSE 4000-4001
 

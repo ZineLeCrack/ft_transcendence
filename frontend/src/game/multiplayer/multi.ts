@@ -19,6 +19,8 @@ let keys: { [key: string]: boolean } = {
     ArrowDown: false
 };
 
+let gameStarted = false;
+
 const gameId = localStorage.getItem("gameId");
 const SERVER_URL = `https://${IP_NAME}:4001/game/${gameId}`;
 
@@ -26,20 +28,6 @@ async function fetchState() {
     try {
         const res = await fetch(`${SERVER_URL}/state`);
         const data = await res.json();
-        if (data.end)
-        {
-            const response = await fetch(`${SERVER_URL}/end`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: data.id }),
-            });
-            const gameStat = await response.json();
-            await fetch(`https://${IP_NAME}:3451/addhistory`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(gameStat),
-            });
-        }
         ballX = data.ballX;
         ballY = data.ballY;
         leftPaddleY = data.leftPaddleY;
