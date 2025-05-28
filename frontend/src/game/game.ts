@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					window.location.href = "src/game/multiplayer/multiplayer.html";
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode multijoueur :", err);
-					alert("Erreur : impossible de démarrer le jeu local.\n" + err);
+					alert("Erreur : impossible de démarrer le jeu multijoueur.\n" + err);
 				}
 			};
 			document.body.style.backgroundImage = "url('/images/tournament.png')";

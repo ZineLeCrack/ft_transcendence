@@ -8,6 +8,7 @@ import authRoutes from './auth/auth_back.js';
 import historyRoutes from './stats/history_back.js';
 import chatRoutes from './chat/chat_back.js';
 import a2fRoutes from './a2f/check_a2f.js';
+import addhistoryRoutes from './stats/add_history.js';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ async function main() {
   await app.register(historyRoutes);
   await app.register(chatRoutes);
   await app.register(a2fRoutes);
+  await app.register(addhistoryRoutes);
 
   await app.listen({ port: 3451, host: '0.0.0.0' });
 

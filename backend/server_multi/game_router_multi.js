@@ -20,23 +20,41 @@ function gameRouter(fastify) {
         fastify.post('/start', (request, reply) => __awaiter(this, void 0, void 0, function* () {
             const { userId, userName } = request.body;
             for (const [id, game] of games) {
-                if (!game.full) {
+                if (game.player1.id === userId) {
+                    console.log(`🎮 Game join : ${id}`);
+                    reply.send({ gameId: id, player: "player1" });
+                    return;
+                }
+                else if (game.player2.id === userId) {
+                    console.log(`🎮 Game join : ${id}`);
+                    reply.send({ gameId: id, player: "player2" });
+                    return;
+                }
+                else if (!game.full) {
                     game.full = true;
                     game.player2.id = userId;
                     game.player2.name = userName;
                     game.message = "";
                     game.startGame();
-                    console.log(`🎮 Partie rejointe : ${id}`);
+                    console.log(`🎮 Game join : ${id}`);
                     reply.send({ gameId: id, player: "player2" });
                     return;
                 }
             }
             const id = generateGameId();
-            const game = new multiplayer_js_1.GameInstance(userId, userName);
+            const game = new multiplayer_js_1.GameInstance(id, userId, userName);
             games.set(id, game);
-            console.log(`🎮 Partie créée : ${id}`);
+            console.log(`🎮 Game created : ${id}`);
             reply.send({ gameId: id, player: "player1" });
         }));
+        fastify.post('/end', (request, reply) => {
+            var _a;
+            const { id } = request.body;
+            (_a = games.get(id)) === null || _a === void 0 ? void 0 : _a.stop();
+            games.delete(id);
+            console.log(`🎮 Game close : ${id}`);
+            reply.status(200);
+        });
         fastify.get('/:id/state', (request, reply) => __awaiter(this, void 0, void 0, function* () {
             const { id } = request.params;
             const game = games.get(id);

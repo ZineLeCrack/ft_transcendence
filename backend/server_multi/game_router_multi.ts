@@ -13,23 +13,49 @@ export default async function gameRouter(fastify: FastifyInstance) {
 	fastify.post('/start', async (request, reply) => {
 		const { userId, userName } = request.body as { userId: string, userName: string };
 		for (const [id, game] of games) {
-			if (!game.full) {
+			if (game.player1.id === userId)
+			{
+				console.log(`🎮 Game join : ${id}`);
+				reply.send({ gameId: id, player: "player1" });
+				return ;
+			}
+			else if (game.player2.id === userId)
+			{
+				console.log(`🎮 Game join : ${id}`);
+				reply.send({ gameId: id, player: "player2" });
+				return ;
+			}
+			else if (!game.full) {
 				game.full = true;
 				game.player2.id = userId;
 				game.player2.name = userName;
 				game.message = "";
 				game.startGame();
-				console.log(`🎮 Partie rejointe : ${id}`);
+				console.log(`🎮 Game join : ${id}`);
 				reply.send({ gameId: id, player: "player2" });
 				return ;
 			}
 		}
 		const id = generateGameId();
-		const game = new GameInstance(userId, userName);
+		const game = new GameInstance(id, userId, userName);
 		games.set(id, game);
-		console.log(`🎮 Partie créée : ${id}`);
+		console.log(`🎮 Game created : ${id}`);
 		reply.send({ gameId: id, player: "player1" });
 	});
+
+	fastify.post('/:id/end', (request, reply) => {
+		const { id } = request.body as { id: string };
+		const gameStat = {
+			Id1: games.get(id)?.player1.id,
+			Id2: games.get(id)?.player2.id,
+			score1: games.get(id)?.leftScore,
+			score2: games.get(id)?.rightScore,
+		}
+		games.get(id)?.stop();
+		games.delete(id);
+		console.log(`🎮 Game close : ${id}`);
+		reply.status(200).send(gameStat);
+	})
 
 	fastify.get('/:id/state', async (request, reply) => {
 		const { id } = request.params as { id: string };
