@@ -7,7 +7,7 @@ async function addhistoryRoutes(fastify) {
         const { Id1, Id2, score1, score2 } = request.body;
         try {
             const db = await (0, database_js_1.getDb_user)();
-            const rows = await db.all(`
+            await db.run(`
         INSERT INTO history (id_player1, id_player2, point_player1, point_player2, game_date) values (?, ?, ?, ?, '27/05/25 17:48');
         `, [Id1, Id2, score1, score2] // DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATE AAAAAA CHANGEEEEEEEEEEEEEEEEEEEEEEEEEER
             );
