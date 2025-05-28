@@ -1,0 +1,58 @@
+
+<!--formulaire d'inscription-->
+
+<form id="sign-up" action="" method="POST" class="space-y-4 max-w-md w-full border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] bg-white/5 backdrop-blur p-6 rounded-2xl">
+	<h2 class="text-2xl font-bold text-center text-[#00FFFF] drop-shadow-[0_0_10px_#00FFFF] mb-4">Sign Up to ft_transcendence</h2>
+	
+	<div>
+		<label for="sign-up-username" class="block font-semibold mb-1 text-white">Username
+			<span class="text-red-500">*</span>
+		</label>
+		<input id="sign-up-username" name="username" type="text" required class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+	</div>
+
+	<div>
+		<label for="sign-up-email" class="block font-semibold mb-1 text-white">Email
+			<span class="text-red-500">*</span>
+		</label>
+		<input id="sign-up-email" name="email" type="email" required class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+	</div>
+	
+	<div>
+		<label for="sign-up-password-input" class="block font-semibold mb-1 text-white">Password
+			<span class="text-red-500">*</span>
+		</label>
+		<div class="flex items-center">
+			<div class="relative w-full">
+				<input id="sign-up-password-input" name="password" type="password" required class="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+				<button type="button" id="sign-up-password-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+					<img id="sign-up-password-icon" src="/images/cacher.svg" class="w-6 h-10" />
+				</button>
+			</div>
+			<img id="badPasswordIcon" src="/images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+			<img id="goodPasswordIcon" src="/images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+		</div>
+	</div>
+
+	<div>
+		<label for="sign-up-confirmpassword-input" class="block font-semibold mb-1 text-white">Confirm Password
+			<span class="text-red-500">*</span>
+		</label>
+		<div class="flex items-center">
+			<div class="relative w-full">
+				<input id="sign-up-confirmpassword-input" name="confirmPassword" type="password" required class="w-full p-2 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00FFFF]"/>
+				<button type="button" id="sign-up-confirmpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+					<img id="sign-up-confirmpassword-icon" src="/images/cacher.svg" class="w-6 h-10" />
+				</button>
+			</div>
+			<img id="badConfirmPasswordIcon" src="/images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+			<img id="goodConfirmPasswordIcon" src="/images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+		</div>
+	</div>
+  
+	<button type="submit" class="w-full bg-[#00FFFF] text-black font-bold px-4 py-2 rounded-lg hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">Sign Up</button>
+	<div class="flex justify-end">
+		<a href="/login" data-link id="to-sign-in" class="underline cursor-pointer text-[#00FFFF] text-sm ">Already have an account ?</a>
+	</div>
+</form>
+
