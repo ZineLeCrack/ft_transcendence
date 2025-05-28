@@ -1,7 +1,5 @@
 import { FastifyInstance } from 'fastify';
 import nodemailer from 'nodemailer';
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3';
 import fastifyJwt from '@fastify/jwt';
 import { getDb_user } from '../database';
 
