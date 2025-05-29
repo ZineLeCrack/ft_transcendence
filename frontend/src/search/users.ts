@@ -1,6 +1,7 @@
 import { generateCardsHistory} from "../profile/history.js";
 import type {CardHistory} from "../profile/history.js";
 
+export default function initUsers(username?: string) {
 const cardsHistory: CardHistory[] = [
 	{
 	  imageplayer1: "/src/images/pdp_cle-berr.png",
@@ -33,6 +34,14 @@ const cardsHistory: CardHistory[] = [
 	
   ];
 
-document.addEventListener('DOMContentLoaded', () => {
-	generateCardsHistory('history-div-search', cardsHistory);
-});
+generateCardsHistory('history-div-search', cardsHistory);
+
+if (username) {
+	const usernameh2 = document.getElementById('username-h2');
+	if (usernameh2) {
+		usernameh2.textContent = username;
+	}
+	// Add additional logic to load user data
+}
+
+}

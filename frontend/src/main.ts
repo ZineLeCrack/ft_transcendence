@@ -16,6 +16,8 @@ import overallStatHTML from '../src/pages/overall_statistics.html?raw';
 import historyStatHTML from '../src/pages/history_statistics.html?raw';
 import tournamentsStatHTML from '../src/pages/tournament_statistics.html?raw';
 
+import SearchHTML from '../src/pages/search.html?raw';
+
 
 const notFoundPageContent = `
     <div class="text-center p-8 bg-red-100 rounded-lg shadow-lg">
@@ -26,12 +28,12 @@ const notFoundPageContent = `
 `;
 
 interface Route {
-    view: string; // HTML de la page
-	additionalContent?: string[]; // Contenu additionnel pour la page
-	script?: () => Promise<void>; // Fonction pour charger le script de la page
-	bodyClass?: string; // Classe CSS pour le body
-	bodyStyleImage?: string; // Style CSS pour le body
-	
+    view: string;
+    additionalContent?: string[];
+    script?: (params?: string) => Promise<void>;
+    bodyClass?: string;
+    bodyStyleImage?: string;
+    pattern?: RegExp;
 }
 
 const routes: { [path: string]: Route } = {
@@ -132,21 +134,69 @@ const routes: { [path: string]: Route } = {
 			initEditPassword();
 		}
 	},
+	'/users': {
+        view: SearchHTML,
+        pattern: /^\/users\/([^\/]+)$/,  // Matches /users/{username}
+        script: async (username?: string) => {
+            const {default: initUsers} = await import('./search/users.ts');
+            initUsers(username);
+        },
+        bodyStyleImage: "url('/images/statscyberpunk.png')",
+        bodyClass: "bg-cover bg-center bg-no-repeat h-screen flex",
+    },
 };
 
 export const loadRoutes = async (path: string) => {
     const body = document.body;
-	
+
     body.style.backgroundSize = "1920px 1080px";
-    
+
+    // Check dynamic routes first
+    for (const [_, route] of Object.entries(routes)) {
+        if (route.pattern) {
+            const match = path.match(route.pattern);
+            if (match) {
+                const username = match[1];
+                // Verify if user exists before loading the page
+                try {
+                    const IP_NAME = import.meta.env.VITE_IP_NAME;
+                    const res = await fetch(`https://${IP_NAME}:3451/search`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username })
+                    });
+                    const { exists } = await res.json();
+                    
+                    if (!exists) {
+                        body.innerHTML = notFoundPageContent;
+                        return;
+                    }
+                    
+                    body.innerHTML = route.view;
+                    body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
+                    body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
+                    
+                    if (route.script) {
+                        await route.script(username);
+                    }
+                    return;
+                } catch (error) {
+                    console.error("Error verifying user:", error);
+                    body.innerHTML = notFoundPageContent;
+                    return;
+                }
+            }
+        }
+    }
+
+    // Handle static routes
     const route = routes[path];
-    
+
     if (route) {
         body.innerHTML = route.view;
         
         body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
         body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
-        
         if (route.script) {
             try {
                 await route.script();
