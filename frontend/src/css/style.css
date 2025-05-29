@@ -5,7 +5,7 @@
 /* Styles personnalisés pour la scrollbar Firefox */
 #chat-messages {
     scrollbar-width: thin;
-    scrollbar-color: #FF2E9F transparent;
+    scrollbar-color: #cf1177 transparent;
 }
 
 /* Styles personnalisés pour la scrollbar WebKit (Chrome, Safari, etc.) */
@@ -18,18 +18,19 @@
 }
 
 #chat-messages::-webkit-scrollbar-thumb {
-    background: #FF2E9F;
+    background: #cf1177;
     border-radius: 9999px;
-    box-shadow: 0 0 5px #FF2E9F;
+    box-shadow: 0 0 5px #cf1177;
 }
 
 /* Effet de clignotement pour les éléments */
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    20% { opacity: 0; }
+    0%, 49% { opacity: 1; }
+    50%, 99% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 .animate-blink {
-    animation: blink 0.5s infinite;
+    animation: blink 1s infinite;
 }
 
