@@ -1,4 +1,4 @@
-import { ballX, ballY, rightPaddleY, rightScore, leftPaddleY, leftScore, message, paddleHeight, paddleWidth } from "./pong.js";
+import { ballX, ballY, rightPaddleY, rightScore, leftPaddleY, leftScore, message, paddleHeight, paddleWidth } from "./local.js";
 
 /* ------------------------------- STAT PART ---------------------------------------- */
 

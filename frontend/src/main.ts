@@ -4,7 +4,7 @@ import loginHtml from '../src/pages/login.html?raw';
 import registerHtml from '../src/pages/register.html?raw';
 import homeHTML from '../src/pages/home.html?raw';
 import a2fHTML from '../src/pages/a2f.html?raw';
-
+import localGameHTML from '../src/pages/localgame.html?raw';
 
 const notFoundPageContent = `
     <div class="text-center p-8 bg-red-100 rounded-lg shadow-lg">
@@ -18,6 +18,7 @@ interface Route {
     view: string; // HTML de la page
 	script?: () => Promise<void>; // Fonction pour charger le script de la page
 	bodyClass?: string; // Classe CSS pour le body
+	bodyStyleImage?: string; // Style CSS pour le body
 }
 
 const routes: { [path: string]: Route } = {
@@ -54,17 +55,28 @@ const routes: { [path: string]: Route } = {
 			initHome();
 		},
 		bodyClass: "bg-cover bg-center bg-no-repeat h-screen flex",
-	}	
+	},
+	'/game/local':
+	{
+		view : localGameHTML,
+		script: async () => {
+			const {default: initPong} = await import ('./game/local/local.ts');
+			initPong();
+		},
+		bodyClass: "m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex",
+		bodyStyleImage: "url('/images/pong.png')",
+	},
+
 };
 
 export const loadRoutes = async (path: string) => {
 	const body = document.body;
 
-    body.style.backgroundImage = "url('/images/logincyberpunk.png')";
 	body.style.backgroundSize = "1920px 1080px";
-
+	
 	const route = routes[path];
-
+	
+    body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
 	body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
 	
 	if (route)

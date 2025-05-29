@@ -4,6 +4,7 @@ export const userData = {
 	userPicture: localStorage.getItem('profile_pic')
 };
 
+import { loadRoutes } from '../main.js';
 
 export default function initChooseGame() {
 
@@ -49,7 +50,8 @@ const IP_NAME = import.meta.env.VITE_IP_NAME;
 					const gameId = data.gameId;
 					localStorage.setItem("gameId", gameId);
 
-					window.location.href = "src/game/local/local.html";
+					history.pushState(null, '', '/game/local');
+					await loadRoutes('/game/local');
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode local :", err);
 					alert("Accept the 4000 port !");
