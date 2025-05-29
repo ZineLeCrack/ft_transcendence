@@ -1,34 +1,34 @@
 <div class="w-1/4 min-w-[200px] rounded-2xl m-5 p-4 flex flex-col border-4 border-[#B026FF] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#B026FF] font-mono relative overflow-hidden">
-    
-    <div class="flex items-center justify-between mb-4 border-b border-[#FF0F4D] pb-2">
-        <div class="text-[#ad39f0] font-bold flex items-center">
-            <span class="mr-2 text-[#FF2E9F]">⚡</span>
-            CHAT://global
-            <span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>
-        </div>
-    </div>
+	
+	<div class="flex items-center justify-between mb-4 border-b border-[#FF0F4D] pb-2">
+		<div class="text-[#ad39f0] font-bold flex items-center">
+			<span class="mr-2 text-[#FF2E9F]">⚡</span>
+			CHAT://global
+			<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>
+		</div>
+	</div>
 
-    <!-- Messages area -->
-    <div id="chat-messages" class="flex-1 overflow-y-auto flex flex-col mb-4 space-y-4 p-4 
-        [&::-webkit-scrollbar]:w-2 
-        [&::-webkit-scrollbar-track]:bg-black/20 
-        [&::-webkit-scrollbar-thumb]:bg-[#00FFFF] 
-        [&::-webkit-scrollbar-thumb]:rounded-none 
-        font-mono text-sm">
-    </div>
-    
-    <!-- Input area -->
-    <div class="flex items-center gap-2 w-full border-t border-[#00FFFF] pt-2 bg-black/40">
-        <span class="text-[#00FFFF] animate-pulse">></span>
-        <input id="chat-input" 
-            type="text"
-            placeholder="Enter command..." 
-            class="bg-transparent p-2 text-[#00FFFF] flex-grow min-w-0 border-none focus:outline-none focus:ring-0 placeholder-[#00FFFF]/50" />
-        <button id="chat-send" class="text-[#00FFFF] hover:text-white transition-colors px-2">⮐</button>
-        <button id="pong-send" class="w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10 transition-colors">
-            <img src="/images/pong_racquet.png" alt="" class="w-6 h-6">
-        </button>
-    </div>
+	<!-- Messages area -->
+	<div id="chat-messages" class="flex-1 overflow-y-auto flex flex-col mb-4 space-y-4 p-4 
+		[&::-webkit-scrollbar]:w-2 
+		[&::-webkit-scrollbar-track]:bg-black/20 
+		[&::-webkit-scrollbar-thumb]:bg-[#00FFFF] 
+		[&::-webkit-scrollbar-thumb]:rounded-none 
+		font-mono text-sm">
+	</div>
+	
+	<!-- Input area -->
+	<div class="flex items-center gap-2 w-full border-t border-[#00FFFF] pt-2 bg-black/40">
+		<span class="text-[#00FFFF] animate-pulse">></span>
+		<input id="chat-input" 
+			type="text"
+			placeholder="Enter command..." 
+			class="bg-transparent p-2 text-[#00FFFF] flex-grow min-w-0 border-none focus:outline-none focus:ring-0 placeholder-[#00FFFF]/50" />
+		<button id="chat-send" class="text-[#00FFFF] hover:text-white transition-colors px-2">⮐</button>
+		<button id="pong-send" class="w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10 transition-colors">
+			<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">
+		</button>
+	</div>
 </div>
 
 <!-- Main content section -->
@@ -37,13 +37,13 @@
 	<div class="flex items-center justify-between p-5">
 		<div class="flex-1 flex justify-center">
 			<input id="search-bar" type="search" placeholder="Search users... " class="font-mono border-2 ml-40 text-[#FF2E9F] rounded-2xl border-spacing-4 p-3 w-[500px] 
-    border-[#FF2E9F] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#FF2E9F] 
-    placeholder-[#FF2E9F]/50 focus:outline-none focus:border-[#B026FF]"/>
+	border-[#FF2E9F] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#FF2E9F] 
+	placeholder-[#FF2E9F]/50 focus:outline-none focus:border-[#B026FF]"/>
 		</div>
 		<div id="topbar-buttons" class="flex items-center gap-6">
-        <div class="w-20 h-9 border-2 border-[#00FFFF] bg-black/30 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#00FFFF]/20 transition-all duration-200 shadow-[0_0_10px_#00FFFF]">
-            <span class="text-[#FFD700] font-bold text-lg">HOME</span>
-    </div>
+		<a href="/home" data-link class="w-20 h-9 border-2 border-[#00FFFF] bg-black/30 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#00FFFF]/20 transition-all duration-200 shadow-[0_0_10px_#00FFFF]">
+			<span class="text-[#FFD700] font-bold text-lg">HOME</span>
+		</a>
 			<!-- Bouton Profile avec tooltip -->
 			<div class="relative group">
 				<a href="/profile/statistics" data-link id="profileBtn" type="button" class="w-14 h-14 bg-gray-200 rounded-full"></a>
@@ -73,9 +73,7 @@
 			<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF]">TOURNAMENT</h2>
 			
 			<div class="flex items-center justify-between w-full">
-				<button id="join-tournament" class="bg-transparent rounded-xl ml-20 border-2 border-[#FFD700] text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">
-					 JOIN 
-				</button>
+				<a href="/home/tournament/join" data-link id="join-tournament" class="bg-transparent rounded-xl ml-20 border-2 border-[#FFD700] text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">JOIN</a>
 
 				<div class="flex items-center bg-black/40 px-8 py-4 border-2 rounded-2xl border-[#B026FF] shadow-[0_0_10px_#B026FF]">
 					<div class="w-12 h-12 rounded-full bg-black/50 border-2 border-[#B026FF]"></div>
@@ -85,9 +83,7 @@
 					</div>
 				</div>
 
-				<button id="create-tournament" class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">
-					 CREATE 
-				</button>
+				<a href="/home/tournament/create" data-link id="create-tournament" class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">CREATE</a>
 			</div>
 		</div>
 	</div>
