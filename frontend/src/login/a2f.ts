@@ -1,3 +1,8 @@
+import { loadRoutes } from '../main.js';
+
+
+export default function initA2f() {
+
 const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 const form = document.getElementById("a2f") as HTMLFormElement;
@@ -46,5 +51,7 @@ form.addEventListener("submit", async (event) => {
 	const jwtToken = result.token;
 	sessionStorage.setItem(`${Data.IdUser}`, jwtToken);
     console.log("Code 2FA saisi :", Data.code);
-    window.location.href = "../../index.html";
+    history.pushState(null, '', '/home');
+    await loadRoutes('/home');
 });
+}

@@ -1,9 +1,11 @@
 import { togglePassword, checkPasswordMatch} from '../profile/utils.js';
+import { loadRoutes } from '../main.js';
 
+
+export default function initRegister() {
 const IP_NAME = import.meta.env.VITE_IP_NAME;
 
-export function init() {
-	const signupform = document.getElementById('sign-up') as HTMLFormElement;
+const signupform = document.getElementById('sign-up') as HTMLFormElement;
 
 	// Champs mots de passe
 	const signUpPasswordInput = document.getElementById('sign-up-password-input') as HTMLInputElement;
@@ -68,7 +70,8 @@ export function init() {
 				throw new Error(error || 'Erreur lors de l\'inscription');
 			}
 
-			window.location.href = "login.html";
+			history.pushState(null, '', '/login');
+   			await loadRoutes('/login');
 		}
 		catch (err)
 		{
@@ -76,4 +79,5 @@ export function init() {
 			alert("Accept the 3451 port !");
 		}
 	});
+
 }

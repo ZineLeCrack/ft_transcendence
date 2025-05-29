@@ -1,8 +1,11 @@
 import { togglePassword} from '../profile/utils.js';
+import { loadRoutes } from '../main.js';
 
-const IP_NAME = import.meta.env.VITE_IP_NAME;
 
-export function init() {
+export default function initLogin() {
+
+	const IP_NAME = import.meta.env.VITE_IP_NAME;
+
 	// Champs mots de passe
 	const signInPasswordInput = document.getElementById('sign-in-password-input') as HTMLInputElement;
 	const signInPasswordBtn = document.getElementById('sign-in-password-btn') as HTMLButtonElement;
@@ -72,7 +75,8 @@ export function init() {
 			localStorage.setItem('userName', data.name);
 			localStorage.setItem('userPicture', data.profile_pic);
 
-			window.location.href = "a2f.html";
+			history.pushState(null, '', '/login/a2f');
+			await loadRoutes('/login/a2f');
 		}
 		catch (err)
 		{
@@ -80,4 +84,5 @@ export function init() {
 			alert("Accept the 3451 port !");
 		}
 	});
+
 }

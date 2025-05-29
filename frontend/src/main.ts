@@ -5,8 +5,6 @@ import registerHtml from '../src/pages/register.html?raw';
 import homeHTML from '../src/pages/home.html?raw';
 import a2fHTML from '../src/pages/a2f.html?raw';
 
-// import { loginModule } from './login/login';
-// import { registerModule } from './login/register';
 
 const notFoundPageContent = `
     <div class="text-center p-8 bg-red-100 rounded-lg shadow-lg">
@@ -17,9 +15,8 @@ const notFoundPageContent = `
 `;
 
 interface Route {
-    view: string; // Le HTML de la page
-    modulePath?: string; // Chemin vers le fichier TS à charger pour cette page
-    // requiresAppLayout: boolean; Indique si la page doit avoir la top bar
+    view: string; // HTML de la page
+	script?: () => Promise<void>; // Fonction pour charger le script de la page
 }
 
 const routes: { [path: string]: Route } = {
@@ -27,26 +24,34 @@ const routes: { [path: string]: Route } = {
 	'/login': 
 	{
         view: loginHtml,
-        modulePath: './login/login.ts',
+		script: async () => {
+			const {default: initLogin} = await import ('./login/login.ts');
+			initLogin();
+		}
     },
 	'/register': 
 	{
         view: registerHtml,
-        modulePath: './login/register.ts',
+		script: async () => {
+			const {default: initRegister} = await import ('./login/register.ts');
+			initRegister();
+		}
     },
-	// '/login/a2f': 
-	// {
-    //     view: a2fHTML,
-    //     // modulePath: '/src/login/test.ts',
-    // },
-	// '/home':
-	// {
-	// 	view: homeHTML,
-	// 	// modulePath: '/src/login/test.ts',
-	// }	
+	'/login/a2f': 
+	{
+        view: a2fHTML,
+		script: async () => {
+			const {default: initA2f} = await import ('./login/a2f.ts');
+			initA2f();
+		}
+    },
+	'/home':
+	{
+		view: homeHTML,
+	}	
 };
 
-const loadRoutes = async (path: string) => {
+export const loadRoutes = async (path: string) => {
 	const appContainer = document.getElementById('app-container');
 	if (!appContainer) return;
 
@@ -55,13 +60,12 @@ const loadRoutes = async (path: string) => {
 	if (route)
 	{
 		appContainer.innerHTML = route.view;
-
-		if (route.modulePath)
+		if (route.script)
 		{
-			const module = await import(route.modulePath);
-			if (module && typeof module.init === 'function')
-			{
-				module.init();
+			try {
+				await route.script();
+			} catch (error) {
+				console.error(`Error loading script for ${path}:`, error);
 			}
 		}
 	}
