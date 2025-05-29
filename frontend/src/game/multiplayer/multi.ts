@@ -1,4 +1,5 @@
 import { draw } from "./drawmap_multi.js";
+import { loadRoutes } from "../../main.js";
 
 export let ballX = 400;
 export let ballY = 300;
@@ -50,6 +51,8 @@ async function fetchState() {
                         body: JSON.stringify(gameStat),
                     });
                 }
+                history.pushState(null, '', '/home');
+                await loadRoutes('/home');
             }, 2000);
         }
         ballX = data.ballX;
