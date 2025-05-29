@@ -1,8 +1,9 @@
-import { userData } from "../game/game.js";
+import { userData } from "../game/choosegame.js";
+
+export default function initChat() {
 
 const IP_NAME = import.meta.env.VITE_IP_NAME;
 
-document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("chat-input") as HTMLInputElement;
     const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
     const messageBox = document.getElementById("chat-messages") as HTMLDivElement;
@@ -98,4 +99,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     displayAllMessages();
-});
+}
+

@@ -1,4 +1,4 @@
-import { userData } from "../game/game.js";
+import { userData } from "../game/choosegame.js";
 
 const IP_NAME = import.meta.env.VITE_IP_NAME;
 

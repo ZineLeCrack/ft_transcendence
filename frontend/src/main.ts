@@ -17,6 +17,7 @@ const notFoundPageContent = `
 interface Route {
     view: string; // HTML de la page
 	script?: () => Promise<void>; // Fonction pour charger le script de la page
+	bodyClass?: string; // Classe CSS pour le body
 }
 
 const routes: { [path: string]: Route } = {
@@ -48,18 +49,27 @@ const routes: { [path: string]: Route } = {
 	'/home':
 	{
 		view: homeHTML,
+		script: async () => {
+			const {default: initHome} = await import ('./home/home.ts');
+			initHome();
+		},
+		bodyClass: "bg-cover bg-center bg-no-repeat h-screen flex",
 	}	
 };
 
 export const loadRoutes = async (path: string) => {
-	const appContainer = document.getElementById('app-container');
-	if (!appContainer) return;
+	const body = document.body;
+
+    body.style.backgroundImage = "url('/images/logincyberpunk.png')";
+	body.style.backgroundSize = "1920px 1080px";
 
 	const route = routes[path];
 
+	body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
+	
 	if (route)
 	{
-		appContainer.innerHTML = route.view;
+		body.innerHTML = route.view;
 		if (route.script)
 		{
 			try {
@@ -71,7 +81,7 @@ export const loadRoutes = async (path: string) => {
 	}
 	else
 	{
-		appContainer.innerHTML = notFoundPageContent;
+		body.innerHTML = notFoundPageContent;
 	}
 }
 

@@ -4,9 +4,12 @@ export const userData = {
 	userPicture: localStorage.getItem('profile_pic')
 };
 
+
+export default function initChooseGame() {
+
+
 const IP_NAME = import.meta.env.VITE_IP_NAME;
 
-document.addEventListener("DOMContentLoaded", () => {
 	const leftBtn = document.getElementById("left-button-game") as HTMLButtonElement;
 	const rightBtn = document.getElementById("right-button-game") as HTMLButtonElement;
 	const playBtn = document.getElementById("game-play-button") as HTMLButtonElement;
@@ -99,4 +102,4 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	updateDisplay();
-});
+}
