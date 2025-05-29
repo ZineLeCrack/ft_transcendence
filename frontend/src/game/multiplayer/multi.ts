@@ -1,7 +1,5 @@
 import { draw } from "./drawmap_multi.js";
 
-
-
 export let ballX = 400;
 export let ballY = 300;
 export let leftPaddleY = 250;
@@ -23,15 +21,37 @@ let keys: { [key: string]: boolean } = {
     ArrowDown: false
 };
 
-let gameStarted = false;
+let gameOver = false;
 
 const gameId = localStorage.getItem("gameId");
 const SERVER_URL = `https://${IP_NAME}:4001/game/${gameId}`;
 
 async function fetchState() {
+    if (gameOver)
+        return ;
     try {
         const res = await fetch(`${SERVER_URL}/state`);
         const data = await res.json();
+        if (data.end)
+        {
+            gameOver = true;
+            setTimeout(async () => {
+                const response = await fetch(`${SERVER_URL}/end`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: data.id }),
+                });
+                const gameStat = await response.json();
+                if (player === "player1")
+                {
+                    await fetch(`https://${IP_NAME}:3451/addhistory`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(gameStat),
+                    });
+                }
+            }, 2000);
+        }
         ballX = data.ballX;
         ballY = data.ballY;
         leftPaddleY = data.leftPaddleY;
@@ -54,6 +74,8 @@ document.addEventListener("keyup", (e) => {
 });
 
 setInterval(() => {
+    if (gameOver)
+        return ;
     fetch(`${SERVER_URL}/${player}move`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
