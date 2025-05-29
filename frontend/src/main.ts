@@ -2,10 +2,20 @@ import '../src/css/style.css';
 
 import loginHtml from '../src/pages/login.html?raw';
 import registerHtml from '../src/pages/register.html?raw';
-import homeHTML from '../src/pages/home.html?raw';
 import a2fHTML from '../src/pages/a2f.html?raw';
+
+import homeHTML from '../src/pages/home.html?raw';
+
 import localGameHTML from '../src/pages/localgame.html?raw';
 import multiGameHTML from '../src/pages/multigame.html?raw';
+import aiGameHTML from '../src/pages/aigame.html?raw';
+
+import editprofileHTML from '../src/pages/edit_info.html?raw';
+import editpasswordHTML from '../src/pages/edit_password.html?raw';
+import overallStatHTML from '../src/pages/overall_statistics.html?raw';
+import historyStatHTML from '../src/pages/history_statistics.html?raw';
+import tournamentsStatHTML from '../src/pages/tournament_statistics.html?raw';
+
 
 const notFoundPageContent = `
     <div class="text-center p-8 bg-red-100 rounded-lg shadow-lg">
@@ -17,9 +27,11 @@ const notFoundPageContent = `
 
 interface Route {
     view: string; // HTML de la page
+	additionalContent?: string[]; // Contenu additionnel pour la page
 	script?: () => Promise<void>; // Fonction pour charger le script de la page
 	bodyClass?: string; // Classe CSS pour le body
 	bodyStyleImage?: string; // Style CSS pour le body
+	
 }
 
 const routes: { [path: string]: Route } = {
@@ -77,34 +89,74 @@ const routes: { [path: string]: Route } = {
 		bodyClass: "m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex",
 		bodyStyleImage: "url('/images/pong.png')",
 	},
+	'/game/ai':
+	{
+		view : aiGameHTML,
+		bodyClass: "m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex",
+		bodyStyleImage: "url('/images/pong.png')",
+	},
+	'/profile/statistics': 
+	{
+		view: overallStatHTML,
+		bodyStyleImage: "url('/images/statscyberpunk.png')",
+		script: async () => {
+			const {default: initGlobalGraph} = await import ('./profile/global.ts');
+			initGlobalGraph();
+		}
+	},
+	'/profile/statistics/history': 
+	{
+		view: historyStatHTML,
+		bodyStyleImage: "url('/images/statscyberpunk.png')",
+		script: async () => {
+			const {default: initHistory} = await import ('./profile/history.ts');
+			initHistory();
+		}
+	},
+	'/profile/statistics/tournaments':
+	{
+		view: tournamentsStatHTML,
+		bodyStyleImage: "url('/images/statscyberpunk.png')",
+	},
+	'/profile/edit': 
+	{
+		view: editprofileHTML,
+		bodyStyleImage: "url('/images/statscyberpunk.png')",
+	},
+	'/profile/edit/password': 
+	{
+		view: editpasswordHTML,
+		bodyStyleImage: "url('/images/statscyberpunk.png')",
+		script: async () => {
+			const {default: initEditPassword} = await import ('./profile/editpassword.ts');
+			initEditPassword();
+		}
+	},
 };
 
 export const loadRoutes = async (path: string) => {
-	const body = document.body;
-
-	body.style.backgroundSize = "1920px 1080px";
+    const body = document.body;
 	
-	const route = routes[path];
-	
-    body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
-	body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
-	
-	if (route)
-	{
-		body.innerHTML = route.view;
-		if (route.script)
-		{
-			try {
-				await route.script();
-			} catch (error) {
-				console.error(`Error loading script for ${path}:`, error);
-			}
-		}
-	}
-	else
-	{
-		body.innerHTML = notFoundPageContent;
-	}
+    body.style.backgroundSize = "1920px 1080px";
+    
+    const route = routes[path];
+    
+    if (route) {
+        body.innerHTML = route.view;
+        
+        body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
+        body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
+        
+        if (route.script) {
+            try {
+                await route.script();
+            } catch (error) {
+                console.error(`Error loading script for ${path}:`, error);
+            }
+        }
+    } else {
+        body.innerHTML = notFoundPageContent;
+    }
 }
 
 const router = async () => {

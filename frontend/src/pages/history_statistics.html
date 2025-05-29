@@ -1,0 +1,21 @@
+<div class="w-screen h-screen p-4">
+	<div class="flex justify-center gap-4 mt-3 mb-6">
+		<a id="stats-btn" href="/profile/statistics" data-link class="tab-button px-10 py-3 rounded-xl font-semibold bg-[#00FFFF] text-black hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">Statistics</a>
+		<a id="edit-btn" href="/profile/edit" data-link class="tab-button px-10 py-3 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Edit profile</a>
+	</div>
+
+	<div id="stats-div" class="border-4 border-blue-300 rounded-3xl p-4 h-[calc(100vh-125px)] bg-white/5 backdrop-blur-sm shadow-[0_0_10px_#00FFFF] overflow-hidden flex flex-col relative">
+
+		<div class="flex justify-center gap-4 mb-4 relative z-10">
+			<a id="History-btn" href="/profile/statistics/history" data-link type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-[#00FFFF] text-black hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">History</a>
+			<a id="Global-btn" href="/profile/statistics" data-link type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-gray-200  text-gray-700 hover:bg-gray-300 transition  ">Overall</a>
+			<a id="Tournament-btn" href="/profile/statistics/tournaments" data-link type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Tournament</a>
+		</div>
+
+		<div class="flex-1 relative flex items-center justify-center">
+
+			<div id="History-Div" class="w-11/12 h-[75vh] space-y-6 overflow-y-auto bg-white/5 backdrop-blur p-6 rounded-2xl shadow-[0_0_20px_rgba(0,0,0,1),0_0_40px_rgba(0,0,0,0.9),0_0_60px_rgba(0,0,0,0.8)] mx-auto">
+			</div>
+		</div>
+	</div>
+</div>
