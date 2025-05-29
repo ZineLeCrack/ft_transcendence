@@ -1,46 +1,24 @@
-import { generateCardsHistory} from "../profile/history.js";
-import type {CardHistory} from "../profile/history.js";
+import { loadRoutes } from '../main';
 
-export default function initUsers(username?: string) {
-const cardsHistory: CardHistory[] = [
-	{
-	  imageplayer1: "/src/images/pdp_cle-berr.png",
-	  imageplayer2: "/src/images/pdp_rlebaill.jpeg",
-	  usernameplayer1: "cle-berr",
-	  usernameplayer2: "rlebaill",
-	  pointplayer1: 5,
-	  pointplayer2: 3,
-	  date: "20/05/25 at 9:58"
-	},
-  
-	{
-	  imageplayer1: "/src/images/pdp_cle-berr.png",
-	  imageplayer2: "/src/images/pdp_rlebaill.jpeg",
-	  usernameplayer1: "cle-berr",
-	  usernameplayer2: "rlebaill",
-	  pointplayer1: 2,
-	  pointplayer2: 5,
-	  date: "20/05/25 at 10:00"
-	},
-	{
-	  imageplayer1: "/images/pdp_cle-berr.png",
-	  imageplayer2: "/images/pdp_rlebaill.jpeg",
-	  usernameplayer1: "cle-berr",
-	  usernameplayer2: "rlebaill",
-	  pointplayer1: 5,
-	  pointplayer2: 0,
-	  date: "20/03/25 at 10:00"
-	},
+export default async function initUsers(username?: string) {
 	
-  ];
-
-generateCardsHistory('history-div-search', cardsHistory);
-
 if (username) {
 	const usernameh2 = document.getElementById('username-h2');
 	if (usernameh2) {
 		usernameh2.textContent = username;
 	}
+
+	document.getElementById('history-btn-search')?.addEventListener('click', async (e) => {
+		e.preventDefault();
+		history.pushState(null, `${username}`, `/users/${username}/history`);
+		await loadRoutes(`/users/${username}/history`);
+	});
+
+	document.getElementById('global-btn-search')?.addEventListener('click', async (e) => {
+		e.preventDefault();
+		history.pushState(null, `${username}`, `/users/${username}`);
+		await loadRoutes(`/users/${username}`);
+	});
 	// Add additional logic to load user data
 }
 

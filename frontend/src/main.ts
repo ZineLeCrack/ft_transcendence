@@ -17,6 +17,7 @@ import historyStatHTML from '../src/pages/history_statistics.html?raw';
 import tournamentsStatHTML from '../src/pages/tournament_statistics.html?raw';
 
 import SearchHTML from '../src/pages/search.html?raw';
+import searchHistoryHTML from '../src/pages/search_history.html?raw';
 
 
 const notFoundPageContent = `
@@ -134,7 +135,8 @@ const routes: { [path: string]: Route } = {
 			initEditPassword();
 		}
 	},
-	'/users': {
+	'/users': 
+	{
         view: SearchHTML,
         pattern: /^\/users\/([^\/]+)$/,  // Matches /users/{username}
         script: async (username?: string) => {
@@ -144,6 +146,17 @@ const routes: { [path: string]: Route } = {
         bodyStyleImage: "url('/images/statscyberpunk.png')",
         bodyClass: "bg-cover bg-center bg-no-repeat h-screen flex",
     },
+	'/users/:username/history': 
+	{
+    view: searchHistoryHTML,
+    pattern: /^\/users\/([^\/]+)\/history$/,
+    script: async (username?: string) => {
+        const { default: initSearchHistory } = await import('./search/search_history.ts');
+        await initSearchHistory(username);
+    },
+    bodyStyleImage: "url('/images/statscyberpunk.png')",
+    bodyClass: "bg-cover bg-center bg-no-repeat h-screen flex",
+}
 };
 
 export const loadRoutes = async (path: string) => {
