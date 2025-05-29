@@ -1,9 +1,7 @@
 import { draw } from "./drawmap_multi.js";
 
-const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 
-const player = localStorage.getItem("player");
 export let ballX = 400;
 export let ballY = 300;
 export let leftPaddleY = 250;
@@ -13,6 +11,12 @@ export let rightScore = 0;
 export const paddleWidth = 8;
 export const paddleHeight = 100;
 export let message = "";
+
+export default function initMultiplayer() {
+
+const IP_NAME = import.meta.env.VITE_IP_NAME;
+
+const player = localStorage.getItem("player");
 
 let keys: { [key: string]: boolean } = {
     ArrowUp: false,
@@ -58,3 +62,5 @@ setInterval(() => {
 }, 16);
 
 setInterval(fetchState, 16);
+
+}

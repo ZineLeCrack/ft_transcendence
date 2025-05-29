@@ -5,6 +5,7 @@ import registerHtml from '../src/pages/register.html?raw';
 import homeHTML from '../src/pages/home.html?raw';
 import a2fHTML from '../src/pages/a2f.html?raw';
 import localGameHTML from '../src/pages/localgame.html?raw';
+import multiGameHTML from '../src/pages/multigame.html?raw';
 
 const notFoundPageContent = `
     <div class="text-center p-8 bg-red-100 rounded-lg shadow-lg">
@@ -62,6 +63,16 @@ const routes: { [path: string]: Route } = {
 		script: async () => {
 			const {default: initPong} = await import ('./game/local/local.ts');
 			initPong();
+		},
+		bodyClass: "m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex",
+		bodyStyleImage: "url('/images/pong.png')",
+	},
+	'/game/multi':
+	{
+		view : multiGameHTML,
+		script: async () => {
+			const {default: initMultiplayer} = await import ('./game/multiplayer/multi.ts');
+			initMultiplayer();
 		},
 		bodyClass: "m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex",
 		bodyStyleImage: "url('/images/pong.png')",

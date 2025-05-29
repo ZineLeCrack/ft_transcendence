@@ -79,7 +79,8 @@ const IP_NAME = import.meta.env.VITE_IP_NAME;
 					localStorage.setItem("gameId", gameId);
 					localStorage.setItem("player", player);
 
-					window.location.href = "src/game/multiplayer/multiplayer.html";
+					history.pushState(null, '', '/game/multi');
+					await loadRoutes('/game/multi');
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode multijoueur :", err);
 					alert("Erreur : impossible de démarrer le jeu local.\n" + err);
@@ -88,7 +89,10 @@ const IP_NAME = import.meta.env.VITE_IP_NAME;
 			document.body.style.backgroundImage = "url('/images/tournament.png')";
 		}
 		else if (mode === "AI") {
-			playBtn.onclick = () => window.location.href = "src/game/ai/ai.html";
+			playBtn.onclick = async () => {
+				history.pushState(null, '', '/game/ai');
+				await loadRoutes('/game/ai');
+			}
 			document.body.style.backgroundImage = "url('/images/AItemp.png')";
 		}
 	}
