@@ -77,7 +77,6 @@ const routes: { [path: string]: Route } = {
 		bodyClass: "m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex",
 		bodyStyleImage: "url('/images/pong.png')",
 	},
-
 };
 
 export const loadRoutes = async (path: string) => {
