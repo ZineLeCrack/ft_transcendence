@@ -12,26 +12,26 @@ const IP_NAME = import.meta.env.VITE_IP_NAME;
         if (content === "") return;
 
         const messageWrapper = document.createElement("div");
-        const usernameDiv = document.createElement("div");
+        const usernameDiv = document.createElement("a");
         const msg = document.createElement("div");
 
         if (userData.userName === username)
         {
             messageWrapper.className = "flex flex-col items-end space-y-1";
-            usernameDiv.className = "text-sm font-semibold text-white text-right";
-            msg.className = "border-2 border-blue-300 bg-white/5 backdrop-blur-lg text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap";
+            usernameDiv.className = "text-sm font-semibold text-white text-right hover:underline cursor-pointer"; 
+            msg.className = "border-2 border-[#00FFFF] bg-white/5 backdrop-blur-lg text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap shadow-[0_0_10px_#00FFFF]";
         }
         else
         {
             messageWrapper.className = "flex flex-col items-start space-y-1";
-            usernameDiv.className = "text-sm font-semibold text-white text-left";
-            msg.className = "border-2 border-red-500 bg-white/5 backdrop-blur-lg text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap";
+            usernameDiv.className = "text-sm font-semibold text-white text-left hover:underline cursor-pointer";
+            msg.className = "border-2 border-[#FF007A] bg-white/5 backdrop-blur-lg text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap shadow-[0_0_10px_#FF007A]";
 
         }
         
         usernameDiv.textContent = username;
+        usernameDiv.href = `/users/${username}`;
         msg.textContent = content;
-
 
         messageWrapper.appendChild(usernameDiv);
         messageWrapper.appendChild(msg);

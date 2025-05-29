@@ -36,29 +36,31 @@ export function draw() {
 		game.fillRect(404, i, 2, 15);
 
 	
-	game.fillStyle = "#00FFFF";
-	game.shadowColor = "#00FFFF";
-	game.shadowBlur = 10;
-	game.fillRect(5, leftPaddleY, paddleWidth, paddleHeight);
-
-
 	game.fillStyle = "#FF007A";
 	game.shadowColor = "#FF007A";
+	game.shadowBlur = 10;
+	game.fillRect(5, leftPaddleY, paddleWidth, paddleHeight);
+	
+	
+	game.fillStyle = "#00FFFF";
+	game.shadowColor = "#00FFFF";
 	game.shadowBlur = 10;
 	game.fillRect(gameCanvas.width - paddleWidth - 5, rightPaddleY, paddleWidth, paddleHeight);
 
 	game.fillStyle = "#FFFFFF";
 	game.shadowColor = "#FFFFFF";
 	game.shadowBlur = 10;
-	game.fillRect(ballX, ballY, 10, 10);
 
-	score.fillStyle = "#00FFFF";
-	score.shadowColor = "#00FFFF";
-	score.shadowBlur = 10;
-	score.fillText(leftScore.toString(), 20, 50);
+	game.fillRect(ballX, ballY, 10, 10);
 	
 	score.fillStyle = "#FF007A";
 	score.shadowColor = "#FF007A";
+	score.shadowBlur = 10;
+	score.fillText(leftScore.toString(), 20, 50);
+	
+	
+	score.fillStyle = "#00FFFF";
+	score.shadowColor = "#00FFFF";
 	score.shadowBlur = 10;
 	score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
 }
