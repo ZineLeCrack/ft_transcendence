@@ -15,23 +15,20 @@ const IP_NAME = import.meta.env.VITE_IP_NAME;
         const usernameDiv = document.createElement("a");
         const msg = document.createElement("div");
 
-        if (userData.userName === username)
-        {
+        if (userData.userName === username) {
             messageWrapper.className = "flex flex-col items-end space-y-1";
-            usernameDiv.className = "text-sm font-semibold text-white text-right hover:underline cursor-pointer"; 
-            msg.className = "border-2 border-[#00FFFF] bg-white/5 backdrop-blur-lg text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap shadow-[0_0_10px_#00FFFF]";
-        }
-        else
-        {
+            usernameDiv.className = "text-[#0f9292] font-mono text-sm hover:underline cursor-pointer"; 
+            msg.className = "font-mono text-[#00FFFF] px-4 py-2 w-fit max-w-[80%] break-words border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
+            msg.textContent = `${content}`;
+        } else {
             messageWrapper.className = "flex flex-col items-start space-y-1";
-            usernameDiv.className = "text-sm font-semibold text-white text-left hover:underline cursor-pointer";
-            msg.className = "border-2 border-[#FF007A] bg-white/5 backdrop-blur-lg text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap shadow-[0_0_10px_#FF007A]";
-
+            usernameDiv.className = "text-[#FF007A] font-mono text-sm hover:underline cursor-pointer";
+            msg.className = "font-mono text-[#00FFFF] px-4 py-2 w-fit max-w-[80%] break-words border border-[#FF007A] bg-black/40 rounded-md shadow-[0_0_5px_#FF007A]";
+            msg.textContent = `${content}`;
         }
         
         usernameDiv.textContent = username;
         usernameDiv.href = `/users/${username}`;
-        msg.textContent = content;
 
         messageWrapper.appendChild(usernameDiv);
         messageWrapper.appendChild(msg);
