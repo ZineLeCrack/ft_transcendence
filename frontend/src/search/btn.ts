@@ -1,27 +1,5 @@
-import { setButton } from "../profile/utils.js";
 import { generateCardsHistory} from "../profile/history.js";
 import type {CardHistory} from "../profile/history.js";
-
-const globalbtnsearch = document.getElementById('global-btn-search') as HTMLButtonElement;
-const historybtnsearch = document.getElementById('history-btn-search') as HTMLButtonElement;
-
-const globaldivsearch = document.getElementById('global-div-search') as HTMLDivElement;
-const historydivsearch = document.getElementById('history-div-search') as HTMLDivElement;
-
-const buttonStatessearch = {
-	globalBtnIsActive: true,
-	historyBtnIsActive: false
-   };
-
-globalbtnsearch.addEventListener('click', () => {
-
-	setButton(globalbtnsearch, historybtnsearch, null, globaldivsearch, historydivsearch, null, buttonStatessearch, "globalBtnIsActive", "historyBtnIsActive", "");
-});
-
-historybtnsearch.addEventListener('click', () => {
-
-	setButton(historybtnsearch, globalbtnsearch, null, historydivsearch, globaldivsearch, null, buttonStatessearch, "historyBtnIsActive", "globalBtnIsActive", "");
-});
 
 const cardsHistory: CardHistory[] = [
 	{
