@@ -95,7 +95,6 @@ const signupform = document.getElementById('sign-up') as HTMLFormElement;
         }
     }
 
-    // Add event listeners for username validation
     const usernameInput = document.getElementById('sign-up-username') as HTMLInputElement;
     if (usernameInput) {
         usernameInput.addEventListener('input', () => validateUsernameField(usernameInput));
@@ -120,7 +119,6 @@ const signupform = document.getElementById('sign-up') as HTMLFormElement;
         }
     }
 
-    // Add event listeners for username validation
     const emailInput = document.getElementById('sign-up-email') as HTMLInputElement;
     if (emailInput) {
         emailInput.addEventListener('input', () => validateEmailField(emailInput));
@@ -145,7 +143,6 @@ const signupform = document.getElementById('sign-up') as HTMLFormElement;
         }
     }
 
-    // Add event listeners for username validation
     const PasswordInput = document.getElementById('sign-up-password-input') as HTMLInputElement;
     if (PasswordInput) {
         PasswordInput.addEventListener('input', () => validatePasswordField(PasswordInput));

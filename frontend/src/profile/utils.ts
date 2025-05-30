@@ -3,7 +3,17 @@ export function togglePassword(Input: HTMLInputElement, Btn: HTMLButtonElement, 
 	Btn.addEventListener('click', () => {
 		const isVisible = Input.type === 'text';
 		Input.type = isVisible ? 'password' : 'text';
-		Icon.src = isVisible ? '/images/cacher.svg' : '/images/content.svg';
+		Icon.src = isVisible ? '/images/closerobot.png' : '/images/openrobot.png';
+		if (isVisible)
+		{
+			Icon.classList.remove('drop-shadow-[0_0_10px_#00FFFF]');
+			Icon.classList.add('drop-shadow-[0_0_10px_#FF007A]');
+		}
+		else
+		{
+			Icon.classList.remove('drop-shadow-[0_0_10px_#FF007A]');
+			Icon.classList.add('drop-shadow-[0_0_10px_#00FFFF]');
+		}
 
 	});
 }

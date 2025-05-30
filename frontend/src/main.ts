@@ -21,11 +21,9 @@ import searchHistoryHTML from '../src/pages/search_history.html?raw';
 
 
 const notFoundPageContent = `
-    <div class="text-center p-8 bg-red-100 rounded-lg shadow-lg">
-        <h1 class="text-4xl font-bold text-red-800 mb-4">Erreur 404 - Page Introuvable</h1>
-        <p class="text-lg text-red-700">Désolé, la page que vous recherchez n'existe pas.</p>
-        <a href="/home" class="mt-4 inline-block bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition" data-link>Retour à l'accueil</a>
-    </div>
+    <div class="text-center p-8 bg-transparent rounded-lg shadow-lg">
+		<a href="/home" data-link class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] px-6 py-2 rounded-xl  hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">Return Home</a>
+	</div>
 `;
 
 interface Route {
@@ -221,6 +219,9 @@ export const loadRoutes = async (path: string) => {
             }
         }
     } else {
+		body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
+		body.style.backgroundSize = "1920px 920px"; 
+		body.style.backgroundImage = "url('/images/404notfound.jpg')";
         body.innerHTML = notFoundPageContent;
     }
 }

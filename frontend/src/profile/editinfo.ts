@@ -9,29 +9,31 @@ const editProfileForm = document.getElementById("edit-profil-form") as HTMLFormE
 if (editProfileForm) {
 	editProfileForm.addEventListener('submit', async (event) =>{
 		event.preventDefault();
-        try {
-            const EditData =
-            {
-            	username: usernameInput.value,
-                email: emailInput.value,
-                IdUser : localStorage.getItem('userId'),
-            }
-            const response = await fetch(`/api/info`,
-            {
-			    method: 'POST',
-			    headers: { 'Content-Type': 'application/json' },
-			    body: JSON.stringify(EditData),
-            });
-            if (!response.ok)
-            {
-                const err = await response.text();
-                throw new Error(err || "Fail change");
-            }
-            } 
-            catch (error) 
-            {
-                alert(error);
-            }
+		try {
+			const EditData =
+			{
+				username: usernameInput.value,
+				email: emailInput.value,
+				IdUser : localStorage.getItem('userId'),
+			}
+			const response = await fetch(`/api/info`,
+			{
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(EditData),
+			});
+			if (!response.ok)
+			{
+				const err = await response.text();
+				throw new Error(err || "Fail change");
+			}
+				alert("Your profile has been updated successfully");
+				editProfileForm.reset();
+			} 
+			catch (error) 
+			{
+				alert(error);
+			}
 	});
 }
 }

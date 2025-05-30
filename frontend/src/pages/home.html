@@ -62,7 +62,7 @@
 			<div class="w-96 h-72 relative flex flex-col items-center justify-center gap-4 border-4 rounded-2xl border-[#0f9292] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#0f9292] font-mono">
 				<div id="game-mode" class="text-[#00FFFF] px-4 py-1.5 rounded text-3xl font-bold "></div>
 				<div id="description-game-mode" class="text-[#00FFFF]/80 px-4 py-10 rounded text-md font-bold"></div>
-				<button id="game-play-button" class="bg-transparent border-2 rounded-xl border-[#00FFFF] text-[#00FFFF] font-bold py-2 px-6 hover:bg-[#0f9292]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">
+				<button id="game-play-button" class="bg-transparent border-2 border-[#00FFFF] py-2 px-6 rounded-xl  text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">
 					 PLAY 
 				</button>
 			</div>
@@ -70,23 +70,85 @@
 		</div>
 
 		<!-- Tournament Section -->
-		<div id="tournament-section" class="w-full h-[290px] border-4 mt-20 rounded-2xl border-[#00FFFF] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#00FFFF] flex flex-col items-center p-6 font-mono relative">
-			
-			<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF]">TOURNAMENT</h2>
-			
-			<div class="flex items-center justify-between w-full">
-				<button id="join-tournament" class="bg-transparent rounded-xl ml-20 border-2 border-[#FFD700] text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">JOIN</button>
+		<div id="tournament-section" class="w-full h-[290px] border-4 mt-16 rounded-2xl border-[#00FFFF] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#00FFFF] flex flex-col items-center p-6 font-mono relative">
+    <!-- Vue principale du tournoi -->
+    <div id="tournament-main-view" class="w-full">
+        <h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">TOURNAMENT</h2>
+        <div class="flex items-center justify-between w-full">
+            <button id="join-tournament" class="bg-transparent rounded-xl ml-20 border-2 border-[#FFD700] text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">JOIN</button>
+            <div class="flex items-center bg-black/40 px-8 py-4 border-2 rounded-2xl border-[#B026FF] shadow-[0_0_10px_#B026FF]">
+                <div class="w-12 h-12 rounded-full bg-black/50 border-2 border-[#B026FF]"></div>
+                <div class="ml-3">
+                    <p class="text-2xl font-bold text-[#FFD700]">LAST WINNER</p>
+                    <p id="winner-name" class="text-xl text-[#FF2E9F]">[ username ]</p>
+                </div>
+            </div>
+            <button id="create-tournament" class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">CREATE</button>
+        </div>
+    </div>
 
-				<div class="flex items-center bg-black/40 px-8 py-4 border-2 rounded-2xl border-[#B026FF] shadow-[0_0_10px_#B026FF]">
-					<div class="w-12 h-12 rounded-full bg-black/50 border-2 border-[#B026FF]"></div>
-					<div class="ml-3">
-						<p class="text-2xl font-bold text-[#FFD700]">LAST WINNER</p>
-						<p id="winner-name" class="text-xl text-[#FF2E9F]">[ username ]</p>
-					</div>
-				</div>
+    <!-- Vue création de tournoi (initialement cachée) -->
+    <div id="tournament-create-view" class="w-full hidden">
+        <h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">CREATE TOURNAMENT</h2>
+        <div class="flex items-center justify-between w-full">
+            <button id="back-to-tournament" class="bg-transparent rounded-xl ml-20 border-2 border-[#00FFFF] text-[#00FFFF] text-2xl font-bold py-5 px-10 hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">BACK</button>
+            
+            <div class="flex flex-col items-center gap-4">
+                <input 
+                    type="text" 
+                    id="tournament-name" 
+                    placeholder="Tournament Name" 
+                    class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-64 focus:outline-none focus:border-[#FFD700]"
+                />
+                <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-4">
+                        <span class="text-[#00FFFF]">Players:</span>
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="players" value="4" checked class="text-[#FFD700] accent-[#FFD700]">
+                            <span class="text-[#00FFFF]">4</span>
+                        </label>
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="players" value="8" class="text-[#FFD700] accent-[#FFD700]">
+                            <span class="text-[#00FFFF]">8</span>
+                        </label>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-[#00FFFF]">Type:</span>
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="type" value="public" checked class="text-[#FFD700] accent-[#FFD700]">
+                            <span class="text-[#00FFFF]">Public</span>
+                        </label>
+                        <label class="flex items-center gap-2">
+                            <input type="radio" name="type" value="private" class="text-[#FFD700] accent-[#FFD700]">
+                            <span class="text-[#00FFFF]">Private</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="h-[42px] relative"> <!-- Ajout de relative ici -->
+                    <input 
+                        type="password" 
+                        id="tournament-password" 
+                        placeholder="Tournament Password" 
+                        class="invisible bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-64 pr-12 focus:outline-none focus:border-[#FFD700]"
+                    />
+                    <button 
+                        type="button" 
+                        id="tournament-password-btn" 
+                        class="absolute top-1/2 -translate-y-1/2 right-2 flex items-center justify-center invisible"
+                    >
+                        <img 
+                            id="tournament-password-icon" 
+                            src="/images/closerobot.png" 
+                            class="size-8 drop-shadow-[0_0_10px_#FF007A]" 
+                            alt="eye icon"
+                        />
+                    </button>
+                </div>
+            </div>
 
-				<button id="create-tournament" class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">CREATE</button>
-			</div>
-		</div>
+            <button id="create-tournament-submit" class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">CREATE</button>
+        </div>
+    </div>
+</div>
 	</div>
 </div>
