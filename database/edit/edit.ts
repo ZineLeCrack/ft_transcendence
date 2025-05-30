@@ -39,4 +39,55 @@ export default async function editRoutes(fastify: FastifyInstance)
             reply.status(500).send(error);
         }
     });
+    
+    fastify.post('/info', async (request, reply) => {
+        const {username, email , IdUser} = request.body as {username: string, email: string, IdUser: string};
+        if (!username && !email)
+        {
+            reply.status(400).send('incomplete data');
+            return;
+        }
+        try {
+            const db = await getDb_user();
+            if (username && email)
+            {
+                try {
+                   await db.run('UPDATE users SET name = ?, email = ? WHERE id = ?', [username, email, IdUser]);
+                } 
+                catch (error) {
+                    reply.status(500).send("erreur co database");
+                    console.log(error);
+                }
+                console.log("info edit sucess");
+                reply.status(200).send("nice");
+            }
+            else if (username && !email) {
+                try {
+                   await db.run('UPDATE users SET name = ? WHERE id = ?', [username, IdUser]);
+                } 
+                catch (error) {
+                    reply.status(500).send("erreur co database");
+                    console.log(error);
+                }
+                console.log("username edit sucess");
+                reply.status(200).send("nice");
+            }
+            else if (!username && email)
+            {
+                try {
+                   await db.run('UPDATE users SET email = ? WHERE id = ?', [email, IdUser]);
+                } 
+                catch (error) {
+                    reply.status(500).send("erreur co database");
+                    console.log(error);
+                }
+                console.log("email edit sucess");
+                reply.status(200).send("nice");
+            }
+        } 
+        catch (error) {
+            console.log(error);
+            reply.status(500).send(error);
+        }
+    });
 }

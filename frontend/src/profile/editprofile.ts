@@ -129,7 +129,6 @@ if (editPasswordForm)
         }
         if (editCurrentPasswordInput && editCurrentPasswordBtn && editCurrentPasswordIcon && editConfirmNewPasswordInput && editConfirmPasswordBtn && editConfirmPasswordIcon && editNewPasswordInput && editNewPasswordBtn && editNewPasswordIcon)
         {
-            //ici
             try {
                 const EditData =
                 {
