@@ -55,7 +55,7 @@ export default function initLogin() {
 
 		try
 		{
-			const response = await fetch(`https://${IP_NAME}:3451/login`,
+			const response = await fetch(`/api/login`,
 			{
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -84,5 +84,4 @@ export default function initLogin() {
 			alert("Accept the 3451 port !");
 		}
 	});
-
 }

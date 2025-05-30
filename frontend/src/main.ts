@@ -172,7 +172,7 @@ export const loadRoutes = async (path: string) => {
                 // Verify if user exists before loading the page
                 try {
                     const IP_NAME = import.meta.env.VITE_IP_NAME;
-                    const res = await fetch(`https://${IP_NAME}:3451/search`, {
+                    const res = await fetch(`/api/search`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ username })

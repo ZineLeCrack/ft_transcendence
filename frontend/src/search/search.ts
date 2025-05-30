@@ -12,7 +12,7 @@ export default async function initSearch()
 			if (!username) return;
 	
 			try {
-				const res = await fetch(`https://${IP_NAME}:3451/search`,
+				const res = await fetch(`/api/search`,
 				{
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },

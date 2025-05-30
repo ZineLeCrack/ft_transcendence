@@ -15,7 +15,7 @@ sendBtn.addEventListener("click", async () => {
     {
         IdUser : localStorage.getItem('userId'),
     }
-    const response = await fetch(`https://${IP_NAME}:3451/a2f/send`, {
+    const response = await fetch(`/api/a2f/send`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(Data),
@@ -36,7 +36,7 @@ form.addEventListener("submit", async (event) => {
         code : codeInput.value,
         IdUser : localStorage.getItem('userId'),
     }
-    const response = await fetch(`https://${IP_NAME}:3451/a2f/verify`, {
+    const response = await fetch(`/api/a2f/verify`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(Data),

@@ -14,9 +14,6 @@ services:
   backend:
     build: backend/.
     container_name: backend
-    ports:
-      - "4000:4000"
-      - "4001:4001"
     volumes:
       - certs:/certs
       - database:/database
@@ -28,8 +25,6 @@ services:
   database:
     build: database/.
     container_name: database
-    ports:
-      - "3451:3451"
     volumes:
       - certs:/certs
       - database:/database

@@ -89,7 +89,7 @@ export default async function  initHistory()
 
 	try
 	{
-		const response = await fetch(`https://${IP_NAME}:3451/history`,
+		const response = await fetch(`/api/history`,
 		{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },

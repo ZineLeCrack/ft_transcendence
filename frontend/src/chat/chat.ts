@@ -37,7 +37,7 @@ const IP_NAME = import.meta.env.VITE_IP_NAME;
         messageBox.scrollTop = messageBox.scrollHeight;
     }
 
-    const ws = new WebSocket(`wss://${IP_NAME}:3451`);
+    const ws = new WebSocket(`wss://${window.location.host}/ws/`);
 
     ws.onopen = () => {
         console.log("WebSocket connecté !");
@@ -58,7 +58,7 @@ const IP_NAME = import.meta.env.VITE_IP_NAME;
 
     async function displayAllMessages() {
         try {
-            const response = await fetch(`https://${IP_NAME}:3451/getmessages`, {
+            const response = await fetch(`/api/getmessages`, {
                 method: 'POST',
             });
             const data = await response.json();

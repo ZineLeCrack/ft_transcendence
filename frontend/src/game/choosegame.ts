@@ -34,7 +34,7 @@ const IP_NAME = import.meta.env.VITE_IP_NAME;
 		if (mode === "LOCAL") {
 			playBtn.onclick = async () => {
 				try {
-					const response = await fetch(`https://${IP_NAME}:4000/game/start`, {
+					const response = await fetch(`api/main/game/start`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({
@@ -62,7 +62,7 @@ const IP_NAME = import.meta.env.VITE_IP_NAME;
 		else if (mode === "MULTI") {
 			playBtn.onclick = async () => {
 				try {
-					const response = await fetch(`https://${IP_NAME}:4001/game/start`, {
+					const response = await fetch(`/api/multi/game/start`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({

@@ -26,7 +26,7 @@ let keys: { [key: string]: boolean } = {
 let gameStarted = false;
 
 const gameId = localStorage.getItem("gameId");
-const SERVER_URL = `https://${IP_NAME}:4000/game/${gameId}`;
+const SERVER_URL = `/api/main/game/${gameId}`;
 
 async function fetchState() {
 	try {

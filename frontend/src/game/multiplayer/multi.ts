@@ -25,7 +25,7 @@ let keys: { [key: string]: boolean } = {
 let gameOver = false;
 
 const gameId = localStorage.getItem("gameId");
-const SERVER_URL = `https://${IP_NAME}:4001/game/${gameId}`;
+const SERVER_URL = `/api/multi/game/${gameId}`;
 
 async function fetchState() {
     if (gameOver)
@@ -45,7 +45,7 @@ async function fetchState() {
                 const gameStat = await response.json();
                 if (player === "player1")
                 {
-                    await fetch(`https://${IP_NAME}:3451/addhistory`, {
+                    await fetch(`/api/addhistory`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(gameStat),

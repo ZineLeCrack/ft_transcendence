@@ -58,7 +58,7 @@ const signupform = document.getElementById('sign-up') as HTMLFormElement;
 		};
 
 		try {
-			const response = await fetch(`https://${IP_NAME}:3451/submit`, {
+			const response = await fetch(`/api/submit`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(userData),
