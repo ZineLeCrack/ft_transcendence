@@ -76,8 +76,82 @@ const signupform = document.getElementById('sign-up') as HTMLFormElement;
 		catch (err)
 		{
 			console.log(err);
-			alert("Accept the 3451 port !");
+			alert(err);
 		}
 	});
 
+	function validateUsernameField(input: HTMLInputElement) {
+        const errorElement = document.getElementById('username-error');
+        if (!errorElement) return;
+
+        const isValid = /^[a-zA-Z0-9_-]{3,18}$/.test(input.value);
+        
+        if (!isValid && input.value.length > 3) {
+            errorElement.classList.remove('hidden');
+            input.classList.add('border-red-500');
+        } else {
+            errorElement.classList.add('hidden');
+            input.classList.remove('border-red-500');
+        }
+    }
+
+    // Add event listeners for username validation
+    const usernameInput = document.getElementById('sign-up-username') as HTMLInputElement;
+    if (usernameInput) {
+        usernameInput.addEventListener('input', () => validateUsernameField(usernameInput));
+        usernameInput.addEventListener('invalid', (e) => {
+            e.preventDefault();
+            validateUsernameField(usernameInput);
+        });
+    }
+
+	function validateEmailField(input: HTMLInputElement) {
+        const errorElement = document.getElementById('email-error');
+        if (!errorElement) return;
+
+        const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
+        
+        if (!isValid && input.value.length > 3) {
+            errorElement.classList.remove('hidden');
+            input.classList.add('border-red-500');
+        } else {
+            errorElement.classList.add('hidden');
+            input.classList.remove('border-red-500');
+        }
+    }
+
+    // Add event listeners for username validation
+    const emailInput = document.getElementById('sign-up-email') as HTMLInputElement;
+    if (emailInput) {
+        emailInput.addEventListener('input', () => validateEmailField(emailInput));
+        emailInput.addEventListener('invalid', (e) => {
+            e.preventDefault();
+            validateEmailField(emailInput);
+        });
+    }
+
+	function validatePasswordField(input: HTMLInputElement) {
+        const errorElement = document.getElementById('password-error');
+        if (!errorElement) return;
+
+        const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/.test(input.value);
+        
+        if (!isValid && input.value.length >= 3) {
+            errorElement.classList.remove('hidden');
+            input.classList.add('border-red-500');
+        } else {
+            errorElement.classList.add('hidden');
+            input.classList.remove('border-red-500');
+        }
+    }
+
+    // Add event listeners for username validation
+    const PasswordInput = document.getElementById('sign-up-password-input') as HTMLInputElement;
+    if (PasswordInput) {
+        PasswordInput.addEventListener('input', () => validatePasswordField(PasswordInput));
+        PasswordInput.addEventListener('invalid', (e) => {
+            e.preventDefault();
+            validatePasswordField(PasswordInput);
+        });
+    }
 }

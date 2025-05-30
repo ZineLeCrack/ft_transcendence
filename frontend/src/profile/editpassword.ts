@@ -1,4 +1,5 @@
 import {togglePassword, checkPasswordMatch } from './utils.js';
+import { loadRoutes } from '../main.js';
 
 export default async function initEditPassword() {
 
@@ -70,16 +71,19 @@ export default async function initEditPassword() {
                 });
                 if (!response.ok)
                 {
-                    alert("Your current password is not the current password");
+                    // alert("Your current password is not the current password");
                     const err = await response.text();
                     throw new Error(err || "Fail change");
                 }
+				alert("password edit success");
+				history.pushState(null, '', '/profile/edit');
+				await loadRoutes('/profile/edit');
+
             }
             catch (error) 
             {
-                console.log(error);
+                alert(error);
             }
-			alert("password edit success");
 		});
 	}
 

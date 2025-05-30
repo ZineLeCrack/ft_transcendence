@@ -30,7 +30,7 @@ if (editProfileForm) {
             } 
             catch (error) 
             {
-                console.log(error);
+                alert(error);
             }
 	});
 }

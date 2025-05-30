@@ -54,7 +54,6 @@ const IP_NAME = import.meta.env.VITE_IP_NAME;
 					await loadRoutes('/game/local');
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode local :", err);
-					alert("Accept the 4000 port !");
 				}
 			};
 			document.body.style.backgroundImage = "url('/images/localgame.png')";

@@ -81,7 +81,6 @@ export default function initLogin() {
 		catch (err)
 		{
 			console.log(err);
-			alert("Accept the 3451 port !");
 		}
 	});
 }
