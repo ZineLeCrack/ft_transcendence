@@ -16,22 +16,27 @@ export default async function editRoutes(fastify: FastifyInstance)
         try {
             const db = await getDb_user();
             const mypass =  await db.get('SELECT password FROM users WHERE id = ?', [IdUser]);
-            if (await bcrypt.compare(current, mypass))
+            const match = await bcrypt.compare(current, mypass.password);
+            if (match)
             {
                 try {
-                    await db.run('UPDATE users SET password = ? WHERE id = ?', [newpass, IdUser]);
+                    const newhash = await bcrypt.hash(newpass.toString(), 10);
+                    await db.run('UPDATE users SET password = ? WHERE id = ?', [newhash, IdUser]);
                 } 
                 catch (error) {
+                    reply.status(500).send("erreur co database");
                     console.log(error);
                 }
                 console.log("password edit sucess");
-                alert("password edit success");
                 reply.status(200).send("nice");
+            }
+            else {
+                reply.status(401).send("invalid mdp");
             }
         } 
         catch (error) {
             console.log(error);
-            reply.status(500).send("fail");
+            reply.status(500).send(error);
         }
     });
 }

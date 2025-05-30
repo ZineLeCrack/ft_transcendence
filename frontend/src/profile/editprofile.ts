@@ -134,7 +134,7 @@ if (editPasswordForm)
                 const EditData =
                 {
                     current: editCurrentPasswordInput.value,
-                    newpass: editConfirmNewPasswordInput,
+                    newpass: editConfirmNewPasswordInput.value,
                     IdUser : localStorage.getItem('userId'),
                 }
                 const response = await fetch(`https://${IP_NAME}:3451/edit`,
@@ -145,6 +145,7 @@ if (editPasswordForm)
                 });
                 if (!response.ok)
                 {
+                    alert("Your current password is not the current password");
                     const err = await response.text();
                     throw new Error(err || "Fail change");
                 }
@@ -153,6 +154,7 @@ if (editPasswordForm)
             {
                 console.log(error);
             }
+            alert("password edit success");
             hidePassword(editCurrentPasswordInput, editCurrentPasswordIcon,null ,null);
             hidePassword(editConfirmNewPasswordInput, editConfirmPasswordIcon, profileGoodConfirmPasswordIcon ,profileBadConfirmPasswordIcon);
             hidePassword(editNewPasswordInput, editNewPasswordIcon,profileGoodPasswordIcon ,profileBadPasswordIcon);
