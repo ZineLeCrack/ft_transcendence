@@ -41,7 +41,6 @@ export default function initEditPassword() {
 		togglePassword(editCurrentPasswordInput, editCurrentPasswordBtn, editCurrentPasswordIcon);
 	}
 	
-	
 	if (editPasswordForm)
 	{
 		editPasswordForm.addEventListener('submit', (event) =>{
@@ -58,5 +57,5 @@ export default function initEditPassword() {
 			}
 		});
 	}
-	
+
 }

@@ -30,7 +30,6 @@ const notFoundPageContent = `
 
 interface Route {
     view: string;
-    additionalContent?: string[];
     script?: (params?: string) => Promise<void>;
     bodyClass?: string;
     bodyStyleImage?: string;
