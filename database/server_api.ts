@@ -10,6 +10,7 @@ import chatRoutes from './chat/chat_back.js';
 import a2fRoutes from './a2f/check_a2f.js';
 import addhistoryRoutes from './stats/add_history.js';
 import searchRoutes from './search/search_back.js';
+import editRoutes from './edit/edit.js'
 
 dotenv.config();
 
@@ -33,7 +34,8 @@ async function main() {
   await app.register(a2fRoutes);
   await app.register(addhistoryRoutes);
   await app.register(searchRoutes);
- 
+  await app.register(editRoutes);
+
   await app.listen({ port: 3451, host: '0.0.0.0' });
 
   // Récupérer le serveur HTTP natif après le démarrage

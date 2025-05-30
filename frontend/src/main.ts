@@ -124,6 +124,10 @@ const routes: { [path: string]: Route } = {
 	{
 		view: editprofileHTML,
 		bodyStyleImage: "url('/images/statscyberpunk.png')",
+		script: async () => {
+			const {default: initEditProfile} = await import ('./profile/editinfo.ts');
+			initEditProfile();
+		}
 	},
 	'/profile/edit/password': 
 	{

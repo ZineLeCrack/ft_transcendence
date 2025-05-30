@@ -1,6 +1,6 @@
 import {togglePassword, checkPasswordMatch } from './utils.js';
 
-export default function initEditPassword() {
+export default async function initEditPassword() {
 
 	const editPasswordForm = document.getElementById('edit-password-form') as HTMLFormElement;
 	
@@ -43,7 +43,7 @@ export default function initEditPassword() {
 	
 	if (editPasswordForm)
 	{
-		editPasswordForm.addEventListener('submit', (event) =>{
+		editPasswordForm.addEventListener('submit', async (event) =>{
 			event.preventDefault();
 			if (editNewPasswordInput.value !== editConfirmNewPasswordInput.value)
 			{
@@ -55,6 +55,31 @@ export default function initEditPassword() {
 				alert('change pas ton mot de passe par le meme debile !!!');
 				return ;
 			}
+			try {
+                const EditData =
+                {
+                    current: editCurrentPasswordInput.value,
+                    newpass: editConfirmNewPasswordInput.value,
+                    IdUser : localStorage.getItem('userId'),
+                }
+                const response = await fetch(`/api/edit`,
+                {
+			        method: 'POST',
+			        headers: { 'Content-Type': 'application/json' },
+			        body: JSON.stringify(EditData),
+                });
+                if (!response.ok)
+                {
+                    alert("Your current password is not the current password");
+                    const err = await response.text();
+                    throw new Error(err || "Fail change");
+                }
+            }
+            catch (error) 
+            {
+                console.log(error);
+            }
+			alert("password edit success");
 		});
 	}
 
