@@ -1,8 +1,9 @@
-import { userData } from "../game/game.js";
+import { userData } from "../game/choosegame.js";
+
+export default function initChat() {
 
 const IP_NAME = import.meta.env.VITE_IP_NAME;
 
-document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("chat-input") as HTMLInputElement;
     const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
     const messageBox = document.getElementById("chat-messages") as HTMLDivElement;
@@ -11,26 +12,23 @@ document.addEventListener("DOMContentLoaded", () => {
         if (content === "") return;
 
         const messageWrapper = document.createElement("div");
-        const usernameDiv = document.createElement("div");
+        const usernameDiv = document.createElement("a");
         const msg = document.createElement("div");
 
-        if (userData.userName === username)
-        {
+        if (userData.userName === username) {
             messageWrapper.className = "flex flex-col items-end space-y-1";
-            usernameDiv.className = "text-sm font-semibold text-white text-right";
-            msg.className = "border-2 border-blue-300 bg-white/5 backdrop-blur-lg text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap";
-        }
-        else
-        {
+            usernameDiv.className = "text-[#0f9292] font-mono text-sm hover:underline cursor-pointer"; 
+            msg.className = "font-mono text-[#00FFFF] px-4 py-2 w-fit max-w-[80%] break-words border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
+            msg.textContent = `${content}`;
+        } else {
             messageWrapper.className = "flex flex-col items-start space-y-1";
-            usernameDiv.className = "text-sm font-semibold text-white text-left";
-            msg.className = "border-2 border-red-500 bg-white/5 backdrop-blur-lg text-md text-white px-4 py-2 rounded-3xl w-fit max-w-[80%] break-words whitespace-pre-wrap";
-
+            usernameDiv.className = "text-[#FF007A] font-mono text-sm hover:underline cursor-pointer";
+            msg.className = "font-mono text-[#00FFFF] px-4 py-2 w-fit max-w-[80%] break-words border border-[#FF007A] bg-black/40 rounded-md shadow-[0_0_5px_#FF007A]";
+            msg.textContent = `${content}`;
         }
         
         usernameDiv.textContent = username;
-        msg.textContent = content;
-
+        usernameDiv.href = `/users/${username}`;
 
         messageWrapper.appendChild(usernameDiv);
         messageWrapper.appendChild(msg);
@@ -39,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageBox.scrollTop = messageBox.scrollHeight;
     }
 
-    const ws = new WebSocket(`wss://${IP_NAME}:3451`);
+    const ws = new WebSocket(`wss://${window.location.host}/ws/`);
 
     ws.onopen = () => {
         console.log("WebSocket connecté !");
@@ -60,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function displayAllMessages() {
         try {
-            const response = await fetch(`https://${IP_NAME}:3451/getmessages`, {
+            const response = await fetch(`/api/getmessages`, {
                 method: 'POST',
             });
             const data = await response.json();
@@ -98,4 +96,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     displayAllMessages();
-});
+}
+

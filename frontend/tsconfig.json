@@ -15,11 +15,12 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": false, //changer pour pas voir les is declared but its value is never read
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
+    // "erasableSyntaxOnly": true, // <--- C'est cette ligne qui cause le problème. Supprime-la ou commente-la.
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
   },
   "include": ["src"]
 }

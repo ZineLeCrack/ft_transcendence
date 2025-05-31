@@ -1,4 +1,36 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
+
+/* Styles personnalisés pour la scrollbar Firefox */
+#chat-messages {
+    scrollbar-width: thin;
+    scrollbar-color: #cf1177 transparent;
+}
+
+/* Styles personnalisés pour la scrollbar WebKit (Chrome, Safari, etc.) */
+#chat-messages::-webkit-scrollbar {
+    width: 2px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: #cf1177;
+    border-radius: 9999px;
+    box-shadow: 0 0 5px #cf1177;
+}
+
+/* Effet de clignotement pour les éléments */
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 99% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.animate-blink {
+    animation: blink 1s infinite;
+}
 

@@ -1,0 +1,80 @@
+<!--formulaire d'inscription-->
+
+<form id="sign-up" action="" method="POST" class="space-y-4 max-w-md w-full border-4 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] bg-white/5 backdrop-blur p-6 rounded-2xl">
+	<h2 class="text-2xl font-bold text-center text-[#00FFFF] drop-shadow-[0_0_10px_#00FFFF] mb-4">Sign Up to ft_transcendence</h2>
+	
+	<div>
+		<label for="sign-up-username"  class="block font-semibold mb-1 text-white">Username
+			<span class="text-red-500">*</span>
+		</label>
+		<input 
+			id="sign-up-username" 
+			name="username"
+			placeholder="pseudo42"
+			minlength="3" 
+			maxlength="18" 
+			pattern="[a-zA-Z0-9_]{3,18}"
+			type="text" 
+			required 
+			class="w-full p-2 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 text-white focus:outline-none focus:border-[#00FFFF]"
+		/>
+		<span id="username-error" class="text-red-500 text-sm hidden">Username must be 3-18 characters long and contain only letters, numbers, underscore or hyphen</span>
+	</div>
+
+	<div>
+		<label for="sign-up-email" class="block font-semibold mb-1 text-white">Email
+			<span class="text-red-500">*</span>
+		</label>
+		<input id="sign-up-email" title="Enter a valid address" placeholder="your.email@exemple.com" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" name="email" type="email" required class="w-full p-2 rounded-lg border text-white bg-black/30 border-[#00FFFF]/30 focus:outline-none focus:border-[#00FFFF]"/>
+		<span id="email-error" class="text-red-500 text-sm hidden">The email address entered is not valid. Please ensure it follows a standard format (user@domain.com).</span>
+	</div>
+	
+	<div>
+		<label for="sign-up-password-input" class="block font-semibold mb-1 text-white">Password
+			<span class="text-red-500">*</span>
+		</label>
+		<div class="flex items-center">
+			<div class="relative w-full">
+				<input 
+					id="sign-up-password-input" 
+					name="password" 
+					minlength="6" 
+					placeholder="********" 
+					pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}" 
+					title="Password must contain at least 6 characters, including uppercase, lowercase and number" 
+					type="password" 
+					required 
+					class="w-full p-2 pr-12 rounded-lg text-white border-2 bg-black/30 border-[#00FFFF]/30 focus:outline-none focus:border-[#00FFFF]"
+				/>
+				<button type="button" id="sign-up-password-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+					<img id="sign-up-password-icon" src="/images/closerobot.png" class="size-12 drop-shadow-[0_0_10px_#FF007A]"/>
+				</button>
+			</div>
+			<img id="badPasswordIcon" src="/images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+			<img id="goodPasswordIcon" src="/images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+		</div>
+		<span id="password-error" class="text-red-500 text-sm hidden mt-1">Your password must be at least 6 characters long and include at least one lowercase letter, one uppercase letter, and one number</span>
+	</div>
+
+	<div>
+		<label for="sign-up-confirmpassword-input"  class="block font-semibold mb-1 text-white">Confirm Password
+			<span class="text-red-500" >*</span>
+		</label>
+		<div class="flex items-center">
+			<div class="relative w-full">
+				<input id="sign-up-confirmpassword-input" placeholder="********" name="confirmPassword" type="password" required class="w-full p-2 pr-12 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 text-white focus:outline-none focus:border-[#00FFFF]"/>
+				<button type="button" id="sign-up-confirmpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+					<img id="sign-up-confirmpassword-icon" src="/images/closerobot.png" class="size-12 drop-shadow-[0_0_10px_#FF007A]"/>
+				</button>
+			</div>
+			<img id="badConfirmPasswordIcon" src="/images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+			<img id="goodConfirmPasswordIcon" src="/images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
+		</div>
+	</div>
+  
+	<button type="submit" class="w-full border-2 border-[#00FFFF] bg-transparent text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 px-4 py-2 rounded-lg shadow-[0_0_10px_#00FFFF]">Sign Up</button>
+	<div class="flex justify-end">
+		<a href="/login" data-link id="to-sign-in" class="hover:underline cursor-pointer text-[#00FFFF] text-sm ">Already have an account ?</a>
+	</div>
+</form>
+

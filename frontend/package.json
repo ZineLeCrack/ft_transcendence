@@ -19,6 +19,7 @@
   "dependencies": {
     "chart": "^0.1.2",
     "chart.js": "^4.4.9",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "path": "^0.12.7"
   }
 }

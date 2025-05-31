@@ -1,3 +1,8 @@
+import { loadRoutes } from '../main.js';
+
+
+export default function initA2f() {
+
 const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 const form = document.getElementById("a2f") as HTMLFormElement;
@@ -10,7 +15,7 @@ sendBtn.addEventListener("click", async () => {
     {
         IdUser : localStorage.getItem('userId'),
     }
-    const response = await fetch(`https://${IP_NAME}:3451/a2f/send`, {
+    const response = await fetch(`/api/a2f/send`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(Data),
@@ -31,7 +36,7 @@ form.addEventListener("submit", async (event) => {
         code : codeInput.value,
         IdUser : localStorage.getItem('userId'),
     }
-    const response = await fetch(`https://${IP_NAME}:3451/a2f/verify`, {
+    const response = await fetch(`/api/a2f/verify`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(Data),
@@ -46,5 +51,7 @@ form.addEventListener("submit", async (event) => {
 	const jwtToken = result.token;
 	sessionStorage.setItem(`${Data.IdUser}`, jwtToken);
     console.log("Code 2FA saisi :", Data.code);
-    window.location.href = "../../index.html";
+    history.pushState(null, '', '/home');
+    await loadRoutes('/home');
 });
+}

@@ -1,6 +1,4 @@
-import { userData } from "../game/game.js";
-
-const IP_NAME = import.meta.env.VITE_IP_NAME;
+import { userData } from "../game/choosegame.js";
 
 export interface CardHistory {
 	imageplayer1: string;
@@ -40,16 +38,16 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 
 				cardElement.innerHTML = `
 					<div class=" ml-28 flex flex-col items-center">
-      					<img src="${CardHistory.imageplayer1}" class="rounded-full w-[150px]" alt="">
-     					<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#00FFFF] mt-1">${CardHistory.usernameplayer1}</div>
-    				</div>
+						  <img src="${CardHistory.imageplayer1}" class="rounded-full w-[150px]" alt="">
+						 <div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#00FFFF] mt-1">${CardHistory.usernameplayer1}</div>
+					</div>
 					<div class="text-center text-8xl ml-28 font-bold text-[#00FFFF] drop-shadow-[0_0_10px_#00FFFF]">${CardHistory.pointplayer1}</div>
 					<img src="/images/VS.png" class="rounded-full ml-14 w-[270px] h-[270px] "alt="">
 					<div class="text-center text-8xl ml-14 font-bold text-[#FF007A] drop-shadow-[0_0_10px_#FF007A]">${CardHistory.pointplayer2}</div>
 					<div class=" ml-28 flex flex-col items-center">
-      					<img src="${CardHistory.imageplayer2}" class="rounded-full w-[150px]" alt="">
-     					<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer2}</div>
-    				</div>
+						  <img src="${CardHistory.imageplayer2}" class="rounded-full w-[150px]" alt="">
+						 <div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer2}</div>
+					</div>
 				</div>
 				`;
 			}
@@ -65,30 +63,33 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 				}
 					cardElement.innerHTML = `
 					<div class=" ml-28 flex flex-col items-center">
-      					<img src="${CardHistory.imageplayer2}" class="rounded-full w-[150px]" alt="">
-     					<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#00FFFF] mt-1">${CardHistory.usernameplayer2}</div>
-    				</div>
+						  <img src="${CardHistory.imageplayer2}" class="rounded-full w-[150px]" alt="">
+						 <div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#00FFFF] mt-1">${CardHistory.usernameplayer2}</div>
+					</div>
 					<div class="text-center text-8xl ml-28 font-bold text-[#00FFFF] drop-shadow-[0_0_10px_#00FFFF]">${CardHistory.pointplayer2}</div>
 					<img src="/images/VS.png" class="rounded-full ml-14 w-[270px] h-[270px] "alt="">
 					<div class="text-center text-8xl ml-14 font-bold text-[#FF007A] drop-shadow-[0_0_10px_#FF007A]">${CardHistory.pointplayer1}</div>
 					<div class=" ml-28 flex flex-col items-center">
-      					<img src="${CardHistory.imageplayer1}" class="rounded-full w-[150px]" alt="">
-     					<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer1}</div>
-    				</div>
+						  <img src="${CardHistory.imageplayer1}" class="rounded-full w-[150px]" alt="">
+						 <div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer1}</div>
+					</div>
 				</div>
 				`;
 			}
 
 			container.appendChild(cardElement);
 		});
- 	}
+	 }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+export default async function  initHistory() 
+{ 
+
+	const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 	try
 	{
-		const response = await fetch(`https://${IP_NAME}:3451/history`,
+		const response = await fetch(`/api/history`,
 		{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -102,4 +103,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 	{
 		console.error('Erreur lors de la récupération de l\'historique :', err);
 	}
-});
+
+}

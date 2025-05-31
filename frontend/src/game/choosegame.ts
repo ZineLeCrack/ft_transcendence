@@ -4,9 +4,13 @@ export const userData = {
 	userPicture: localStorage.getItem('profile_pic')
 };
 
+import { loadRoutes } from '../main.js';
+
+export default function initChooseGame() {
+
+
 const IP_NAME = import.meta.env.VITE_IP_NAME;
 
-document.addEventListener("DOMContentLoaded", () => {
 	const leftBtn = document.getElementById("left-button-game") as HTMLButtonElement;
 	const rightBtn = document.getElementById("right-button-game") as HTMLButtonElement;
 	const playBtn = document.getElementById("game-play-button") as HTMLButtonElement;
@@ -30,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (mode === "LOCAL") {
 			playBtn.onclick = async () => {
 				try {
-					const response = await fetch(`https://${IP_NAME}:4000/game/start`, {
+					const response = await fetch(`api/main/game/start`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({
@@ -46,10 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
 					const gameId = data.gameId;
 					localStorage.setItem("gameId", gameId);
 
-					window.location.href = "src/game/local/local.html";
+					history.pushState(null, '', '/game/local');
+					await loadRoutes('/game/local');
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode local :", err);
-					alert("Accept the 4000 port !");
 				}
 			};
 			document.body.style.backgroundImage = "url('/images/localgame.png')";
@@ -57,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		else if (mode === "MULTI") {
 			playBtn.onclick = async () => {
 				try {
-					const response = await fetch(`https://${IP_NAME}:4001/game/start`, {
+					const response = await fetch(`/api/multi/game/start`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({
@@ -74,7 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
 					localStorage.setItem("gameId", gameId);
 					localStorage.setItem("player", player);
 
-					window.location.href = "src/game/multiplayer/multiplayer.html";
+					history.pushState(null, '', '/game/multi');
+					await loadRoutes('/game/multi');
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode multijoueur :", err);
 					alert("Erreur : impossible de démarrer le jeu local.\n" + err);
@@ -83,7 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
 			document.body.style.backgroundImage = "url('/images/tournament.png')";
 		}
 		else if (mode === "AI") {
-			playBtn.onclick = () => window.location.href = "src/game/ai/ai.html";
+			playBtn.onclick = async () => {
+				history.pushState(null, '', '/game/ai');
+				await loadRoutes('/game/ai');
+			}
 			document.body.style.backgroundImage = "url('/images/AItemp.png')";
 		}
 	}
@@ -99,4 +107,4 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	updateDisplay();
-});
+}
