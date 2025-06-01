@@ -1,21 +1,21 @@
 import { togglePassword } from "../profile/utils";
 
-export default function initJoinTournament() {
+export default async function initJoinTournament() {
 
 	const joinTournamentBtn = document.getElementById('join-tournament');
-    const backToTournamentBtn = document.getElementById('back-to-tournament-join');
-    const mainView = document.getElementById('tournament-main-view');
-    const joinView = document.getElementById('tournament-join-view');
+	const backToTournamentBtn = document.getElementById('back-to-tournament-join');
+	const mainView = document.getElementById('tournament-main-view');
+	const joinView = document.getElementById('tournament-join-view');
 	
-    joinTournamentBtn?.addEventListener('click', () => {
+	joinTournamentBtn?.addEventListener('click', () => {
 		mainView?.classList.add('hidden');
-        joinView?.classList.remove('hidden');
-    });
+		joinView?.classList.remove('hidden');
+	});
 	
-    backToTournamentBtn?.addEventListener('click', () => {
+	backToTournamentBtn?.addEventListener('click', () => {
 		joinView?.classList.add('hidden');
-        mainView?.classList.remove('hidden');
-    });
+		mainView?.classList.remove('hidden');
+	});
 
 	interface TournamentItem {
 		id: string;
@@ -122,14 +122,41 @@ export default function initJoinTournament() {
 		}
 	}
 	
+	
+
 	generateTournamentItem(tournamentItems);
 
 	const JoinBtnTournament = document.querySelectorAll('[id^="join-tournament-btn-"]');
 	
 	if (JoinBtnTournament.length > 0) {
 		JoinBtnTournament.forEach(button => {
-			button.addEventListener('click', () => {
+			button.addEventListener('click', async () => {
 				console.log(`Joining tournament with ID: ${button.id.split('-').pop()}`);
+				// const passwordInput = document.getElementById(`password-input-${button.id.split('-').pop()}`) as HTMLInputElement;
+				// const tournamentId = button.id.split('-').pop();
+
+				// try {
+				// 	const response = await fetch('/api/tournament/join', {
+				// 		method: 'POST',
+				// 		headers: {
+				// 			'Content-Type': 'application/json',
+				// 		},
+				// 		body: JSON.stringify({
+				// 			id_tournamemt: tournamentId,
+				// 			id_user: '1', // a remplacer pas le vrai id de l'utilisateur
+				// 			password: passwordInput.value ? passwordInput.value : undefined,
+				// 		})
+				// 	});
+				// 	if (!response.ok) {
+				// 		throw new Error('Failed to create tournament');
+				// 	}
+				// 	joinView?.classList.add('hidden');
+				// 	mainView?.classList.remove('hidden');
+				// 	alert('Successfully joined the tournament!');
+				// } catch (error) {
+				// 	alert('Failed to create tournament');
+				// }
+
 			});
 		});
 	}
