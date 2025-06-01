@@ -1,6 +1,6 @@
 import { togglePassword } from "../profile/utils";
 
-export default function initTournament() {
+export default function initCreateTournament() {
 	const createTournamentBtn = document.getElementById('create-tournament');
     const backToTournamentBtn = document.getElementById('back-to-tournament');
     const createTournamentSubmitBtn = document.getElementById('create-tournament-submit');
