@@ -3,7 +3,6 @@ import { loadRoutes } from '../main.js';
 
 export default function initA2f() {
 
-const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 const form = document.getElementById("a2f") as HTMLFormElement;
 const sendBtn = document.getElementById('to-send-a2f') as HTMLButtonElement;

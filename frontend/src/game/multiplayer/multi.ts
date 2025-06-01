@@ -13,7 +13,6 @@ export let message = "";
 
 export default function initMultiplayer() {
 
-const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 const player = localStorage.getItem("player");
 

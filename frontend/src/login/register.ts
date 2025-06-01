@@ -3,7 +3,6 @@ import { loadRoutes } from '../main.js';
 
 
 export default function initRegister() {
-const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 const signupform = document.getElementById('sign-up') as HTMLFormElement;
 
