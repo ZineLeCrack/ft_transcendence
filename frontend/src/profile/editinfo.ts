@@ -43,7 +43,7 @@ function validateUsernameField(input: HTMLInputElement) {
 
 	const isValid = /^[a-zA-Z0-9_-]{3,18}$/.test(input.value);
 	
-	if (!isValid && input.value.length > 2) {
+	if (!isValid && input.value.length >= 1) {
 		errorElement.classList.remove('hidden');
 		input.classList.add('border-red-500');
 	} else {
@@ -66,7 +66,7 @@ function validateEmailField(input: HTMLInputElement) {
 
 	const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
 	
-	if (!isValid && input.value.length > 3) {
+	if (!isValid && input.value.length >= 1) {
 		errorElement.classList.remove('hidden');
 		input.classList.add('border-red-500');
 	} else {
