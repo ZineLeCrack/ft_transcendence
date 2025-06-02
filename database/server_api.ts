@@ -11,6 +11,8 @@ import a2fRoutes from './a2f/check_a2f.js';
 import addhistoryRoutes from './stats/add_history.js';
 import searchRoutes from './search/search_back.js';
 import editRoutes from './edit/edit.js'
+import createTournamentRoutes from './tournament/create_tournament.js';
+import listTournamentsRoutes from './tournament/list_tournaments.js'
 
 dotenv.config();
 
@@ -35,6 +37,8 @@ async function main() {
   await app.register(addhistoryRoutes);
   await app.register(searchRoutes);
   await app.register(editRoutes);
+  await app.register(createTournamentRoutes);
+  await app.register(listTournamentsRoutes);
 
   await app.listen({ port: 3451, host: '0.0.0.0' });
 

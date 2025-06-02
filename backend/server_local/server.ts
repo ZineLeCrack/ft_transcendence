@@ -1,5 +1,3 @@
-// GameInstance.ts
-
 export class GameInstance {
 	ballX = 400;
 	ballY = 300;
@@ -15,6 +13,7 @@ export class GameInstance {
 	rightOldY = 250;
 	newSpeedX = 0;
 	newSpeedY = 0;
+	timeout = 0;
 
 	private interval: NodeJS.Timeout | null = null;
 
@@ -63,7 +62,6 @@ export class GameInstance {
 	}
 
 	handleCollisions() {
-		// même logique que dans ton serveur existant : collisions avec paddles
 		const collision = (paddleY: number, ballY: number) => {
 			if (ballY < paddleY + 34) return -2;
 			if (ballY > paddleY + 66) return 2;

@@ -1,0 +1,9 @@
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE tournaments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+	players INTEGER NOT NULL DEFAULT 0,
+    players_max INTEGER NOT NULL,
+	type TEXT NOT NULL
+);
