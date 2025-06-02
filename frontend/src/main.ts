@@ -1,22 +1,22 @@
-import '../src/css/style.css';
+import './css/style.css';
 
-import loginHtml from '../src/pages/login.html?raw';
-import registerHtml from '../src/pages/register.html?raw';
-import a2fHTML from '../src/pages/a2f.html?raw';
+import loginHtml from './pages/login.html?raw';
+import registerHtml from './pages/register.html?raw';
+import a2fHTML from './pages/a2f.html?raw';
 
-import homeHTML from '../src/pages/home.html?raw';
+import homeHTML from './pages/home.html?raw';
 
-import localGameHTML from '../src/pages/localgame.html?raw';
-import multiGameHTML from '../src/pages/multigame.html?raw';
-import aiGameHTML from '../src/pages/aigame.html?raw';
+import localGameHTML from './pages/localgame.html?raw';
+import multiGameHTML from './pages/multigame.html?raw';
+import aiGameHTML from './pages/aigame.html?raw';
 
-import editprofileHTML from '../src/pages/edit_info.html?raw';
-import editpasswordHTML from '../src/pages/edit_password.html?raw';
-import overallStatHTML from '../src/pages/overall_statistics.html?raw';
-import historyStatHTML from '../src/pages/history_statistics.html?raw';
-import tournamentsStatHTML from '../src/pages/tournament_statistics.html?raw';
+import editprofileHTML from './pages/edit_info.html?raw';
+import editpasswordHTML from './pages/edit_password.html?raw';
+import overallStatHTML from './pages/overall_statistics.html?raw';
+import historyStatHTML from './pages/history_statistics.html?raw';
+import tournamentsStatHTML from './pages/tournament_statistics.html?raw';
 
-import SearchHTML from '../src/pages/search.html?raw';
+import SearchHTML from './pages/search.html?raw';
 
 const notFoundPageContent = `
     <div class="text-center p-8 bg-transparent rounded-lg shadow-lg">

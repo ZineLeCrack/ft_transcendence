@@ -23,7 +23,6 @@ export default async function initJoinTournament() {
 		players: number;
 		maxPlayers: number;
 		type: 'public' | 'private';
-		password?: string;
 	}
 
 	const tournamentItems: TournamentItem[] = [
@@ -40,7 +39,6 @@ export default async function initJoinTournament() {
 			players: 3,
 			maxPlayers: 8,
 			type: 'private',
-			password: 'winter2023',
 		},
 
 		{
@@ -49,7 +47,6 @@ export default async function initJoinTournament() {
 			players: 6,
 			maxPlayers: 8,
 			type: 'private',
-			password: 'test123',
 		},
 	]
 	
