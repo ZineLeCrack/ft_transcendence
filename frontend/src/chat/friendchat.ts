@@ -115,7 +115,7 @@ export default async function initPrivateChat() {
 					</div>
 				</div>`;
 			}
-			else {
+			else { 
 				friendElement.innerHTML = `<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
 						<div class="relative">
 							<button id="Friend-button-${Friend.username}" class="group w-12 h-12 rounded-full border-2 border-[#FF2E9F] hover:shadow-[0_0_10px_#FF2E9F] transition-shadow">
