@@ -16,9 +16,7 @@
     "express": "^5.1.0",
     "fastify": "^5.3.3",
     "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7",
-    "tsc": "^2.0.4",
-    "typecript": "^0.0.1-security"
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

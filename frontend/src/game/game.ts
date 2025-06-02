@@ -1,7 +1,8 @@
 export const userData = {
 	userId: localStorage.getItem('userId'),
 	userName: localStorage.getItem('userName'),
-	userPicture: localStorage.getItem('profile_pic')
+	userPicture: localStorage.getItem('profile_pic'),
+	searchUserName: localStorage.getItem('searchUserName')
 };
 
 const IP_NAME = import.meta.env.VITE_IP_NAME;

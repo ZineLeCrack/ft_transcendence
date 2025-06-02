@@ -1,31 +1,37 @@
-import { usernameh2 } from "./btn.js";
 
+const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 const searchBar = document.getElementById("search-bar") as HTMLInputElement;
-const IP_NAME = '10.12.200.87';
 
-searchBar?.addEventListener("keydown", async (event) => {
-	if (event.key === "Enter") {
-		const username = searchBar.value.trim();
-		if (!username) return;
+// export let username = "";
 
-		try {
+searchBar.addEventListener("keydown", async (e) => {
+	if (e.key === "Enter")
+	{
+		console.log('touche entree');
+		try
+		{
 			const res = await fetch(`https://${IP_NAME}:3451/search`,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({username: username}),
+                body: JSON.stringify({username: searchBar.value}),
             });
-
+			console.log('fetch ok');
 			const { exists } = await res.json();
 
-			if (exists) {
+			if (exists)
+			{
+				localStorage.setItem("searchUserName", searchBar.value);
 				window.location.href = `src/search/search.html`;
-                usernameh2.textContent = username;
-			} else {
+			}
+			else
+			{
 				alert("Utilisateur non trouvé !");
 			}
-		} catch (err) {
+		}
+		catch (err)
+		{
 			console.error("Erreur lors de la vérification de l'utilisateur :", err);
 		}
 	}
