@@ -1,13 +1,15 @@
 import bcrypt from 'bcrypt';
 import { getDb_user } from '../database.js';
 import { FastifyInstance } from 'fastify';
+import jwt from 'jsonwebtoken';
+const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 import { validateUsername , validateEmail, validatePassword } from './../utils.js';
 
 export default async function editRoutes(fastify: FastifyInstance)
 {
 	fastify.post('/edit', async (request, reply) => {
-		const {current, newpass , IdUser} = request.body as {current: string, newpass: string, IdUser: string};
+		const {current, newpass , token} = request.body as {current: string, newpass: string, token: string};
 		if (!newpass || !current)
 		{
 			reply.status(400).send('imcomplete data');
@@ -18,7 +20,15 @@ export default async function editRoutes(fastify: FastifyInstance)
 			reply.status(400).send('Invalid password');
 			return;
 		}
-
+		let IdUser;
+		try {
+			const decoded = jwt.verify(token, JWT_SECRET);
+			IdUser = (decoded as { userId: string }).userId;
+		} 
+		catch (err) {
+			reply.status(401).send('Invalid token');
+			return;
+		}
 		try {
 			const db = await getDb_user();
 			const mypass =  await db.get('SELECT password FROM users WHERE id = ?', [IdUser]);
@@ -47,7 +57,7 @@ export default async function editRoutes(fastify: FastifyInstance)
 	});
 	
 	fastify.post('/info', async (request, reply) => {
-		const {username, email , IdUser} = request.body as {username: string, email: string, IdUser: string};
+		const {username, email , token} = request.body as {username: string, email: string, token: string};
 		if (!username && !email)
 		{
 			reply.status(400).send('incomplete data');
@@ -66,6 +76,15 @@ export default async function editRoutes(fastify: FastifyInstance)
 		
 		try {
 			const db = await getDb_user();
+			let IdUser;
+			try {
+				const decoded = jwt.verify(token, JWT_SECRET);
+				IdUser = (decoded as { userId: string }).userId;
+			} 
+			catch (err) {
+				reply.status(401).send('Invalid token');
+				return;
+			}
 			if (username && email)
 			{
 				try {

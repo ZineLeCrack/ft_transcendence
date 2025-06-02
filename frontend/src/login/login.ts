@@ -1,6 +1,7 @@
 import { togglePassword} from '../profile/utils.js';
 import { loadRoutes } from '../main.js';
-
+import initError from '../error.js';
+import initSuccess from '../success.js';
 
 export default function initLogin() {
 
@@ -34,6 +35,13 @@ export default function initLogin() {
 		signInUsernameInput.required = false;
 	});
 
+	const toSignUpBtn = document.getElementById('to-sign-up-button') as HTMLButtonElement;
+	toSignUpBtn.addEventListener('click', async (event) =>
+	{
+		event.preventDefault();
+		history.pushState(null, '', '/register');
+		await loadRoutes('/register');
+	});
 	// Affichage mot de passe
 	togglePassword(signInPasswordInput, signInPasswordBtn, signInPasswordIcon);
 
@@ -64,8 +72,8 @@ export default function initLogin() {
 			if (!response.ok)
 			{
 				const error = await response.text();
-				alert("Mauvais identifiant ou mot de passe");
-				throw new Error(error || 'Erreur lors de la connection');
+				initError(error);
+				return;
 			}
 
 			const data = await response.json();
@@ -74,12 +82,51 @@ export default function initLogin() {
 			localStorage.setItem('userName', data.name);
 			localStorage.setItem('userPicture', data.profile_pic);
 
-			history.pushState(null, '', '/login/a2f');
-			await loadRoutes('/login/a2f');
+			initSuccess('Login successfull! Redirecting to 2FA page...');
+			setTimeout (async () => {
+				history.pushState(null, '', '/login/a2f');
+				await loadRoutes('/login/a2f');
+			}, 1000);
 		}
 		catch (err)
 		{
-			console.log(err);
+			initError(err as string);
 		}
 	});
+
+
+	//template pour le bouton de test utilisateur
+
+	const registerTestBtn = document.getElementById('register-test-user');
+	registerTestBtn?.addEventListener('click', async (event) => {
+		event.preventDefault();
+		// Récupère le dernier id utilisé ou commence à 1
+		let testId = Number(localStorage.getItem('testUserId') || '1');
+		const username = `Test${testId}`;
+		const password = `Test1${testId}`;
+		const email = `Test@Test${testId}.fr`;
+
+
+		try {
+			const response = await fetch('/api/submit', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ username, email, password }),
+			});
+
+			if (!response.ok) {
+				const error = await response.text();
+				initError(error);
+				return;
+			}
+
+			signInUsernameInput.value = username;
+			signInPasswordInput.value = password;
+
+			localStorage.setItem('testUserId', String(testId + 1));
+		} catch (err) {
+			initError((err as Error)?.message || String(err));
+		}
+	});
+	////fin du template pour le bouton de test utilisateur
 }

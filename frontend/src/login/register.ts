@@ -1,5 +1,7 @@
 import { togglePassword, checkPasswordMatch} from '../profile/utils.js';
 import { loadRoutes } from '../main.js';
+import initError from '../error.js';
+import initSuccess from '../success.js';
 
 
 export default function initRegister() {
@@ -66,16 +68,19 @@ const signupform = document.getElementById('sign-up') as HTMLFormElement;
 			if (!response.ok)
 			{
 				const error = await response.text();
-				throw new Error(error || 'Erreur lors de l\'inscription');
+				initError(error);
+				return;
 			}
 
-			history.pushState(null, '', '/login');
-   			await loadRoutes('/login');
+			initSuccess('Registration successful! redirecting to login page...');
+			setTimeout(async () => {
+    history.pushState(null, '', '/login');
+    await loadRoutes('/login');
+}, 1000);
 		}
 		catch (err)
 		{
-			console.log(err);
-			alert(err);
+            initError(err as string);
 		}
 	});
 
