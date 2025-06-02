@@ -1,0 +1,63 @@
+<div class="w-screen h-screen p-4">
+   
+    <div class="flex items-center mb-6 relative">
+        <!-- Centre buttons container -->
+        <div class="absolute left-1/2 -translate-x-1/2 flex justify-center gap-4">
+            <a id="stats-btn" href="/profile/statistics" data-link class="tab-button px-10 py-3 rounded-xl font-semibold bg-[#00FFFF] text-black hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">Statistics</a>
+            <a id="edit-btn" href="/profile/edit" data-link class="tab-button px-10 py-3 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Edit profile</a>
+        </div>
+        <!-- Home button -->
+        <div class="ml-auto">
+            <a href="/home" data-link class="w-20 h-9 border-2 border-[#00FFFF] bg-black/30 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#00FFFF]/20 transition-all duration-200 shadow-[0_0_10px_#00FFFF]">
+                <span class="text-[#FFD700] font-bold text-lg">HOME</span>
+            </a>
+        </div>
+    </div>
+
+    <div id="stats-div" class="border-4 border-blue-300 rounded-3xl p-4 h-[calc(100vh-125px)] bg-white/5 backdrop-blur-sm shadow-[0_0_10px_#00FFFF] overflow-hidden flex flex-col relative">
+
+		<div class="flex justify-center gap-4 mb-4 relative z-10">
+			<a id="History-btn" href="/profile/statistics/history" data-link type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-gray-200  text-gray-700 hover:bg-gray-300 transition ">History</a>
+			<a id="Global-btn" href="/profile/statistics" data-link type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-[#00FFFF] text-black  hover:brightness-125 transition shadow-[0_0_10px_#00FFFF]">Overall</a>
+			<a id="Tournament-btn" href="/profile/statistics/tournaments" data-link type="button" class="tab-button px-10 py-2 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Tournament</a>
+		</div>
+
+		<div class="flex-1 relative flex items-center justify-center">
+			
+			<div id="Global-Div" class="w-11/12 h-[75vh] space-y-6 bg-white/5 backdrop-blur p-6 rounded-2xl shadow-[0_0_20px_rgba(0,0,0,1),0_0_40px_rgba(0,0,0,0.9),0_0_60px_rgba(0,0,0,0.8)] mx-auto">
+							
+				<!-- Statistiques principales -->
+				<div class="flex w-full space-x-24 items-start">
+				  
+					<!-- Parties jouées -->
+					<div class="flex flex-col items-center justify-center mx-10 bg-white/10 h-40 rounded-xl w-1/3 border-2 space-y-3 border-[#00FFFF]">
+						<p class="text-5xl text-white text-center font-semibold">GAME PLAYED</p>
+						<p class="text-5xl text-[#00FFFF] text-center font-bold">156</p>
+					</div>
+			  
+					<!-- Points gagnés -->
+					<div class="flex flex-col items-center justify-center bg-white/10 h-40 rounded-xl w-1/3 border-2 space-y-3 border-[#00FFFF]">
+						<p class="text-5xl text-white text-center font-semibold">POINTS EARNED</p>
+						<p class="text-5xl text-[#00FFFF] text-center font-bold">2050</p>
+					</div>
+			  
+					<!-- Graphique circulaire avec légendes à gauche -->
+					<div class="flex items-center justify-center w-2/4 h-80 rounded-2xl bg-white/10 border-2 border-[#00FFFF] space-x-5">
+					<!-- Légendes -->
+						<div class="flex flex-col space-y-4">
+							<div class="flex items-center space-x-2">
+								<div class="w-4 h-4 bg-[#007f5c] rounded-sm"></div>
+								<span class="text-white text-2xl">Wins</span>
+							</div>
+							<div class="flex items-center space-x-2">
+								<div class="w-4 h-4 bg-[#FF007A] rounded-sm"></div>
+								<span class="text-white text-2xl">Loses</span>
+							</div>
+						</div>
+						<canvas id="graph-win-lose" class="w-48 h-48 rounded-full"></canvas>
+					</div>			  
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

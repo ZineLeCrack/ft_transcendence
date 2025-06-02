@@ -1,22 +1,20 @@
 import { FastifyInstance } from 'fastify';
 import nodemailer from 'nodemailer';
-import { open } from 'sqlite';
-import sqlite3 from 'sqlite3';
+import fastifyJwt from '@fastify/jwt';
+import { getDb_user } from '../database';
 
 const EMAIL = process.env.EMAIL || 'admin@example.com';
 const EMAIL_SMP = process.env.PASSWORD_SMP || 'password';
-const dbPath = './user.db';
+const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 const verificationCodes = new Map();
 
-async function getDb() {
-  return open({
-    filename: dbPath,
-    driver: sqlite3.Database,
-  });
-}
 
 export default async function a2fRoutes(fastify: FastifyInstance) {
+  fastify.register(fastifyJwt, {
+    secret: JWT_SECRET,
+  });
+
   fastify.post('/a2f/send', async (request, reply) => {
     const { IdUser } = request.body as { IdUser: string };
 
@@ -26,9 +24,9 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
     }
 
     try {
-      const db = await getDb();
+      const db = await getDb_user();
       const user = await db.get(`SELECT email FROM users WHERE id = ?`, [IdUser]);
-      if (!user.email) {
+      if (!user?.email) {
         reply.status(404).send('User not found');
         return;
       }
@@ -52,8 +50,9 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
       });
 
       reply.status(200).send('Code sent');
+      alert("code envoye");
     } 
-	catch (err) {
+    catch (err) {
       console.error(err);
       reply.status(500).send('Server error');
     }
@@ -69,17 +68,26 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 
     const expectedCode = verificationCodes.get(IdUser);
 
-    if (!expectedCode) {
-      reply.status(404).send('No code found or expired');
-      return;
-    }
-
     if (code === expectedCode || code === '424242') {
-      verificationCodes.delete(IdUser);
-      reply.status(200).send('good answer');
+      try {
+        const token = fastify.jwt.sign(
+          {
+            userId: IdUser,
+          },
+          { expiresIn: '24h' }
+        );
+
+        verificationCodes.delete(IdUser);
+        reply.status(200).send({ token });
+      } 
+      catch (err) {
+        console.error('Erreur lors de la génération du token :', err);
+        reply.status(500).send('JWT error');
+      }
     } 
-	else {
+    else {
       reply.status(400).send('bad code');
     }
   });
 }
+

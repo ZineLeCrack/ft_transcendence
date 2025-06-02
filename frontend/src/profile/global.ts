@@ -1,42 +1,67 @@
-// import { Chart, registerables } from 'chart.js';
-// Chart.register(...registerables);
+import {Chart, PieController,ArcElement,Tooltip,Legend} from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import type { ChartConfiguration } from 'chart.js';
 
-// // Données dynamiques (à adapter selon tes besoins)
-// const pieData = {
-//   labels: ['Rouge', 'Bleu', 'Jaune'],
-//   datasets: [{
-//     data: [300, 50, 100],
-//     backgroundColor: ['#f87171', '#60a5fa', '#facc15'],
-//     hoverOffset: 4
-//   }]
-// };
 
-// const lineData = {
-//   labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai'],
-//   datasets: [{
-//     label: 'Ventes',
-//     data: [65, 59, 80, 81, 56],
-//     fill: false,
-//     borderColor: '#3b82f6',
-//     tension: 0.1
-//   }]
-// };
-
-// // Création des graphiques
-// new Chart(document.getElementById('pieChart') as HTMLCanvasElement, {
-//   type: 'pie',
-//   data: pieData
-// });
-
-// new Chart(document.getElementById('lineChart') as HTMLCanvasElement, {
-//   type: 'line',
-//   data: lineData,
-//   options: {
-//     responsive: true,
-//     scales: {
-//       y: {
-//         beginAtZero: true
-//       }
-//     }
-//   }
-// });
+export default function initGlobalGraph() {
+	
+	Chart.register(PieController, ArcElement, Tooltip, Legend, ChartDataLabels);
+	
+	const canvas = document.getElementById('graph-win-lose') as HTMLCanvasElement | null;
+	
+	if (canvas) {
+		const ctx = canvas.getContext('2d');
+		if (!ctx) throw new Error("Canvas context not found");
+	
+		const wins = 110;
+		const loses = 46;
+	
+		const config: ChartConfiguration<'pie'> = {
+			type: 'pie',
+			data: {
+				labels: ['Wins', 'Loses'],
+				datasets: [{
+					data: [wins, loses],
+					backgroundColor: ['#007f5c', '#FF007A'],
+					borderWidth: 0
+				}]
+			},
+			options: {
+				plugins: {
+					tooltip: {
+						callbacks: {
+							label: (context) => {
+								const label = context.label || '';
+								const value = context.raw as number;
+								const total = context.dataset.data.reduce((a, b) => a + (typeof b === 'number' ? b : 0), 0);
+								const percentage = ((value / total) * 100).toFixed(1);
+								return `${label}: ${value} (${percentage}%)`;
+							}
+						}
+					},
+					legend: {
+						display: false
+					},
+					
+					datalabels: {
+						color: '#fff',
+						font: {
+							weight: 'bold',
+							size: 32
+						},
+						formatter: (value, context) => {
+							const data = context.chart.data.datasets[0].data as number[];
+							const total = data.reduce((a, b) => a + b, 0);
+							const percentage = ((value / total) * 100).toFixed(1);
+							return `${percentage}%`;
+						}
+					}
+				}
+			},
+			plugins: [ChartDataLabels]
+		};
+	
+		new Chart(ctx, config);
+	}
+	
+}

@@ -5,6 +5,7 @@
   "main": "database.js",
   "dependencies": {
     "@fastify/cors": "^11.0.1",
+    "@fastify/jwt": "^9.1.0",
     "@fastify/static": "^8.2.0",
     "@fastify/websocket": "^11.0.2",
     "abbrev": "^1.1.1",

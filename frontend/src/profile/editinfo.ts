@@ -1,0 +1,86 @@
+
+export default async function initEditProfile() {
+
+const usernameInput = document.getElementById("edit-username-input") as HTMLInputElement;
+const emailInput = document.getElementById("edit-email-input") as HTMLInputElement;
+
+const editProfileForm = document.getElementById("edit-profil-form") as HTMLFormElement;
+
+if (editProfileForm) {
+	editProfileForm.addEventListener('submit', async (event) =>{
+		event.preventDefault();
+		try {
+			const EditData =
+			{
+				username: usernameInput.value,
+				email: emailInput.value,
+				IdUser : localStorage.getItem('userId'),
+			}
+			const response = await fetch(`/api/info`,
+			{
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(EditData),
+			});
+			if (!response.ok)
+			{
+				const err = await response.text();
+				throw new Error(err || "Fail change");
+			}
+				alert("Your profile has been updated successfully");
+				editProfileForm.reset();
+			} 
+			catch (error) 
+			{
+				alert(error);
+			}
+	});
+}
+
+function validateUsernameField(input: HTMLInputElement) {
+	const errorElement = document.getElementById('edit-username-error');
+	if (!errorElement) return;
+
+	const isValid = /^[a-zA-Z0-9_-]{3,18}$/.test(input.value);
+	
+	if (!isValid && input.value.length >= 1) {
+		errorElement.classList.remove('hidden');
+		input.classList.add('border-red-500');
+	} else {
+		errorElement.classList.add('hidden');
+		input.classList.remove('border-red-500');
+	}
+}
+
+if (usernameInput) {
+	usernameInput.addEventListener('input', () => validateUsernameField(usernameInput));
+	usernameInput.addEventListener('invalid', (e) => {
+		e.preventDefault();
+		validateUsernameField(usernameInput);
+	});
+}
+
+function validateEmailField(input: HTMLInputElement) {
+	const errorElement = document.getElementById('edit-email-error');
+	if (!errorElement) return;
+
+	const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
+	
+	if (!isValid && input.value.length >= 1) {
+		errorElement.classList.remove('hidden');
+		input.classList.add('border-red-500');
+	} else {
+		errorElement.classList.add('hidden');
+		input.classList.remove('border-red-500');
+	}
+}
+
+if (emailInput) {
+	emailInput.addEventListener('input', () => validateEmailField(emailInput));
+	emailInput.addEventListener('invalid', (e) => {
+		e.preventDefault();
+		validateEmailField(emailInput);
+	});
+}
+
+}

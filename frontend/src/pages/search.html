@@ -1,0 +1,81 @@
+<div class="w-1/4 min-w-[200px] rounded-2xl m-5 p-4 flex flex-col items-center border-4 border-[#B026FF] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#B026FF]">
+	<div class="flex flex-col items-center gap-9 w-full">
+		<div class="size-80 rounded-full p-4 border-2 border-[#B026FF] bg-black/20 shadow-[0_0_10px_#B026FF]">
+			<img id="profile-pic" src="/images/pdp_cle-berr.png" alt="Profile Picture" class="w-full h-full object-cover rounded-full">
+		</div>
+		<h2 id="username-h2" class="text-center text-2xl text-[#00FFFF] font-bold drop-shadow-[0_0_10px_#00FFFF]"></h2>
+		<button id="friend-btn" class="bg-transparent border-2 border-[#FFD700] px-10 py-3 rounded-xl text-[#FFD700] font-bold hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">Add Friend</button>
+		<button id="block-btn" class="bg-transparent border-2 border-[#FF2E9F] px-10 py-3 rounded-xl text-[#FF2E9F] font-bold hover:bg-[#FF2E9F]/20 transition duration-200 shadow-[0_0_10px_#FF2E9F]">Block Player</button>
+		<button id="chat-btn" class="bg-transparent border-2 border-[#00FFFF] px-10 py-3 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">Chat With Me !</button>
+	</div>
+</div>
+
+<div class="flex-1 flex flex-col">
+	<div class="flex items-center justify-between p-5">
+		<div class="flex-1 flex justify-center">
+			<input id="search-bar" type="search" placeholder="Search users... " class="font-mono border-2 ml-40 text-[#FF2E9F] rounded-2xl border-spacing-4 p-3 w-[500px] border-[#FF2E9F] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#FF2E9F] placeholder-[#FF2E9F]/50 focus:outline-none focus:border-[#B026FF]" />
+		</div>
+		<div id="topbar-buttons" class="flex items-center gap-6">
+			<a href="/home" data-link class="w-20 h-9 border-2 border-[#00FFFF] bg-black/30 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#00FFFF]/20 transition-all duration-200 shadow-[0_0_10px_#00FFFF]">
+				<span class="text-[#FFD700] font-bold text-lg">HOME</span>
+			</a>
+			<!-- Bouton Profile avec tooltip -->
+			<div class="relative group">
+				<a href="/profile/statistics" data-link id="profileBtn"class="w-14 h-14  bg-black/20 rounded-full flex items-center justify-center border-2 border-[#B026FF] shadow-[0_0_10px_#B026FF] overflow-hidden">
+					<span class="text-black font-bold text-xl">P</span>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="h-full rounded-2xl m-3 p-2 flex flex-col border-4 border-[#00FFFF] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#00FFFF]">
+		<div class="flex justify-center gap-4 mt-2 mb-6">
+			<a data-link id="global-btn-search" class="bg-transparent border-2 border-[#FFD700] px-10 py-3 rounded-xl text-[#FFD700] font-bold hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">Overall</a>
+			<a data-link id="history-btn-search" class="bg-transparent border-2 border-[#00FFFF] px-10 py-3 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">History</a>
+		</div>
+
+		<div class="flex-1 relative flex items-center justify-center">
+			<div id="global-div-search" 
+				class="bg-black/30 w-full h-full rounded-xl border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF]">
+			</div>
+			<div id="history-div-search" 
+				class="hidden w-full h-[75vh] space-y-6 overflow-y-auto p-6 bg-black/30 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] mx-auto">
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Chat Popup -->
+<div id="chat-popup" class="hidden fixed left-[23%] top-[65%] transform -translate-y-1/2 w-[400px] h-[500px] rounded-2xl p-4 flex-col border-4 border-[#B026FF] bg-black/95 backdrop-blur-lg shadow-[0_0_10px_#B026FF] font-mono z-50">
+	<!-- Header with close button -->
+	<div id="chat-header" class="flex items-center justify-between mb-4 border-b border-[#FF0F4D] pb-2">
+		<div id="name-header" class="text-[#ad39f0] font-bold flex items-center">
+			<span class="mr-2 text-[#FF2E9F]">⚡</span>
+			CHAT://private
+			<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>
+		</div>
+		<button id="close-chat" class="text-[#FF2E9F] text-2xl hover:text-[#FF0F4D] transition-colors">
+			✕
+		</button>
+	</div>
+
+	<!-- Messages area -->
+	<div id="private-chat-messages" class="flex-1 overflow-y-auto flex flex-col mb-4 space-y-4 p-4 
+		[&::-webkit-scrollbar]:w-2 
+		[&::-webkit-scrollbar-track]:bg-black/20 
+		[&::-webkit-scrollbar-thumb]:bg-[#00FFFF] 
+		[&::-webkit-scrollbar-thumb]:rounded-none 
+		font-mono text-sm">
+	</div>
+
+	<!-- Input area -->
+	<div class="flex items-center gap-2 w-full border-t border-[#00FFFF] pt-2 bg-black/40">
+		<span class="text-[#00FFFF] animate-pulse">></span>
+		<input id="private-chat-input" type="text" placeholder="Enter message..."
+			class="bg-transparent p-2 text-[#00FFFF] flex-grow min-w-0 border-none focus:outline-none focus:ring-0 placeholder-[#00FFFF]/50" />
+		<button id="private-chat-send" class="text-[#00FFFF] hover:text-white transition-colors px-2">⮐</button>
+		<button id="private-pong-send" class="w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10 transition-colors">
+			<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">
+		</button>
+	</div>
+</div>

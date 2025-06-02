@@ -5,6 +5,7 @@ CREATE TABLE users (
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
+    total_friend INTEGER DEFAULT 0,
     profile_pic TEXT DEFAULT 'uploads/default.png'
 );
 
@@ -27,6 +28,23 @@ CREATE TABLE history (
     point_player1 INTEGER NOT NULL,
     point_player2 INTEGER NOT NULL,
     game_date TEXT NOT NULL,
+    FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE friend (
+    id_player1 INTEGER NOT NULL,
+    id_player2 INTEGER NOT NULL,
+    friend INTEGER DEFAULT 0,
+    FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
+    UNIQUE(id_player1, id_player2)
+);
+
+CREATE TABLE block (
+    id_player1 INTEGER NOT NULL,
+    id_player2 INTEGER NOT NULL,
+    blocked INTEGER DEFAULT 0,
     FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
     FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
 );

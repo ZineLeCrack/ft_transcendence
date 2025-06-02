@@ -1,9 +1,6 @@
 import { draw } from "./drawmap_multi.js";
+import { loadRoutes } from "../../main.js";
 
-const IP_NAME = import.meta.env.VITE_IP_NAME;
-
-
-const player = localStorage.getItem("player");
 export let ballX = 400;
 export let ballY = 300;
 export let leftPaddleY = 250;
@@ -14,20 +11,49 @@ export const paddleWidth = 8;
 export const paddleHeight = 100;
 export let message = "";
 
+export default function initMultiplayer() {
+
+
+const player = localStorage.getItem("player");
+
 let keys: { [key: string]: boolean } = {
     ArrowUp: false,
     ArrowDown: false
 };
 
-let gameStarted = false;
+let gameOver = false;
 
 const gameId = localStorage.getItem("gameId");
-const SERVER_URL = `https://${IP_NAME}:4001/game/${gameId}`;
+const SERVER_URL = `/api/multi/game/${gameId}`;
 
 async function fetchState() {
+    if (gameOver)
+        return ;
     try {
         const res = await fetch(`${SERVER_URL}/state`);
         const data = await res.json();
+        if (data.end)
+        {
+            gameOver = true;
+            setTimeout(async () => {
+                const response = await fetch(`${SERVER_URL}/end`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: data.id }),
+                });
+                const gameStat = await response.json();
+                if (player === "player1")
+                {
+                    await fetch(`/api/addhistory`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(gameStat),
+                    });
+                }
+                history.pushState(null, '', '/home');
+                await loadRoutes('/home');
+            }, 2000);
+        }
         ballX = data.ballX;
         ballY = data.ballY;
         leftPaddleY = data.leftPaddleY;
@@ -50,6 +76,8 @@ document.addEventListener("keyup", (e) => {
 });
 
 setInterval(() => {
+    if (gameOver)
+        return ;
     fetch(`${SERVER_URL}/${player}move`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -58,3 +86,5 @@ setInterval(() => {
 }, 16);
 
 setInterval(fetchState, 16);
+
+}
