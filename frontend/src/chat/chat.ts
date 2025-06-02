@@ -1,10 +1,14 @@
 import { userData } from "../game/choosegame.js";
 
 
-export function sendMessage(username: string, content: string, messageBox: HTMLDivElement, pong?: boolean) {
+export function sendMessage(username: string, content: string, messageBox: HTMLDivElement, pong?: boolean, targetUser: string = "global") {
 
-    const messageWrapper = document.createElement("div");
+    const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
+    : document.querySelector(`#chat-messages-${targetUser}`);
 
+    if (!messageWrapper)
+        return;
+    
     if (pong === true) {
         messageWrapper.className = "flex flex-col items-center space-y-2 my-4";
         

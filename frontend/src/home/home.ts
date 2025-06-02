@@ -3,10 +3,12 @@ import initChat from '../chat/chat';
 import initsearch from '../search/search';
 import initCreateTournament from '../tournament/create_tournament';
 import initJoinTournament from '../tournament/join_tournament';
+import initPrivateChat from '../chat/friendchat';
 
 export default async function initHome() {
-	await initChooseGame();
-	await initChat();
+	initChooseGame();
+	initChat();
+	initPrivateChat();
 	await initsearch();
 	initCreateTournament();
 	initJoinTournament();
