@@ -18,7 +18,7 @@ export default async function listTournamentsRoutes(fastify: FastifyInstance) {
 				id: row.id,
 				name: row.name,
 				players: row.players,
-				maxPlayers: row.maxPlayers,
+				maxPlayers: row.players_max,
 				type: row.type,
 			}));
 			reply.send({ tournaments });
