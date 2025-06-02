@@ -94,7 +94,7 @@ export default async function initEditPassword() {
 	
 		const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/.test(input.value);
 		
-		if (!isValid && input.value.length >= 3) {
+		if (!isValid && input.value.length >= 1) {
 			errorElement.classList.remove('hidden');
 			input.classList.add('border-red-500');
 		} else {
