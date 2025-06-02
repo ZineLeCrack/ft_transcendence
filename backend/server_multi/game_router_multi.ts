@@ -1,6 +1,8 @@
 // game_router.ts
 import { FastifyInstance } from 'fastify';
 import { GameInstance } from './multiplayer.js';
+import jwt from 'jsonwebtoken';
+const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 const games = new Map<string, GameInstance>();
 
@@ -11,7 +13,18 @@ function generateGameId(): string {
 export default async function gameRouter(fastify: FastifyInstance) {
 
 	fastify.post('/start', async (request, reply) => {
-		const { userId, userName } = request.body as { userId: string, userName: string };
+		const { token } = request.body as { token: string};
+		let userId;
+		let userName;
+		try {
+			const decoded = jwt.verify(token, JWT_SECRET);
+			userId = (decoded as { userId: string }).userId;
+			userName = (decoded as {name: string}).name;
+		} 
+		catch (err) {
+			reply.status(401).send('Invalid token');
+			return;
+		}
 		for (const [id, game] of games) {
 			if (game.player1.id === userId)
 			{
