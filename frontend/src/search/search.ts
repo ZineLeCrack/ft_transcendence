@@ -2,7 +2,6 @@ import { loadRoutes } from "../main.js";
 
 export default async function initSearch() 
 {
-	const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 	const searchBar = document.getElementById("search-bar") as HTMLInputElement;
 	

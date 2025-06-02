@@ -4,7 +4,6 @@ import { loadRoutes } from '../main.js';
 
 export default function initLogin() {
 
-	const IP_NAME = import.meta.env.VITE_IP_NAME;
 
 	// Champs mots de passe
 	const signInPasswordInput = document.getElementById('sign-in-password-input') as HTMLInputElement;

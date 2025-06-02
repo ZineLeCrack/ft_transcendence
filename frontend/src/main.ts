@@ -17,8 +17,6 @@ import historyStatHTML from '../src/pages/history_statistics.html?raw';
 import tournamentsStatHTML from '../src/pages/tournament_statistics.html?raw';
 
 import SearchHTML from '../src/pages/search.html?raw';
-import searchHistoryHTML from '../src/pages/search_history.html?raw';
-
 
 const notFoundPageContent = `
     <div class="text-center p-8 bg-transparent rounded-lg shadow-lg">
@@ -139,25 +137,16 @@ const routes: { [path: string]: Route } = {
 	'/users': 
 	{
         view: SearchHTML,
-        pattern: /^\/users\/([^\/]+)$/,  // Matches /users/{username}
+        pattern: /^\/users\/([^\/]+)(?:\/history)?$/,  // Matches /users/{username}
         script: async (username?: string) => {
             const {default: initUsers} = await import('./search/users.ts');
-            initUsers(username);
+			const isHistory = window.location.pathname.endsWith('/history');
+            initUsers(username, isHistory);
         },
         bodyStyleImage: "url('/images/statscyberpunk.png')",
         bodyClass: "bg-cover bg-center bg-no-repeat h-screen flex",
     },
-	'/users/:username/history': 
-	{
-    view: searchHistoryHTML,
-    pattern: /^\/users\/([^\/]+)\/history$/,
-    script: async (username?: string) => {
-        const { default: initSearchHistory } = await import('./search/search_history.ts');
-        await initSearchHistory(username);
-    },
-    bodyStyleImage: "url('/images/statscyberpunk.png')",
-    bodyClass: "bg-cover bg-center bg-no-repeat h-screen flex",
-}
+	
 };
 
 export const loadRoutes = async (path: string) => {
@@ -173,7 +162,6 @@ export const loadRoutes = async (path: string) => {
                 const username = match[1];
                 // Verify if user exists before loading the page
                 try {
-                    const IP_NAME = import.meta.env.VITE_IP_NAME;
                     const res = await fetch(`/api/search`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -182,6 +170,9 @@ export const loadRoutes = async (path: string) => {
                     const { exists } = await res.json();
                     
                     if (!exists) {
+						body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
+						body.style.backgroundSize = "1920px 920px"; 
+						body.style.backgroundImage = "url('/images/404notfound.jpg')";
                         body.innerHTML = notFoundPageContent;
                         return;
                     }
@@ -196,6 +187,10 @@ export const loadRoutes = async (path: string) => {
                     return;
                 } catch (error) {
                     console.error("Error verifying user:", error);
+					alert ("An error occurred while verifying the user. Please try again later.");
+					body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
+					body.style.backgroundSize = "1920px 920px"; 
+					body.style.backgroundImage = "url('/images/404notfound.jpg')";
                     body.innerHTML = notFoundPageContent;
                     return;
                 }

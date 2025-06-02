@@ -83,10 +83,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 }
 
 export default async function  initHistory() 
-{ 
-
-	const IP_NAME = import.meta.env.VITE_IP_NAME;
-
+{
 	try
 	{
 		const response = await fetch(`/api/history`,

@@ -87,4 +87,28 @@ export default async function initEditPassword() {
 		});
 	}
 
+
+	function validatePasswordField(input: HTMLInputElement) {
+		const errorElement = document.getElementById('edit-password-error');
+		if (!errorElement) return;
+	
+		const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/.test(input.value);
+		
+		if (!isValid && input.value.length >= 3) {
+			errorElement.classList.remove('hidden');
+			input.classList.add('border-red-500');
+		} else {
+			errorElement.classList.add('hidden');
+			input.classList.remove('border-red-500');
+		}
+	}
+	
+	if (editNewPasswordInput) {
+		editNewPasswordInput.addEventListener('input', () => validatePasswordField(editNewPasswordInput));
+		editNewPasswordInput.addEventListener('invalid', (e) => {
+			e.preventDefault();
+			validatePasswordField(editNewPasswordInput);
+		});
+	}
+	
 }

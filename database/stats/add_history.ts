@@ -20,3 +20,15 @@ export default async function addhistoryRoutes(fastify: FastifyInstance) {
     }
   });
 }
+// cela ne marche pas car les requetes sont lancées deux fois a la fin d'une partie pour quelle raison ??
+// ducoup le Id1 est null ce qui fait que la requete crash
+
+//erreur dans les logs :
+
+//[Error: SQLITE_CONSTRAINT: NOT NULL constraint failed: history.id_player1] {
+//  errno: 19,
+//  code: 'SQLITE_CONSTRAINT'
+//}
+
+
+//erreur 500 dans le navigateur en double et websocket qui se connecte en double

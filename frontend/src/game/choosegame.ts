@@ -9,8 +9,6 @@ import { loadRoutes } from '../main.js';
 export default function initChooseGame() {
 
 
-const IP_NAME = import.meta.env.VITE_IP_NAME;
-
 	const leftBtn = document.getElementById("left-button-game") as HTMLButtonElement;
 	const rightBtn = document.getElementById("right-button-game") as HTMLButtonElement;
 	const playBtn = document.getElementById("game-play-button") as HTMLButtonElement;

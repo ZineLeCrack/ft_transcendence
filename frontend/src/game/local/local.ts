@@ -14,7 +14,6 @@ export let message = "";
 
 export default function initPong() {
 
-const IP_NAME = import.meta.env.VITE_IP_NAME;
 // Dictionnaire pour stocker les touches pressées
 let keys: { [key: string]: boolean } = {
 	w: false,
