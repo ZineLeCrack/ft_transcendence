@@ -37,6 +37,8 @@ form.addEventListener("submit", async (event) => {
     {
         code : codeInput.value,
         IdUser : localStorage.getItem('userId'),
+		Name : localStorage.getItem('userName'),
+		PictureProfile : localStorage.getItem('UserPicture'),
     }
     const response = await fetch(`/api/a2f/verify`, {
 		method: 'POST',
@@ -51,7 +53,7 @@ form.addEventListener("submit", async (event) => {
 	}
 	const result = await response.json();
 	const jwtToken = result.token;
-	sessionStorage.setItem(`${Data.IdUser}`, jwtToken);
+	sessionStorage.setItem('token', jwtToken);
 	initSuccess('A2F code verified, redirecting to home page...');
     setTimeout(async () => {
 		history.pushState(null, '', '/home');

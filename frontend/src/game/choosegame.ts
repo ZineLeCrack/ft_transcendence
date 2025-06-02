@@ -1,7 +1,8 @@
 export const userData = {
 	userId: localStorage.getItem('userId'),
 	userName: localStorage.getItem('userName'),
-	userPicture: localStorage.getItem('profile_pic')
+	userPicture: localStorage.getItem('profile_pic'),
+	token: sessionStorage.getItem('token')
 };
 
 import { loadRoutes } from '../main.js';
@@ -63,8 +64,7 @@ export default function initChooseGame() {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({
-							userId: userData.userId,
-							userName: userData.userName,
+							token : userData.token,
 						})
 					});
 					if (!response.ok)

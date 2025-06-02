@@ -15,6 +15,7 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "fastify": "^5.3.3",
+    "jsonwebtoken": "^9.0.2",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
     "typecript": "^0.0.1-security"
@@ -22,7 +23,10 @@
   "devDependencies": {
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^16.18.126",
+    "i": "^0.3.7",
+    "npm": "^11.4.1",
     "typescript": "^5.8.3"
   }
 }

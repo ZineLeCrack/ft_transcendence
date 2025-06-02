@@ -19,7 +19,7 @@ export function setupWebSocket(server: any) {
 		ws.on('message', async (message) => {
 			try {
 				const data = JSON.parse(message.toString());
-				const { username, content } = data;
+				const { username, content } = data; 
 
 				if (!username || !content) return;
 
