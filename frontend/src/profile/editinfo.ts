@@ -14,7 +14,7 @@ if (editProfileForm) {
 			{
 				username: usernameInput.value,
 				email: emailInput.value,
-				IdUser : localStorage.getItem('userId'),
+				token: sessionStorage.getItem('token'),
 			}
 			const response = await fetch(`/api/info`,
 			{

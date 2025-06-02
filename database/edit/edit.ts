@@ -57,7 +57,7 @@ export default async function editRoutes(fastify: FastifyInstance)
 	});
 	
 	fastify.post('/info', async (request, reply) => {
-		const {username, email , IdUser} = request.body as {username: string, email: string, IdUser: string};
+		const {username, email , token} = request.body as {username: string, email: string, token: string};
 		if (!username && !email)
 		{
 			reply.status(400).send('incomplete data');
@@ -76,6 +76,15 @@ export default async function editRoutes(fastify: FastifyInstance)
 		
 		try {
 			const db = await getDb_user();
+			let IdUser;
+			try {
+				const decoded = jwt.verify(token, JWT_SECRET);
+				IdUser = (decoded as { userId: string }).userId;
+			} 
+			catch (err) {
+				reply.status(401).send('Invalid token');
+				return;
+			}
 			if (username && email)
 			{
 				try {
