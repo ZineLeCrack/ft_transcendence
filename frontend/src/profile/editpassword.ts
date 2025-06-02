@@ -61,7 +61,7 @@ export default async function initEditPassword() {
                 {
                     current: editCurrentPasswordInput.value,
                     newpass: editConfirmNewPasswordInput.value,
-                    IdUser : localStorage.getItem('userId'),
+                    token: sessionStorage.getItem('token'),
                 }
                 const response = await fetch(`/api/edit`,
                 {
@@ -83,6 +83,7 @@ export default async function initEditPassword() {
             catch (error) 
             {
                 alert(error);
+				console.log(error);
             }
 		});
 	}

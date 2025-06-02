@@ -16,7 +16,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
   });
 
   fastify.post('/a2f/send', async (request, reply) => {
-    const { IdUser } = request.body as { IdUser: string };
+    const { IdUser } = request.body as { IdUser: string , userName : string, PictureProfile : string};
 
     if (!IdUser) {
       reply.status(400).send('Missing IdUser');
@@ -59,7 +59,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
   });
 
   fastify.post('/a2f/verify', async (request, reply) => {
-    const { IdUser, code } = request.body as { IdUser: string, code: string };
+    const { IdUser, code , userName, PictureProfile} = request.body as { IdUser: string, code: string , userName : string, PictureProfile : string};
 
     if (!IdUser || !code) {
       reply.status(400).send('Incomplete data');
@@ -73,6 +73,8 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
         const token = fastify.jwt.sign(
           {
             userId: IdUser,
+            name: userName,
+            Profile: PictureProfile,
           },
           { expiresIn: '24h' }
         );

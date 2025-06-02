@@ -34,6 +34,8 @@ form.addEventListener("submit", async (event) => {
     {
         code : codeInput.value,
         IdUser : localStorage.getItem('userId'),
+		Name : localStorage.getItem('userName'),
+		PictureProfile : localStorage.getItem('UserPicture'),
     }
     const response = await fetch(`/api/a2f/verify`, {
 		method: 'POST',
@@ -48,7 +50,10 @@ form.addEventListener("submit", async (event) => {
 	}
 	const result = await response.json();
 	const jwtToken = result.token;
-	sessionStorage.setItem(`${Data.IdUser}`, jwtToken);
+	sessionStorage.setItem('token', jwtToken);
+	// localStorage.removeItem('userId');
+	// localStorage.removeItem('userName');
+	// localStorage.removeItem('UserPicture');
     console.log("Code 2FA saisi :", Data.code);
     history.pushState(null, '', '/home');
     await loadRoutes('/home');
