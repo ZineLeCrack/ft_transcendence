@@ -1,4 +1,6 @@
+import initError from '../error.js';
 import { loadRoutes } from '../main.js';
+import initSuccess from '../success.js';
 
 
 export default function initA2f() {
@@ -22,9 +24,10 @@ sendBtn.addEventListener("click", async () => {
 	if (!response.ok)
 	{
 		const error = await response.text();
-		throw new Error(error || 'Erreur lors de la connection');
+		initError(error);
+		return;
 	}
-    alert("Mail envoye");
+    initSuccess('A2F code sent, please enter it');
 });
 
 form.addEventListener("submit", async (event) => {
@@ -43,14 +46,16 @@ form.addEventListener("submit", async (event) => {
 	if (!response.ok)
 	{
 		const error = await response.text();
-		alert("Mauvais code a2f");
-		throw new Error(error || 'Erreur lors de la connection');
+		initError(error);
+		return;
 	}
 	const result = await response.json();
 	const jwtToken = result.token;
 	sessionStorage.setItem(`${Data.IdUser}`, jwtToken);
-    console.log("Code 2FA saisi :", Data.code);
-    history.pushState(null, '', '/home');
-    await loadRoutes('/home');
+	initSuccess('A2F code verified, redirecting to home page...');
+    setTimeout(async () => {
+		history.pushState(null, '', '/home');
+		await loadRoutes('/home');
+	}, 1000);
 });
 }

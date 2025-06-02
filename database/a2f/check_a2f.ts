@@ -50,11 +50,10 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
       });
 
       reply.status(200).send('Code sent');
-      alert("code envoye");
     } 
     catch (err) {
-      console.error(err);
-      reply.status(500).send('Server error');
+      // console.error(err);
+      reply.status(500).send('An error occurred while sending the code retry later');
     }
   });
 
@@ -81,12 +80,12 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
         reply.status(200).send({ token });
       } 
       catch (err) {
-        console.error('Erreur lors de la génération du token :', err);
+        // console.error('Erreur lors de la génération du token :', err);
         reply.status(500).send('JWT error');
       }
     } 
     else {
-      reply.status(400).send('bad code');
+      reply.status(400).send('Invalid code or code expired, please request a new code');
     }
   });
 }

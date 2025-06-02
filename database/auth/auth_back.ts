@@ -9,8 +9,6 @@ import { validateUsername, validateEmail, validatePassword } from './../utils.js
 export default async function authRoutes(fastify: FastifyInstance) 
 {
 
-	
-
 	fastify.post('/submit', async (request, reply) => {
 		const { username, email, password } = request.body as { username: string, email: string, password: string };
 		if (!username || !email || !password) {
@@ -39,7 +37,7 @@ export default async function authRoutes(fastify: FastifyInstance)
 
 			const existingUser = await db.get('SELECT * FROM users WHERE name = ? OR email = ?', [username, email]);
 			if (existingUser) {
-				reply.status(400).send('User already exists');
+				reply.status(400).send('invalid username or email, This user already exists');
 				return;
 			}
 			
@@ -76,7 +74,12 @@ export default async function authRoutes(fastify: FastifyInstance)
 			const user = await db.get(`SELECT * FROM users WHERE ${required} = ?`, [login]);
 
 			if (!user || !(await bcrypt.compare(password, user.password))) {
-				reply.status(401).send('Invalid credentials');
+				if (required === 'email') {
+					reply.status(401).send('Invalid email or password');
+				}
+				else {
+					reply.status(401).send('Invalid username or password');
+				}
 				return;
 			}
 
