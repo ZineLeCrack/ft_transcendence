@@ -168,14 +168,6 @@ export default function initChat() {
         const content = input.value.trim();
         if (content === "") return;
         const chatdata = { token, content };
-        // const response = await fetch('/api/verifuser',
-        // {
-		// 	method: 'POST',
-		// 	headers: { 'Content-Type': 'application/json' },
-		// 	body: JSON.stringify(chatdata),
-        // });
-        // const data = await response.json();
-        // original_name = data.original;
         ws.send(JSON.stringify(chatdata));
         input.value = "";
     });
@@ -188,14 +180,6 @@ export default function initChat() {
             const content = input.value.trim();
             if (content === "") return;
             const chatdata = { token, content };
-            // const response = await fetch('/api/verifuser',
-            // {
-			//     method: 'POST',
-			//     headers: { 'Content-Type': 'application/json' },
-			//     body: JSON.stringify(chatdata),
-            // });
-            // const data = await response.json();
-            // original_name = data.original;
             ws.send(JSON.stringify(chatdata));
             input.value = "";
         }
