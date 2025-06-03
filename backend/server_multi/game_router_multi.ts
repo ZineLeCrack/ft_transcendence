@@ -1,4 +1,3 @@
-// game_router.ts
 import { FastifyInstance } from 'fastify';
 import { GameInstance } from './multiplayer.js';
 import jwt from 'jsonwebtoken';
@@ -11,7 +10,6 @@ function generateGameId(): string {
 }
 
 export default async function gameRouter(fastify: FastifyInstance) {
-
 	fastify.post('/start', async (request, reply) => {
 		const { token } = request.body as { token: string};
 		let userId;
@@ -19,12 +17,13 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
-			userName = (decoded as {name: string}).name;
+			userName = (decoded as { name: string }).name;
 		} 
 		catch (err) {
 			reply.status(401).send('Invalid token');
 			return;
 		}
+		console.log(`userId: ${userId}, userName: ${userName}`);
 		for (const [id, game] of games) {
 			if (game.player1.id === userId)
 			{
@@ -58,13 +57,19 @@ export default async function gameRouter(fastify: FastifyInstance) {
 
 	fastify.post('/:id/end', (request, reply) => {
 		const { id } = request.body as { id: string };
-		const gameStat = {
-			Id1: games.get(id)?.player1.id,
-			Id2: games.get(id)?.player2.id,
-			score1: games.get(id)?.leftScore,
-			score2: games.get(id)?.rightScore,
+		const game = games.get(id);
+		if (!game)
+		{
+			reply.status(500).send(`Game not found`);
+			return ;
 		}
-		games.get(id)?.stop();
+		const gameStat = {
+			Id1: game?.player1.id,
+			Id2: game?.player2.id,
+			score1: game?.leftScore,
+			score2: game?.rightScore,
+		}
+		game?.stop();
 		games.delete(id);
 		console.log(`🎮 Game close : ${id}`);
 		reply.status(200).send(gameStat);

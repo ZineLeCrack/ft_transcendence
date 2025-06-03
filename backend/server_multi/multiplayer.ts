@@ -34,12 +34,22 @@ export class GameInstance {
 		this.interval = setInterval(() => this.update(), 16);
 	}
 
-	update() {
+	async update() {
 		if (this.full && this.gameStarted) {
 			if (this.leftScore === 5 || this.rightScore === 5) {
 				this.gameStarted = false;
 				this.message = this.leftScore === 5 ? `${this.player1.name} win !` : `${this.player2.name} win !`;
 				this.end = true;
+				// await fetch(`/api/addhistory`, {
+				// 	method: 'POST',
+				// 	headers: { 'Content-Type': 'application/json' },
+				// 	body: JSON.stringify({
+				// 		Id1: this.player1.id,
+				// 		Id2: this.player2.id,
+				// 		score1: this.leftScore,
+				// 		score2: this.rightScore
+				// 	})
+				// });
 			}
 
 			this.ballX += this.ballSpeedX;
