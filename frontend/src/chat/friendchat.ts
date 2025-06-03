@@ -114,7 +114,7 @@ export default async function initPrivateChat() {
 						</a>
 					</div>
 				</div>`;
-			}
+			} // le status faut faire un websocket pour le mettre a jour en temps reel
 			else { 
 				friendElement.innerHTML = `<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
 						<div class="relative">
@@ -177,13 +177,14 @@ export default async function initPrivateChat() {
 				(chat as HTMLElement).style.display = 'none';
 			});
 			
-			if (document.getElementById(`chat-messages-${username}`)) 
-				return;
-			const chatArea = document.createElement('div');
-			chatArea.id = `chat-messages-${username}`;
-			chatArea.className = 'flex-1 flex flex-col space-y-4';
-			chatContainers.appendChild(chatArea);
-
+			const chatArea = document.getElementById(`chat-messages-${username}`) as HTMLDivElement;
+			if (!chatArea) 
+			{
+				const chatArea = document.createElement('div');
+				chatArea.id = `chat-messages-${username}`;
+				chatArea.className = 'flex-1 flex flex-col space-y-4';
+				chatContainers.appendChild(chatArea);
+			}
 			chatArea.style.display = 'flex';
 			chatInfo.innerHTML = `
             <span class="mr-2 text-[#FF2E9F]">⚡</span>

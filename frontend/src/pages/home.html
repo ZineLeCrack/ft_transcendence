@@ -30,25 +30,6 @@
 		[&::-webkit-scrollbar-track]:bg-black/20 
 		[&::-webkit-scrollbar-thumb]:bg-[#FF2E9F] 
 		[&::-webkit-scrollbar-thumb]:rounded-none">
-		<div class="flex gap-8">
-			<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
-				<div class="relative">
-					<button
-						class="group w-12 h-12 rounded-full border-2 border-[#FF2E9F] hover:shadow-[0_0_10px_#FF2E9F] transition-shadow">
-						<div class="w-full h-full rounded-full overflow-hidden">
-							<img src="/images/stickman_default.png" alt="Friend" class="w-full h-full object-cover">
-						</div>
-					</button>
-					<div
-						class="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-black transform translate-x-[1px] translate-y-[-2px]">
-						<div class="w-full h-full bg-[#00FF00] rounded-full shadow-[0_0_5px_#00FF00]"></div>
-					</div>
-				</div>
-				<div class="text-[#FF2E9F] text-xs whitespace-nowrap font-bold mt-2">
-					ebroudic
-				</div>
-			</div>
-		</div>
 	</div>
 
 	<!-- Messages area -->
@@ -58,13 +39,13 @@
 		[&::-webkit-scrollbar-thumb]:bg-[#00FFFF] 
 		[&::-webkit-scrollbar-thumb]:rounded-none 
 		font-mono text-sm">
-		<div id="chat-messages-global" class="flex-1 flex flex-col space-y-4"></div>
+		<div id="chat-messages-global" class="flex-1 flex flex-col space-y-4">test</div>
 	</div>
 
 	<!-- Input area -->
 	<div class="flex items-center gap-2 w-full border-t border-[#00FFFF] pt-2 bg-black/40">
 		<span class="text-[#00FFFF] animate-pulse">></span>
-		<input id="chat-input" type="text" placeholder="Enter command..."
+		<input id="chat-input" type="text" placeholder="Enter command..." maxlength="512"
 			class="bg-transparent p-2 text-[#00FFFF] flex-grow min-w-0 border-none focus:outline-none focus:ring-0 placeholder-[#00FFFF]/50" />
 		<button id="chat-send" class="text-[#00FFFF] hover:text-white transition-colors px-2">⮐</button>
 		<button id="pong-send"
@@ -123,13 +104,17 @@
 
 			<!-- Vue principale du tournoi -->
 			<div id="tournament-main-view" class="w-full h-full flex flex-col">
-				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">TOURNAMENT
-				</h2>
+				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">TOURNAMENT</h2>
 
 				<div class="flex-1 flex items-center justify-between">
 					<button id="join-tournament"
 						class="bg-transparent rounded-xl ml-20 border-2 border-[#FFD700] text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">JOIN</button>
 					<div id="tournament-view" class="flex flex-col items-center justify-center w-[600px] -mt-4">
+							<div id="default-tournament-view" class="flex flex-col items-center gap-4">
+								<img src="/images/pong_racquet.png" alt="pong racquet" class="w-16 h-16 mb-2" />
+								<p class="text-[#00FFFF]/90 text-xl font-bold text-center">No tournament in progress</p>
+								<p class="text-[#00FFFF]/80 text-sm">Create or join a tournament to start playing</p>
+							</div>
 					</div>
 					<button id="create-tournament"
 						class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">CREATE</button>
