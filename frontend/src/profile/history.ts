@@ -90,7 +90,7 @@ export default async function  initHistory()
 		{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({token: userData.token}),
+			body: JSON.stringify({userId: userData.userId}),
 		});
 
 		const data = await response.json();
