@@ -1,7 +1,7 @@
 import { userData } from "../game/choosegame.js";
 
 const token = sessionStorage.getItem("token");
-
+let original_name:string;
 export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
     const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
@@ -87,14 +87,13 @@ export function sendMessage(username: string, content: string, pong?: boolean, t
     if (content === "") return;
 
     const messageContainer = document.createElement("div");
-    messageContainer.className = userData.userName === username ? 
+    messageContainer.className = original_name === username ? 
         "flex flex-col items-end gap-1" : 
         "flex flex-col items-start gap-1";
 
     const usernameDiv = document.createElement("a");
     const msg = document.createElement("div");
-
-    if (userData.userName === username) {
+    if (original_name === username) {
         usernameDiv.className = "text-[#0f9292] font-mono text-sm hover:underline cursor-pointer";
         msg.className = "font-mono text-[#00FFFF] px-4 py-2 w-fit max-w-[80%] break-words border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
     } else {
@@ -140,6 +139,7 @@ export default function initChat() {
             if (!data.isHistoryMessage) {
                 sendMessage(data.username, data.content);
             }
+            original_name = data.username;
         } catch (err) {
             console.error("Erreur lors du parsing WebSocket message :", err);
         }
@@ -163,25 +163,39 @@ export default function initChat() {
         }
     }
 
-    sendBtn.addEventListener("click", () => {
+    sendBtn.addEventListener("click", async () => {
         const token = sessionStorage.getItem('token');
         const content = input.value.trim();
         if (content === "") return;
-
         const chatdata = { token, content };
+        // const response = await fetch('/api/verifuser',
+        // {
+		// 	method: 'POST',
+		// 	headers: { 'Content-Type': 'application/json' },
+		// 	body: JSON.stringify(chatdata),
+        // });
+        // const data = await response.json();
+        // original_name = data.original;
         ws.send(JSON.stringify(chatdata));
         input.value = "";
     });
 
 
-    input.addEventListener("keydown", (e) => {
+    input.addEventListener("keydown", async (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
             const token = sessionStorage.getItem('token');
             const content = input.value.trim();
             if (content === "") return;
-
             const chatdata = { token, content };
+            // const response = await fetch('/api/verifuser',
+            // {
+			//     method: 'POST',
+			//     headers: { 'Content-Type': 'application/json' },
+			//     body: JSON.stringify(chatdata),
+            // });
+            // const data = await response.json();
+            // original_name = data.original;
             ws.send(JSON.stringify(chatdata));
             input.value = "";
         }
