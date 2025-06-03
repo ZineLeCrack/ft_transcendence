@@ -137,7 +137,7 @@ const routes: { [path: string]: Route } = {
 	'/users': 
 	{
         view: SearchHTML,
-        pattern: /^\/users\/([^\/]+)(?:\/history)?$/,  // Matches /users/{username}
+        pattern: /^\/users\/([^\/]+)(?:\/history)?$/,
         script: async (username?: string) => {
             const {default: initUsers} = await import('./search/users.ts');
 			const isHistory = window.location.pathname.endsWith('/history');
@@ -160,7 +160,6 @@ export const loadRoutes = async (path: string) => {
             const match = path.match(route.pattern);
             if (match) {
                 const username = match[1];
-                // Verify if user exists before loading the page
                 try {
                     const res = await fetch(`/api/search`, {
                         method: 'POST',
@@ -198,7 +197,6 @@ export const loadRoutes = async (path: string) => {
         }
     }
 
-    // Handle static routes
     const route = routes[path];
 
     if (route) {

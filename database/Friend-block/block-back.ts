@@ -27,5 +27,5 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 //       console.error("DB error:", err);
 //       reply.status(500).send({ exists: false, error: "Internal server error" });
 //     }
-// });
+// });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 }
