@@ -11,7 +11,25 @@ export default async function initHome() {
 	initChat();
 	initFriendChat();
 	await initsearch();
-	initCreateTournament();
-	initJoinTournament();
-	initInTournament();
+	const res = await fetch('/api/tournament/is_in', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ token: sessionStorage.getItem('token') })
+	});
+
+	if (!res.ok)
+	{
+		console.error(`Failed to load tournament`);
+		return ;
+	}
+
+	const data = await res.json();
+
+	if (data.tournamentId === '0')
+	{
+		initCreateTournament();
+		initJoinTournament();
+	}
+	else
+		initInTournament();
 }
