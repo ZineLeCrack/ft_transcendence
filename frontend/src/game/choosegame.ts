@@ -1,7 +1,7 @@
 export const userData = {
-	userId: localStorage.getItem('userId'),
-	userName: localStorage.getItem('userName'),
-	userPicture: localStorage.getItem('profile_pic'),
+	userId: sessionStorage.getItem('userId'),
+	userName: sessionStorage.getItem('userName'),
+	userPicture: sessionStorage.getItem('profile_pic'),
 	token: sessionStorage.getItem('token')
 };
 
@@ -47,7 +47,7 @@ export default function initChooseGame() {
 
 					const data = await response.json();
 					const gameId = data.gameId;
-					localStorage.setItem("gameId", gameId);
+					sessionStorage.setItem("gameId", gameId);
 
 					history.pushState(null, '', '/game/local');
 					await loadRoutes('/game/local');
@@ -74,8 +74,8 @@ export default function initChooseGame() {
 					const data = await response.json();
 					const gameId = data.gameId;
 					const player = data.player;
-					localStorage.setItem("gameId", gameId);
-					localStorage.setItem("player", player);
+					sessionStorage.setItem("gameId", gameId);
+					sessionStorage.setItem("player", player);
 
 					history.pushState(null, '', '/game/multi');
 					await loadRoutes('/game/multi');

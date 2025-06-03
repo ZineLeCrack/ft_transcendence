@@ -14,7 +14,7 @@ const codeInput = document.getElementById("code-input") as HTMLInputElement;
 sendBtn.addEventListener("click", async () => {
     const Data =
     {
-        IdUser : localStorage.getItem('userId'),
+        IdUser : sessionStorage.getItem('userId'),
     }
     const response = await fetch(`/api/a2f/send`, {
 		method: 'POST',
@@ -36,9 +36,9 @@ form.addEventListener("submit", async (event) => {
     const Data =
     {
         code : codeInput.value,
-        IdUser : localStorage.getItem('userId'),
-		Name : localStorage.getItem('userName'),
-		PictureProfile : localStorage.getItem('UserPicture'),
+        IdUser : sessionStorage.getItem('userId'),
+		Name : sessionStorage.getItem('userName'),
+		PictureProfile : sessionStorage.getItem('UserPicture'),
     }
     const response = await fetch(`/api/a2f/verify`, {
 		method: 'POST',

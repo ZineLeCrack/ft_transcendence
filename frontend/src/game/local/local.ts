@@ -20,7 +20,7 @@ export default function initPong() {
 	};
 
 	let gameStarted = false;
-	const gameId = localStorage.getItem("gameId");
+	const gameId = sessionStorage.getItem("gameId");
 	const SERVER_URL = `/api/main/game/${gameId}`;
 
 	async function fetchState() {
