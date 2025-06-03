@@ -120,7 +120,18 @@ export default function initChat() {
     const input = document.getElementById("chat-input") as HTMLInputElement;
     const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
     const messageBox = document.getElementById("chat-messages-global") as HTMLDivElement;
-  
+    
+    (async () => {
+    const token = sessionStorage.getItem('token');
+    const response = await fetch('/api/verifuser', 
+    {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+    });
+    const data = await response.json();
+    original_name = data.original;
+    })();
 
     const ws = new WebSocket(`wss://${window.location.host}/ws/`);
 
@@ -135,11 +146,11 @@ export default function initChat() {
     ws.onmessage = (event) => {
         try {
             const data = JSON.parse(event.data);
+            original_name = data.username;
             // Only send message if it's not from displayAllMessages
             if (!data.isHistoryMessage) {
                 sendMessage(data.username, data.content);
             }
-            original_name = data.username;
         } catch (err) {
             console.error("Erreur lors du parsing WebSocket message :", err);
         }
