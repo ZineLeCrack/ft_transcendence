@@ -1,9 +1,11 @@
 import { FastifyInstance } from 'fastify';
 import { getDb_tournaments } from '../database.js';
+import jwt from 'jsonwebtoken';
+const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function joinTournamentRoutes(fastify: FastifyInstance) {
 	fastify.post('/tournament/join', async (request, reply) => {
-		const { id_tournament, id_user, password } = request.body as { id_tournament: string, id_user: string, password: string | null };
+		const { id_tournament, token, password } = request.body as { id_tournament: string, token: string, password: string | null };
 
 		try {
 			const db = await getDb_tournaments();
@@ -24,6 +26,16 @@ export default async function joinTournamentRoutes(fastify: FastifyInstance) {
 			}
 
 			const playerSlot = 'player' + (parseInt(tournament.players) + 1).toString();
+
+			let id_user;
+			try {
+				const decoded = jwt.verify(token, JWT_SECRET);
+				id_user = (decoded as { userId: string }).userId;
+			}
+			catch (err) {
+				reply.status(401).send(`Invalid token: ${err}`);
+				return ;
+			}
 
 			db.run(
 				`UPDATE tournaments SET ${playerSlot} = ?, players = players + 1 WHERE id = ?`,

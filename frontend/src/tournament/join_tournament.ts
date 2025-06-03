@@ -115,12 +115,13 @@ export default async function initJoinTournament() {
 				const tournamentId = button.id.split('-').pop();
 
 				try {
+					const token = sessionStorage.getItem('token');
 					const response = await fetch('/api/tournament/join', {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({
 							id_tournament: tournamentId,
-							id_user: '1',
+							token: token,
 							password: passwordInput ? passwordInput.value : ''
 						})
 					});
