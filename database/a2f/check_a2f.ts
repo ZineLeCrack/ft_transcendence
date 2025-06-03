@@ -16,7 +16,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
   });
 
   fastify.post('/a2f/send', async (request, reply) => {
-    const { IdUser } = request.body as { IdUser: string };
+    const { IdUser } = request.body as { IdUser: string , userName : string, PictureProfile : string};
 
     if (!IdUser) {
       reply.status(400).send('Missing IdUser');
@@ -50,16 +50,15 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
       });
 
       reply.status(200).send('Code sent');
-      alert("code envoye");
     } 
     catch (err) {
-      console.error(err);
-      reply.status(500).send('Server error');
+      // console.error(err);
+      reply.status(500).send('An error occurred while sending the code retry later');
     }
   });
 
   fastify.post('/a2f/verify', async (request, reply) => {
-    const { IdUser, code } = request.body as { IdUser: string, code: string };
+    const { IdUser, code , Name, PictureProfile} = request.body as { IdUser: string, code: string , Name : string, PictureProfile : string};
 
     if (!IdUser || !code) {
       reply.status(400).send('Incomplete data');
@@ -73,6 +72,8 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
         const token = fastify.jwt.sign(
           {
             userId: IdUser,
+            name: Name,
+            Profile: PictureProfile,
           },
           { expiresIn: '24h' }
         );
@@ -81,12 +82,12 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
         reply.status(200).send({ token });
       } 
       catch (err) {
-        console.error('Erreur lors de la génération du token :', err);
+        // console.error('Erreur lors de la génération du token :', err);
         reply.status(500).send('JWT error');
       }
     } 
     else {
-      reply.status(400).send('bad code');
+      reply.status(400).send('Invalid code or code expired, please request a new code');
     }
   });
 }

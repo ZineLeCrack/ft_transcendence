@@ -47,4 +47,5 @@ CREATE TABLE block (
     blocked INTEGER DEFAULT 0,
     FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
     FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
+    UNIQUE(id_player1, id_player2)
 );

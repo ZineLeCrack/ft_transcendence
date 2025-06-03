@@ -60,7 +60,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
       reply.status(500).send({ exists: false, error: "Internal server error" });
     }
   });
-  fastify.post('/answerrequest', async (request, reply) => {
+  fastify.post('/replyrequest', async (request, reply) => {
     const { username, target, answer } = request.body as { username: string, target: string, answer: number };
 
     if (!username || !target || typeof answer !== 'number') {

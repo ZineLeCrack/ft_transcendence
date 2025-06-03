@@ -1,7 +1,8 @@
 export const userData = {
 	userId: localStorage.getItem('userId'),
 	userName: localStorage.getItem('userName'),
-	userPicture: localStorage.getItem('profile_pic')
+	userPicture: localStorage.getItem('profile_pic'),
+	token: sessionStorage.getItem('token')
 };
 
 import { loadRoutes } from '../main.js';
@@ -50,6 +51,7 @@ export default function initChooseGame() {
 
 					history.pushState(null, '', '/game/local');
 					await loadRoutes('/game/local');
+					window.location.reload();
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode local :", err);
 				}
@@ -63,8 +65,7 @@ export default function initChooseGame() {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({
-							userId: userData.userId,
-							userName: userData.userName,
+							token : userData.token,
 						})
 					});
 					if (!response.ok)
@@ -78,6 +79,7 @@ export default function initChooseGame() {
 
 					history.pushState(null, '', '/game/multi');
 					await loadRoutes('/game/multi');
+					window.location.reload();
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode multijoueur :", err);
 					alert("Erreur : impossible de démarrer le jeu local.\n" + err);

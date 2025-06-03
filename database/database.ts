@@ -14,3 +14,10 @@ export async function getDb_chat() {
 		driver: sqlite3.Database,
 	});
 }
+
+export async function getDb_tournaments() {
+	return open({
+		filename: './tournaments.db',
+		driver: sqlite3.Database,
+	});
+}

@@ -63,30 +63,27 @@ export default function initCreateTournament() {
 			return;
 		}
 
-		// try {
-		//     const response = await fetch('/api/tournament/create', {
-		//         method: 'POST',
-		//         headers: {
-		//             'Content-Type': 'application/json',
-		//         },
-		//         body: JSON.stringify({
-		//             name: tournamentName,
-		//             players: parseInt(players.value),
-		//             type: type.value
-		//         })
-		//     });
+		try {
+			const response = await fetch('/api/tournament/create', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name: tournamentName,
+					players_max: parseInt(players.value),
+					type: type.value
+				})
+			});
 
-		//     if (!response.ok) {
-		//         throw new Error('Failed to create tournament');
-		//     }
+			if (!response.ok) {
+				throw new Error('Failed to create tournament');
+			}
 
-		//     createView?.classList.add('hidden');
-		//     mainView?.classList.remove('hidden');
-		//     alert('Successfully Create the tournament!');
-
-		// } catch (error) {
-		//     console.error('Error creating tournament:', error);
-		//     alert('Failed to create tournament');
-		// }
+			createView?.classList.add('hidden');
+			mainView?.classList.remove('hidden');
+			window.location.reload();
+		} catch (error) {
+			console.error('Error creating tournament:', error);
+			alert('Failed to create tournament');
+		}
 	});
 }
