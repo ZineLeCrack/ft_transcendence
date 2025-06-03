@@ -5,7 +5,6 @@ CREATE TABLE users (
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    total_friend INTEGER DEFAULT 0,
     profile_pic TEXT DEFAULT 'uploads/default.png'
 );
 

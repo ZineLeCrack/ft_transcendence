@@ -11,6 +11,7 @@ export default async function initHome() {
 	initChat();
 	initFriendChat();
 	await initsearch();
+	
 	const res = await fetch('/api/tournament/is_in', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -31,5 +32,5 @@ export default async function initHome() {
 		initJoinTournament();
 	}
 	else
-		initInTournament();
+		initInTournament(data.tournamentId);
 }
