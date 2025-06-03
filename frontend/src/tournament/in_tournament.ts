@@ -233,4 +233,6 @@ const TournamentData_Lose_Win: TournamentDataLose_Win = {
 	//je pense faut faire deux fetch un pour les joueurs qui rentre donc pour l'interface TournamentData_Players et un autre pour les gagnants et perdants donc TournamentData_Lose_Win,
 	//apres peut mettre un websocket car si ont fait avec des fetch on devra fetch a chaque fois qu'il y a un changement dans le tournoi, donc pas tres efficace
 
+	// tu as l'idee du tournoi qui doit etre affiche si jamais 
+
 }
