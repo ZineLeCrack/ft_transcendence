@@ -1,8 +1,10 @@
+import { loadRoutes } from "../main.js";
 
 export default async function initEditProfile() {
 
 const usernameInput = document.getElementById("edit-username-input") as HTMLInputElement;
 const emailInput = document.getElementById("edit-email-input") as HTMLInputElement;
+const picturebutton = document.getElementById("button-edit-profile") as HTMLInputElement;
 
 const editProfileForm = document.getElementById("edit-profil-form") as HTMLFormElement;
 
@@ -36,6 +38,11 @@ if (editProfileForm) {
 			}
 	});
 }
+
+picturebutton.addEventListener('profile', async (event) =>{
+	event.preventDefault();
+	alert("oui");
+});
 
 function validateUsernameField(input: HTMLInputElement) {
 	const errorElement = document.getElementById('edit-username-error');
