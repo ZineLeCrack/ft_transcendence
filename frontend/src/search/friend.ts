@@ -1,7 +1,7 @@
 export default async function initAddFriend() {
     const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
     const target = document.getElementById("username-h2")?.textContent;
-    const username = localStorage.getItem("userName");
+    const username = sessionStorage.getItem("userName");
 
     if (!friendbtn || !target|| !username) return;
 

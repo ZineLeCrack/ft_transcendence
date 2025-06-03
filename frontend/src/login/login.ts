@@ -78,9 +78,9 @@ export default function initLogin() {
 
 			const data = await response.json();
 
-			localStorage.setItem('userId', data.id);
-			localStorage.setItem('userName', data.name);
-			localStorage.setItem('userPicture', data.profile_pic);
+			sessionStorage.setItem('userId', data.id);
+			sessionStorage.setItem('userName', data.name);
+			sessionStorage.setItem('userPicture', data.profile_pic);
 
 			initSuccess('Login successfull! Redirecting to 2FA page...');
 			setTimeout (async () => {
@@ -101,7 +101,7 @@ export default function initLogin() {
 	registerTestBtn?.addEventListener('click', async (event) => {
 		event.preventDefault();
 		// Récupère le dernier id utilisé ou commence à 1
-		let testId = Number(localStorage.getItem('testUserId') || '1');
+		let testId = Number(sessionStorage.getItem('testUserId') || '1');
 		const username = `Test${testId}`;
 		const password = `Test1${testId}`;
 		const email = `Test@Test${testId}.fr`;
@@ -123,7 +123,7 @@ export default function initLogin() {
 			signInUsernameInput.value = username;
 			signInPasswordInput.value = password;
 
-			localStorage.setItem('testUserId', String(testId + 1));
+			sessionStorage.setItem('testUserId', String(testId + 1));
 		} catch (err) {
 			initError((err as Error)?.message || String(err));
 		}

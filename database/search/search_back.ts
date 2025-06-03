@@ -14,7 +14,8 @@ export default async function searchRoutes(fastify: FastifyInstance) {
 			const db = await getDb_user();
 			const user = await db.get(`SELECT * FROM users WHERE name = ?`, [username]);
 
-			reply.status(200).send({ user });
+			const exists = user;
+			reply.status(200).send({ exists });
 		} catch (err) {
 			console.error("DB error:", err);
 			reply.status(500).send({ exists: false, error: "Internal server error" });

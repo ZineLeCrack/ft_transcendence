@@ -14,7 +14,7 @@ export let message = "";
 export default function initMultiplayer() {
 
 
-const player = localStorage.getItem("player");
+const player = sessionStorage.getItem("player");
 
 let keys: { [key: string]: boolean } = {
 	ArrowUp: false,
@@ -23,7 +23,7 @@ let keys: { [key: string]: boolean } = {
 
 let gameOver = false;
 
-const gameId = localStorage.getItem("gameId");
+const gameId = sessionStorage.getItem("gameId");
 const SERVER_URL = `/api/multi/game/${gameId}`;
 
 async function fetchState() {
