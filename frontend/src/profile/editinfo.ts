@@ -1,11 +1,9 @@
-import { loadRoutes } from "../main.js";
-
 export default async function initEditProfile() {
 
 const usernameInput = document.getElementById("edit-username-input") as HTMLInputElement;
 const emailInput = document.getElementById("edit-email-input") as HTMLInputElement;
 const picturebutton = document.getElementById("button-edit-profile") as HTMLInputElement;
-
+const pictureInput = document.getElementById("pictureInput") as HTMLInputElement;
 const editProfileForm = document.getElementById("edit-profil-form") as HTMLFormElement;
 
 if (editProfileForm) {
@@ -41,16 +39,21 @@ if (editProfileForm) {
 
 picturebutton.addEventListener('click', async (event) =>{
 	event.preventDefault();
+
+	const file = pictureInput.files[0];
+	const Token = sessionStorage.getItem('token')!;
+	if (!file)
+	{
+		alert("Please select a picture");
+	}
 	try {
-		const PictureData =
-		{
-			token: sessionStorage.getItem('token'),
-		}
-		const response = await fetch(`/api/picture` ,
-		{
+		const formData = new FormData();
+		formData.append('picture', file);
+		formData.append('token', Token);
+
+		const response = await fetch('/api/picture', {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(PictureData),
+			body: formData,
 		});
 		if (!response.ok)
 		{
