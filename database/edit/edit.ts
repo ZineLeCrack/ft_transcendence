@@ -24,7 +24,7 @@ export default async function editRoutes(fastify: FastifyInstance)
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
 			IdUser = (decoded as { userId: string }).userId;
-		} 
+		}
 		catch (err) {
 			reply.status(401).send('Invalid token');
 			return;

@@ -15,4 +15,5 @@ export default async function initAddFriend() {
 			friendbtn.textContent = "Add Friend";
 		}
 	}); // ajouter fetch pour ajouter l'ami
+	sessionStorage.getItem("token")
 }
