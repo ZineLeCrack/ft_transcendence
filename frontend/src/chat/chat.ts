@@ -1,5 +1,7 @@
 import { userData } from "../game/choosegame.js";
 
+const token = sessionStorage.getItem("token");
+
 export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
     const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
@@ -162,11 +164,11 @@ export default function initChat() {
     }
 
     sendBtn.addEventListener("click", () => {
-        const username = userData.userName!;
+        const token = sessionStorage.getItem('token');
         const content = input.value.trim();
         if (content === "") return;
 
-        const chatdata = { username, content };
+        const chatdata = { token, content };
         ws.send(JSON.stringify(chatdata));
         input.value = "";
     });
@@ -175,11 +177,11 @@ export default function initChat() {
     input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
-            const username = userData.userName!;
+            const token = sessionStorage.getItem('token');
             const content = input.value.trim();
             if (content === "") return;
 
-            const chatdata = { username, content };
+            const chatdata = { token, content };
             ws.send(JSON.stringify(chatdata));
             input.value = "";
         }
