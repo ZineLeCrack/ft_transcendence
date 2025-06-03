@@ -1,9 +1,9 @@
-
 export default async function initEditProfile() {
 
 const usernameInput = document.getElementById("edit-username-input") as HTMLInputElement;
 const emailInput = document.getElementById("edit-email-input") as HTMLInputElement;
-
+const picturebutton = document.getElementById("button-edit-profile") as HTMLInputElement;
+const pictureInput = document.getElementById("pictureInput") as HTMLInputElement;
 const editProfileForm = document.getElementById("edit-profil-form") as HTMLFormElement;
 
 if (editProfileForm) {
@@ -36,6 +36,37 @@ if (editProfileForm) {
 			}
 	});
 }
+
+picturebutton.addEventListener('click', async (event) =>{
+	event.preventDefault();
+
+	const file = pictureInput.files[0];
+	const Token = sessionStorage.getItem('token')!;
+	if (!file)
+	{
+		alert("Please select a picture");
+	}
+	try {
+		const formData = new FormData();
+		formData.append('picture', file);
+		formData.append('token', Token);
+
+		const response = await fetch('/api/picture', {
+			method: 'POST',
+			body: formData,
+		});
+		if (!response.ok)
+		{
+			const err = await response.text();
+			throw new Error(err || "Fail change");
+		}
+			console.log("Your profile has been updated successfully");
+		} 
+		catch (error) 
+		{
+			alert(error);
+		}
+});
 
 function validateUsernameField(input: HTMLInputElement) {
 	const errorElement = document.getElementById('edit-username-error');

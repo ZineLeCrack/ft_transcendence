@@ -3,21 +3,21 @@ import { open } from 'sqlite';
 
 export async function getDb_user() {
 	return open({
-		filename: './user.db',
+		filename: '/database/user.db',
 		driver: sqlite3.Database,
 	});
 }
 
 export async function getDb_chat() {
 	return open({
-		filename: './chat.db',
+		filename: '/database/chat.db',
 		driver: sqlite3.Database,
 	});
 }
 
 export async function getDb_tournaments() {
 	return open({
-		filename: './tournaments.db',
+		filename: '/database/tournaments.db',
 		driver: sqlite3.Database,
 	});
 }
