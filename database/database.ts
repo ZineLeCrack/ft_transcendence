@@ -21,3 +21,4 @@ export async function getDb_tournaments() {
 		driver: sqlite3.Database,
 	});
 }
+
