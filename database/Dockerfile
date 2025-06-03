@@ -15,6 +15,7 @@ RUN npx tsc
 
 RUN sqlite3 database/user.db < tools/users.sql
 RUN sqlite3 database/chat.db < tools/chat.sql
+RUN sqlite3 database/tournaments.db < tools/tournaments.sql
 
 EXPOSE 3451
 

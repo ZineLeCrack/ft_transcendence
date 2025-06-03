@@ -81,49 +81,38 @@ function updateView(isHistory: boolean) {
     }
 }
 
-const cardsHistory: CardHistory[] = [
-		{
-		  imageplayer1: "/images/pdp_cle-berr.png",
-		  imageplayer2: "/images/pdp_rlebaill.jpeg",
-		  usernameplayer1: "cle-berr",
-		  usernameplayer2: "rlebaill",
-		  pointplayer1: 5,
-		  pointplayer2: 3,
-		  date: "20/05/25 at 9:58"
-		},
-	  
-		{
-		  imageplayer1: "/images/pdp_cle-berr.png",
-		  imageplayer2: "/images/pdp_rlebaill.jpeg",
-		  usernameplayer1: "cle-berr",
-		  usernameplayer2: "rlebaill",
-		  pointplayer1: 2,
-		  pointplayer2: 5,
-		  date: "20/05/25 at 10:00"
-		},
-		{
-		  imageplayer1: "/images/pdp_cle-berr.png",
-		  imageplayer2: "/images/pdp_rlebaill.jpeg",
-		  usernameplayer1: "cle-berr",
-		  usernameplayer2: "rlebaill",
-		  pointplayer1: 5,
-		  pointplayer2: 0,
-		  date: "20/03/25 at 10:00"
-		},
-		
-	  ];
-
 async function loadHistoryContent(username: string) {
     const historyDiv = document.getElementById('history-div-search');
     if (historyDiv) {
-        generateCardsHistory('history-div-search', cardsHistory);
+        try
+        {
+            const response = await fetch(`/api/history`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({userId: username}),
+            });
+
+            const data = await response.json();
+            generateCardsHistory('history-div-search', data);
+            
+        }
+        catch (err)
+        {
+            console.error('Erreur lors de la récupération de l\'historique :', err);
+        }
     }
 }
 
 async function loadOverallContent(username: string) {
     const globalDiv = document.getElementById('global-div-search');
+    const historyDiv = document.getElementById('history-div-search');
     if (globalDiv) {
         // Load and display overall content
         // Add your overall content logic here
+        if (historyDiv){
+            historyDiv.innerHTML = '';
+        }
+
     }
 }
