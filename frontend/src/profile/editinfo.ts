@@ -39,9 +39,30 @@ if (editProfileForm) {
 	});
 }
 
-picturebutton.addEventListener('profile', async (event) =>{
+picturebutton.addEventListener('click', async (event) =>{
 	event.preventDefault();
-	alert("oui");
+	try {
+		const PictureData =
+		{
+			token: sessionStorage.getItem('token'),
+		}
+		const response = await fetch(`/api/picture` ,
+		{
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(PictureData),
+		});
+		if (!response.ok)
+		{
+			const err = await response.text();
+			throw new Error(err || "Fail change");
+		}
+			console.log("Your profile has been updated successfully");
+		} 
+		catch (error) 
+		{
+			alert(error);
+		}
 });
 
 function validateUsernameField(input: HTMLInputElement) {
