@@ -1,38 +1,51 @@
 <!-- Chat area -->
 <div class="w-1/4 min-w-[200px] rounded-2xl m-5 p-4 flex flex-col border-4 border-[#B026FF] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#B026FF] font-mono relative">
-	
 	<div class="flex items-center justify-between mb-4 border-b border-[#FF0F4D] pb-2">
-		<div class="text-[#ad39f0] font-bold flex items-center">
+		<div id="chat-info" class="text-[#ad39f0] font-bold flex items-center">
 			<span class="mr-2 text-[#FF2E9F]">⚡</span>
 			CHAT://global
 			<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>
 		</div>
 
-		<button id="chat-friend"
-			class="group relative text-[#ad39f0] opacity-40 z-10 font-bold flex items-center hover:text-[#FF2E9F] hover:opacity-100 transition-colors duration-200">
-			CHAT://friends
-			<!-- Tooltip -->
-			<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
-				opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap 
-				border border-[#FF2E9F] pointer-events-none">
-				Switch to friends chat
+		<div class="relative">
+			<button id="switch-chat"
+				class="group text-[#ad39f0] opacity-40 z-10 font-bold flex items-center hover:text-[#FF2E9F] hover:opacity-100 transition-colors duration-200">
+				CHAT://friends
+				<div id="tooltip-switch-chat" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
+					opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap 
+					border border-[#FF2E9F] pointer-events-none">
+					Switch to friends chat
+				</div>
+			</button>
+			<div id="friend-requests-count"
+				class="absolute opacity-75 -top-3 -right-3 w-6 h-6 bg-[#FF2E9F] text-white text-xs rounded-full flex items-center justify-center animate-pulse shadow-[0_0_10px_#FF2E9F] border border-white/50">
+				2
 			</div>
-		</button>
+		</div>
+	</div>
+
+	<!-- Friends List Area -->
+	<div id="friends-list" class="hidden mb-4 p-2 pt-2 pb-8 border-b border-[#FF0F4D] overflow-x-auto relative
+		[&::-webkit-scrollbar]:h-2 
+		[&::-webkit-scrollbar-track]:bg-black/20 
+		[&::-webkit-scrollbar-thumb]:bg-[#FF2E9F] 
+		[&::-webkit-scrollbar-thumb]:rounded-none">
 	</div>
 
 	<!-- Messages area -->
-	<div id="chat-messages" class="flex-1 overflow-y-auto flex flex-col mb-4 space-y-4 p-4 
+	<div id="chat-containers" class="flex-1 overflow-y-auto flex flex-col mb-4 space-y-4 p-4 
 		[&::-webkit-scrollbar]:w-2 
 		[&::-webkit-scrollbar-track]:bg-black/20 
 		[&::-webkit-scrollbar-thumb]:bg-[#00FFFF] 
 		[&::-webkit-scrollbar-thumb]:rounded-none 
 		font-mono text-sm">
+		<div id="chat-messages-global" class="flex-1 flex flex-col space-y-4">test</div>
 	</div>
 
 	<!-- Input area -->
 	<div class="flex items-center gap-2 w-full border-t border-[#00FFFF] pt-2 bg-black/40">
 		<span class="text-[#00FFFF] animate-pulse">></span>
-		<input id="chat-input" type="text" placeholder="Enter command..."
+		<input id="chat-input" type="text" placeholder="Enter command..." maxlength="512"
 			class="bg-transparent p-2 text-[#00FFFF] flex-grow min-w-0 border-none focus:outline-none focus:ring-0 placeholder-[#00FFFF]/50" />
 		<button id="chat-send" class="text-[#00FFFF] hover:text-white transition-colors px-2">⮐</button>
 		<button id="pong-send"
@@ -41,14 +54,14 @@
 		</button>
 	</div>
 </div>
-	
 
 <!-- Main content section -->
 <div class="flex-1 flex flex-col">
 	<!-- TOP BAR -->
 	<div class="flex items-center justify-between p-5">
 		<div class="flex-1 flex justify-center">
-			<input id="search-bar" type="search" placeholder="Search users... " class="font-mono border-2 ml-40 text-[#FF2E9F] rounded-2xl border-spacing-4 p-3 w-[500px] border-[#FF2E9F] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#FF2E9F] placeholder-[#FF2E9F]/50 focus:outline-none focus:border-[#B026FF]" />
+			<input id="search-bar" type="search" placeholder="Search users... "
+				class="font-mono border-2 ml-40 text-[#FF2E9F] rounded-2xl border-spacing-4 p-3 w-[500px] border-[#FF2E9F] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#FF2E9F] placeholder-[#FF2E9F]/50 focus:outline-none focus:border-[#B026FF]" />
 		</div>
 		<div id="topbar-buttons" class="flex items-center gap-6">
 			<a href="/home" data-link
@@ -86,21 +99,21 @@
 
 		<!-- Tournament Section -->
 		<div id="tournament-section"
-			class="w-full h-[290px] border-4 mt-16 rounded-2xl border-[#00FFFF] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#00FFFF] flex flex-col items-center p-6 font-mono relative">
+			class="w-full h-[320px] border-4 mt-14 rounded-2xl border-[#00FFFF] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#00FFFF] flex flex-col items-center p-6 font-mono relative">
+
 			<!-- Vue principale du tournoi -->
-			<div id="tournament-main-view" class="w-full">
-				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">TOURNAMENT
-				</h2>
-				<div class="flex items-center justify-between w-full">
+			<div id="tournament-main-view" class="w-full h-full flex flex-col">
+				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">TOURNAMENT</h2>
+
+				<div class="flex-1 flex items-center justify-between">
 					<button id="join-tournament"
 						class="bg-transparent rounded-xl ml-20 border-2 border-[#FFD700] text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">JOIN</button>
-					<div
-						class="flex items-center bg-black/40 px-8 py-4 border-2 rounded-2xl border-[#B026FF] shadow-[0_0_10px_#B026FF]">
-						<div class="w-12 h-12 rounded-full bg-black/50 border-2 border-[#B026FF]"></div>
-						<div class="ml-3">
-							<p class="text-2xl font-bold text-[#FFD700]">LAST WINNER</p>
-							<p id="winner-name" class="text-xl text-[#FF2E9F]">[ username ]</p>
-						</div>
+					<div id="tournament-view" class="flex flex-col items-center justify-center w-[600px] -mt-4">
+							<div id="default-tournament-view" class="flex flex-col items-center gap-4">
+								<img src="/images/pong_racquet.png" alt="pong racquet" class="w-16 h-16 mb-2" />
+								<p class="text-[#00FFFF]/90 text-xl font-bold text-center">No tournament in progress</p>
+								<p class="text-[#00FFFF]/80 text-sm">Create or join a tournament to start playing</p>
+							</div>
 					</div>
 					<button id="create-tournament"
 						class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">CREATE</button>
@@ -109,11 +122,13 @@
 
 			<!-- Vue création de tournoi (initialement cachée) -->
 			<div id="tournament-create-view" class="w-full hidden">
-				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">CREATE TOURNAMENT</h2>
+				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">CREATE
+					TOURNAMENT</h2>
 				<div class="flex items-center justify-between w-full">
-					<button id="back-to-tournament" class="bg-transparent rounded-xl ml-20 border-2 border-[#00FFFF] text-[#00FFFF] text-2xl font-bold py-5 px-10 hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">BACK</button>
+					<button id="back-to-tournament"
+						class="bg-transparent rounded-xl ml-20 border-2 border-[#00FFFF] text-[#00FFFF] text-2xl font-bold py-5 px-10 hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">BACK</button>
 					<div class="flex flex-col items-center gap-4">
-						<input type="text" id="tournament-name" placeholder="Tournament Name"
+						<input type="text" id="tournament-name" placeholder="Tournament Name" maxlength="20"
 							class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-64 focus:outline-none focus:border-[#FFD700]" />
 						<div class="flex items-center gap-8">
 							<div class="flex items-center gap-4">
@@ -160,13 +175,16 @@
 			</div>
 
 			<div id="tournament-join-view" class="w-full hidden">
-				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">JOIN TOURNAMENT</h2>
+				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">JOIN
+					TOURNAMENT</h2>
 				<div class="flex items-center justify-between w-full">
-					<button id="back-to-tournament-join" class="bg-transparent rounded-xl ml-20 border-2 border-[#00FFFF] text-[#00FFFF] text-2xl font-bold py-5 px-10 hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">BACK</button>
-					<div id="tournament-container" class="flex-1 mx-20 h-[150px] space-y-5 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-black/20 [&::-webkit-scrollbar-thumb]:bg-[#00FFFF] [&::-webkit-scrollbar-thumb]:rounded-none">
+					<button id="back-to-tournament-join"
+						class="bg-transparent rounded-xl ml-20 border-2 border-[#00FFFF] text-[#00FFFF] text-2xl font-bold py-5 px-10 hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">BACK</button>
+					<div id="tournament-container"
+						class="flex-1 mx-20 h-[150px] space-y-5 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-black/20 [&::-webkit-scrollbar-thumb]:bg-[#00FFFF] [&::-webkit-scrollbar-thumb]:rounded-none">
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>	
+</div>

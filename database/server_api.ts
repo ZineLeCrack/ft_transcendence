@@ -14,6 +14,8 @@ import editRoutes from './edit/edit.js'
 import createTournamentRoutes from './tournament/create_tournament.js';
 import listTournamentsRoutes from './tournament/list_tournaments.js';
 import joinTournamentRoutes from './tournament/join_tournament.js';
+import friendRoutes from './Friend-block/friend-back.js';
+import blockRoutes from './Friend-block/block-back.js';
 
 dotenv.config();
 
@@ -22,34 +24,33 @@ const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
 const IP_NAME = process.env.IP_NAME || '10.12.200.0';
 
 async function main() {
-  const app = Fastify({
-    logger: false,
-    https: {
-      key: privateKey,
-      cert: certificate,
-    },
-  });
+	const app = Fastify({
+		logger: false,
+		https: {
+			key: privateKey,
+			cert: certificate,
+		},
+	});
 
-  await app.register(cors, { origin: true });
-  await app.register(authRoutes);
-  await app.register(historyRoutes);
-  await app.register(chatRoutes);
-  await app.register(a2fRoutes);
-  await app.register(addhistoryRoutes);
-  await app.register(searchRoutes);
-  await app.register(editRoutes);
-  await app.register(createTournamentRoutes);
-  await app.register(listTournamentsRoutes);
-  await app.register(joinTournamentRoutes);
+	await app.register(cors, { origin: true });
+	await app.register(authRoutes);
+	await app.register(historyRoutes);
+	await app.register(chatRoutes);
+	await app.register(a2fRoutes);
+	await app.register(addhistoryRoutes);
+	await app.register(searchRoutes);
+	await app.register(editRoutes);
+	await app.register(createTournamentRoutes);
+	await app.register(listTournamentsRoutes);
+	await app.register(joinTournamentRoutes);
+	await app.register(friendRoutes);
+	await app.register(blockRoutes);
 
-  await app.listen({ port: 3451, host: '0.0.0.0' });
+	await app.listen({ port: 3451, host: '0.0.0.0' });
 
-  // Récupérer le serveur HTTP natif après le démarrage
-  const server = app.server; // <- voilà ce qu'il te faut pour `WebSocketServer`
-
-  setupWebSocket(server); // Connecte ton WebSocket ici
-
-  console.log(`HTTPS server running at https://${IP_NAME}:3451`);
+	const server = app.server;
+	setupWebSocket(server);
+	console.log(`HTTPS server running at https://${IP_NAME}:3451`);
 }
 
 main();
