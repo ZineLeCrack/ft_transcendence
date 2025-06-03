@@ -12,7 +12,8 @@ import addhistoryRoutes from './stats/add_history.js';
 import searchRoutes from './search/search_back.js';
 import editRoutes from './edit/edit.js'
 import createTournamentRoutes from './tournament/create_tournament.js';
-import listTournamentsRoutes from './tournament/list_tournaments.js'
+import listTournamentsRoutes from './tournament/list_tournaments.js';
+import joinTournamentRoutes from './tournament/join_tournament.js';
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ async function main() {
   await app.register(editRoutes);
   await app.register(createTournamentRoutes);
   await app.register(listTournamentsRoutes);
+  await app.register(joinTournamentRoutes);
 
   await app.listen({ port: 3451, host: '0.0.0.0' });
 
