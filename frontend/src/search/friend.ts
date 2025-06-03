@@ -1,15 +1,15 @@
 export default async function initAddFriend() {
     const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
     const target = document.getElementById("username-h2")?.textContent;
-    const username = sessionStorage.getItem("userName");
+    const tokenID = sessionStorage.getItem("token");
 
-    if (!friendbtn || !target|| !username) return;
+    if (!friendbtn || !target|| !tokenID) return;
 
     const checkFriendStatus = async () => {
         const res = await fetch("/api/isfriend", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, target })
+            body: JSON.stringify({ tokenID, target })
         });
         const data = await res.json();
         // status 1 = amis, 2 = demande envoyée, 3 = demande reçue, 0 = rien
@@ -32,7 +32,7 @@ export default async function initAddFriend() {
             const res = await fetch("/api/requestfriend", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, target })
+                body: JSON.stringify({ tokenID, target })
             });
             const data = await res.json();
             if (data.success) {
@@ -43,7 +43,7 @@ export default async function initAddFriend() {
             const res = await fetch("/api/removefriend", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, target })
+                body: JSON.stringify({ tokenID, target })
             });
             const data = await res.json();
             if (data.success) {
@@ -54,7 +54,7 @@ export default async function initAddFriend() {
             const res = await fetch("/api/replyrequest", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, target , answer: 1})
+                body: JSON.stringify({ tokenID, target , answer: 1})
             });
             const data = await res.json();
             if (data.success) {

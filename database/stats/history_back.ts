@@ -5,19 +5,10 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function historyRoutes(fastify: FastifyInstance) {
   fastify.post('/history', async (request, reply) => {
-    const { token } = request.body as { token: string };
+    const { userId } = request.body as { userId: string };
 
     try {
       const db = await getDb_user();
-      let userId;
-		  try {
-			  const decoded = jwt.verify(token, JWT_SECRET);
-			  userId = (decoded as { userId: string }).userId;
-		  } 
-		  catch (err) {
-			  reply.status(401).send('Invalid token');
-			  return;
-		  }
       const rows = await db.all(
         `
         SELECT h.point_player1, h.point_player2, h.game_date,

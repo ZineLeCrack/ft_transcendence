@@ -5,7 +5,6 @@ import initAddFriend from './friend';
 
 import { generateCardsHistory} from "../profile/history.js";
 import type {CardHistory} from "../profile/history.js";
-
 import initSearch from './search.js';
 
 
@@ -33,6 +32,7 @@ export default async function initUsers(username?: string, isHistory: boolean = 
             history.pushState(null, `${username}`, `/users/${username}`);
             updateView(false);
         });
+
         initSearch();
         initPrivateChat(username);
         initBlockPlayer();

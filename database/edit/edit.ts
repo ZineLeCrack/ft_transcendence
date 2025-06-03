@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import { getDb_user } from '../database.js';
+import { getDb_chat } from '../database.js';
 import { FastifyInstance } from 'fastify';
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
@@ -24,7 +25,7 @@ export default async function editRoutes(fastify: FastifyInstance)
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
 			IdUser = (decoded as { userId: string }).userId;
-		} 
+		}
 		catch (err) {
 			reply.status(401).send('Invalid token');
 			return;
@@ -76,6 +77,7 @@ export default async function editRoutes(fastify: FastifyInstance)
 		
 		try {
 			const db = await getDb_user();
+			const dbchat = await getDb_chat();
 			let IdUser;
 			try {
 				const decoded = jwt.verify(token, JWT_SECRET);
@@ -85,6 +87,8 @@ export default async function editRoutes(fastify: FastifyInstance)
 				reply.status(401).send('Invalid token');
 				return;
 			}
+			const original = await db.get('SELECT name FROM users WHERE id = ?', [IdUser]);
+			const original_name = original.name; 
 			if (username && email)
 			{
 				try {
@@ -94,8 +98,8 @@ export default async function editRoutes(fastify: FastifyInstance)
 						reply.status(400).send('User already exists');
 						return;
 					}
-					
-				   await db.run('UPDATE users SET name = ?, email = ? WHERE id = ?', [username, email, IdUser]);
+				    await db.run('UPDATE users SET name = ?, email = ? WHERE id = ?', [username, email, IdUser]);
+				    await dbchat.run('UPDATE chat SET username = ? WHERE username = ?' , [username, original_name]);
 				}
 				catch (error) {
 					reply.status(500).send("erreur co database");
@@ -113,6 +117,7 @@ export default async function editRoutes(fastify: FastifyInstance)
 						return;
 					}
 				   await db.run('UPDATE users SET name = ? WHERE id = ?', [username, IdUser]);
+				   await dbchat.run('UPDATE chat SET username = ? WHERE username = ?' , [username, original_name]);
 				} 
 				catch (error) {
 					reply.status(500).send("erreur co database");
