@@ -27,8 +27,8 @@ CREATE TABLE quarterfinals (
     loser3 TEXT DEFAULT 0,
     winner4 TEXT DEFAULT 0,
     loser4 TEXT DEFAULT 0,
-    FOREIGN_KEY (id) REFERENCES tournaments(id) ON DELETE CASCADE
-)
+    FOREIGN KEY (id) REFERENCES tournaments(id) ON DELETE CASCADE
+);
 
 CREATE TABLE semifinals (
     id INTEGER,
@@ -36,12 +36,12 @@ CREATE TABLE semifinals (
     loser1 TEXT DEFAULT 0,
     winner2 TEXT DEFAULT 0,
     loser2 TEXT DEFAULT 0,
-    FOREIGN_KEY (id) REFERENCES tournaments(id) ON DELETE CASCADE
-)
+    FOREIGN KEY (id) REFERENCES tournaments(id) ON DELETE CASCADE
+);
 
 CREATE TABLE final (
     id INTEGER,
     winner TEXT DEFAULT 0,
     loser TEXT DEFAULT 0,
-    FOREIGN_KEY (id) REFERENCES tournaments(id) ON DELETE CASCADE
-)
+    FOREIGN KEY (id) REFERENCES tournaments(id) ON DELETE CASCADE
+);
