@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify';
 import { getDb_user } from '../database.js';
 
-export default async function friendRoutes(fastify: FastifyInstance) {
-  fastify.post('/isfriend', async (request, reply) => {
+export default async function blockRoutes(fastify: FastifyInstance) {
+  fastify.post('/isblock', async (request, reply) => {
     const { username, target } = request.body as { username: string, target: string };
 
     if (!username || !target) {

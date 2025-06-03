@@ -1,18 +1,22 @@
 import { FastifyInstance } from 'fastify';
 import { getDb_user } from '../database.js';
+import jwt from 'jsonwebtoken';
+const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
+let userID: string;
 
 export default async function friendRoutes(fastify: FastifyInstance) {
   fastify.post('/isfriend', async (request, reply) => {
-    const { username, target } = request.body as { username: string, target: string };
+    const { tokenID, target } = request.body as { tokenID: string, target: string };
 
-    if (!username || !target) {
+    if (!tokenID || !target) {
       reply.status(400).send({ exists: false, error: "Missing username or target" });
       return;
     }
-
+      
     try {
       const db = await getDb_user();
-      const userID = await db.get('SELECT id FROM users WHERE name = ?', [username]);
+      const decoded = jwt.verify(tokenID, JWT_SECRET);
+      userID = (decoded as { userId: string }).userId;
       const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
       if (!userID || !targetUserID) {
         reply.send({ status: 0 });
@@ -20,7 +24,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
       }
       const friend = await db.get(
         'SELECT friend FROM friend WHERE id_player1 = ? AND id_player2 = ?',
-        [userID.id, targetUserID.id]
+        [userID, targetUserID.id]
       );
       reply.send({ status: friend ? friend.friend : 0 });
     } catch (err) {
@@ -29,16 +33,17 @@ export default async function friendRoutes(fastify: FastifyInstance) {
     }
   });
   fastify.post('/requestfriend', async (request, reply) => {
-    const { username, target } = request.body as { username: string, target: string };
+    const { tokenID, target } = request.body as { tokenID: string, target: string };
 
-    if (!username || !target) {
+    if (!tokenID || !target) {
       reply.status(400).send({ exists: false, error: "Missing username or target" });
       return;
     }
 
     try {
       const db = await getDb_user();
-      const userID = await db.get('SELECT id FROM users WHERE name = ?', [username]);
+      const decoded = jwt.verify(tokenID, JWT_SECRET);
+      userID = (decoded as { userId: string }).userId;
       const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
       if (!userID || !targetUserID) {
         reply.send({ success: false, error: "User not found" });
@@ -47,12 +52,12 @@ export default async function friendRoutes(fastify: FastifyInstance) {
       await db.run(
         `INSERT INTO friend (id_player1, id_player2, friend) VALUES (?, ?, 2)
          ON CONFLICT(id_player1, id_player2) DO UPDATE SET friend=2`,
-        [userID.id, targetUserID.id]
+        [userID, targetUserID.id]
       );
       await db.run(
         `INSERT INTO friend (id_player1, id_player2, friend) VALUES (?, ?, 3)
          ON CONFLICT(id_player1, id_player2) DO UPDATE SET friend=3`,
-        [targetUserID.id, userID.id]
+        [targetUserID.id, userID]
       );
       reply.send({ success: true });
     } catch (err) {
@@ -61,16 +66,17 @@ export default async function friendRoutes(fastify: FastifyInstance) {
     }
   });
   fastify.post('/replyrequest', async (request, reply) => {
-    const { username, target, answer } = request.body as { username: string, target: string, answer: number };
+    const { tokenID, target, answer } = request.body as { tokenID: string, target: string, answer: number };
 
-    if (!username || !target || typeof answer !== 'number') {
+    if (!tokenID || !target || typeof answer !== 'number') {
       reply.status(400).send({ exists: false, error: "Missing username, target or answer" });
       return;
     }
 
     try {
       const db = await getDb_user();
-      const userID = await db.get('SELECT id FROM users WHERE name = ?', [username]);
+      const decoded = jwt.verify(tokenID, JWT_SECRET);
+      userID = (decoded as { userId: string }).userId;
       const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
       if (!userID || !targetUserID) {
         reply.send({ success: false, error: "User not found" });
@@ -79,12 +85,12 @@ export default async function friendRoutes(fastify: FastifyInstance) {
       if (answer === 1) {
         await db.run(
           `UPDATE friend SET friend=1 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
-          [userID.id, targetUserID.id, targetUserID.id, userID.id]
+          [userID, targetUserID.id, targetUserID.id, userID]
         );
       } else {
         await db.run(
           `UPDATE friend SET friend=0 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
-          [userID.id, targetUserID.id, targetUserID.id, userID.id]
+          [userID, targetUserID.id, targetUserID.id, userID]
         );
       }
       reply.send({ success: true });
@@ -94,16 +100,17 @@ export default async function friendRoutes(fastify: FastifyInstance) {
     }
   });
   fastify.post('/removefriend', async (request, reply) => {
-    const { username, target } = request.body as { username: string, target: string };
+    const { tokenID, target } = request.body as { tokenID: string, target: string };
 
-    if (!username || !target) {
+    if (!tokenID || !target) {
       reply.status(400).send({ success: false, error: "Missing username or target" });
       return;
     }
 
     try {
       const db = await getDb_user();
-      const userID = await db.get('SELECT id FROM users WHERE name = ?', [username]);
+      const decoded = jwt.verify(tokenID, JWT_SECRET);
+      userID = (decoded as { userId: string }).userId;
       const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
       if (!userID || !targetUserID) {
         reply.send({ success: false, error: "User not found" });
@@ -111,7 +118,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
       }
       await db.run(
         `UPDATE friend SET friend=0 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
-        [userID.id, targetUserID.id, targetUserID.id, userID.id]
+        [userID, targetUserID.id, targetUserID.id, userID]
       );
       reply.send({ success: true });
     } catch (err) {
