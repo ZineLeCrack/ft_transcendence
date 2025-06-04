@@ -131,8 +131,9 @@ export default async function initJoinTournament() {
 						throw new Error(response.statusText);
 					}
 
-					// const ws = getWebSocket();
-					// ws.send();
+					const ws = getWebSocket();
+
+					ws.send(JSON.stringify({ type: 'tournament_new_player' }));
 
 					joinView?.classList.add('hidden');
 					mainView?.classList.remove('hidden');

@@ -11,11 +11,9 @@ export function setupWebSocket(server: any) {
 	const wss = new WebSocketServer({ server });
 
 	wss.on('connection', (ws) => {
-		console.log('Client connecté via WebSocket');
 		clients.add(ws);
 
 		ws.on('close', () => {
-			console.log('Client déconnecté');
 			clients.delete(ws);
 		});
 
@@ -32,7 +30,7 @@ export function setupWebSocket(server: any) {
 						id_user = (decoded as { userId: string }).userId;
 					}
 					catch (err) {
-						console.log(err);
+						console.error(err);
 						return;
 					}
 					const dbusers = await getDb_user();
@@ -47,6 +45,13 @@ export function setupWebSocket(server: any) {
 					for (const client of clients) {
 						if (client.readyState === ws.OPEN) {
 							client.send(JSON.stringify({ type, username, content }));
+						}
+					}
+				}
+				else if (type === 'tournament_new_player') {
+					for (const client of clients) {
+						if (client.readyState === ws.OPEN) {
+							client.send(JSON.stringify({ type }));
 						}
 					}
 				}

@@ -137,7 +137,6 @@ export default async function friendRoutes(fastify: FastifyInstance) {
       const db = await getDb_user();
       const decoded = jwt.verify(tokenID, JWT_SECRET);
       const userID = (decoded as { userId: string }).userId;
-      console.log("Decoded userID:", userID);
       const friends = await db.all(
         `SELECT u.name as username, u.profile_pic as profilPic
          FROM friend f
