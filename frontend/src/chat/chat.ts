@@ -162,7 +162,15 @@ export default function initChat() {
 			const token = sessionStorage.getItem('token');
 			const content = input.value.trim();
 			if (content === "") return;
-			const chatdata = { type: 'new_message', token, content };
+			let chatdata;
+            if (document.getElementById("chat-messages-global"))
+            {
+			    chatdata = { type: 'new_message', token, content };
+            }
+            else
+            {
+                chatdata = { type: 'new_private_message', token, content };
+            }
 			ws.send(JSON.stringify(chatdata));
 			input.value = "";
 		});
@@ -173,7 +181,15 @@ export default function initChat() {
 				const token = sessionStorage.getItem('token');
 				const content = input.value.trim();
 				if (content === "") return;
-				const chatdata = { type: 'new_message', token, content };
+                let chatdata;
+                if (document.getElementById("chat-messages-global"))
+                {
+				    chatdata = { type: 'new_message', token, content };
+                }
+                else
+                {
+                    chatdata = { type: 'new_private_message', token, content };
+                }
 				ws.send(JSON.stringify(chatdata));
 				input.value = "";
 			}

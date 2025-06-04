@@ -5,3 +5,10 @@ CREATE TABLE chat (
     username TEXT NOT NULL,
     content TEXT NOT NULL
 );
+
+CREATE TABLE privatechat (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sender TEXT NOT NULL,
+    receiver TEXT NOT NULL,
+    content TEXT NOT NULL
+);
