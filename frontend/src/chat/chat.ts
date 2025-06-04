@@ -1,4 +1,7 @@
 let original_name:string;
+
+import { getWebSocket } from './../websocket.ts';
+
 export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
     const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
@@ -113,86 +116,68 @@ export function sendMessage(username: string, content: string, pong?: boolean, t
     }
 }
 export default function initChat() {
-
     const input = document.getElementById("chat-input") as HTMLInputElement;
     const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
     const messageBox = document.getElementById("chat-messages-global") as HTMLDivElement;
-    
+
     (async () => {
-    const token = sessionStorage.getItem('token');
-    const response = await fetch('/api/verifuser', 
-    {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token }),
-    });
-    const data = await response.json();
-    original_name = data.original;
-    })();
-
-    const ws = new WebSocket(`wss://${window.location.host}/ws/`);
-
-    ws.onopen = () => {
-        console.log("WebSocket connecté !");
-    };
-
-    ws.onerror = (err) => {
-        console.error("WebSocket erreur:", err);
-    };
-
-    ws.onmessage = (event) => {
-        try {
-            const data = JSON.parse(event.data);
-            original_name = data.username;
-            // Only send message if it's not from displayAllMessages
-            if (!data.isHistoryMessage) {
-                sendMessage(data.username, data.content);
-            }
-        } catch (err) {
-            console.error("Erreur lors du parsing WebSocket message :", err);
-        }
-    }
-
-    async function displayAllMessages() {
-        try {
-            const response = await fetch(`/api/getmessages`, {
-                method: 'POST',
-            });
-            const data = await response.json();
-            const tab = data.tab;
-            messageBox.innerHTML = "";
-            for (let i = 0; i < tab.length; i++) {
-                // Add flag to indicate this is a history message
-                const message = {...tab[i], isHistoryMessage: true};
-                sendMessage(message.username, message.content);
-            }
-        } catch (err) {
-            console.error("Erreur lors de la récupération des messages :", err);
-        }
-    }
-
-    sendBtn.addEventListener("click", async () => {
         const token = sessionStorage.getItem('token');
-        const content = input.value.trim();
-        if (content === "") return;
-        const chatdata = { token, content };
-        ws.send(JSON.stringify(chatdata));
-        input.value = "";
-    });
+        const response = await fetch('/api/verifuser', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token }),
+        });
+        const data = await response.json();
+        original_name = data.original;
 
+        const ws = getWebSocket();
 
-    input.addEventListener("keydown", async (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
+        ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if (!data.isHistoryMessage) {
+                    sendMessage(data.username, data.content);
+                }
+        };
+
+        async function displayAllMessages() {
+            try {
+                const response = await fetch(`/api/getmessages`, {
+                    method: 'POST',
+                });
+                const data = await response.json();
+                const tab = data.tab;
+                messageBox.innerHTML = "";
+                for (let i = 0; i < tab.length; i++) {
+                    const message = { ...tab[i], isHistoryMessage: true };
+                    sendMessage(message.username, message.content);
+                }
+            } catch (err) {
+                console.error("Erreur lors de la récupération des messages :", err);
+            }
+        }
+
+        sendBtn.addEventListener("click", async () => {
             const token = sessionStorage.getItem('token');
             const content = input.value.trim();
             if (content === "") return;
             const chatdata = { token, content };
             ws.send(JSON.stringify(chatdata));
             input.value = "";
-        }
-    });
+        });
 
-    displayAllMessages();
+        input.addEventListener("keydown", async (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const token = sessionStorage.getItem('token');
+                const content = input.value.trim();
+                if (content === "") return;
+                const chatdata = { token, content };
+                ws.send(JSON.stringify(chatdata));
+                input.value = "";
+            }
+        });
+
+        displayAllMessages();
+    })();
 }
 
