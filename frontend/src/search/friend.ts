@@ -3,7 +3,24 @@ export default async function initAddFriend() {
     const target = document.getElementById("username-h2")?.textContent;
     const tokenID = sessionStorage.getItem("token");
 
-    if (!friendbtn || !target|| !tokenID) return;
+    if (!friendbtn || !target || !tokenID) return;
+
+    // Vérifie si l'utilisateur visite sa propre page
+    try {
+        const res = await fetch("/api/verifuser", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: tokenID })
+        });
+        const data = await res.json();
+        if (data.original === target) {
+            friendbtn.style.display = "none";
+            return;
+        }
+    } catch (e) {
+        friendbtn.style.display = "none";
+        return;
+    }
 
     const checkFriendStatus = async () => {
         const res = await fetch("/api/isfriend", {
@@ -28,7 +45,6 @@ export default async function initAddFriend() {
 
     friendbtn.addEventListener("click", async () => {
         if (friendbtn.textContent === "Add Friend") {
-			console.log("add button clicked");
             const res = await fetch("/api/requestfriend", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -39,7 +55,6 @@ export default async function initAddFriend() {
                 friendbtn.textContent = "Request Sent";
             }
         } else if (friendbtn.textContent === "Remove Friend") {
-			console.log("remove button clicked");
             const res = await fetch("/api/removefriend", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -50,7 +65,6 @@ export default async function initAddFriend() {
                 friendbtn.textContent = "Add Friend";
             }
         } else if (friendbtn.textContent === "Request Received") {
-            console.log("request received button clicked");
             const res = await fetch("/api/replyrequest", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
