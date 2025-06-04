@@ -202,13 +202,7 @@ const TournamentData_Lose_Win: TournamentDataLose_Win = {
 	joinTournamentBtn.classList.remove("border-[#FFD700]", "text-[#FFD700]", "hover:bg-[#FFD700]/20",  "shadow-[0_0_10px_#FFD700]");
 	joinTournamentBtn.classList.add("border-[#00FFFF]", "text-[#00FFFF]", "hover:bg-[#00FFFF]/20",  "shadow-[0_0_10px_#00FFFF]");
 	
-
-	createTournamentBtn.textContent = 'Resign';
-	createTournamentBtn.classList.remove("border-[#FFD700]", "text-[#FFD700]", "hover:bg-[#FFD700]/20",  "shadow-[0_0_10px_#FFD700]");
-	createTournamentBtn.classList.add("border-[#FF0000]", "text-[#FF0000]", "hover:bg-[#FF0000]/20",  "shadow-[0_0_10px_#FF0000]");
-
-	// ou si pas envie de coder le bouton Resign 
-	//createTournamentBtn.classList.add("hidden");
+	createTournamentBtn.classList.add("hidden");
 
 	generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
 

@@ -49,7 +49,6 @@ export default function initCreateTournament() {
 
 	createTournamentSubmitBtn?.addEventListener('click', async () => {
 		const tournamentName = (document.getElementById('tournament-name') as HTMLInputElement)?.value;
-		const players = document.querySelector('input[name="players"]:checked') as HTMLInputElement;
 		const type = document.querySelector('input[name="type"]:checked') as HTMLInputElement;
 		const password = (document.getElementById('tournament-password') as HTMLInputElement)?.value;
 
@@ -69,7 +68,7 @@ export default function initCreateTournament() {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					name: tournamentName,
-					players_max: parseInt(players.value),
+					players_max: 8,
 					type: type.value,
 					password: type.value === 'private' ? password: null
 				})

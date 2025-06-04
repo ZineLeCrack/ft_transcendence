@@ -1,5 +1,4 @@
 import { loadRoutes } from '../main';
-import initPrivateChat from './privatechat';
 import initBlockPlayer from './block';
 import initAddFriend from './friend';
 
@@ -38,7 +37,6 @@ export default async function initUsers(username?: string, isHistory: boolean = 
         });
 
         initSearch();
-        initPrivateChat(username);
         initBlockPlayer();
         initAddFriend();
 
