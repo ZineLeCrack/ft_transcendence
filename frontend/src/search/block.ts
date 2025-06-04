@@ -5,6 +5,24 @@ export default async function initBlockPlayer() {
     const tokenID = sessionStorage.getItem("token");
 
 	if (!blockbtn || !target || !tokenID) return;
+
+	// Vérifie si l'utilisateur visite sa propre page
+    try {
+        const res = await fetch("/api/verifuser", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: tokenID })
+        });
+        const data = await res.json();
+        if (data.original === target) {
+            blockbtn.style.display = "none";
+            return;
+        }
+    } catch (e) {
+        blockbtn.style.display = "none";
+        return;
+    }
+
 	const checkBlockStatus = async () => {
 		const res = await fetch("/api/isblock", {
 			method: "POST",
