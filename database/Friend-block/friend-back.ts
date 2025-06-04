@@ -126,4 +126,34 @@ export default async function friendRoutes(fastify: FastifyInstance) {
       reply.status(500).send({ success: false, error: "Internal server error" });
     }
   });
+  fastify.post('/getfriends', async (request, reply) => {
+    const { tokenID } = request.body as { tokenID: string };
+
+    if (!tokenID) {
+      reply.status(400).send({ success: false, error: "Missing token" });
+      return;
+    }
+    try {
+      const db = await getDb_user();
+      const decoded = jwt.verify(tokenID, JWT_SECRET);
+      const userID = (decoded as { userId: string }).userId;
+      console.log("Decoded userID:", userID);
+      const friends = await db.all(
+        `SELECT u.name as username, u.profile_pic as profilPic
+         FROM friend f
+         JOIN users u ON u.id = f.id_player2
+         WHERE f.id_player1 = ? AND f.friend = 1`,
+        [userID]
+      );
+      const friendsWithStatus = friends.map((f: any) => ({
+        username: f.username,
+        profilPic: f.profilPic,
+        status: 'online'
+      }));
+      reply.send({ friends: friendsWithStatus });
+    } catch (err) {
+      console.error("DB error:", err);
+      reply.status(500).send({ success: false, error: "Internal server error" });
+    }
+  });
 }

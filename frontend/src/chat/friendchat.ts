@@ -139,29 +139,19 @@ export default async function initFriendChat() {
 		
 	}
 	
-	const friends: Friend[] = [
-		{ 
-			username: 'Lelanglo',
-			profilPic: '/images/stickman_default.png',
-			status: 'online' 
-		},
-		{ 
-			username: 'ebroudic',
-			profilPic: '/images/stickman_default.png',
-			status: 'offline' 
-		},
-		{ 
-			username: 'rlebaill',
-			profilPic: '/images/pdp_rlebaill.jpeg',
-			status: 'online' 
-		},
-		{ 
-			username: 'bfiquet',
-			profilPic: '/images/stickman_default.png',
-			status: 'offline' 
-		},
-	]
+	async function fetchFriends(): Promise<Friend[]> {
+		const tokenID = sessionStorage.getItem("token");
+		if (!tokenID) return [];
+		const res = await fetch("/api/getfriends", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ tokenID })
+		});
+		const data = await res.json();
+		return data.friends || [];
+	}
 
+	const friends: Friend[] = await fetchFriends();
 	generateFriendList(friends);
 
 	const friendButtons = document.querySelectorAll('[id^="Friend-button-"]');
