@@ -142,16 +142,24 @@ export default async function  initInTournament(id: string) {
 	}
 
 
-	const TournamentData_Players: TournamentData_Players = {
-		player1: `?`,
-		player2: `?`,
-		player3: `?`,
-		player4: `?`,
-		player5: `?`,
-		player6: `?`,
-		player7: `?`,
-		player8: `?`
-	};
+	// const TournamentData_Players: TournamentData_Players = {
+	// 	player1: `?`,
+	// 	player2: `?`,
+	// 	player3: `?`,
+	// 	player4: `?`,
+	// 	player5: `?`,
+	// 	player6: `?`,
+	// 	player7: `?`,
+	// 	player8: `?`
+	// };
+
+	const response = await fetch('/api/tournament/get_players', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ tournamentId: id })
+	});
+
+	const TournamentData_Players = await response.json();
 
 	const TournamentData_Lose_Win: TournamentDataLose_Win = {
 		winner1: `?`,
@@ -192,7 +200,6 @@ export default async function  initInTournament(id: string) {
 
 
 	generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
-
 
 	// try {
 	// 	const response = await fetch('/api/tournament/load/player', {

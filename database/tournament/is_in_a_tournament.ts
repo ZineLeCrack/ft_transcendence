@@ -7,11 +7,11 @@ export default async function isInATournamentRoutes(fastify: FastifyInstance) {
 	fastify.post('/tournament/is_in', async (request, reply) => {
 		const { token } = request.body as { token: string };
 
-		let userId: string;
+		let name: string;
 
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
-			userId = (decoded as { userId: string }).userId;
+			name = (decoded as { name: string }).name;
 		}
 		catch (err) {
 			reply.status(401).send(`Invalid token: ${err}`);
@@ -22,7 +22,7 @@ export default async function isInATournamentRoutes(fastify: FastifyInstance) {
 			const db = await getDb_tournaments();
 			const tournament = await db.get(
 				`SELECT * FROM tournaments WHERE player1 = ? OR player2 = ? OR player3 = ? OR player4 = ? OR player5 = ? OR player6 = ? OR player7 = ? OR player8 = ?`,
-				[userId, userId, userId, userId, userId, userId, userId, userId]
+				[name, name, name, name, name, name, name, name]
 			);
 
 			if (!tournament)
