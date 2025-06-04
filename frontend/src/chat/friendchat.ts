@@ -1,22 +1,21 @@
+import { sendMessage } from './chat.ts';
+
+
 export default async function initFriendChat() {
 	const switchChatBtn = document.getElementById('switch-chat') as HTMLButtonElement;
 	const chatInfo = document.getElementById('chat-info') as HTMLDivElement;
 	const friendslist = document.getElementById('friends-list') as HTMLDivElement;
 	const friendRequestsCount = document.getElementById('friend-requests-count') as HTMLDivElement;
 	
-	switchChatBtn.addEventListener('click', () => {
+	switchChatBtn.addEventListener('click', async () => {
 		if (switchChatBtn.textContent?.includes("friends"))
 		{
 			const privateChats = chatContainers.querySelectorAll('[id^="chat-messages-"]');
-			privateChats.forEach(chat => {
-				if (chat.id !== 'chat-messages-global') {
-					(chat as HTMLElement).style.display = 'none';
-				}
-			});
+			privateChats.forEach(chat => chat.remove());
 
 			const globalChat = document.getElementById('chat-messages-global') as HTMLDivElement;
 			if (globalChat) {
-				globalChat.style.display = 'none';
+				globalChat.remove();
 			}
 
 			switchChatBtn.innerHTML =`
@@ -39,15 +38,15 @@ export default async function initFriendChat() {
 		else
 		{
 			const privateChats = chatContainers.querySelectorAll('[id^="chat-messages-"]');
-			privateChats.forEach(chat => {
-				if (chat.id !== 'chat-messages-global') {
-					(chat as HTMLElement).style.display = 'none';
-				}
-			});
+			privateChats.forEach(chat => chat.remove());
 
-			const globalChat = document.getElementById('chat-messages-global') as HTMLDivElement;
-			if (globalChat) {
-				globalChat.style.display = 'flex';
+			let globalChat = document.getElementById('chat-messages-global') as HTMLDivElement;
+			if (!globalChat)
+			{
+				globalChat = document.createElement('div');
+				globalChat.id = 'chat-messages-global';
+				globalChat.className = 'flex flex-col space-y-4';
+				chatContainers.appendChild(globalChat);
 			}
 
 			switchChatBtn.innerHTML =`
@@ -66,11 +65,20 @@ export default async function initFriendChat() {
 			friendslist.classList.remove("flex");
 			friendslist.classList.add("hidden");
 			friendRequestsCount.classList.remove("hidden");
+
+			const response = await fetch(`/api/getmessages`, {method: 'POST',});
+			const data = await response.json();
+			const tab = data.tab;
+			for (let i = 0; i < tab.length; i++)
+			{
+				const message = { ...tab[i], isHistoryMessage: true };
+				sendMessage(message.username, message.content);
+			}
 		}
 	});
 
 
-	function updateFriendRequestsCount(count: number) { // fonction a utiliser pour les notifications de demandes d'amis
+	function updateFriendRequestsCount(count: number) {
 		if (count > 0) {
 			friendRequestsCount.textContent = count.toString();
 			friendRequestsCount.classList.remove("hidden");
@@ -87,9 +95,9 @@ export default async function initFriendChat() {
 	}
 	
 	function generateFriendList(Friend: Friend[]) {
-		friendslist.innerHTML = ''; // Clear the current list
+		friendslist.innerHTML = '';
 		if (Friend.length === 0) {
-			friendslist.innerHTML = '<p class="text-[#FF2E9F]">No friends online</p>';
+			friendslist.innerHTML = '<p class="text-[#FF2E9F]">You have no friends :(</p>';
 			return;
 		}
 		Friend.forEach(Friend => {
@@ -114,7 +122,7 @@ export default async function initFriendChat() {
 						</a>
 					</div>
 				</div>`;
-			} // le status faut faire un websocket pour le mettre a jour en temps reel
+			}
 			else { 
 				friendElement.innerHTML = `<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
 						<div class="relative">
@@ -139,29 +147,19 @@ export default async function initFriendChat() {
 		
 	}
 	
-	const friends: Friend[] = [
-		{ 
-			username: 'Lelanglo',
-			profilPic: '/images/stickman_default.png',
-			status: 'online' 
-		},
-		{ 
-			username: 'ebroudic',
-			profilPic: '/images/stickman_default.png',
-			status: 'offline' 
-		},
-		{ 
-			username: 'rlebaill',
-			profilPic: '/images/pdp_rlebaill.jpeg',
-			status: 'online' 
-		},
-		{ 
-			username: 'bfiquet',
-			profilPic: '/images/stickman_default.png',
-			status: 'offline' 
-		},
-	]
+	async function fetchFriends(): Promise<Friend[]> {
+		const tokenID = sessionStorage.getItem("token");
+		if (!tokenID) return [];
+		const res = await fetch("/api/getfriends", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ tokenID })
+		});
+		const data = await res.json();
+		return data.friends || [];
+	}
 
+	const friends: Friend[] = await fetchFriends();
 	generateFriendList(friends);
 
 	const friendButtons = document.querySelectorAll('[id^="Friend-button-"]');
@@ -170,22 +168,15 @@ export default async function initFriendChat() {
 	friendButtons.forEach(button => {
 		button.addEventListener('click', () => {
 			const username = button.id.split('-').pop();
-			console.log(`Clicked on friend: ${button.id} (${username})`);
 			
 			const existingChats = chatContainers.querySelectorAll('[id^="chat-messages-"]');
-			existingChats.forEach(chat => {
-				(chat as HTMLElement).style.display = 'none';
-			});
+			existingChats.forEach(chat => chat.remove());
 			
-			const chatArea = document.getElementById(`chat-messages-${username}`) as HTMLDivElement;
-			if (!chatArea) 
-			{
-				const chatArea = document.createElement('div');
-				chatArea.id = `chat-messages-${username}`;
-				chatArea.className = 'flex-1 flex flex-col space-y-4';
-				chatContainers.appendChild(chatArea);
-			}
-			chatArea.style.display = 'flex';
+			const chatArea = document.createElement('div');
+			chatArea.id = `chat-messages-${username}`;
+			chatArea.className = 'flex-1 flex flex-col space-y-4';
+			chatContainers.appendChild(chatArea);
+
 			chatInfo.innerHTML = `
             <span class="mr-2 text-[#FF2E9F]">⚡</span>
             CHAT://${username}

@@ -55,6 +55,10 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 		   ON CONFLICT(id_player1, id_player2) DO UPDATE SET blocked=1`,
 		  [userID, targetUserID.id]
 		);
+		await db.run(
+        `UPDATE friend SET friend=0 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
+        [userID, targetUserID.id, targetUserID.id, userID]
+        );
 		reply.send({ success: true });
 	  } catch (err) {
 		console.error("DB error:", err);
