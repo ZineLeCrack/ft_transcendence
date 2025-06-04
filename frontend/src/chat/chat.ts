@@ -4,10 +4,12 @@ import { getWebSocket } from './../websocket.ts';
 
 export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
+	console.log("targetUser in sendMessage" ,targetUser);
 	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
-	: document.querySelector(`#chat-messages-${targetUser}`);
+	: document.getElementById(`chat-messages-${targetUser}`);
 
-	if (!messageWrapper)        
+	console.log("messageWrapper",messageWrapper)
+	if (!messageWrapper)
 		return;
 	
 	if (pong === true) {
@@ -134,36 +136,21 @@ export default function initChat() {
 
 		ws.onmessage = (event) => {
 			const data = JSON.parse(event.data);
-			if (data.type === 'new_message') {
-				if (!data.isHistoryMessage) {
+			console.log("in onmessage", data);
+			if (!data.isHistoryMessage) {
+				if (data.type === 'new_message') {
+					console.log("in new_message", data);
 					sendMessage(data.username, data.content);
 				}
-			}
-            if (data.type === 'new_private_message') {
-                if (!data.isHistoryMessage) {   
-                    sendMessage(data.username, data.content);
-                }
-            }
-		};
+            	if (data.type === 'new_private_message') {
+					const isSender = data.username === original_name;
+					const otherUser = isSender ? data.targetUsername : data.username;
 
-        async function displayPrivateMessages() {
-			try {
-				const response = await fetch(`/api/getPrivateMessages`, {
-					method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token }) // mettre targetUser et trouver que mettre pour targetUser // changer la fonction sendmessage pour qu'elle affiche le msg au bon endroit 
-				});
-				const data = await response.json();
-				const tab = data.tab;
-				messageBox.innerHTML = "";
-				for (let i = 0; i < tab.length; i++) {
-					const message = { ...tab[i], isHistoryMessage: true };
-					sendMessage(message.username, message.content);
-				}
-			} catch (err) {
-				console.error("Erreur lors de la récupération des messages :", err);
+					console.log("in data.type === new_private_message", data,"isSender" ,isSender, "otherUser",otherUser);
+            		sendMessage(data.username, data.content, false, otherUser);
+            	}
 			}
-		}
+		};
 
 		async function displayAllMessages() {
 			try {
@@ -175,6 +162,7 @@ export default function initChat() {
 				messageBox.innerHTML = "";
 				for (let i = 0; i < tab.length; i++) {
 					const message = { ...tab[i], isHistoryMessage: true };
+					console.log("in displayAllMessages");
 					sendMessage(message.username, message.content);
 				}
 			} catch (err) {
@@ -193,7 +181,9 @@ export default function initChat() {
             }
             else
             {
-                chatdata = { type: 'new_private_message', token, content };
+				const BoxTarget = document.querySelector('[id^="chat-messages-"]');
+				const targetUsername = BoxTarget?.id.split('-').pop();
+                chatdata = { type: 'new_private_message', token, content , targetUsername};
             }
 			ws.send(JSON.stringify(chatdata));
 			input.value = "";
@@ -212,7 +202,9 @@ export default function initChat() {
                 }
                 else
                 {
-                    chatdata = { type: 'new_private_message', token, content };
+					const BoxTarget = document.querySelector('[id^="chat-messages-"]');
+					const targetUsername = BoxTarget?.id.split('-').pop();
+                    chatdata = { type: 'new_private_message', token, content , targetUsername};
                 }
 				ws.send(JSON.stringify(chatdata));
 				input.value = "";
