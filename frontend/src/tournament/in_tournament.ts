@@ -201,8 +201,13 @@ const TournamentData_Lose_Win: TournamentDataLose_Win = {
 	joinTournamentBtn.textContent = 'Play';
 	joinTournamentBtn.classList.remove("border-[#FFD700]", "text-[#FFD700]", "hover:bg-[#FFD700]/20",  "shadow-[0_0_10px_#FFD700]");
 	joinTournamentBtn.classList.add("border-[#00FFFF]", "text-[#00FFFF]", "hover:bg-[#00FFFF]/20",  "shadow-[0_0_10px_#00FFFF]");
-	
+	const tournamentdiv = document.getElementById('tournament-div') as HTMLDivElement;
+
+	tournamentdiv.classList.remove("justify-between");
+	tournamentdiv.classList.add("justify-center", "gap-64");
+
 	createTournamentBtn.classList.add("hidden");
+
 
 	generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
 
