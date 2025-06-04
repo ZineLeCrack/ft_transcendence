@@ -1,4 +1,14 @@
+import { getWebSocket } from "../websocket";
+
 export default async function  initInTournament(id: string) {
+
+	// const ws = getWebSocket();
+
+	// ws.onmessage = (event) => {
+	// 	const data = JSON.parse(event.data);
+	// 	if (data.type === 'new_player_in_tournament')
+	// 		generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
+	// };
 
 	interface TournamentDataLose_Win {
 		winner1: string,
