@@ -27,19 +27,20 @@ export default async function joinTournamentRoutes(fastify: FastifyInstance) {
 
 			const playerSlot = 'player' + (parseInt(tournament.players) + 1).toString();
 
-			let id_user;
+			let name;
 			try {
 				const decoded = jwt.verify(token, JWT_SECRET);
-				id_user = (decoded as { userId: string }).userId;
+				name = (decoded as { name: string }).name;
 			}
 			catch (err) {
 				reply.status(401).send(`Invalid token: ${err}`);
 				return ;
 			}
 
+			console.log(`Name = ${name}`);
 			db.run(
 				`UPDATE tournaments SET ${playerSlot} = ?, players = players + 1 WHERE id = ?`,
-				[id_user, id_tournament]
+				[name, id_tournament]
 			);
 
 			reply.status(200);
