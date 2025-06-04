@@ -139,7 +139,31 @@ export default function initChat() {
 					sendMessage(data.username, data.content);
 				}
 			}
+            if (data.type === 'new_private_message') {
+                if (!data.isHistoryMessage) {   
+                    sendMessage(data.username, data.content);
+                }
+            }
 		};
+
+        async function displayPrivateMessages() {
+			try {
+				const response = await fetch(`/api/getPrivateMessages`, {
+					method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token }) // mettre targetUser et trouver que mettre pour targetUser // changer la fonction sendmessage pour qu'elle affiche le msg au bon endroit 
+				});
+				const data = await response.json();
+				const tab = data.tab;
+				messageBox.innerHTML = "";
+				for (let i = 0; i < tab.length; i++) {
+					const message = { ...tab[i], isHistoryMessage: true };
+					sendMessage(message.username, message.content);
+				}
+			} catch (err) {
+				console.error("Erreur lors de la récupération des messages :", err);
+			}
+		}
 
 		async function displayAllMessages() {
 			try {

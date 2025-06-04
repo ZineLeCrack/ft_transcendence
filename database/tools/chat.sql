@@ -8,7 +8,7 @@ CREATE TABLE chat (
 
 CREATE TABLE privatechat (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    sender TEXT NOT NULL,
-    receiver TEXT NOT NULL,
+    username1 TEXT NOT NULL,
+    username2 TEXT NOT NULL,
     content TEXT NOT NULL
 );
