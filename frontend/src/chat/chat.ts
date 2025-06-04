@@ -1,6 +1,3 @@
-import { userData } from "../game/choosegame.js";
-
-const token = sessionStorage.getItem("token");
 let original_name:string;
 export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
