@@ -10,14 +10,15 @@ import chatRoutes from './chat/chat_back.js';
 import a2fRoutes from './a2f/check_a2f.js';
 import addhistoryRoutes from './stats/add_history.js';
 import searchRoutes from './search/search_back.js';
-import editRoutes from './edit/edit.js'
+import editRoutes from './edit/edit.js';
 import createTournamentRoutes from './tournament/create_tournament.js';
 import listTournamentsRoutes from './tournament/list_tournaments.js';
 import joinTournamentRoutes from './tournament/join_tournament.js';
 import friendRoutes from './Friend-block/friend-back.js';
 import blockRoutes from './Friend-block/block-back.js';
 import isInATournamentRoutes from './tournament/is_in_a_tournament.js';
-import getPlayersATournamentRoutes from './tournament/get_players.js'
+import getPlayersATournamentRoutes from './tournament/get_players.js';
+import startTournamentsRoutes from './tournament/start_tournament.js';
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ async function main() {
 	await app.register(blockRoutes);
 	await app.register(isInATournamentRoutes);
 	await app.register(getPlayersATournamentRoutes);
+	await app.register(startTournamentsRoutes);
 
 	await app.listen({ port: 3451, host: '0.0.0.0' });
 

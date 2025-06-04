@@ -40,7 +40,7 @@ export default async function authRoutes(fastify: FastifyInstance)
 				reply.status(400).send('invalid username or email, This user already exists');
 				return;
 			}
-			
+
 			const hashedPassword = await bcrypt.hash(password, 10);
 
 			const uniqueFilename = `uploads/${uuidv4()}.png`;

@@ -9,7 +9,7 @@ export default async function joinTournamentRoutes(fastify: FastifyInstance) {
 
 		try {
 			const db = await getDb_tournaments();
-			const tournament = await db.get(`SELECT * FROM tournaments WHERE id=?`,
+			const tournament = await db.get(`SELECT * FROM tournaments WHERE id = ?`,
 			[id_tournament]
 			);
 
@@ -27,22 +27,35 @@ export default async function joinTournamentRoutes(fastify: FastifyInstance) {
 
 			const playerSlot = 'player' + (parseInt(tournament.players) + 1).toString();
 
-			let name;
+			let userId;
 			try {
 				const decoded = jwt.verify(token, JWT_SECRET);
-				name = (decoded as { name: string }).name;
+				userId = (decoded as { userId: string }).userId;
 			}
 			catch (err) {
 				reply.status(401).send(`Invalid token: ${err}`);
 				return ;
 			}
 
-			db.run(
+			await db.run(
 				`UPDATE tournaments SET ${playerSlot} = ?, players = players + 1 WHERE id = ?`,
-				[name, id_tournament]
+				[userId, id_tournament]
 			);
 
-			reply.status(200);
+			const players = await db.get(
+				`SELECT players_max, players FROM tournaments WHERE id = ?`,
+				[id_tournament]
+			);
+
+			let full;
+			if (players.players_max === players.players) {
+				full = true;
+			}
+			else {
+				full = false;
+			}
+
+			reply.status(200).send({ full: full, id: id_tournament });
 		} catch (err) {
 			console.error(err);
 			reply.status(500).send('Error');
