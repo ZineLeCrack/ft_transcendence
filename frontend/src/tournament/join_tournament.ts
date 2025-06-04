@@ -111,7 +111,6 @@ export default async function initJoinTournament() {
 	if (JoinBtnTournament.length > 0) {
 		JoinBtnTournament.forEach(button => {
 			button.addEventListener('click', async () => {
-				console.log(`Joining tournament with ID: ${button.id.split('-').pop()}`);
 				const passwordInput = document.getElementById(`password-input-${button.id.split('-').pop()}`) as HTMLInputElement;
 				const tournamentId = button.id.split('-').pop();
 
@@ -135,9 +134,30 @@ export default async function initJoinTournament() {
 
 					ws.send(JSON.stringify({ type: 'tournament_new_player' }));
 
+					const data = await response.json();
+					if (data.full)
+					{
+						try {
+							const response = await fetch('/api/tournament/start', {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify({ id: data.id })
+							});
+							const players = await response.json();
+							await fetch('/api/multi/tournament_start', {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify(players)
+							});
+						} catch (err) {
+							console.error(`Error starting tournament: `, err);
+							return ;
+						}
+					}
+
 					joinView?.classList.add('hidden');
 					mainView?.classList.remove('hidden');
-					window.location.reload();
+					// window.location.reload();
 				} catch (err) {
 					console.error(err);
 					alert(err);
