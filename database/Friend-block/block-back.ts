@@ -23,7 +23,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
         return;
       }
       const block = await db.get(
-        'SELECT friend FROM block WHERE id_player1 = ? AND id_player2 = ?',
+        'SELECT blocked FROM block WHERE id_player1 = ? AND id_player2 = ?',
         [userID, targetUserID.id]
       );
       reply.send({ status: block ? block.blocked : 0 });
@@ -83,6 +83,10 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 		 ON CONFLICT(id_player1, id_player2) DO UPDATE SET blocked=0`,
 		[userID, targetUserID.id]
 	  );
+	  await db.run(
+        `UPDATE friend SET friend=0 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
+        [userID, targetUserID.id, targetUserID.id, userID]
+      );
 	  reply.send({ success: true });
 	} catch (err) {
 	  console.error("DB error:", err);
