@@ -1,4 +1,5 @@
 import { togglePassword } from "../profile/utils";
+import { getWebSocket } from "../websocket";
 
 export default async function initJoinTournament() {
 
@@ -129,6 +130,10 @@ export default async function initJoinTournament() {
 					if (!response.ok) {
 						throw new Error(response.statusText);
 					}
+
+					const ws = getWebSocket();
+
+					ws.send(JSON.stringify({ type: 'tournament_new_player' }));
 
 					joinView?.classList.add('hidden');
 					mainView?.classList.remove('hidden');

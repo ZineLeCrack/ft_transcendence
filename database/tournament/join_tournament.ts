@@ -37,7 +37,6 @@ export default async function joinTournamentRoutes(fastify: FastifyInstance) {
 				return ;
 			}
 
-			console.log(`Name = ${name}`);
 			db.run(
 				`UPDATE tournaments SET ${playerSlot} = ?, players = players + 1 WHERE id = ?`,
 				[name, id_tournament]
