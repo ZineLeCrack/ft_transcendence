@@ -1,13 +1,15 @@
-import { loadRoutes } from '../main';
 import initBlockPlayer from './block';
 import initAddFriend from './friend';
 
 import { generateCardsHistory} from "../profile/history.js";
-import type {CardHistory} from "../profile/history.js";
 import initSearch from './search.js';
 
 
+
 export default async function initUsers(username?: string, isHistory: boolean = false) {
+    const tokenID = sessionStorage.getItem("token");
+    const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
+    const blockbtn = document.getElementById("block-btn") as HTMLButtonElement;
     if (username) {
         // Set username in h2
         const usernameh2 = document.getElementById('username-h2');
@@ -36,9 +38,25 @@ export default async function initUsers(username?: string, isHistory: boolean = 
             updateView(false);
         });
 
-        initSearch();
-        initBlockPlayer();
-        initAddFriend();
+        const res = await fetch("/api/verifuser", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: tokenID })
+        });
+        const data = await res.json();
+        if (data.original === username)
+        {
+            blockbtn.classList.add('hidden');
+            friendbtn.classList.add('hidden');   
+            initSearch();
+        }
+        else
+        {
+            initBlockPlayer(username);
+            initAddFriend(username);
+            initSearch();
+        }
+        
 
         if (isHistory) {
             await loadHistoryContent(username);
