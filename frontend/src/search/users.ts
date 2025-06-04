@@ -23,8 +23,12 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 
         historyBtn?.addEventListener('click', async (e) => {
             e.preventDefault();
-            history.pushState(null, `${username}`, `/users/${username}/history`);
-            updateView(true);
+            const currentPath = window.location.pathname;
+            const currentTargetPath = `/users/${username}/history`;
+            if (currentPath !== currentTargetPath) {
+                history.pushState(null, `${username}`, `/users/${username}/history`);
+                updateView(true);
+            }
         });
 
         globalBtn?.addEventListener('click', async (e) => {
