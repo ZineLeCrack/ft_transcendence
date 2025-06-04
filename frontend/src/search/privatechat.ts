@@ -37,20 +37,19 @@ export default async function initPrivateChat(username?: string) {
 	const input = document.getElementById("private-chat-input") as HTMLInputElement;
 	const sendBtn = document.getElementById("private-chat-send") as HTMLButtonElement;
 	const pongBtn = document.getElementById("private-pong-send") as HTMLButtonElement;
-	const messageBox = document.getElementById("private-chat-messages") as HTMLDivElement;
 
 	sendBtn.addEventListener("click", () => {
-		sendMessage("username", input.value, messageBox); // Replace "username" with the actual username
+		sendMessage("username", input.value); // Replace "username" with the actual username
 	});
 
 	input.addEventListener("keydown", (event) => {
 		if (event.key === "Enter") {
 			event.preventDefault();
-			sendMessage("username", input.value, messageBox); // Replace "username" with the actual username
+			sendMessage("username", input.value); // Replace "username" with the actual username
 		}
 	});
 
 	pongBtn.addEventListener("click", () => {
-		sendMessage("username", "" , messageBox, true); // Replace "username" with the actual username
+		sendMessage("username", "" , true); // Replace "username" with the actual username
 	});
 }	//ajouter fetch et websocket pour envoyer les messages privés 

@@ -70,7 +70,8 @@ export default function initCreateTournament() {
 				body: JSON.stringify({
 					name: tournamentName,
 					players_max: parseInt(players.value),
-					type: type.value
+					type: type.value,
+					password: type.value === 'private' ? password: null
 				})
 			});
 

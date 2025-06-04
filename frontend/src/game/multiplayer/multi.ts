@@ -14,75 +14,75 @@ export let message = "";
 export default function initMultiplayer() {
 
 
-const player = localStorage.getItem("player");
+const player = sessionStorage.getItem("player");
 
 let keys: { [key: string]: boolean } = {
-    ArrowUp: false,
-    ArrowDown: false
+	ArrowUp: false,
+	ArrowDown: false
 };
 
 let gameOver = false;
 
-const gameId = localStorage.getItem("gameId");
+const gameId = sessionStorage.getItem("gameId");
 const SERVER_URL = `/api/multi/game/${gameId}`;
 
 async function fetchState() {
-    if (gameOver)
-        return ;
-    try {
-        const res = await fetch(`${SERVER_URL}/state`);
-        const data = await res.json();
-        if (data.end)
-        {
-            gameOver = true;
-            setTimeout(async () => {
-                const response = await fetch(`${SERVER_URL}/end`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: data.id }),
-                });
-                const gameStat = await response.json();
-                if (player === "player1")
-                {
-                    await fetch(`/api/addhistory`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(gameStat),
-                    });
-                }
-                history.pushState(null, '', '/home');
-                await loadRoutes('/home');
-            }, 2000);
-        }
-        ballX = data.ballX;
-        ballY = data.ballY;
-        leftPaddleY = data.leftPaddleY;
-        rightPaddleY = data.rightPaddleY;
-        leftScore = data.leftScore;
-        rightScore = data.rightScore;
-        message = data.message;
-        draw();
-    } catch (error) {
-        console.error("Erreur de fetchState:", error);
-    }
+	if (gameOver)
+		return ;
+	try {
+		const res = await fetch(`${SERVER_URL}/state`);
+		const data = await res.json();
+		if (data.end)
+		{
+			gameOver = true;
+			setTimeout(async () => {
+				if (player === "player1")
+				{
+					const response = await fetch(`${SERVER_URL}/end`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ id: data.id }),
+					});
+					const gameStat = await response.json();
+					await fetch(`/api/addhistory`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(gameStat),
+					});
+				}
+				history.pushState(null, '', '/home');
+				await loadRoutes('/home');
+			}, 2000);
+		}
+		ballX = data.ballX;
+		ballY = data.ballY;
+		leftPaddleY = data.leftPaddleY;
+		rightPaddleY = data.rightPaddleY;
+		leftScore = data.leftScore;
+		rightScore = data.rightScore;
+		message = data.message;
+		draw();
+	} catch (error) {
+		console.error("Erreur de fetchState:", error);
+	}
 }
 
 document.addEventListener("keydown", (e) => {
-    if (e.key in keys) keys[e.key] = true;
+	if (e.key in keys) keys[e.key] = true;
 });
 
 document.addEventListener("keyup", (e) => {
-    if (e.key in keys) keys[e.key] = false;
+	if (e.key in keys) keys[e.key] = false;
 });
 
 setInterval(() => {
-    if (gameOver)
-        return ;
-    fetch(`${SERVER_URL}/${player}move`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ keys })
-    }).catch(err => console.error("Erreur POST /move:", err));
+	if (gameOver)
+		return ;
+	fetch(`${SERVER_URL}/${player}move`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ keys })
+	}).catch(err => console.error("Erreur POST /move:", err));
 }, 16);
 
 setInterval(fetchState, 16);

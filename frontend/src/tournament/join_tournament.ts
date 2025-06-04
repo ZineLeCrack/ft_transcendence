@@ -111,31 +111,32 @@ export default async function initJoinTournament() {
 		JoinBtnTournament.forEach(button => {
 			button.addEventListener('click', async () => {
 				console.log(`Joining tournament with ID: ${button.id.split('-').pop()}`);
-				// const passwordInput = document.getElementById(`password-input-${button.id.split('-').pop()}`) as HTMLInputElement;
-				// const tournamentId = button.id.split('-').pop();
+				const passwordInput = document.getElementById(`password-input-${button.id.split('-').pop()}`) as HTMLInputElement;
+				const tournamentId = button.id.split('-').pop();
 
-				// try {
-				// 	const response = await fetch('/api/tournament/join', {
-				// 		method: 'POST',
-				// 		headers: {
-				// 			'Content-Type': 'application/json',
-				// 		},
-				// 		body: JSON.stringify({
-				// 			id_tournamemt: tournamentId,
-				// 			id_user: '1', // a remplacer pas le vrai id de l'utilisateur
-				// 			password: passwordInput.value ? passwordInput.value : undefined,
-				// 		})
-				// 	});
-				// 	if (!response.ok) {
-				// 		throw new Error('Failed to create tournament');
-				// 	}
-				// 	joinView?.classList.add('hidden');
-				// 	mainView?.classList.remove('hidden');
-				// 	alert('Successfully joined the tournament!');
-				// } catch (error) {
-				// 	alert('Failed to create tournament');
-				// }
+				try {
+					const token = sessionStorage.getItem('token');
+					const response = await fetch('/api/tournament/join', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							id_tournament: tournamentId,
+							token: token,
+							password: passwordInput ? passwordInput.value : ''
+						})
+					});
 
+					if (!response.ok) {
+						throw new Error(response.statusText);
+					}
+
+					joinView?.classList.add('hidden');
+					mainView?.classList.remove('hidden');
+					window.location.reload();
+				} catch (err) {
+					console.error(err);
+					alert(err);
+				}
 			});
 		});
 	}

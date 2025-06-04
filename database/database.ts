@@ -3,7 +3,7 @@ import { open } from 'sqlite';
 
 export async function getDb_user() {
 	return open({
-		filename: '/database/user.db',
+		filename: '/database/users.db',
 		driver: sqlite3.Database,
 	});
 }
@@ -21,3 +21,4 @@ export async function getDb_tournaments() {
 		driver: sqlite3.Database,
 	});
 }
+

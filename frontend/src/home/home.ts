@@ -3,13 +3,34 @@ import initChat from '../chat/chat';
 import initsearch from '../search/search';
 import initCreateTournament from '../tournament/create_tournament';
 import initJoinTournament from '../tournament/join_tournament';
-import initPrivateChat from '../chat/friendchat';
+import initInTournament from '../tournament/in_tournament';
+import initFriendChat from '../chat/friendchat';
 
 export default async function initHome() {
 	initChooseGame();
 	initChat();
-	initPrivateChat();
+	initFriendChat();
 	await initsearch();
-	initCreateTournament();
-	initJoinTournament();
+	
+	const res = await fetch('/api/tournament/is_in', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ token: sessionStorage.getItem('token') })
+	});
+
+	if (!res.ok)
+	{
+		console.error(`Failed to load tournament`);
+		return ;
+	}
+
+	const data = await res.json();
+
+	if (data.tournamentId === '0')
+	{
+		initCreateTournament();
+		initJoinTournament();
+	}
+	else
+		initInTournament(data.tournamentId);
 }

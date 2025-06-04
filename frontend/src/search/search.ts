@@ -19,7 +19,7 @@ export default async function initSearch()
 				});
 	
 				const { exists } = await res.json();
-	
+				
 				if (exists) {
 					history.pushState(null, '', '/users/' + username);
 					await loadRoutes('/users/' + username);
