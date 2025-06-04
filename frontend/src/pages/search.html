@@ -6,7 +6,6 @@
 		<h2 id="username-h2" class="text-center text-2xl text-[#00FFFF] font-bold drop-shadow-[0_0_10px_#00FFFF]"></h2>
 		<button id="friend-btn" class="bg-transparent border-2 border-[#FFD700] px-10 py-3 rounded-xl text-[#FFD700] font-bold hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">Add Friend</button>
 		<button id="block-btn" class="bg-transparent border-2 border-[#FF2E9F] px-10 py-3 rounded-xl text-[#FF2E9F] font-bold hover:bg-[#FF2E9F]/20 transition duration-200 shadow-[0_0_10px_#FF2E9F]">Block Player</button>
-		<button id="chat-btn" class="bg-transparent border-2 border-[#00FFFF] px-10 py-3 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">Chat With Me !</button>
 	</div>
 </div>
 
@@ -42,40 +41,5 @@
 				class="hidden w-full h-[75vh] space-y-6 overflow-y-auto p-6 bg-black/30 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] mx-auto">
 			</div>
 		</div>
-	</div>
-</div>
-
-<!-- Chat Popup -->
-<div id="chat-popup" class="hidden fixed left-[23%] top-[65%] transform -translate-y-1/2 w-[400px] h-[500px] rounded-2xl p-4 flex-col border-4 border-[#B026FF] bg-black/95 backdrop-blur-lg shadow-[0_0_10px_#B026FF] font-mono z-50">
-	<!-- Header with close button -->
-	<div id="chat-header" class="flex items-center justify-between mb-4 border-b border-[#FF0F4D] pb-2">
-		<div id="name-header" class="text-[#ad39f0] font-bold flex items-center">
-			<span class="mr-2 text-[#FF2E9F]">⚡</span>
-			CHAT://private
-			<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>
-		</div>
-		<button id="close-chat" class="text-[#FF2E9F] text-2xl hover:text-[#FF0F4D] transition-colors">
-			✕
-		</button>
-	</div>
-
-	<!-- Messages area -->
-	<div id="private-chat-messages" class="flex-1 overflow-y-auto flex flex-col mb-4 space-y-4 p-4 
-		[&::-webkit-scrollbar]:w-2 
-		[&::-webkit-scrollbar-track]:bg-black/20 
-		[&::-webkit-scrollbar-thumb]:bg-[#00FFFF] 
-		[&::-webkit-scrollbar-thumb]:rounded-none 
-		font-mono text-sm">
-	</div>
-
-	<!-- Input area -->
-	<div class="flex items-center gap-2 w-full border-t border-[#00FFFF] pt-2 bg-black/40">
-		<span class="text-[#00FFFF] animate-pulse">></span>
-		<input id="private-chat-input" type="text" placeholder="Enter message..."
-			class="bg-transparent p-2 text-[#00FFFF] flex-grow min-w-0 border-none focus:outline-none focus:ring-0 placeholder-[#00FFFF]/50" />
-		<button id="private-chat-send" class="text-[#00FFFF] hover:text-white transition-colors px-2">⮐</button>
-		<button id="private-pong-send" class="w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10 transition-colors">
-			<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">
-		</button>
 	</div>
 </div>
