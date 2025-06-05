@@ -40,7 +40,7 @@ if (editProfileForm) {
 picturebutton.addEventListener('click', async (event) =>{
 	event.preventDefault();
 
-	const file = pictureInput.files[0];
+	const file = pictureInput.files![0];
 	const Token = sessionStorage.getItem('token')!;
 	if (!file)
 	{

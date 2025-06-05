@@ -1,6 +1,7 @@
 const IP_NAME = process.env.IP_NAME || '10.12.200.0';
 
 export class GameInstance {
+	private = false;
 	gameId = "";
 	player1 = { id: "", name: "" }; 
 	player2 = { id: "", name: "" };
@@ -23,10 +24,16 @@ export class GameInstance {
 
 	private interval: NodeJS.Timeout | null = null;
 
-	constructor(gameId: string, userId: string, userName: string) {
-		this.gameId = gameId;
-		this.player1.id = userId;
-		this.player1.name = userName;
+	constructor(gameId: string, userId: string, userName: string, is_private: boolean) {
+		if (is_private) {
+			this.private = true;
+		}
+		else
+		{
+			this.gameId = gameId;
+			this.player1.id = userId;
+			this.player1.name = userName;
+		}
 		this.startLoop();
 	}
 
