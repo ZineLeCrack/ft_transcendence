@@ -1,5 +1,5 @@
 import { togglePassword } from "../profile/utils";
-import { ws } from "../websocket";
+import { getWebSocket } from '../websocket';
 
 export default async function initJoinTournament() {
 
@@ -131,8 +131,8 @@ export default async function initJoinTournament() {
 					}
 
 					const data = await response.json();
-
-					ws.send(JSON.stringify({ type: 'tournament_new_player', id: data.id }));
+					const ws = getWebSocket();
+					ws?.send(JSON.stringify({ type: 'tournament_new_player', id: data.id }));
 
 					if (data.full)
 					{

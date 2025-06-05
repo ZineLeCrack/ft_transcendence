@@ -1,21 +1,6 @@
 import { sendMessage } from "./chat/chat.js";
 import { generateTournamentView } from "./tournament/in_tournament.js";
 
-// let ws: WebSocket | null = null;
-
-// export function getWebSocket(): WebSocket {
-// 	if (!ws) {
-// 		ws = new WebSocket(`wss://${window.location.host}/ws/`);
-// 		ws.onopen = () => {
-// 			console.log("WebSocket connecté !");
-// 		};
-// 		ws.onerror = (err) => {
-// 			console.error("WebSocket erreur:", err);
-// 		};
-// 	}
-// 	return ws;
-// }
-
 interface TournamentDataLose_Win {
 	winner1: string,
 	loser1: string,
@@ -52,34 +37,50 @@ const TournamentData_Lose_Win: TournamentDataLose_Win = {
 	loser_final: `?`
 };
 
-export const ws = new WebSocket(`wss://${window.location.host}/ws/`);
+let ws: WebSocket | null = null;
+let original_name: string;
 
-ws.onopen = () => {
-	console.log("WebSocket connecté !");
-};
+export function initWebSocket(original: string) {
+	if (ws) return;
+	original_name = original;
 
-ws.onerror = (err) => {
-	console.error("WebSocket erreur:", err);
-};
+	ws = new WebSocket(`wss://${window.location.host}/ws/`);
 
-ws.onmessage = async (event) => {
-	const data = JSON.parse(event.data);
-	if (data.type === 'new_message') {
-		if (!data.isHistoryMessage) {
-			sendMessage(data.username, data.content);
+	ws.onopen = () => {
+		console.log("WebSocket connecté !");
+	};
+
+	ws.onerror = (err) => {
+		console.error("WebSocket erreur:", err);
+	};
+
+	ws.onmessage = async (event) => {
+		const data = JSON.parse(event.data);
+		if (data.type !== 'tournament_new_player' && !data.isHistoryMessage) {
+			if (data.type === 'new_message') {
+				sendMessage(data.username, data.content);
+			}
+			if (data.type === 'new_private_message') {
+				const isSender = data.username === original_name;
+				const otherUser = isSender ? data.targetUsername : data.username;
+				sendMessage(data.username, data.content, false, otherUser);
+			}
+		} else if (data.type === 'tournament_new_player') {
+			try {
+				const response = await fetch('/api/tournament/get_players', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ tournamentId: data.id }),
+				});
+				const TournamentData_Players = await response.json();
+				generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
+			} catch (err) {
+				console.error('Error getting players:', err);
+			}
 		}
-	}
-	else if (data.type === 'tournament_new_player') {
-		try {
-			const response = await fetch('/api/tournament/get_players', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ tournamentId: data.id })
-		});
-		const TournamentData_Players = await response.json();
-		generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
-		} catch (err) {
-			console.error('Error gettings players: ', err);
-		}
-	}
-};
+	};
+}
+
+export function getWebSocket(): WebSocket | null {
+	return ws;
+}

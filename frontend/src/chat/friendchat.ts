@@ -166,7 +166,7 @@ export default async function initFriendChat() {
 	const chatContainers = document.getElementById('chat-containers') as HTMLDivElement;
 
 	friendButtons.forEach(button => {
-		button.addEventListener('click', () => {
+		button.addEventListener('click', async () => {
 			const username = button.id.split('-').pop();
 			
 			const existingChats = chatContainers.querySelectorAll('[id^="chat-messages-"]');
@@ -180,8 +180,30 @@ export default async function initFriendChat() {
 			chatInfo.innerHTML = `
             <span class="mr-2 text-[#FF2E9F]">⚡</span>
             CHAT://${username}
-            <span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>
-        `;
+            <span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
+
+
+			const res = await fetch(`/api/verifuser`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token: sessionStorage.getItem('token')})});
+			const info = await res.json();
+
+			const original_name = info.original;
+
+			const response = await fetch(`/api/getPrivateMessages`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token: sessionStorage.getItem('token'), username2: username })});
+			const data = await response.json();
+			const tab = data.tab;
+			for (let i = 0; i < tab.length; i++)
+			{
+				const message = { ...tab[i], isHistoryMessage: true };
+				const isSender = message.username1 === original_name;
+				const otherUser = isSender ? message.username2 : message.username1;
+				sendMessage(message.username1, message.content, false, otherUser);
+			}
 		});
 	});
 }

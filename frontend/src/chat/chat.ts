@@ -1,13 +1,13 @@
-import { ws } from '../websocket';
+import { getWebSocket } from '../websocket';
 
 let original_name:string;
 
 export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
 	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
-	: document.querySelector(`#chat-messages-${targetUser}`);
+	: document.getElementById(`chat-messages-${targetUser}`);
 
-	if (!messageWrapper)        
+	if (!messageWrapper)
 		return;
 	
 	if (pong === true) {
@@ -109,7 +109,6 @@ export function sendMessage(username: string, content: string, pong?: boolean, t
 	messageContainer.appendChild(msg);
 	messageWrapper.appendChild(messageContainer);
 
-	// Scroll to bottom of chat-containers instead of messageBox
 	const chatContainer = document.getElementById('chat-containers');
 	if (chatContainer) {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -119,6 +118,8 @@ export default function initChat() {
 	const input = document.getElementById("chat-input") as HTMLInputElement;
 	const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
 	const messageBox = document.getElementById("chat-messages-global") as HTMLDivElement;
+
+	const ws = getWebSocket();
 
 	(async () => {
 		const token = sessionStorage.getItem('token');
@@ -151,8 +152,18 @@ export default function initChat() {
 			const token = sessionStorage.getItem('token');
 			const content = input.value.trim();
 			if (content === "") return;
-			const chatdata = { type: 'new_message', token, content };
-			ws.send(JSON.stringify(chatdata));
+			let chatdata;
+            if (document.getElementById("chat-messages-global"))
+            {
+			    chatdata = { type: 'new_message', token, content };
+            }
+            else
+            {
+				const BoxTarget = document.querySelector('[id^="chat-messages-"]');
+				const targetUsername = BoxTarget?.id.split('-').pop();
+                chatdata = { type: 'new_private_message', token, content , targetUsername};
+            }
+			ws?.send(JSON.stringify(chatdata));
 			input.value = "";
 		});
 
@@ -162,8 +173,18 @@ export default function initChat() {
 				const token = sessionStorage.getItem('token');
 				const content = input.value.trim();
 				if (content === "") return;
-				const chatdata = { type: 'new_message', token, content };
-				ws.send(JSON.stringify(chatdata));
+                let chatdata;
+                if (document.getElementById("chat-messages-global"))
+                {
+				    chatdata = { type: 'new_message', token, content };
+                }
+                else
+                {
+					const BoxTarget = document.querySelector('[id^="chat-messages-"]');
+					const targetUsername = BoxTarget?.id.split('-').pop();
+                    chatdata = { type: 'new_private_message', token, content , targetUsername};
+                }
+				ws?.send(JSON.stringify(chatdata));
 				input.value = "";
 			}
 		});
