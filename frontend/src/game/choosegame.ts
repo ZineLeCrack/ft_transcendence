@@ -89,8 +89,29 @@ export default function initChooseGame() {
 		}
 		else if (mode === "AI") {
 			playBtn.onclick = async () => {
-				history.pushState(null, '', '/game/ai');
-				await loadRoutes('/game/ai');
+				try {
+					const response = await fetch(`api/main/game/start`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							userId: userData.userId,
+							userName: userData.userName
+						})
+					});
+
+					if (!response.ok)
+						throw new Error(`Erreur HTTP: ${response.status}`);
+
+					const data = await response.json();
+					const gameId = data.gameId;
+					sessionStorage.setItem("gameId", gameId);
+
+					history.pushState(null, '', '/game/ai');
+					await loadRoutes('/game/ai');
+					window.location.reload();
+				} catch (err) {
+					console.error("❌ Erreur lors du démarrage du mode ai :", err);
+				}
 			}
 			document.body.style.backgroundImage = "url('/images/AItemp.png')";
 		}
