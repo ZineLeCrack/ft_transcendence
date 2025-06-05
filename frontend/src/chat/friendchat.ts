@@ -185,14 +185,14 @@ export default async function initFriendChat() {
 				initError("You are not friends with this user.");
 				setTimeout(async () => {
 					window.location.reload();
-				}, 2000);
+				}, 1000);
 				return;
 			}
 			if (friendStatus.status === 2) {
 				initError("You have sent a friend request to this user. Please wait for their response.");
 				setTimeout(async () => {
 					window.location.reload();
-				}, 2000);
+				}, 1000);
 				return;
 			}
 
@@ -212,8 +212,12 @@ export default async function initFriendChat() {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ token: sessionStorage.getItem('token')})});
 			const info = await checkUser.json();
+			
 
 			const original_name = info.original;
+			if (friendStatus.status === 3) {
+				sendMessage(original_name, "", false, username, true);
+			}
 
 			const response = await fetch(`/api/getPrivateMessages`, {
 				method: 'POST',
@@ -228,10 +232,22 @@ export default async function initFriendChat() {
 				const otherUser = isSender ? message.username2 : message.username1;
 				sendMessage(message.username1, message.content, false, otherUser);
 			}
+		// 	<button id="pong-send"
+		// 	class="w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10 transition-colors">
+		// 	<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">
+		// </button>
 
-			if (friendStatus.status === 3) {
-				sendMessage(original_name, "", false, username, true);
-			}
+			const inputArea = document.getElementById('input-Area') as HTMLDivElement;
+			const pongBtn = document.createElement('div');
+			pongBtn.id = 'pong-send';
+			pongBtn.className = 'w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10';
+			pongBtn.innerHTML = '<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">';
+			inputArea.appendChild(pongBtn);
+			
+			pongBtn.addEventListener("click", async () => {
+				console.log("pongBtn clicked", original_name, "", true, target);
+				sendMessage(original_name, "", true, target);
+			});
 		});
 	});
 }

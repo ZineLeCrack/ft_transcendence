@@ -23,8 +23,6 @@ export default async function initBlockPlayer(target?: string) {
 		await checkBlockStatus();
 
 		blockbtn.addEventListener("click", async () => {
-			console.log("Block button clicked");
-
 			if (blockbtn.textContent === "Block Player") {
 				const res = await fetch("/api/blockplayer", {
 					method: "POST",
@@ -44,6 +42,7 @@ export default async function initBlockPlayer(target?: string) {
 				if (data.success) 
 					blockbtn.textContent = "Block Player";
 			}
+			window.location.reload();
 		});
 	}
 }

@@ -29,7 +29,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		
 		const msg = document.createElement("div");
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
-		msg.textContent = `${username} wants to play with you !`;
+		msg.textContent = `${targetUser} wants to play with you !`;
 		
 		const buttonsDiv = document.createElement("div");
 		buttonsDiv.className = "flex gap-4 mt-2";
@@ -66,7 +66,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		
 		const msg = document.createElement("div");
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
-		msg.textContent = `${username} wants to be friend with you !`;
+		msg.textContent = `${targetUser} wants to be friend with you !`;
 		
 		const buttonsDiv = document.createElement("div");
 		buttonsDiv.className = "flex gap-4 mt-2";

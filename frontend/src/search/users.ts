@@ -1,5 +1,7 @@
 import initBlockPlayer from './block';
 import initAddFriend from './friend';
+import initError from '../error.js';
+import { loadRoutes } from '../main.js';
 
 import { generateCardsHistory} from "../profile/history.js";
 import initSearch from './search.js';
@@ -8,6 +10,23 @@ export default async function initUsers(username?: string, isHistory: boolean = 
     const tokenID = sessionStorage.getItem("token");
     const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
     const blockbtn = document.getElementById("block-btn") as HTMLButtonElement;
+    
+    const token = sessionStorage.getItem('token');
+    const response = await fetch('/api/verifuser', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+    });
+    if (!response.ok)
+    {
+        initError('Please Sign in or Sign up !');
+        setTimeout(async () => {
+            history.pushState(null, '', '/login');
+            await loadRoutes('/login');
+        }, 1000);
+        return;
+    }
+
     if (username) {
         const usernameh2 = document.getElementById('username-h2');
         if (usernameh2) {
@@ -35,13 +54,19 @@ export default async function initUsers(username?: string, isHistory: boolean = 
             updateView(false);
         });
 
-        const res = await fetch("/api/verifuser", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token: tokenID })
-        });
-
-        const data = await res.json();
+        // const res = await fetch("/api/verifuser", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({ token: tokenID })
+        // });
+        const target = username;
+        const blockCheck = await fetch("/api/isblock", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ tokenID, target })
+		});
+		const block = await blockCheck.json();
+        const data = await response.json();
         if (data.original === username)
         {
             blockbtn.classList.add('hidden');
@@ -50,8 +75,9 @@ export default async function initUsers(username?: string, isHistory: boolean = 
         }
         else
         {
+            if (block.status !== 1)
+                initAddFriend(username);
             initBlockPlayer(username);
-            initAddFriend(username);
             initSearch();
         }
 

@@ -1,5 +1,24 @@
 import  imageCompression  from 'browser-image-compression';
+import initError from '../error';
+import { loadRoutes } from '../main';
+
 export default async function initEditProfile() {
+
+	const token = sessionStorage.getItem('token');
+		const response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
+		if (!response.ok)
+		{
+			initError('Please Sign in or Sign up !');
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return;
+		}
 
 const usernameInput = document.getElementById("edit-username-input") as HTMLInputElement;
 const emailInput = document.getElementById("edit-email-input") as HTMLInputElement;
