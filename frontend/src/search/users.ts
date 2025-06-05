@@ -54,11 +54,6 @@ export default async function initUsers(username?: string, isHistory: boolean = 
             updateView(false);
         });
 
-        // const res = await fetch("/api/verifuser", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify({ token: tokenID })
-        // });
         const target = username;
         const blockCheck = await fetch("/api/isblock", {
 			method: "POST",

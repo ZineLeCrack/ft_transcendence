@@ -113,7 +113,7 @@ export default async function initJoinTournament() {
 			button.addEventListener('click', async () => {
 				const passwordInput = document.getElementById(`password-input-${button.id.split('-').pop()}`) as HTMLInputElement;
 				const tournamentId = button.id.split('-').pop();
-
+				
 				try {
 					const token = sessionStorage.getItem('token');
 					const response = await fetch('/api/tournament/join', {

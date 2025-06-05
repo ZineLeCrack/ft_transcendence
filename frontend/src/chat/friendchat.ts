@@ -232,10 +232,6 @@ export default async function initFriendChat() {
 				const otherUser = isSender ? message.username2 : message.username1;
 				sendMessage(message.username1, message.content, false, otherUser);
 			}
-		// 	<button id="pong-send"
-		// 	class="w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10 transition-colors">
-		// 	<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">
-		// </button>
 
 			const inputArea = document.getElementById('input-Area') as HTMLDivElement;
 			const pongBtn = document.createElement('div');
