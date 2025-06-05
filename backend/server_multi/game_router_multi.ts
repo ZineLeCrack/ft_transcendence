@@ -36,7 +36,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 				reply.send({ gameId: id, player: "player2" });
 				return ;
 			}
-			else if (!game.full) {
+			else if (!game.private && !game.full) {.67
 				game.full = true;
 				game.player2.id = userId;
 				game.player2.name = userName;
