@@ -17,6 +17,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "browser-image-compression": "^2.0.2",
     "chart": "^0.1.2",
     "chart.js": "^4.4.9",
     "chartjs-plugin-datalabels": "^2.2.0",

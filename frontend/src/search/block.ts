@@ -14,7 +14,7 @@ export default async function initBlockPlayer(target?: string) {
 			const data = await res.json();
 			// status 1 = bloqué, 0 = pas bloqué
 			if (data.status === 1) {
-				blockbtn.textContent = "Unblock Player";
+				blockbtn.textContent = "Unblock Player"; //faire en sorte qu'on puisse plus ajouter en ami !!!!!!!!!!!!!!!
 			} else {
 				blockbtn.textContent = "Block Player";
 			}

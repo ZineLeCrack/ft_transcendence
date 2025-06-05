@@ -11,63 +11,63 @@ const verificationCodes = new Map();
 
 
 export default async function a2fRoutes(fastify: FastifyInstance) {
-  fastify.register(fastifyJwt, {
-    secret: JWT_SECRET,
-  });
+	fastify.register(fastifyJwt, {
+		secret: JWT_SECRET,
+	});
 
-  fastify.post('/a2f/send', async (request, reply) => {
-    const { IdUser } = request.body as { IdUser: string , userName : string, PictureProfile : string};
+	fastify.post('/a2f/send', async (request, reply) => {
+		const { IdUser } = request.body as { IdUser: string , userName : string, PictureProfile : string};
 
-    if (!IdUser) {
-      reply.status(400).send('Missing IdUser');
-      return;
-    }
+		if (!IdUser) {
+			reply.status(400).send('Missing IdUser');
+			return;
+		}
 
-    try {
-      const db = await getDb_user();
-      const user = await db.get(`SELECT email FROM users WHERE id = ?`, [IdUser]);
-      if (!user?.email) {
-        reply.status(404).send('User not found');
-        return;
-      }
+		try {
+			const db = await getDb_user();
+			const user = await db.get(`SELECT email FROM users WHERE id = ?`, [IdUser]);
+			if (!user?.email) {
+				reply.status(404).send('User not found');
+				return;
+			}
 
-      const code = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-      verificationCodes.set(IdUser, code);
+			const code = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+			verificationCodes.set(IdUser, code);
 
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: EMAIL,
-          pass: EMAIL_SMP,
-        },
-      });
+			const transporter = nodemailer.createTransport({
+				service: 'gmail',
+				auth: {
+					user: EMAIL,
+					pass: EMAIL_SMP,
+				},
+			});
 
-      await transporter.sendMail({
-        from: EMAIL,
-        to: user.email,
-        subject: 'Votre code de vérification',
-        text: `Voici votre code de vérification : ${code}`,
-      });
+			await transporter.sendMail({
+				from: EMAIL,
+				to: user.email,
+				subject: 'Votre code de vérification',
+				text: `Voici votre code de vérification : ${code}`,
+			});
 
-      reply.status(200).send('Code sent');
-    } 
-    catch (err) {
-      // console.error(err);
-      reply.status(500).send('An error occurred while sending the code retry later');
-    }
-  });
+			reply.status(200).send('Code sent');
+		} 
+		catch (err) {
+			// console.error(err);
+			reply.status(500).send('An error occurred while sending the code retry later');
+		}
+	});
 
-  fastify.post('/a2f/verify', async (request, reply) => {
-    const { IdUser, code , Name, PictureProfile} = request.body as { IdUser: string, code: string , Name : string, PictureProfile : string};
+	fastify.post('/a2f/verify', async (request, reply) => {
+		const { IdUser, code , Name, PictureProfile} = request.body as { IdUser: string, code: string , Name : string, PictureProfile : string};
 
-    if (!IdUser || !code) {
-      reply.status(400).send('Incomplete data');
-      return;
-    }
+		if (!IdUser || !code) {
+			reply.status(400).send('Incomplete data');
+			return;
+		}
 
-    const expectedCode = verificationCodes.get(IdUser);
+		const expectedCode = verificationCodes.get(IdUser);
 
-    if (code === expectedCode || code === '424242') {
+    if (code === expectedCode || code === '424242') { // pas oublier d'enveler avant de finish le project
       try {
         const token = fastify.jwt.sign(
           {
@@ -78,17 +78,16 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
           { expiresIn: '24h' }
         );
 
-        verificationCodes.delete(IdUser);
-        reply.status(200).send({ token });
-      } 
-      catch (err) {
-        // console.error('Erreur lors de la génération du token :', err);
-        reply.status(500).send('JWT error');
-      }
-    } 
-    else {
-      reply.status(400).send('Invalid code or code expired, please request a new code');
-    }
-  });
+				verificationCodes.delete(IdUser);
+				reply.status(200).send({ token });
+			} 
+			catch (err) {
+				reply.status(500).send('JWT error');
+			}
+		} 
+		else {
+			reply.status(400).send('Invalid code or code expired, please request a new code');
+		}
+	});
 }
 
