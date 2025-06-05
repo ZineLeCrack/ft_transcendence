@@ -20,8 +20,7 @@ export function setupWebSocket(server: any) {
 		ws.on('message', async (message) => {
 			try {
 				const data = JSON.parse(message.toString());
-				const { type, token, content , targetUsername} = data;
-				
+				const { type, token, content , targetUsername, id} = data;
 				if (type === 'new_message') {
 					if (!token || !content) return;
 					let id_user;
@@ -51,7 +50,7 @@ export function setupWebSocket(server: any) {
 				else if (type === 'tournament_new_player') {
 					for (const client of clients) {
 						if (client.readyState === ws.OPEN) {
-							client.send(JSON.stringify({ type }));
+							client.send(JSON.stringify({ type, id }));
 						}
 					}
 				}

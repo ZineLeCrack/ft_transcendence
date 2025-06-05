@@ -1,6 +1,6 @@
-let original_name:string;
+import { getWebSocket } from '../websocket';
 
-import { getWebSocket } from './../websocket.ts';
+let original_name:string;
 
 export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
@@ -119,6 +119,8 @@ export default function initChat() {
 	const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
 	const messageBox = document.getElementById("chat-messages-global") as HTMLDivElement;
 
+	const ws = getWebSocket();
+
 	(async () => {
 		const token = sessionStorage.getItem('token');
 		const response = await fetch('/api/verifuser', {
@@ -128,22 +130,6 @@ export default function initChat() {
 		});
 		const data = await response.json();
 		original_name = data.original;
-
-		const ws = getWebSocket();
-
-		ws.onmessage = (event) => {
-			const data = JSON.parse(event.data);
-			if (!data.isHistoryMessage) {
-				if (data.type === 'new_message') {
-					sendMessage(data.username, data.content);
-				}
-            	if (data.type === 'new_private_message') {
-					const isSender = data.username === original_name;
-					const otherUser = isSender ? data.targetUsername : data.username;
-            		sendMessage(data.username, data.content, false, otherUser);
-            	}
-			}
-		};
 
 		async function displayAllMessages() {
 			try {
@@ -177,7 +163,7 @@ export default function initChat() {
 				const targetUsername = BoxTarget?.id.split('-').pop();
                 chatdata = { type: 'new_private_message', token, content , targetUsername};
             }
-			ws.send(JSON.stringify(chatdata));
+			ws?.send(JSON.stringify(chatdata));
 			input.value = "";
 		});
 
@@ -198,7 +184,7 @@ export default function initChat() {
 					const targetUsername = BoxTarget?.id.split('-').pop();
                     chatdata = { type: 'new_private_message', token, content , targetUsername};
                 }
-				ws.send(JSON.stringify(chatdata));
+				ws?.send(JSON.stringify(chatdata));
 				input.value = "";
 			}
 		});

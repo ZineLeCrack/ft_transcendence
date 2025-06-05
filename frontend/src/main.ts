@@ -1,7 +1,5 @@
 import './css/style.css';
 
-import { getWebSocket } from './websocket.ts';
-
 import loginHtml from './pages/login.html?raw';
 import registerHtml from './pages/register.html?raw';
 import a2fHTML from './pages/a2f.html?raw';
@@ -244,8 +242,6 @@ document.addEventListener('click', (e) => {
 window.addEventListener('popstate', () => {
 	loadRoutes(window.location.pathname);
 });
-
-getWebSocket();
 
 document.addEventListener('DOMContentLoaded', async () => {
 	if (window.location.pathname === '/') {

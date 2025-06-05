@@ -1,5 +1,5 @@
 import { togglePassword } from "../profile/utils";
-import { getWebSocket } from "../websocket";
+import { getWebSocket } from '../websocket';
 
 export default async function initJoinTournament() {
 
@@ -130,11 +130,10 @@ export default async function initJoinTournament() {
 						throw new Error(response.statusText);
 					}
 
-					const ws = getWebSocket();
-
-					ws.send(JSON.stringify({ type: 'tournament_new_player' }));
-
 					const data = await response.json();
+					const ws = getWebSocket();
+					ws?.send(JSON.stringify({ type: 'tournament_new_player', id: data.id }));
+
 					if (data.full)
 					{
 						try {
@@ -157,7 +156,7 @@ export default async function initJoinTournament() {
 
 					joinView?.classList.add('hidden');
 					mainView?.classList.remove('hidden');
-					// window.location.reload();
+					window.location.reload();
 				} catch (err) {
 					console.error(err);
 					alert(err);

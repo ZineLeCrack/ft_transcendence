@@ -25,7 +25,7 @@ export default async function getPlayersATournamentRoutes(fastify: FastifyInstan
 				return ;
 			}
 		} catch (err) {
-			reply.status(500).send(err);
-		}
+			console.error('DB error: ', err);
+			reply.status(500).send({ error: 'Internal server error' });		}
 	});
 }
