@@ -1,21 +1,6 @@
 import { sendMessage } from "./chat/chat.js";
 import { generateTournamentView } from "./tournament/in_tournament.js";
 
-// let ws: WebSocket | null = null;
-
-// export function getWebSocket(): WebSocket {
-// 	if (!ws) {
-// 		ws = new WebSocket(`wss://${window.location.host}/ws/`);
-// 		ws.onopen = () => {
-// 			console.log("WebSocket connecté !");
-// 		};
-// 		ws.onerror = (err) => {
-// 			console.error("WebSocket erreur:", err);
-// 		};
-// 	}
-// 	return ws;
-// }
-
 interface TournamentDataLose_Win {
 	winner1: string,
 	loser1: string,
@@ -56,7 +41,7 @@ let ws: WebSocket | null = null;
 let original_name: string;
 
 export function initWebSocket(original: string) {
-	if (ws) return; // empêche double init
+	if (ws) return;
 	original_name = original;
 
 	ws = new WebSocket(`wss://${window.location.host}/ws/`);
