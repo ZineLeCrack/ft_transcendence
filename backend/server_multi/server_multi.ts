@@ -25,7 +25,7 @@ async function main() {
   await app.register(gameRoutes, { prefix: '/game' });
   await app.listen({ port: 4001, host: '0.0.0.0' });
 
-  console.log(`🔐 HTTPS Master Multi Game Server running at https://${IP_NAME}:4001`);
+  console.log(`HTTPS Master Multi Game Server running at https://${IP_NAME}:4001`);
 }
 
 main().catch(err => {

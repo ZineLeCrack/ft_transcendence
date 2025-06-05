@@ -7,12 +7,10 @@ interface TournamentDataLose_Win {
 	loser3: string,
 	winner4: string,
 	loser4: string,
-
-	winner1_semifinal: string,
-	loser1_semifinal: string,
-	winner2_semifinal: string,
-	loser2_semifinal: string,
-
+	winner1_semifinals: string,
+	loser1_semifinals: string,
+	winner2_semifinals: string,
+	loser2_semifinals: string,
 	winner_final: string,
 	loser_final: string,
 }
@@ -87,11 +85,11 @@ export function generateTournamentView(TournamentData_Players: TournamentData_Pl
 			</div>
 			<div class="flex flex-col gap-12 relative">
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner1, TournamentData_Lose_Win.winner2 ,TournamentData_Lose_Win.winner1_semifinal , TournamentData_Lose_Win.loser1_semifinal)} p-1 w-28 text-center rounded-lg ">${TournamentData_Lose_Win.winner1}</div>
+					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner1, TournamentData_Lose_Win.winner2 ,TournamentData_Lose_Win.winner1_semifinals , TournamentData_Lose_Win.loser1_semifinals)} p-1 w-28 text-center rounded-lg ">${TournamentData_Lose_Win.winner1}</div>
 					<div class="absolute h-8 w-3 border-r-2 border-t-2 border-[#00FFFF] right-[-12px] top-[50%]"></div>
 				</div>
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner2, TournamentData_Lose_Win.winner1 ,TournamentData_Lose_Win.winner1_semifinal , TournamentData_Lose_Win.loser1_semifinal)} p-1 w-28 text-center rounded-lg ">${TournamentData_Lose_Win.winner2}</div>
+					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner2, TournamentData_Lose_Win.winner1 ,TournamentData_Lose_Win.winner1_semifinals , TournamentData_Lose_Win.loser1_semifinals)} p-1 w-28 text-center rounded-lg ">${TournamentData_Lose_Win.winner2}</div>
 					<div class="absolute h-8 w-3 border-r-2 border-b-2 border-[#00FFFF] right-[-12px] top-[-50%]"></div>
 				</div>
 				<div class="absolute h-12 w-0 border-r-2 border-[#00FFFF] right-[-12px] top-[50%] -translate-y-1/2"></div>
@@ -105,17 +103,17 @@ export function generateTournamentView(TournamentData_Players: TournamentData_Pl
 					<div class="absolute -top-4 left-1/2 w-px h-4 bg-[#ad39f0] -translate-x-1/2"></div>
 				</div>
 				<div class="flex items-center gap-32 relative">
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner1_semifinal, TournamentData_Lose_Win.winner2_semifinal ,TournamentData_Lose_Win.winner_final , TournamentData_Lose_Win.loser_final)} p-1 w-24 text-center rounded-lg text-[#FFD700] z-10">${TournamentData_Lose_Win.winner1_semifinal}</div>
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner2_semifinal, TournamentData_Lose_Win.winner1_semifinal ,TournamentData_Lose_Win.winner_final , TournamentData_Lose_Win.loser_final)} p-1 w-24 text-center rounded-lg text-[#FFD700] z-10">${TournamentData_Lose_Win.winner2_semifinal}</div>
+					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner1_semifinals, TournamentData_Lose_Win.winner2_semifinals ,TournamentData_Lose_Win.winner_final , TournamentData_Lose_Win.loser_final)} p-1 w-24 text-center rounded-lg text-[#FFD700] z-10">${TournamentData_Lose_Win.winner1_semifinals}</div>
+					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner2_semifinals, TournamentData_Lose_Win.winner1_semifinals ,TournamentData_Lose_Win.winner_final , TournamentData_Lose_Win.loser_final)} p-1 w-24 text-center rounded-lg text-[#FFD700] z-10">${TournamentData_Lose_Win.winner2_semifinals}</div>
 				</div>
 			</div>
 			<div class="flex flex-col gap-12 relative">
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner3, TournamentData_Lose_Win.winner4 , TournamentData_Lose_Win.winner2_semifinal , TournamentData_Lose_Win.loser2_semifinal)} p-1 w-28 text-center rounded-lg">${TournamentData_Lose_Win.winner3}</div>
+					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner3, TournamentData_Lose_Win.winner4 , TournamentData_Lose_Win.winner2_semifinals , TournamentData_Lose_Win.loser2_semifinals)} p-1 w-28 text-center rounded-lg">${TournamentData_Lose_Win.winner3}</div>
 					<div class="absolute h-8 w-3 border-l-2 border-t-2 border-[#00FFFF] left-[-12px] top-[50%]"></div>
 				</div>
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner4, TournamentData_Lose_Win.winner3, TournamentData_Lose_Win.winner2_semifinal , TournamentData_Lose_Win.loser2_semifinal)} p-1 w-28 text-center rounded-lg">${TournamentData_Lose_Win.winner4}</div>
+					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner4, TournamentData_Lose_Win.winner3, TournamentData_Lose_Win.winner2_semifinals , TournamentData_Lose_Win.loser2_semifinals)} p-1 w-28 text-center rounded-lg">${TournamentData_Lose_Win.winner4}</div>
 					<div class="absolute h-8 w-3 border-l-2 border-b-2 border-[#00FFFF] left-[-12px] top-[-50%]"></div>
 				</div>
 				<div class="absolute h-12 w-0 border-l-2 border-[#00FFFF] left-[-12px] top-[50%] -translate-y-1/2"></div>
@@ -146,30 +144,21 @@ export function generateTournamentView(TournamentData_Players: TournamentData_Pl
 
 export default async function  initInTournament(id: string) {
 
-	const response = await fetch('/api/tournament/get_players', {
+	const response1 = await fetch('/api/tournament/get_players', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ tournamentId: id })
 	});
 
-	const TournamentData_Players = await response.json();
+	const TournamentData_Players = await response1.json();
 
-	const TournamentData_Lose_Win: TournamentDataLose_Win = {
-		winner1: `?`,
-		loser1: `?`,
-		winner2: `?`,
-		loser2: `?`,
-		winner3: `?`,
-		loser3: `?`,
-		winner4: `?`,
-		loser4: `?`,
-		winner1_semifinal: `?`,
-		loser1_semifinal: `?`,
-		winner2_semifinal: `?`,
-		loser2_semifinal: `?`,
-		winner_final: `?`,
-		loser_final: `?`
-	};
+	const response2 = await fetch('/api/tournament/get_winners', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ tournamentId: id })
+	});
+
+	const TournamentData_Lose_Win = await response2.json();
 
 	const tournamentDefaultView = document.getElementById('default-tournament-view') as HTMLDivElement;
 

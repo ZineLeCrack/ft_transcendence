@@ -20,7 +20,7 @@ export function setupWebSocket(server: any) {
 		ws.on('message', async (message) => {
 			try {
 				const data = JSON.parse(message.toString());
-				const { type, token, content , targetUsername, id} = data;
+				const { type, token, content, targetUsername, id} = data;
 				if (type === 'new_message') {
 					if (!token || !content) return;
 					let id_user;
@@ -34,7 +34,7 @@ export function setupWebSocket(server: any) {
 					}
 					const dbusers = await getDb_user();
 					const db = await getDb_chat();
-					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`,[id_user]);
+					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`, [id_user]);
 					const username = response.name;
 					await db.run(
 						`INSERT INTO chat (username, content) VALUES (?, ?)`,
@@ -50,7 +50,7 @@ export function setupWebSocket(server: any) {
 				else if (type === 'tournament_new_player') {
 					for (const client of clients) {
 						if (client.readyState === ws.OPEN) {
-							client.send(JSON.stringify({ type, id }));
+							client.send(JSON.stringify({ type, token, id }));
 						}
 					}
 				}
