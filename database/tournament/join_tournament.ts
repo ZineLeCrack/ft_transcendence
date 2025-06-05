@@ -25,7 +25,33 @@ export default async function joinTournamentRoutes(fastify: FastifyInstance) {
 				return ;
 			}
 
-			const playerSlot = 'player' + (parseInt(tournament.players) + 1).toString();
+			const list = await db.get(
+				`SELECT player1, player2, player3, player4, player5, player6, player7, player8
+				FROM tournaments WHERE id = ?`,
+				[id_tournament]
+			);
+
+			let tab = [];
+			for (let i = 1; i < 9; i++) {
+				if (i === 1 && list.player1 === '?')
+					tab.push(i);
+				else if (i === 2 && list.player2 === '?')
+					tab.push(i);
+				else if (i === 3 && list.player3 === '?')
+					tab.push(i);
+				else if (i === 4 && list.player4 === '?')
+					tab.push(i);
+				else if (i === 5 && list.player5 === '?')
+					tab.push(i);
+				else if (i === 6 && list.player6 === '?')
+					tab.push(i);
+				else if (i === 7 && list.player7 === '?')
+					tab.push(i);
+				else if (i === 8 && list.player8 === '?')
+					tab.push(i);
+			}
+
+			const playerSlot = 'player' + (tab[Math.floor(Math.random() * tab.length)]).toString();
 
 			let userId;
 			try {
