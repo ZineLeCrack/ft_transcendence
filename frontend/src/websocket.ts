@@ -67,13 +67,21 @@ export function initWebSocket(original: string) {
 			}
 		} else if (data.type === 'tournament_new_player') {
 			try {
-				const response = await fetch('/api/tournament/get_players', {
+				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ tournamentId: data.id }),
+					body: JSON.stringify({ token: sessionStorage.getItem('token') })
 				});
-				const TournamentData_Players = await response.json();
-				generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
+				const is_in = await res.json();
+				if (is_in.tournamentId.toString() === data.id) {
+					const response = await fetch('/api/tournament/get_players', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ tournamentId: data.id })
+					});
+					const TournamentData_Players = await response.json();
+					generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
+				}
 			} catch (err) {
 				console.error('Error getting players:', err);
 			}

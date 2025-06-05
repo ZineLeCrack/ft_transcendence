@@ -132,7 +132,7 @@ export default async function initJoinTournament() {
 
 					const data = await response.json();
 					const ws = getWebSocket();
-					ws?.send(JSON.stringify({ type: 'tournament_new_player', id: data.id }));
+					ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
 
 					if (data.full)
 					{
