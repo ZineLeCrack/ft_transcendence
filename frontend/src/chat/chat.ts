@@ -2,14 +2,26 @@ import { getWebSocket } from '../websocket';
 
 let original_name:string;
 
-export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
+export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
 	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
 
 	if (!messageWrapper)
 		return;
+
+	const target = username;
+	const tokenID = sessionStorage.getItem('token');
+	const res = await fetch("/api/isblock", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ tokenID, target })
+	});
+	const data = await res.json();
+	if (data.status === 1)
+		return;
 	
+
 	if (pong === true) {
 		messageWrapper.className = "flex flex-col items-center space-y-2 my-4";
 		
@@ -73,8 +85,8 @@ export function sendMessage(username: string, content: string, pong?: boolean, t
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ tokenID, target , answer: 1})
                 });
-                const data = await res.json();
-			console.log('Friend request accepted');
+            const data = await res.json();
+			window.location.reload();
 			messageWrapper.remove();
 		});
 		
@@ -87,7 +99,7 @@ export function sendMessage(username: string, content: string, pong?: boolean, t
                     body: JSON.stringify({ tokenID, target , answer: 0})
                 });
             const data = await res.json();
-			console.log('Friend request declined');
+			window.location.reload();
 			messageWrapper.remove();
 		});
 		
