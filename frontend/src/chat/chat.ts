@@ -1,6 +1,6 @@
-let original_name:string;
+import { ws } from '../websocket';
 
-import { getWebSocket } from './../websocket.ts';
+let original_name:string;
 
 export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
@@ -129,17 +129,6 @@ export default function initChat() {
 		});
 		const data = await response.json();
 		original_name = data.original;
-
-		const ws = getWebSocket();
-
-		ws.onmessage = (event) => {
-			const data = JSON.parse(event.data);
-			if (data.type === 'new_message') {
-				if (!data.isHistoryMessage) {
-					sendMessage(data.username, data.content);
-				}
-			}
-		};
 
 		async function displayAllMessages() {
 			try {
