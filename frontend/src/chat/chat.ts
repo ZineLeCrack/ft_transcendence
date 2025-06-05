@@ -1,8 +1,10 @@
 import { getWebSocket } from '../websocket';
-
+import { loadRoutes } from '../main.ts';
+import initError from '../error.ts';
 let original_name:string;
 
 export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
+
 
 	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
@@ -154,6 +156,14 @@ export default function initChat() {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
 		});
+		if (!response.ok)
+		{
+			initError('Please Sign in or Sign out !');
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+		}
 		const data = await response.json();
 		original_name = data.original;
 

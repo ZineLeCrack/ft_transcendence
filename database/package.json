@@ -6,6 +6,7 @@
   "dependencies": {
     "@fastify/cors": "^11.0.1",
     "@fastify/jwt": "^9.1.0",
+    "@fastify/multipart": "^9.0.3",
     "@fastify/static": "^8.2.0",
     "@fastify/websocket": "^11.0.2",
     "abbrev": "^1.1.1",
@@ -126,6 +127,7 @@
     "mkdirp": "^1.0.4",
     "mkdirp-classic": "^0.5.3",
     "ms": "^2.1.3",
+    "multipart": "^0.1.5",
     "napi-build-utils": "^2.0.0",
     "negotiator": "^1.0.0",
     "node-abi": "^3.75.0",
@@ -164,6 +166,7 @@
     "serve-static": "^2.2.0",
     "set-blocking": "^2.0.0",
     "setprototypeof": "^1.2.0",
+    "sharp": "^0.34.2",
     "side-channel": "^1.1.0",
     "side-channel-list": "^1.0.0",
     "side-channel-map": "^1.0.1",
