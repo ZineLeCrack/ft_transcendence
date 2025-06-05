@@ -20,10 +20,8 @@ export function setupWebSocket(server: any) {
 		ws.on('message', async (message) => {
 			try {
 				const data = JSON.parse(message.toString());
-				const { type, token, content , targetUsername} = data;
-				
+				const { type, token, content, targetUsername, id} = data;
 				if (type === 'new_message') {
-					console.log('Message reçu :', content);
 					if (!token || !content) return;
 					let id_user;
 					try {
@@ -36,7 +34,7 @@ export function setupWebSocket(server: any) {
 					}
 					const dbusers = await getDb_user();
 					const db = await getDb_chat();
-					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`,[id_user]);
+					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`, [id_user]);
 					const username = response.name;
 					await db.run(
 						`INSERT INTO chat (username, content) VALUES (?, ?)`,
@@ -52,13 +50,11 @@ export function setupWebSocket(server: any) {
 				else if (type === 'tournament_new_player') {
 					for (const client of clients) {
 						if (client.readyState === ws.OPEN) {
-							client.send(JSON.stringify({ type }));
+							client.send(JSON.stringify({ type, token, id }));
 						}
 					}
 				}
 				else if (type === 'new_private_message') {
-					
-					console.log('Private Message reçu :', content, "pour" , targetUsername);
 					if (!token || !content || !targetUsername) return;
 					let id_user;
 					try {
@@ -73,7 +69,6 @@ export function setupWebSocket(server: any) {
 					const db = await getDb_chat();
 					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`,[id_user]);
 					const username = response.name;
-					console.log("username", username, "targetUsername", targetUsername);
 					await db.run(
 						`INSERT INTO privatechat (username1, username2, content) VALUES (?, ?, ?)`,
 						[username, targetUsername, content]

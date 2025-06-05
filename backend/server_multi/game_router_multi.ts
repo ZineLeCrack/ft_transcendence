@@ -23,17 +23,16 @@ export default async function gameRouter(fastify: FastifyInstance) {
 			reply.status(401).send('Invalid token');
 			return;
 		}
-		console.log(`userId: ${userId}, userName: ${userName}`);
 		for (const [id, game] of games) {
 			if (game.player1.id === userId)
 			{
-				console.log(`🎮 Game join : ${id}`);
+				console.log(`Game join : ${id}`);
 				reply.send({ gameId: id, player: "player1" });
 				return ;
 			}
 			else if (game.player2.id === userId)
 			{
-				console.log(`🎮 Game join : ${id}`);
+				console.log(`Game join : ${id}`);
 				reply.send({ gameId: id, player: "player2" });
 				return ;
 			}
@@ -43,15 +42,15 @@ export default async function gameRouter(fastify: FastifyInstance) {
 				game.player2.name = userName;
 				game.message = "";
 				game.startGame();
-				console.log(`🎮 Game join : ${id}`);
+				console.log(`Game join : ${id}`);
 				reply.send({ gameId: id, player: "player2" });
 				return ;
 			}
 		}
 		const id = generateGameId();
-		const game = new GameInstance(id, userId, userName);
+		const game = new GameInstance(id, userId, userName, false);
 		games.set(id, game);
-		console.log(`🎮 Game created : ${id}`);
+		console.log(`Game created : ${id}`);
 		reply.send({ gameId: id, player: "player1" });
 	});
 
@@ -71,7 +70,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		}
 		game?.stop();
 		games.delete(id);
-		console.log(`🎮 Game close : ${id}`);
+		console.log(`Game close : ${id}`);
 		reply.status(200).send(gameStat);
 	})
 

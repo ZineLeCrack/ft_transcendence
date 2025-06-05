@@ -7,11 +7,14 @@ export default async function createTournamentRoutes(fastify: FastifyInstance) {
 
 		try {
 			const db = await getDb_tournaments();
-			await db.run(
-				`
-				INSERT INTO tournaments (name, type, password) values (?, ?, ?);
-				`,
+			const result = await db.run(
+				`INSERT INTO tournaments (name, type, password) VALUES (?, ?, ?)`,
 				[name, type, password]
+			);
+			const tournamentId = result.lastID;
+			await db.run(
+				`INSERT INTO result (id) VALUES (?)`,
+				[tournamentId]
 			);
 			reply.send({ success: true });
 		} catch (err) {

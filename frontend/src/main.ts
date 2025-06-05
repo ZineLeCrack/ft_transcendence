@@ -1,7 +1,5 @@
 import './css/style.css';
 
-import { getWebSocket } from './websocket.ts';
-
 import loginHtml from './pages/login.html?raw';
 import registerHtml from './pages/register.html?raw';
 import a2fHTML from './pages/a2f.html?raw';
@@ -92,6 +90,10 @@ const routes: { [path: string]: Route } = {
 	'/game/ai':
 	{
 		view : aiGameHTML,
+		script: async () => {
+			const {default: initPong} = await import ('./game/ai/pong-ai.ts');
+			initPong();
+		},
 		bodyClass: "m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex",
 		bodyStyleImage: "url('/images/pong.png')",
 	},
@@ -244,8 +246,6 @@ document.addEventListener('click', (e) => {
 window.addEventListener('popstate', () => {
 	loadRoutes(window.location.pathname);
 });
-
-getWebSocket();
 
 document.addEventListener('DOMContentLoaded', async () => {
 	if (window.location.pathname === '/') {

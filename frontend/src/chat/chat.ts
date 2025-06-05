@@ -1,19 +1,29 @@
-let original_name:string;
-
-import { getWebSocket } from './../websocket.ts';
+import { getWebSocket } from '../websocket';
 import { loadRoutes } from '../main.ts';
 import initError from '../error.ts';
+let original_name:string;
 
-export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
+export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
-	console.log("targetUser in sendMessage" ,targetUser);
+
 	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
 
-	console.log("messageWrapper",messageWrapper)
 	if (!messageWrapper)
 		return;
+
+	const target = username;
+	const tokenID = sessionStorage.getItem('token');
+	const res = await fetch("/api/isblock", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ tokenID, target })
+	});
+	const data = await res.json();
+	if (data.status === 1)
+		return;
 	
+
 	if (pong === true) {
 		messageWrapper.className = "flex flex-col items-center space-y-2 my-4";
 		
@@ -69,15 +79,29 @@ export function sendMessage(username: string, content: string, pong?: boolean, t
 		declineBtn.className = "bg-transparent border-2 border-[#FF007A] px-6 py-2 rounded-xl text-[#FF007A] font-bold hover:bg-[#FF007A]/20 transition duration-200 shadow-[0_0_10px_#FF007A]";
 		declineBtn.textContent = "Decline";
 		
-		acceptBtn.addEventListener('click', () => {
-			// TODO: Handle Friend request acceptance
-			console.log('Friend request accepted');
+		acceptBtn.addEventListener('click', async () => {
+			const tokenID = sessionStorage.getItem('token');
+			const target = targetUser; 
+			const res = await fetch("/api/replyrequest", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ tokenID, target , answer: 1})
+                });
+            const data = await res.json();
+			window.location.reload();
 			messageWrapper.remove();
 		});
 		
-		declineBtn.addEventListener('click', () => {
-			// TODO: Handle Friend request decline
-			console.log('Friend request declined');
+		declineBtn.addEventListener('click', async () => {
+			const tokenID = sessionStorage.getItem('token');
+			const target = targetUser; 
+			const res = await fetch("/api/replyrequest", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ tokenID, target , answer: 0})
+                });
+            const data = await res.json();
+			window.location.reload();
 			messageWrapper.remove();
 		});
 		
@@ -113,7 +137,6 @@ export function sendMessage(username: string, content: string, pong?: boolean, t
 	messageContainer.appendChild(msg);
 	messageWrapper.appendChild(messageContainer);
 
-	// Scroll to bottom of chat-containers instead of messageBox
 	const chatContainer = document.getElementById('chat-containers');
 	if (chatContainer) {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -123,6 +146,8 @@ export default function initChat() {
 	const input = document.getElementById("chat-input") as HTMLInputElement;
 	const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
 	const messageBox = document.getElementById("chat-messages-global") as HTMLDivElement;
+
+	const ws = getWebSocket();
 
 	(async () => {
 		const token = sessionStorage.getItem('token');
@@ -142,26 +167,6 @@ export default function initChat() {
 		const data = await response.json();
 		original_name = data.original;
 
-		const ws = getWebSocket();
-
-		ws.onmessage = (event) => {
-			const data = JSON.parse(event.data);
-			console.log("in onmessage", data);
-			if (!data.isHistoryMessage) {
-				if (data.type === 'new_message') {
-					console.log("in new_message", data);
-					sendMessage(data.username, data.content);
-				}
-            	if (data.type === 'new_private_message') {
-					const isSender = data.username === original_name;
-					const otherUser = isSender ? data.targetUsername : data.username;
-
-					console.log("in data.type === new_private_message", data,"isSender" ,isSender, "otherUser",otherUser);
-            		sendMessage(data.username, data.content, false, otherUser);
-            	}
-			}
-		};
-
 		async function displayAllMessages() {
 			try {
 				const response = await fetch(`/api/getmessages`, {
@@ -172,7 +177,6 @@ export default function initChat() {
 				messageBox.innerHTML = "";
 				for (let i = 0; i < tab.length; i++) {
 					const message = { ...tab[i], isHistoryMessage: true };
-					console.log("in displayAllMessages");
 					sendMessage(message.username, message.content);
 				}
 			} catch (err) {
@@ -195,7 +199,7 @@ export default function initChat() {
 				const targetUsername = BoxTarget?.id.split('-').pop();
                 chatdata = { type: 'new_private_message', token, content , targetUsername};
             }
-			ws.send(JSON.stringify(chatdata));
+			ws?.send(JSON.stringify(chatdata));
 			input.value = "";
 		});
 
@@ -216,7 +220,7 @@ export default function initChat() {
 					const targetUsername = BoxTarget?.id.split('-').pop();
                     chatdata = { type: 'new_private_message', token, content , targetUsername};
                 }
-				ws.send(JSON.stringify(chatdata));
+				ws?.send(JSON.stringify(chatdata));
 				input.value = "";
 			}
 		});
