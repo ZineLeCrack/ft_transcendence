@@ -4,11 +4,9 @@ import { getWebSocket } from './../websocket.ts';
 
 export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
-	console.log("targetUser in sendMessage" ,targetUser);
 	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
 
-	console.log("messageWrapper",messageWrapper)
 	if (!messageWrapper)
 		return;
 	
@@ -111,7 +109,6 @@ export function sendMessage(username: string, content: string, pong?: boolean, t
 	messageContainer.appendChild(msg);
 	messageWrapper.appendChild(messageContainer);
 
-	// Scroll to bottom of chat-containers instead of messageBox
 	const chatContainer = document.getElementById('chat-containers');
 	if (chatContainer) {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -136,17 +133,13 @@ export default function initChat() {
 
 		ws.onmessage = (event) => {
 			const data = JSON.parse(event.data);
-			console.log("in onmessage", data);
 			if (!data.isHistoryMessage) {
 				if (data.type === 'new_message') {
-					console.log("in new_message", data);
 					sendMessage(data.username, data.content);
 				}
             	if (data.type === 'new_private_message') {
 					const isSender = data.username === original_name;
 					const otherUser = isSender ? data.targetUsername : data.username;
-
-					console.log("in data.type === new_private_message", data,"isSender" ,isSender, "otherUser",otherUser);
             		sendMessage(data.username, data.content, false, otherUser);
             	}
 			}
@@ -162,7 +155,6 @@ export default function initChat() {
 				messageBox.innerHTML = "";
 				for (let i = 0; i < tab.length; i++) {
 					const message = { ...tab[i], isHistoryMessage: true };
-					console.log("in displayAllMessages");
 					sendMessage(message.username, message.content);
 				}
 			} catch (err) {

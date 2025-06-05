@@ -23,7 +23,6 @@ export function setupWebSocket(server: any) {
 				const { type, token, content , targetUsername} = data;
 				
 				if (type === 'new_message') {
-					console.log('Message reçu :', content);
 					if (!token || !content) return;
 					let id_user;
 					try {
@@ -57,8 +56,6 @@ export function setupWebSocket(server: any) {
 					}
 				}
 				else if (type === 'new_private_message') {
-					
-					console.log('Private Message reçu :', content, "pour" , targetUsername);
 					if (!token || !content || !targetUsername) return;
 					let id_user;
 					try {
@@ -73,7 +70,6 @@ export function setupWebSocket(server: any) {
 					const db = await getDb_chat();
 					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`,[id_user]);
 					const username = response.name;
-					console.log("username", username, "targetUsername", targetUsername);
 					await db.run(
 						`INSERT INTO privatechat (username1, username2, content) VALUES (?, ?, ?)`,
 						[username, targetUsername, content]

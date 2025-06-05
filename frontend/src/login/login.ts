@@ -1,4 +1,4 @@
-import { togglePassword} from '../profile/utils.js';
+import { togglePassword } from '../profile/utils.js';
 import { loadRoutes } from '../main.js';
 import initError from '../error.js';
 import initSuccess from '../success.js';
