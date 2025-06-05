@@ -11,6 +11,6 @@ COPY . .
 RUN chmod +x exec.sh
 RUN npx tsc
 
-EXPOSE 4000-4001
+EXPOSE 4000-4002
 
 CMD ["./exec.sh"]

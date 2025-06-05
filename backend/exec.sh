@@ -1,4 +1,3 @@
 #!/bin/bash
-node server_local/main_server.js &
-node server_local/server-ia.js &
-node server_multi/server_multi.js
+node --max-old-space-size=4096 server_local/main_server.js &
+node --max-old-space-size=4096 server_multi/server_multi.js

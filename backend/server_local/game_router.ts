@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { GameInstance } from './server.js';
+import { getAIMove } from '../ai/ai.js';
 
 const games = new Map<string, GameInstance>();
 
@@ -45,4 +46,25 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		game.move(body.keys);
 		reply.status(200).send({ status: "ok" });
 	});
+	fastify.post('/:id/ai', async (request, reply) => {
+        const { id } = request.params as { id: string };
+        const game = games.get(id);
+        if (!game)
+            return reply.status(404).send({ error: "Game not found" });
+
+        const body = request.body as {
+            paddlePosition: number,
+            ballPosition: { x: number; y: number },
+            ballDirection: { x: number; y: number }
+        };
+
+        // Appel à l'IA
+        const aiMove = getAIMove(
+            body.paddlePosition,
+            body.ballPosition,
+            body.ballDirection
+        );
+
+        reply.status(200).send(aiMove);
+    });
 }
