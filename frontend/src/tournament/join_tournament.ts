@@ -108,59 +108,144 @@ export default async function initJoinTournament() {
 
 	const JoinBtnTournament = document.querySelectorAll('[id^="join-tournament-btn-"]');
 	
+	const aliasPopUp = `<div id="alias-popup" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-black/90 p-8 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] w-96">
+        <h3 class="text-[#00FFFF] text-xl font-bold mb-6 text-center">Choose Tournament Alias</h3>
+        <input type="text" id="tournament-alias" maxlength="10"
+            class="w-full bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 mb-6 focus:outline-none focus:border-[#FFD700]"
+            placeholder="Enter your alias..." />
+        <div class="flex justify-between gap-4">
+            <button id="cancel-alias" 
+                class="flex-1 bg-transparent border-2 border-[#FF2E9F] text-[#FF2E9F] font-bold py-2 px-6 rounded-xl hover:bg-[#FF2E9F]/20 transition duration-200">
+                Cancel
+            </button>
+            <button id="confirm-alias" 
+                class="flex-1 bg-transparent border-2 border-[#FFD700] text-[#FFD700] font-bold py-2 px-6 rounded-xl hover:bg-[#FFD700]/20 transition duration-200">
+                Join
+            </button>
+        </div>
+    </div>
+</div>`;
+
 	if (JoinBtnTournament.length > 0) {
 		JoinBtnTournament.forEach(button => {
 			button.addEventListener('click', async () => {
 				const passwordInput = document.getElementById(`password-input-${button.id.split('-').pop()}`) as HTMLInputElement;
 				const tournamentId = button.id.split('-').pop();
+
+				document.body.insertAdjacentHTML('beforeend', aliasPopUp);
+				const confirmAlias = document.getElementById('confirm-alias') as HTMLButtonElement;
+				const cancelAlias = document.getElementById('cancel-alias') as HTMLButtonElement;
+				const inputAlias = document.getElementById('tournament-alias') as HTMLInputElement;
 				
-				try {
-					const token = sessionStorage.getItem('token');
-					const response = await fetch('/api/tournament/join', {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({
-							id_tournament: tournamentId,
-							token: token,
-							password: passwordInput ? passwordInput.value : ''
-						})
-					});
+				confirmAlias.addEventListener('click', async () => {
+					try {
+						const token = sessionStorage.getItem('token');
+						const response = await fetch('/api/tournament/join', {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/json' },
+							body: JSON.stringify({
+								id_tournament: tournamentId,
+								token: token,
+								password: passwordInput ? passwordInput.value : ''
+							})
+						});
 
-					if (!response.ok) {
-						throw new Error(response.statusText);
+						if (!response.ok) {
+							throw new Error(response.statusText);
+						}
+
+						const data = await response.json();
+						const ws = getWebSocket();
+						ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
+
+						if (data.full)
+						{
+							try {
+								const response = await fetch('/api/tournament/start', {
+									method: 'POST',
+									headers: { 'Content-Type': 'application/json' },
+									body: JSON.stringify({ id: data.id })
+								});
+								const players = await response.json();
+								await fetch('/api/multi/tournament_start', {
+									method: 'POST',
+									headers: { 'Content-Type': 'application/json' },
+									body: JSON.stringify(players)
+								});
+							} catch (err) {
+								console.error(`Error starting tournament: `, err);
+								return ;
+							}
+						}
+
+						joinView?.classList.add('hidden');
+						mainView?.classList.remove('hidden');
+						window.location.reload();
+					} catch (err) {
+						console.error(err);
+						alert(err);
 					}
+				});
 
-					const data = await response.json();
-					const ws = getWebSocket();
-					ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
-
-					if (data.full)
-					{
+				inputAlias.addEventListener('keydown', async (e) => {
+					if (e.key === "Enter") {
+						e.preventDefault();
 						try {
-							const response = await fetch('/api/tournament/start', {
+							const token = sessionStorage.getItem('token');
+							const response = await fetch('/api/tournament/join', {
 								method: 'POST',
 								headers: { 'Content-Type': 'application/json' },
-								body: JSON.stringify({ id: data.id })
+								body: JSON.stringify({
+									id_tournament: tournamentId,
+									token: token,
+									password: passwordInput ? passwordInput.value : ''
+								})
 							});
-							const players = await response.json();
-							await fetch('/api/multi/tournament_start', {
-								method: 'POST',
-								headers: { 'Content-Type': 'application/json' },
-								body: JSON.stringify(players)
-							});
+
+							if (!response.ok) {
+								throw new Error(response.statusText);
+							}
+
+							const data = await response.json();
+							const ws = getWebSocket();
+							ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
+
+							if (data.full)
+							{
+								try {
+									const response = await fetch('/api/tournament/start', {
+										method: 'POST',
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify({ id: data.id })
+									});
+									const players = await response.json();
+									await fetch('/api/multi/tournament_start', {
+										method: 'POST',
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify(players)
+									});
+								} catch (err) {
+									console.error(`Error starting tournament: `, err);
+									return ;
+								}
+							}
+
+							joinView?.classList.add('hidden');
+							mainView?.classList.remove('hidden');
+							window.location.reload();
 						} catch (err) {
-							console.error(`Error starting tournament: `, err);
-							return ;
+							console.error(err);
+							alert(err);
 						}
 					}
+				});
 
-					joinView?.classList.add('hidden');
-					mainView?.classList.remove('hidden');
+				cancelAlias.addEventListener('click', async () => {
+					const PopPup = document.getElementById('alias-popup') as HTMLDivElement;
+					PopPup.remove();
 					window.location.reload();
-				} catch (err) {
-					console.error(err);
-					alert(err);
-				}
+				});
 			});
 		});
 	}
