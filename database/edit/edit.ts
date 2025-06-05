@@ -119,18 +119,23 @@ export default async function editRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/picture', async (request, reply) => {
 		const parts = request.parts();
-		const data = await request.file();
+		let fileData: any;
 		let token: any;
+
 		const start = Date.now();
 		for await (const part of parts) {
 			const partStartTime = Date.now();
-			if (part.type === 'field' && part.fieldname === 'token') {
+			if (part.type === 'file' && part.fieldname === 'picture') {
+				fileData = part;
+				console.log(`File part received: ${part.filename}`);
+			} else if (part.type === 'field' && part.fieldname === 'token') {
 				token = part.value;
 				console.log(`Token part processed in ${Date.now() - partStartTime} ms`);
 			}
 		}
 		console.log(`All parts processed in ${Date.now() - start} ms`);
-		if (!data || !token) {
+
+		if (!fileData || !token) {
 			reply.status(400).send('Missing image or token');
 			return;
 		}
@@ -145,10 +150,11 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		}
 
 		const chunks: Buffer[] = [];
-		for await (const chunk of data.file) {
+		for await (const chunk of fileData.file) {
 			chunks.push(Buffer.from(chunk));
 		}
 		const originalBuffer = Buffer.concat(chunks);
+
 		let jpegBuffer: Buffer;
 		try {
 			jpegBuffer = await sharp(originalBuffer).png().toBuffer();
@@ -163,11 +169,11 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			await db.run('UPDATE users SET profile_pic = ? WHERE id = ?', [jpegBuffer, IdUser]);
 			console.log("picture update success");
 
-			reply.status(200).header('Content-Type', 'image/jpeg').send(jpegBuffer);
-		}
-		catch (err) {
+			reply.status(200).header('Content-Type', 'image/png').send(jpegBuffer);
+		} catch (err) {
 			console.error(err);
 			reply.status(500).send('Database error');
 		}
-	});
+});
+
 }

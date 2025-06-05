@@ -34,10 +34,21 @@ async function main() {
 			key: privateKey,
 			cert: certificate,
 		},
-		bodyLimit: 10 * 1024 * 1024,
+		bodyLimit: 100 * 1024 * 1024,
+		connectionTimeout: 120000,
 	});
-	await app.register(fastifyMultipart);
+
+	await app.register(fastifyMultipart, {
+		limits: {
+			fileSize: 500 * 1024 * 1024,
+			files: 1,
+			fields: 10,
+		}
+	});
+
 	await app.register(cors, { origin: true });
+
+	// 📂 Routes
 	await app.register(authRoutes);
 	await app.register(historyRoutes);
 	await app.register(chatRoutes);
