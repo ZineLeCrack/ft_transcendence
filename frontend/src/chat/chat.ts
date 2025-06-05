@@ -65,14 +65,28 @@ export function sendMessage(username: string, content: string, pong?: boolean, t
 		declineBtn.className = "bg-transparent border-2 border-[#FF007A] px-6 py-2 rounded-xl text-[#FF007A] font-bold hover:bg-[#FF007A]/20 transition duration-200 shadow-[0_0_10px_#FF007A]";
 		declineBtn.textContent = "Decline";
 		
-		acceptBtn.addEventListener('click', () => {
-			// TODO: Handle Friend request acceptance
+		acceptBtn.addEventListener('click', async () => {
+			const tokenID = sessionStorage.getItem('token');
+			const target = targetUser; 
+			const res = await fetch("/api/replyrequest", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ tokenID, target , answer: 1})
+                });
+                const data = await res.json();
 			console.log('Friend request accepted');
 			messageWrapper.remove();
 		});
 		
-		declineBtn.addEventListener('click', () => {
-			// TODO: Handle Friend request decline
+		declineBtn.addEventListener('click', async () => {
+			const tokenID = sessionStorage.getItem('token');
+			const target = targetUser; 
+			const res = await fetch("/api/replyrequest", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ tokenID, target , answer: 0})
+                });
+            const data = await res.json();
 			console.log('Friend request declined');
 			messageWrapper.remove();
 		});
