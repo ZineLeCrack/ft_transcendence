@@ -47,8 +47,8 @@ export default async function authRoutes(fastify: FastifyInstance)
 	  		fs.copyFileSync('uploads/default.png', uniqueFilename);
 
 			await db.run(
-				`INSERT INTO users (name, email, password, profile_pic) VALUES (?, ?, ?, ?)`,
-				[username, email, hashedPassword, uniqueFilename]
+				`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
+				[username, email, hashedPassword]
 		);
 
 			reply.status(200).send('User created');

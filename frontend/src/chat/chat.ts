@@ -1,6 +1,8 @@
 let original_name:string;
 
 import { getWebSocket } from './../websocket.ts';
+import { loadRoutes } from '../main.ts';
+import initError from '../error.ts';
 
 export function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
@@ -129,6 +131,14 @@ export default function initChat() {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
 		});
+		if (!response.ok)
+		{
+			initError('Please Sign in or Sign out !');
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+		}
 		const data = await response.json();
 		original_name = data.original;
 

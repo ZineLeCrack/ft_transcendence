@@ -3,6 +3,7 @@ import cors from '@fastify/cors';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import { setupWebSocket } from './chat/websocket_chat.js';
+import fastifyMultipart from '@fastify/multipart';
 
 import authRoutes from './auth/auth_back.js';
 import historyRoutes from './stats/history_back.js';
@@ -33,8 +34,9 @@ async function main() {
 			key: privateKey,
 			cert: certificate,
 		},
+		bodyLimit: 10 * 1024 * 1024,
 	});
-
+	await app.register(fastifyMultipart);
 	await app.register(cors, { origin: true });
 	await app.register(authRoutes);
 	await app.register(historyRoutes);

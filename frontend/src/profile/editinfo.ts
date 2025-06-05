@@ -1,3 +1,4 @@
+import  imageCompression  from 'browser-image-compression';
 export default async function initEditProfile() {
 
 const usernameInput = document.getElementById("edit-username-input") as HTMLInputElement;
@@ -40,15 +41,21 @@ if (editProfileForm) {
 picturebutton.addEventListener('click', async (event) =>{
 	event.preventDefault();
 
-	const file = pictureInput.files[0];
+	const file = pictureInput.files![0];
 	const Token = sessionStorage.getItem('token')!;
 	if (!file)
 	{
 		alert("Please select a picture");
 	}
 	try {
+		
 		const formData = new FormData();
-		formData.append('picture', file);
+		const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true
+        };
+		formData.append('picture', file, file.name);
 		formData.append('token', Token);
 
 		const response = await fetch('/api/picture', {

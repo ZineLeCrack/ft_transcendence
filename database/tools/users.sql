@@ -6,7 +6,7 @@ CREATE TABLE users (
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
     aliastournament TEXT DEFAULT '',
-    profile_pic TEXT DEFAULT 'uploads/default.png'
+    profile_pic BLOB
 );
 
 CREATE TABLE stats (
