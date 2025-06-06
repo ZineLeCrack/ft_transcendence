@@ -6,7 +6,8 @@ CREATE TABLE users (
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
     aliastournament TEXT DEFAULT '',
-    profile_pic BLOB
+    profile_pic BLOB,
+    status INTEGER DEFAULT 0 -- 0: offline, 1: online
 );
 
 CREATE TABLE stats (
@@ -35,7 +36,7 @@ CREATE TABLE history (
 CREATE TABLE friend (
     id_player1 INTEGER NOT NULL,
     id_player2 INTEGER NOT NULL,
-    friend INTEGER DEFAULT 0,
+    friend INTEGER DEFAULT 0, -- 0: not friends, 1: friends 2: request sent, 3: request received
     FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
     FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
     UNIQUE(id_player1, id_player2)
@@ -45,7 +46,7 @@ CREATE TABLE friend (
 CREATE TABLE block (
     id_player1 INTEGER NOT NULL,
     id_player2 INTEGER NOT NULL,
-    blocked INTEGER DEFAULT 0,
+    blocked INTEGER DEFAULT 0, -- 0: not blocked, 1: blocked
     FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
     FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
     UNIQUE(id_player1, id_player2)

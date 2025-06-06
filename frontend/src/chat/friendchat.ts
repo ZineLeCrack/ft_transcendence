@@ -81,20 +81,20 @@ export default async function initFriendChat() {
 	interface Friend {
 		username: string;
 		profilPic: string;
-		status: 'online' | 'offline';
+		status: 1 | 0; // 1 = online, 0 = offline
 	}
 	
 	function generateFriendList(Friend: Friend[]) {
 		friendslist.innerHTML = '';
 		if (Friend.length === 0) {
-			friendslist.innerHTML = '<p class="text-[#FF2E9F]">You have no friends :(</p>';
+			friendslist.innerHTML = '<p class="text-[#FF2E9F]">You don\'t have friends :(</p>';
 			return;
 		}
 		Friend.forEach(Friend => {
 			const friendElement = document.createElement('div');
 			friendElement.className = 'flex gap-8';
 
-			if (Friend.status === 'online') {
+			if (Friend.status === 1) {
 				friendElement.innerHTML = `
 					<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
 						<div class="relative">

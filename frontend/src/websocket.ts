@@ -47,11 +47,30 @@ export function initWebSocket(original: string) {
 	ws = new WebSocket(`wss://${window.location.host}/ws/`);
 
 	ws.onopen = () => {
+		fetch('/api/setstatus', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '1' })
+		})
 		console.log("WebSocket connecté !");
 	};
 
 	ws.onerror = (err) => {
+		fetch('/api/setstatus', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
+		})
 		console.error("WebSocket erreur:", err);
+	};
+
+	ws.onclose = () => {
+		fetch('/api/setstatus', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
+		});
+		console.warn("WebSocket déconnecté :");
 	};
 
 	ws.onmessage = async (event) => {
@@ -93,6 +112,13 @@ export function initWebSocket(original: string) {
 			}
 		}
 	};
+
+	window.addEventListener('beforeunload', () => {
+        if (ws) {
+            ws.close();
+            ws = null;
+        }
+    });
 }
 
 export function getWebSocket(): WebSocket | null {
