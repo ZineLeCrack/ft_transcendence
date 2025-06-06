@@ -1,5 +1,6 @@
 import { draw } from "./drawmap_multi.js";
 import { loadRoutes } from "../../main.js";
+import initError from "../../error.js";
 
 export let ballX = 400;
 export let ballY = 300;
@@ -11,7 +12,23 @@ export const paddleWidth = 8;
 export const paddleHeight = 100;
 export let message = "";
 
-export default function initMultiplayer() {
+export default async function initMultiplayer() {
+
+		const token = sessionStorage.getItem('token');
+		const response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
+		if (!response.ok)
+		{
+			initError('Please Sign in or Sign up !');
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return;
+		}
 
 
 const player = sessionStorage.getItem("player");
@@ -52,7 +69,7 @@ async function fetchState() {
 				}
 				history.pushState(null, '', '/home');
 				await loadRoutes('/home');
-			}, 2000);
+			}, 1000);
 		}
 		ballX = data.ballX;
 		ballY = data.ballY;

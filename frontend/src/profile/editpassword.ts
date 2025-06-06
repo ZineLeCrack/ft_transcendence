@@ -1,7 +1,23 @@
 import {togglePassword, checkPasswordMatch } from './utils.js';
 import { loadRoutes } from '../main.js';
+import initError from '../error.js';
 
 export default async function initEditPassword() {
+	const token = sessionStorage.getItem('token');
+		const response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
+		if (!response.ok)
+		{
+			initError('Please Sign in or Sign up !');
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return;
+		}
 
 	const editPasswordForm = document.getElementById('edit-password-form') as HTMLFormElement;
 	

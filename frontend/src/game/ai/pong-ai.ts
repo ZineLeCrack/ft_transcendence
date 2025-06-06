@@ -1,4 +1,6 @@
 import { draw_ai } from "./drawmap-ai.js";
+import initError from "../../error.js";
+import { loadRoutes} from "../../main.js";
 
 export let ballX = 400;
 export let ballY = 300;
@@ -14,7 +16,22 @@ export const paddleWidth = 8;
 export const paddleHeight = 100;
 export let message = "";
 
-export default function initPong() {
+export default async function initPong() {
+		const token = sessionStorage.getItem('token');
+		const response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
+		if (!response.ok)
+		{
+			initError('Please Sign in or Sign up !');
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return;
+		}
 
 	let keys: { [key: string]: boolean } = {
 		w: false,

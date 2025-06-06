@@ -28,7 +28,8 @@ export default async function initAddFriend(target?: string) {
         await checkFriendStatus();
 
         friendbtn.addEventListener("click", async () => {
-            if (friendbtn.textContent === "Add Friend") {
+            if (friendbtn.textContent === "Add Friend")
+            {
                 const res = await fetch("/api/requestfriend", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -38,7 +39,10 @@ export default async function initAddFriend(target?: string) {
                 if (data.success) {
                     friendbtn.textContent = "Request Sent";
                 }
-            } else if (friendbtn.textContent === "Remove Friend") {
+
+            }
+            else if (friendbtn.textContent === "Remove Friend")
+            {
                 const res = await fetch("/api/removefriend", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -48,7 +52,9 @@ export default async function initAddFriend(target?: string) {
                 if (data.success) {
                     friendbtn.textContent = "Add Friend";
                 }
-            } else if (friendbtn.textContent === "Request Received") {
+            }
+            else if (friendbtn.textContent === "Request Received")
+            {
                 const res = await fetch("/api/replyrequest", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -59,6 +65,7 @@ export default async function initAddFriend(target?: string) {
                     friendbtn.textContent = "Remove Friend";
                 }
             }
+            window.location.reload();
         });
     }
 }
