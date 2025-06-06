@@ -61,7 +61,6 @@ picturebutton.addEventListener('click', async (event) =>{
 	event.preventDefault();
 
 	const file = pictureInput.files![0];
-	const Token = sessionStorage.getItem('token')!;
 	if (!file)
 	{
 		alert("Please select a picture");
@@ -69,17 +68,14 @@ picturebutton.addEventListener('click', async (event) =>{
 	try {
 		
 		const formData = new FormData();
-		const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true
-        };
-		formData.append('picture', file, file.name);
-		formData.append('token', Token);
+		formData.append('picture', file);
 
 		const response = await fetch('/api/picture', {
 			method: 'POST',
 			body: formData,
+			headers: {
+    			'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+  			},
 		});
 		if (!response.ok)
 		{

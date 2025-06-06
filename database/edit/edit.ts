@@ -21,7 +21,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			reply.status(400).send('Invalid password');
 			return;
 		}
-
 		let IdUser;
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
@@ -118,28 +117,15 @@ export default async function editRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/picture', async (request, reply) => {
-		const parts = request.parts();
-		let fileData: any;
-		let token: any;
-
+		const fileData = await request.file();
+		const authHeader = request.headers['authorization'];
+		const token = authHeader?.split(' ')[1];
 		const start = Date.now();
-		for await (const part of parts) {
-			const partStartTime = Date.now();
-			if (part.type === 'file' && part.fieldname === 'picture') {
-				fileData = part;
-				console.log(`File part received: ${part.filename}`);
-			} else if (part.type === 'field' && part.fieldname === 'token') {
-				token = part.value;
-				console.log(`Token part processed in ${Date.now() - partStartTime} ms`);
-			}
-		}
 		console.log(`All parts processed in ${Date.now() - start} ms`);
-
 		if (!fileData || !token) {
 			reply.status(400).send('Missing image or token');
 			return;
 		}
-
 		let IdUser;
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
@@ -158,7 +144,8 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		let jpegBuffer: Buffer;
 		try {
 			jpegBuffer = await sharp(originalBuffer).png().toBuffer();
-		} catch (err) {
+		} 
+		catch (err) {
 			console.error('Image conversion failed:', err);
 			reply.status(500).send('Image conversion error');
 			return;
