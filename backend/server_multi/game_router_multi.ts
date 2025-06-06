@@ -3,9 +3,9 @@ import { GameInstance } from './multiplayer.js';
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
-const games = new Map<string, GameInstance>();
+export const games = new Map<string, GameInstance>();
 
-function generateGameId(): string {
+export function generateGameId(): string {
 	return Math.random().toString(36).substring(2, 10);
 }
 
@@ -36,7 +36,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 				reply.send({ gameId: id, player: "player2" });
 				return ;
 			}
-			else if (!game.full) {
+			else if (!game.private && !game.full) {.67
 				game.full = true;
 				game.player2.id = userId;
 				game.player2.name = userName;

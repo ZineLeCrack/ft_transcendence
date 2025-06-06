@@ -1,3 +1,5 @@
+import { loadRoutes } from '../main.js';
+
 interface TournamentDataLose_Win {
 	winner1: string,
 	loser1: string,
@@ -173,6 +175,32 @@ export default async function  initInTournament(id: string) {
 	joinTournamentBtn.textContent = 'Play';
 	joinTournamentBtn.classList.remove("border-[#FFD700]", "text-[#FFD700]", "hover:bg-[#FFD700]/20",  "shadow-[0_0_10px_#FFD700]");
 	joinTournamentBtn.classList.add("border-[#00FFFF]", "text-[#00FFFF]", "hover:bg-[#00FFFF]/20",  "shadow-[0_0_10px_#00FFFF]");
+
+	joinTournamentBtn?.addEventListener('click', async () => {
+		try {
+			const response = await fetch('/api/multi/tournament/join', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token: sessionStorage.getItem('token'), tournamentId: id })
+			});
+
+			const data = await response.json();
+
+			if (data.err) {
+				alert(data.message);
+			}
+			else {
+				sessionStorage.setItem("gameId", data.gameId);
+				sessionStorage.setItem("player", data.player);
+				history.pushState(null, '', '/game/multi');
+				await loadRoutes('/game/multi');
+				window.location.reload();
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	});
+
 	const tournamentdiv = document.getElementById('tournament-div') as HTMLDivElement;
 
 	tournamentdiv.classList.remove("justify-between");
