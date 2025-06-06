@@ -3,7 +3,7 @@ import cors from '@fastify/cors';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import gameRoutes from './game_router_multi.js';
-import startTournamentsRoutes from './tournament.js';
+import tournamentRoutes from './tournament.js';
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ async function main() {
     },
   });
   
-  await app.register(startTournamentsRoutes);
+  await app.register(tournamentRoutes, { prefix: '/tournament'});
   await app.register(cors, { origin: true });
   await app.register(gameRoutes, { prefix: '/game' });
   await app.listen({ port: 4001, host: '0.0.0.0' });

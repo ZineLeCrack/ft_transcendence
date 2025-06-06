@@ -97,15 +97,15 @@ export default function initLogin() {
 
 	//template pour le bouton de test utilisateur
 
+	let increment = 1;
 	const registerTestBtn = document.getElementById('register-test-user');
 	registerTestBtn?.addEventListener('click', async (event) => {
 		event.preventDefault();
 		// Récupère le dernier id utilisé ou commence à 1
-		let testId = Number(sessionStorage.getItem('testUserId') || '1');
+		let testId = increment;
 		const username = `Test${testId}`;
 		const password = `Test1${testId}`;
 		const email = `Test@Test${testId}.fr`;
-
 
 		try {
 			const response = await fetch('/api/submit', {
@@ -113,17 +113,17 @@ export default function initLogin() {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ username, email, password }),
 			});
-
+			increment++;
 			if (!response.ok) {
 				const error = await response.text();
 				initError(error);
+				increment++;
 				return;
 			}
 
 			signInUsernameInput.value = username;
 			signInPasswordInput.value = password;
 
-			sessionStorage.setItem('testUserId', String(testId + 1));
 		} catch (err) {
 			initError((err as Error)?.message || String(err));
 		}

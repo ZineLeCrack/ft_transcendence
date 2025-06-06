@@ -162,21 +162,27 @@ export default async function initJoinTournament() {
 						if (data.full)
 						{
 							try {
-								const response = await fetch('/api/tournament/start', {
-									method: 'POST',
-									headers: { 'Content-Type': 'application/json' },
-									body: JSON.stringify({ id: data.id })
-								});
-								const players = await response.json();
-								await fetch('/api/multi/tournament_start', {
-									method: 'POST',
-									headers: { 'Content-Type': 'application/json' },
-									body: JSON.stringify(players)
-								});
-							} catch (err) {
-								console.error(`Error starting tournament: `, err);
-								return ;
-							}
+									const response1 = await fetch('/api/tournament/get_players', {
+										method: 'POST',
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify({ tournamentId: data.id })
+									});
+									const players = await response1.json();
+									const response2 = await fetch('/api/tournament/get_winners', {
+										method: 'POST',
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify({ tournamentId: data.id })
+									});
+									const results = await response2.json();
+									await fetch('/api/multi/tournament/start', {
+										method: 'POST',
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify({ id: data.id, ...players, ...results })
+									});
+								} catch (err) {
+									console.error(`Error starting tournament: `, err);
+									return ;
+								}
 						}
 
 						joinView?.classList.add('hidden');
@@ -214,16 +220,22 @@ export default async function initJoinTournament() {
 							if (data.full)
 							{
 								try {
-									const response = await fetch('/api/tournament/start', {
+									const response1 = await fetch('/api/tournament/get_players', {
 										method: 'POST',
 										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ id: data.id })
+										body: JSON.stringify({ tournamentId: data.id })
 									});
-									const players = await response.json();
-									await fetch('/api/multi/tournament_start', {
+									const players = await response1.json();
+									const response2 = await fetch('/api/tournament/get_winners', {
 										method: 'POST',
 										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify(players)
+										body: JSON.stringify({ tournamentId: data.id })
+									});
+									const results = await response2.json();
+									await fetch('/api/multi/tournament/start', {
+										method: 'POST',
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify({ id: data.id, ...players, ...results })
 									});
 								} catch (err) {
 									console.error(`Error starting tournament: `, err);

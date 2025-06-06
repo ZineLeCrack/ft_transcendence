@@ -22,36 +22,52 @@ export async function sendMessage(username: string, content: string, pong?: bool
 	const data = await res.json();
 	if (data.status === 1)
 		return;
-	
 
 	if (pong === true) {
 		messageWrapper.className = "flex flex-col items-center space-y-2 my-4";
 		
+		const oldMsg = document.getElementById('pong-request');
+		const oldacceptBtn = document.getElementById('accept-button-pong');
+		const olddeclineBtn = document.getElementById('decline-button-pong');
+		if (oldMsg)
+		{
+			oldMsg.remove();
+			oldacceptBtn?.remove();
+			olddeclineBtn?.remove();
+		}
+
 		const msg = document.createElement("div");
+		msg.id = "pong-request";
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
-		msg.textContent = `${targetUser} wants to play with you !`;
+		msg.textContent = `${username} wants to play with you !`;
 		
 		const buttonsDiv = document.createElement("div");
 		buttonsDiv.className = "flex gap-4 mt-2";
 		
 		const acceptBtn = document.createElement("button");
+		acceptBtn.id = 'accept-button-pong';
 		acceptBtn.className = "bg-transparent border-2 border-[#00FFFF] px-6 py-2 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]";
 		acceptBtn.textContent = "Accept";
 		
 		const declineBtn = document.createElement("button");
+		declineBtn.id = 'decline-button-pong';
 		declineBtn.className = "bg-transparent border-2 border-[#FF007A] px-6 py-2 rounded-xl text-[#FF007A] font-bold hover:bg-[#FF007A]/20 transition duration-200 shadow-[0_0_10px_#FF007A]";
 		declineBtn.textContent = "Decline";
 		
 		acceptBtn.addEventListener('click', () => {
 			// TODO: Handle game acceptance
 			console.log('Game accepted');
-			messageWrapper.remove();
+			msg.remove();
+			acceptBtn.remove();
+			declineBtn.remove();
 		});
 		
 		declineBtn.addEventListener('click', () => {
 			// TODO: Handle game decline
 			console.log('Game declined');
-			messageWrapper.remove();
+			msg.remove();
+			acceptBtn.remove();
+			declineBtn.remove();
 		});
 		
 		buttonsDiv.appendChild(acceptBtn);
@@ -89,7 +105,6 @@ export async function sendMessage(username: string, content: string, pong?: bool
                 });
             const data = await res.json();
 			window.location.reload();
-			messageWrapper.remove();
 		});
 		
 		declineBtn.addEventListener('click', async () => {
@@ -102,7 +117,6 @@ export async function sendMessage(username: string, content: string, pong?: bool
                 });
             const data = await res.json();
 			window.location.reload();
-			messageWrapper.remove();
 		});
 		
 		buttonsDiv.appendChild(acceptBtn);

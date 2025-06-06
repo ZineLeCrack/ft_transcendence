@@ -27,6 +27,7 @@ export class GameInstance {
 	constructor(gameId: string, userId: string, userName: string, is_private: boolean) {
 		if (is_private) {
 			this.private = true;
+			this.gameId = gameId;
 		}
 		else
 		{

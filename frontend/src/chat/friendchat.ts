@@ -78,17 +78,6 @@ export default async function initFriendChat() {
 		}
 	});
 
-
-	function updateFriendRequestsCount(count: number) {
-		if (count > 0) {
-			friendRequestsCount.textContent = count.toString();
-			friendRequestsCount.classList.remove("hidden");
-		} else {
-			friendRequestsCount.classList.add("hidden");
-		}
-	}
-
-
 	interface Friend {
 		username: string;
 		profilPic: string;
@@ -168,6 +157,9 @@ export default async function initFriendChat() {
 
 	friendButtons.forEach(button => {
 		button.addEventListener('click', async () => {
+			const oldPongBtn = document.getElementById('pong-send');
+			if (oldPongBtn)
+				oldPongBtn.remove();
 			const username = button.id.split('-').pop();
 			
 			const existingChats = chatContainers.querySelectorAll('[id^="chat-messages-"]');
