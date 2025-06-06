@@ -150,8 +150,6 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 				[userID]
 			);
 
-
-
 			const friendsWithStatus = friends.map((f: any) => ({
 				username: f.username,
 				profilPic: f.profilPic,

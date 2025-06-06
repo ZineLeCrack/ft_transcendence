@@ -1,42 +1,6 @@
 import { sendMessage } from "./chat/chat.js";
 import { generateTournamentView } from "./tournament/in_tournament.js";
 
-// interface TournamentDataLose_Win {
-// 	winner1: string,
-// 	loser1: string,
-// 	winner2: string,
-// 	loser2: string,
-// 	winner3: string,
-// 	loser3: string,
-// 	winner4: string,
-// 	loser4: string,
-
-// 	winner1_semifinal: string,
-// 	loser1_semifinal: string,
-// 	winner2_semifinal: string,
-// 	loser2_semifinal: string,
-
-// 	winner_final: string,
-// 	loser_final: string,
-// }
-
-// const TournamentData_Lose_Win: TournamentDataLose_Win = {
-// 	winner1: `?`,
-// 	loser1: `?`,
-// 	winner2: `?`,
-// 	loser2: `?`,
-// 	winner3: `?`,
-// 	loser3: `?`,
-// 	winner4: `?`,
-// 	loser4: `?`,
-// 	winner1_semifinal: `?`,
-// 	loser1_semifinal: `?`,
-// 	winner2_semifinal: `?`,
-// 	loser2_semifinal: `?`,
-// 	winner_final: `?`,
-// 	loser_final: `?`
-// };
-
 let ws: WebSocket | null = null;
 let original_name: string;
 
@@ -61,6 +25,13 @@ export function initWebSocket(original: string) {
 				sendMessage(data.username, data.content);
 			}
 			if (data.type === 'new_private_message') {
+				console.log("new_message_private(websocket)", data);
+				if (data.pongRequest === 1)
+				{
+					console.log("pongRequest envoyer de ", data.username, "pour", data.targetUsername);
+					sendMessage(data.username, "", true, data.targetUsername);
+					return;
+				}
 				const isSender = data.username === original_name;
 				const otherUser = isSender ? data.targetUsername : data.username;
 				sendMessage(data.username, data.content, false, otherUser);

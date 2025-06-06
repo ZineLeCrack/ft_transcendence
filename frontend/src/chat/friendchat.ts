@@ -1,6 +1,6 @@
 import initError from '../error.ts';
 import { sendMessage } from './chat.ts';
-
+import { getWebSocket } from '../websocket.ts';
 
 export default async function initFriendChat() {
 	const switchChatBtn = document.getElementById('switch-chat') as HTMLButtonElement;
@@ -41,14 +41,10 @@ export default async function initFriendChat() {
 			const privateChats = chatContainers.querySelectorAll('[id^="chat-messages-"]');
 			privateChats.forEach(chat => chat.remove());
 
-			let globalChat = document.getElementById('chat-messages-global') as HTMLDivElement;
-			if (!globalChat)
-			{
-				globalChat = document.createElement('div');
-				globalChat.id = 'chat-messages-global';
-				globalChat.className = 'flex flex-col space-y-4';
-				chatContainers.appendChild(globalChat);
-			}
+			const globalChat = document.createElement('div');
+			globalChat.id = 'chat-messages-global';
+			globalChat.className = 'flex flex-col space-y-4';
+			chatContainers.appendChild(globalChat);
 
 			switchChatBtn.innerHTML =`
 				CHAT://friends
@@ -232,9 +228,15 @@ export default async function initFriendChat() {
 			pongBtn.innerHTML = '<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">';
 			inputArea.appendChild(pongBtn);
 			
+			const ws = getWebSocket();
 			pongBtn.addEventListener("click", async () => {
-				console.log("pongBtn clicked", original_name, "", true, target);
-				sendMessage(original_name, "", true, target);
+				let chatdata;
+				const BoxTarget = document.querySelector('[id^="chat-messages-"]');
+				const targetUsername = BoxTarget?.id.split('-').pop();
+				const token = sessionStorage.getItem('token');
+				chatdata = { type: 'new_private_message', token, content: "" , targetUsername, pongRequest: 1};
+				console.log("pongbtn clicked", chatdata);
+				ws?.send(JSON.stringify(chatdata));
 			});
 		});
 	});
