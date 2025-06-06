@@ -3,9 +3,9 @@ import { GameInstance } from './multiplayer.js';
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
-const games = new Map<string, GameInstance>();
+export const games = new Map<string, GameInstance>();
 
-function generateGameId(): string {
+export function generateGameId(): string {
 	return Math.random().toString(36).substring(2, 10);
 }
 

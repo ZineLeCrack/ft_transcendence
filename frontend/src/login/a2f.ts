@@ -5,11 +5,9 @@ import initSuccess from '../success.js';
 
 export default function initA2f() {
 
-
 const form = document.getElementById("a2f") as HTMLFormElement;
 const sendBtn = document.getElementById('to-send-a2f') as HTMLButtonElement;
 const codeInput = document.getElementById("code-input") as HTMLInputElement;
-
 
 sendBtn.addEventListener("click", async () => {
     const Data =
