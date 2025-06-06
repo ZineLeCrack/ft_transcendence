@@ -96,7 +96,7 @@ export class GameInstance {
 		}
 		else if (this.ballSpeedX > 0 && this.ballX >= 775 && this.ballY >= this.rightPaddleY && this.ballY <= this.rightPaddleY + 100) {
 			this.ballSpeedX = -this.ballSpeedX;
-			if (this.ballSpeedX < 10) this.ballSpeedX += 0.5;
+			if (this.ballSpeedX > -10) this.ballSpeedX -= 0.5;
 			this.ballSpeedY += collision(this.rightPaddleY, this.ballY);
 		}
 	}
