@@ -41,14 +41,27 @@ async function fetchState() {
 					const response = await fetch(`${SERVER_URL}/end`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({ id: data.id }),
+						body: JSON.stringify({ id: data.id })
 					});
 					const gameStat = await response.json();
 					await fetch(`/api/addhistory`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify(gameStat),
+						body: JSON.stringify(gameStat)
 					});
+					if (gameStat.tournament) {
+						const res = await fetch(`/api/multi/tournament/next_game`, {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/json' },
+							body: JSON.stringify({ tournamentId: gameStat.tournamentId })
+						});
+						const results = await res.json();
+						await fetch(`/api/tournament/results`, {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/json' },
+							body: JSON.stringify(results)
+						});
+					}
 				}
 				history.pushState(null, '', '/home');
 				await loadRoutes('/home');

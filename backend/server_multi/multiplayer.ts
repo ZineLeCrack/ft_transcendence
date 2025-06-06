@@ -2,6 +2,7 @@ const IP_NAME = process.env.IP_NAME || '10.12.200.0';
 
 export class GameInstance {
 	private = false;
+	tournamentId = '';
 	gameId = "";
 	player1 = { id: "", name: "" }; 
 	player2 = { id: "", name: "" };
@@ -24,8 +25,9 @@ export class GameInstance {
 
 	private interval: NodeJS.Timeout | null = null;
 
-	constructor(gameId: string, userId: string, userName: string, is_private: boolean) {
+	constructor(gameId: string, userId: string, userName: string, is_private: boolean, tournamentId: string) {
 		if (is_private) {
+			this.tournamentId = tournamentId;
 			this.private = true;
 			this.gameId = gameId;
 		}

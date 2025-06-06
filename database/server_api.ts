@@ -20,6 +20,7 @@ import blockRoutes from './Friend-block/block-back.js';
 import isInATournamentRoutes from './tournament/is_in_a_tournament.js';
 import getPlayersATournamentRoutes from './tournament/get_players.js';
 import getWinnersATournamentRoutes from './tournament/get_winners.js';
+import postResultsRoutes from './tournament/post_results.js';
 
 dotenv.config();
 
@@ -53,6 +54,7 @@ async function main() {
 	await app.register(isInATournamentRoutes);
 	await app.register(getPlayersATournamentRoutes);
 	await app.register(getWinnersATournamentRoutes);
+	await app.register(postResultsRoutes);
 
 	await app.listen({ port: 3451, host: '0.0.0.0' });
 
