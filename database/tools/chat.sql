@@ -3,7 +3,9 @@ PRAGMA foreign_keys = ON;
 CREATE TABLE chat (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
-    content TEXT NOT NULL
+    content TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+
 );
 
 CREATE TABLE privatechat (
@@ -11,6 +13,7 @@ CREATE TABLE privatechat (
     username1 TEXT NOT NULL,
     username2 TEXT NOT NULL,
     content TEXT NOT NULL,
-    pongRequest INTEGER DEFAULT 0
+    pongRequest INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 
 );

@@ -8,7 +8,7 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 	fastify.post('/getmessages', async (_request, reply) => {
 		try {
 			const db = await getDb_chat();
-			const messages = await db.all(`SELECT * FROM chat`);
+			const messages = await db.all(`SELECT * FROM chat ORDER BY created_at ASC`);
 			reply.status(200).send({ tab: messages });
 		} catch (err) {
 			console.error(err);
@@ -28,12 +28,12 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 			username1 = await dbUser.get(`SELECT name FROM users WHERE id = ?`, [id_user]);
 			const dbChat = await getDb_chat();
 			const messages = await dbChat.all(
-	  				`SELECT * FROM privatechat 
-	   				WHERE (username1 = ? AND username2 = ?)
-	      			OR (username1 = ? AND username2 = ?)`,
-	  				[username1.name, username2, username2, username1.name]
+	  			`SELECT * FROM privatechat 
+	   			WHERE (username1 = ? AND username2 = ?)
+	      		OR (username1 = ? AND username2 = ?)
+				ORDER BY created_at ASC`,
+	  			[username1.name, username2, username2, username1.name]
 			);
-
 			reply.status(200).send({ tab: messages });
 
 		} catch (err) {

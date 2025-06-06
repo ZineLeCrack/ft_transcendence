@@ -162,6 +162,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		chatContainer.scrollTop = chatContainer.scrollHeight;
 	}
 }
+
 export default function initChat() {
 	const input = document.getElementById("chat-input") as HTMLInputElement;
 	const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
@@ -187,13 +188,20 @@ export default function initChat() {
 		const data = await response.json();
 		original_name = data.original;
 
+		interface Message {
+			created_at: string;
+			username: string;
+			content: string;
+		}
+
 		async function displayAllMessages() {
 			try {
 				const response = await fetch(`/api/getmessages`, {
 					method: 'POST',
 				});
 				const data = await response.json();
-				const tab = data.tab;
+				const tab: Message [] = data.tab;
+				tab.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
 				messageBox.innerHTML = "";
 				for (let i = 0; i < tab.length; i++) {
 					const message = { ...tab[i], isHistoryMessage: true };

@@ -4,7 +4,7 @@ import { getDb_chat } from '../database.js';
 import { getDb_user } from '../database.js';
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
-
+const COOLDOWN_MS = 120000;
 const clients = new Set<WebSocket>();
 
 export function setupWebSocket(server: any) {
@@ -21,6 +21,8 @@ export function setupWebSocket(server: any) {
 			try {
 				const data = JSON.parse(message.toString());
 				const { type, token, content, targetUsername, id, pongRequest} = data;
+				const dbusers = await getDb_user();
+				const dbchat = await getDb_chat();
 				if (type === 'new_message') {
 					if (!token || !content) return;
 					let id_user;
@@ -32,11 +34,9 @@ export function setupWebSocket(server: any) {
 						console.error(err);
 						return;
 					}
-					const dbusers = await getDb_user();
-					const db = await getDb_chat();
 					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`, [id_user]);
 					const username = response.name;
-					await db.run(
+					await dbchat.run(
 						`INSERT INTO chat (username, content) VALUES (?, ?)`,
 						[username, content]
 					);
@@ -72,13 +72,21 @@ export function setupWebSocket(server: any) {
 						console.error(err);
 						return;
 					}
-					console.log("{",data,"}");
-					const dbusers = await getDb_user();
-					const db = await getDb_chat();
 					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`,[id_user]);
 					const username = response.name;
-					console.log(username, targetUsername, content, pongRequest);
-					await db.run(
+
+					const lastInvite = await dbchat.get(`
+						SELECT created_at FROM privatechat 
+						WHERE username1 = ? AND username2 = ? AND pongRequest = 1 
+						ORDER BY created_at DESC LIMIT 1
+							`, [username, targetUsername]);
+					
+					const actualTimestamp = Date.now();
+					if (pongRequest === 1 && lastInvite && (actualTimestamp - new Date(lastInvite.created_at).getTime() < COOLDOWN_MS)) {
+						console.log('Cooldown active, invitation rejetée');
+						return;
+					}
+					await dbchat.run(
 						`INSERT INTO privatechat (username1, username2, content, pongRequest) VALUES (?, ?, ?, ?)`,
 						[username, targetUsername, content, pongRequest]
 					);

@@ -25,11 +25,10 @@ export function initWebSocket(original: string) {
 				sendMessage(data.username, data.content);
 			}
 			if (data.type === 'new_private_message') {
-				console.log("new_message_private(websocket)", data);
 				if (data.pongRequest === 1)
 				{
-					console.log("pongRequest envoyer de ", data.username, "pour", data.targetUsername);
-					sendMessage(data.username, "", true, data.targetUsername);
+					if (data.targetUsername === original_name)
+						sendMessage(data.targetUsername , "", true, data.username);
 					return;
 				}
 				const isSender = data.username === original_name;

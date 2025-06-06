@@ -6,12 +6,11 @@ export default async function initFriendChat() {
 	const switchChatBtn = document.getElementById('switch-chat') as HTMLButtonElement;
 	const chatInfo = document.getElementById('chat-info') as HTMLDivElement;
 	const friendslist = document.getElementById('friends-list') as HTMLDivElement;
-	const friendRequestsCount = document.getElementById('friend-requests-count') as HTMLDivElement;
 	
 	switchChatBtn.addEventListener('click', async () => {
 		if (switchChatBtn.textContent?.includes("friends"))
 		{
-			const privateChats = chatContainers.querySelectorAll('[id^="chat-messages-"]');
+			const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
 			privateChats.forEach(chat => chat.remove());
 
 			const globalChat = document.getElementById('chat-messages-global') as HTMLDivElement;
@@ -26,6 +25,7 @@ export default async function initFriendChat() {
 				border border-[#FF2E9F] pointer-events-none">
 				Switch to global chat
 			</div>`;
+			const chatInfo = document.getElementById('chat-info') as HTMLDivElement;
 			chatInfo.innerHTML = `
 				<span class="mr-2 text-[#FF2E9F]">⚡</span>
         	   	CHAT://friends
@@ -33,12 +33,12 @@ export default async function initFriendChat() {
 				`;
 			friendslist.classList.remove("hidden");
 			friendslist.classList.add("flex");
-			friendRequestsCount.classList.add("hidden");
 			
 		}
 		else
 		{
-			const privateChats = chatContainers.querySelectorAll('[id^="chat-messages-"]');
+			const chatContainers = document.getElementById('chat-containers') as HTMLDivElement;
+			const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
 			privateChats.forEach(chat => chat.remove());
 
 			const globalChat = document.createElement('div');
@@ -54,6 +54,7 @@ export default async function initFriendChat() {
 					Switch to friends chat
 				</div>`;
 
+			const chatInfo = document.getElementById('chat-info') as HTMLDivElement;
 			chatInfo.innerHTML = `
 			<span class="mr-2 text-[#FF2E9F]">⚡</span>
            	CHAT://global
@@ -61,7 +62,6 @@ export default async function initFriendChat() {
 			`
 			friendslist.classList.remove("flex");
 			friendslist.classList.add("hidden");
-			friendRequestsCount.classList.remove("hidden");
 
 			const response = await fetch(`/api/getmessages`, {method: 'POST',});
 			const data = await response.json();
@@ -158,7 +158,7 @@ export default async function initFriendChat() {
 				oldPongBtn.remove();
 			const username = button.id.split('-').pop();
 			
-			const existingChats = chatContainers.querySelectorAll('[id^="chat-messages-"]');
+			const existingChats = document.querySelectorAll('[id^="chat-messages-"]');
 			existingChats.forEach(chat => chat.remove());
 			
 			const tokenID = sessionStorage.getItem("token");
@@ -218,7 +218,31 @@ export default async function initFriendChat() {
 				const message = { ...tab[i], isHistoryMessage: true };
 				const isSender = message.username1 === original_name;
 				const otherUser = isSender ? message.username2 : message.username1;
-				sendMessage(message.username1, message.content, false, otherUser);
+				if (message.pongRequest === 1)
+				{
+					if (message.username2 === original_name)
+						sendMessage(message.username2 , "", true, message.username1);
+					else
+					{
+						const messageWrapper = document.getElementById(`chat-messages-${message.username2}`);
+						if (messageWrapper)
+						{
+							const oldmsg = document.getElementById('pong-request-send');
+							if (oldmsg)
+								oldmsg.remove();
+						
+							const msg = document.createElement("div");
+							msg.id = 'pong-request-send';
+							msg.className = "font-mono text-[#00FFFF] px-4 py-2 my-2 border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
+							msg.textContent = `Invitation sent to ${message.username2}`;
+							messageWrapper.appendChild(msg);
+						}
+					}
+				}
+				else
+				{
+					sendMessage(message.username1, message.content, false, otherUser);
+				}
 			}
 
 			const inputArea = document.getElementById('input-Area') as HTMLDivElement;
@@ -234,9 +258,23 @@ export default async function initFriendChat() {
 				const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 				const targetUsername = BoxTarget?.id.split('-').pop();
 				const token = sessionStorage.getItem('token');
+				
 				chatdata = { type: 'new_private_message', token, content: "" , targetUsername, pongRequest: 1};
-				console.log("pongbtn clicked", chatdata);
 				ws?.send(JSON.stringify(chatdata));
+
+				const messageWrapper = document.getElementById(`chat-messages-${targetUsername}`);
+				if (messageWrapper)
+				{
+					const oldmsg = document.getElementById('pong-request-send');
+					if (oldmsg)
+						oldmsg.remove();
+
+					const msg = document.createElement("div");
+					msg.id = 'pong-request-send';
+					msg.className = "font-mono text-[#00FFFF] px-4 py-2 my-2 border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
+					msg.textContent = `Invitation sent to ${targetUsername}`;
+					messageWrapper.appendChild(msg);
+				}
 			});
 		});
 	});
