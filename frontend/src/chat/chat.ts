@@ -1,6 +1,7 @@
 import { getWebSocket } from '../websocket';
 import { loadRoutes } from '../main.ts';
 import initError from '../error.ts';
+import { loadProfilePicture } from '../profile/editinfo.ts';
 let original_name:string;
 
 export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
@@ -241,5 +242,6 @@ export default function initChat() {
 
 		displayAllMessages();
 	})();
+	loadProfilePicture("profileBtn");
 }
 

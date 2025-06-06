@@ -161,6 +161,34 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			console.error(err);
 			reply.status(500).send('Database error');
 		}
-});
+	});
+	fastify.get('/picture', async (request, reply) => {
+		const authHeader = request.headers['authorization'];
+		const token = authHeader?.split(' ')[1];
 
+		if (!token) {
+			return reply.status(401).send('Token missing');
+		}
+
+		let userId;
+		try {
+			const decoded = jwt.verify(token, JWT_SECRET);
+			userId = (decoded as { userId: string }).userId;
+		} 
+		catch {
+			return reply.status(401).send('Invalid token');
+		}
+		try {
+			const db = await getDb_user();
+			const result = await db.get('SELECT profile_pic FROM users WHERE id = ?', [userId]);
+			if (!result || !result.profile_pic) {
+			return reply.status(404).send('Image not found');
+		}
+			reply.header('Content-Type', 'image/png').send(result.profile_pic);
+		} 
+		catch (err) {
+			console.error(err);
+			reply.status(500).send('Database error');
+	}
+	});
 }

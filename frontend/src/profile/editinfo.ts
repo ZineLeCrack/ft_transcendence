@@ -2,6 +2,30 @@ import  imageCompression  from 'browser-image-compression';
 import initError from '../error';
 import { loadRoutes } from '../main';
 
+export async function loadProfilePicture(div: string) {
+	const token = sessionStorage.getItem("token");
+	if (!token) return;
+
+	const response = await fetch('/api/picture', {
+		headers: {
+			'Authorization': `Bearer ${token}`
+		}
+	});
+
+	if (!response.ok) {
+		console.error("Failed to load profile picture");
+		return;
+	}
+
+	const blob = await response.blob();
+	const imageUrl = URL.createObjectURL(blob);
+
+	const profilPicDiv = document.getElementById(div);
+	if (profilPicDiv) {
+		profilPicDiv.innerHTML = `<img src="${imageUrl}" class="w-full h-full object-cover rounded-full" alt="Profile Pic"/>`;
+	}
+}
+
 export default async function initEditProfile() {
 
 	const token = sessionStorage.getItem('token');
@@ -57,6 +81,7 @@ if (editProfileForm) {
 	});
 }
 
+
 picturebutton.addEventListener('click', async (event) =>{
 	event.preventDefault();
 
@@ -82,6 +107,8 @@ picturebutton.addEventListener('click', async (event) =>{
 			const err = await response.text();
 			throw new Error(err || "Fail change");
 		}
+			loadProfilePicture("profil-pic");
+			pictureInput.value = '';
 			console.log("Your profile has been updated successfully");
 		} 
 		catch (error) 
@@ -135,5 +162,5 @@ if (emailInput) {
 		validateEmailField(emailInput);
 	});
 }
-
+loadProfilePicture("profil-pic");
 }

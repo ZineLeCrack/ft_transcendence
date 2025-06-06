@@ -93,7 +93,6 @@ export default async function initFriendChat() {
 		Friend.forEach(Friend => {
 			const friendElement = document.createElement('div');
 			friendElement.className = 'flex gap-8';
-
 			if (Friend.status === 'online') {
 				friendElement.innerHTML = `
 					<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
