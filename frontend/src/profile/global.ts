@@ -1,9 +1,27 @@
 import {Chart, PieController,ArcElement,Tooltip,Legend} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import type { ChartConfiguration } from 'chart.js';
+import initError from '../error';
+import { loadRoutes } from '../main';
 
 
-export default function initGlobalGraph() {
+export default async function initGlobalGraph() {
+
+	const token = sessionStorage.getItem('token');
+	const response = await fetch('/api/verifuser', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ token }),
+	});
+	if (!response.ok)
+	{
+		initError('Please Sign in or Sign up !');
+		setTimeout(async () => {
+			history.pushState(null, '', '/login');
+			await loadRoutes('/login');
+		}, 1000);
+		return;
+	}
 	
 	Chart.register(PieController, ArcElement, Tooltip, Legend, ChartDataLabels);
 	

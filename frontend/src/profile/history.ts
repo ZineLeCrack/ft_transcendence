@@ -1,4 +1,6 @@
 import { userData } from "../game/choosegame.js";
+import initError from "../error.js";
+import { loadRoutes } from "../main.js";
 
 export interface CardHistory {
 	imageplayer1: string;
@@ -84,6 +86,22 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 
 export default async function  initHistory() 
 {
+	const token = sessionStorage.getItem('token');
+	const response = await fetch('/api/verifuser', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ token }),
+	});
+	if (!response.ok)
+	{
+		initError('Please Sign in or Sign up !');
+		setTimeout(async () => {
+			history.pushState(null, '', '/login');
+			await loadRoutes('/login');
+		}, 1000);
+		return;
+	}
+
 	try
 	{
 		const response = await fetch(`/api/history`,

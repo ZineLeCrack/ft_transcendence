@@ -1,4 +1,7 @@
 import { draw } from "./drawmap_local.js";
+import initError from "../../error.js";
+import { loadRoutes } from "../../main.js";
+
 
 export let ballX = 400;
 export let ballY = 300;
@@ -11,7 +14,7 @@ export const paddleHeight = 100;
 export let message = "";
 
 
-export default function initPong() {
+export default async function initPong() {
 	let keys: { [key: string]: boolean } = {
 		w: false,
 		s: false,

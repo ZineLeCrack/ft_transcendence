@@ -6,6 +6,9 @@ import initJoinTournament from '../tournament/join_tournament';
 import initInTournament from '../tournament/in_tournament';
 import initFriendChat from '../chat/friendchat';
 import { initWebSocket } from '../websocket.js';
+import initError from '../error.js'
+import { loadRoutes } from '../main.js';
+import { initLanguageSelector } from './language.js';
 
 export default async function initHome() {
 	
@@ -15,12 +18,22 @@ export default async function initHome() {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ token }),
 	});
+	if (!response.ok)
+	{
+		initError('Please Sign in or Sign up !');
+		setTimeout(async () => {
+			history.pushState(null, '', '/login');
+			await loadRoutes('/login');
+		}, 1000);
+		return;
+	}
 	const info = await response.json();
-	initWebSocket(info.original);
 
+	initWebSocket(info.original);
 	initChooseGame();
 	initChat();
 	initFriendChat();
+	initLanguageSelector();
 	await initsearch();
 	
 	const res = await fetch('/api/tournament/is_in', {

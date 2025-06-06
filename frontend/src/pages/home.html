@@ -17,10 +17,6 @@
 					Switch to friends chat
 				</div>
 			</button>
-			<div id="friend-requests-count"
-				class="absolute opacity-75 -top-3 -right-3 w-6 h-6 bg-[#FF2E9F] text-white text-xs rounded-full flex items-center justify-center animate-pulse shadow-[0_0_10px_#FF2E9F] border border-white/50">
-				2
-			</div>
 		</div>
 	</div>
 
@@ -43,15 +39,11 @@
 	</div>
 
 	<!-- Input area -->
-	<div class="flex items-center gap-2 w-full border-t border-[#00FFFF] pt-2 bg-black/40">
+	<div id="input-Area" class="flex items-center gap-2 w-full border-t border-[#00FFFF] pt-2 bg-black/40">
 		<span class="text-[#00FFFF] animate-pulse">></span>
 		<input id="chat-input" type="text" placeholder="Enter command..." maxlength="512"
 			class="bg-transparent p-2 text-[#00FFFF] flex-grow min-w-0 border-none focus:outline-none focus:ring-0 placeholder-[#00FFFF]/50" />
 		<button id="chat-send" class="text-[#00FFFF] hover:text-white transition-colors px-2">⮐</button>
-		<button id="pong-send"
-			class="w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10 transition-colors">
-			<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">
-		</button>
 	</div>
 </div>
 
@@ -64,6 +56,25 @@
 				class="font-mono border-2 ml-40 text-[#FF2E9F] rounded-2xl border-spacing-4 p-3 w-[500px] border-[#FF2E9F] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#FF2E9F] placeholder-[#FF2E9F]/50 focus:outline-none focus:border-[#B026FF]" />
 		</div>
 		<div id="topbar-buttons" class="flex items-center gap-6">
+    		<div class="relative">
+    		    <button id="language-selector" class="group w-10 h-10 rounded-lg border-2 border-[#B026FF] shadow-[0_0_10px_#B026FF] overflow-hidden flex items-center justify-center hover:border-[#FF2E9F] transition-colors duration-200">
+    		        <img id="current-flag" src="/images/en.png" alt="English" class="w-full h-full object-cover">
+    		    </button>
+    		    <div id="language-dropdown" class="hidden absolute top-full right-[50%] translate-x-[50%] mt-2 bg-black/90 border-2 border-[#B026FF] rounded-lg shadow-[0_0_10px_#B026FF] overflow-hidden z-[100] min-w-[150px]">
+    		        <button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200">
+    		            <img src="/images/en.png" alt="English" class="w-6 h-6 object-cover rounded">
+    		            <span class="text-[#00FFFF] text-sm whitespace-nowrap">English</span>
+    		        </button>
+    		        <button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200">
+    		            <img src="/images/fr.png" alt="Français" class="w-6 h-6 object-cover rounded">
+    		            <span class="text-[#00FFFF] text-sm whitespace-nowrap">Français</span>
+    		        </button>
+    		        <button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200">
+    		            <img src="/images/es.png" alt="Español" class="w-6 h-6 object-cover rounded">
+    		            <span class="text-[#00FFFF] text-sm whitespace-nowrap">Español</span>
+    		        </button>
+    		    </div>
+    		</div>
 			<div class="relative group">
 				<a href="/profile/statistics" data-link id="profileBtn"
 					class="w-14 h-14  bg-black/20 rounded-full flex items-center justify-center border-2 border-[#B026FF] shadow-[0_0_10px_#B026FF] overflow-hidden">
