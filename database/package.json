@@ -136,7 +136,7 @@
     "nodemailer": "^7.0.3",
     "nopt": "^5.0.0",
     "npmlog": "^6.0.2",
-    "npx": "^10.2.2",
+    "npx": "^3.0.0",
     "object-assign": "^4.1.1",
     "object-inspect": "^1.13.4",
     "on-finished": "^2.4.1",
