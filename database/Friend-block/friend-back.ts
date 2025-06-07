@@ -143,7 +143,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			const userID = (decoded as { userId: string }).userId;
 
 			const friends = await db.all(
-				`SELECT u.name as username, u.profile_pic as profilPic, f.friend as status
+				`SELECT u.name as username, u.profile_pic as profilPic, u.status as status
 				FROM friend f
 				JOIN users u ON u.id = f.id_player2
 				WHERE f.id_player1 = ? AND f.friend IN (1, 3)`,
@@ -153,13 +153,38 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			const friendsWithStatus = friends.map((f: any) => ({
 				username: f.username,
 				profilPic: f.profilPic,
-				status: 'online'
+				status: f.status
 			}));
 			
 			reply.send({ friends: friendsWithStatus });
 		} catch (err) {
 			console.error("DB error:", err);
 			reply.status(500).send({ success: false, error: "Internal server error" });
+		}
+	});
+	fastify.post('/setstatus', async (request, reply) => {
+		const { tokenID, status } = request.body as { tokenID: string, status: string }
+		
+		if (!tokenID || !status) {
+			reply.status(400).send({ success: false, error: "Missing token or status" });
+			return;
+		}
+		try {
+			const db = await getDb_user();
+			const decoded = jwt.verify(tokenID, JWT_SECRET);
+			const userID = (decoded as { userId: string }).userId;
+			if (!userID) {
+				reply.status(400).send({ success: false, error: "Invalid token" });
+				return;
+			}
+			await db.run(
+				`UPDATE users SET status = ? WHERE id = ?`,
+				[status, userID]
+			);
+			reply.send({ success: true });
+		} catch (err) {
+			console.error("DB error:", err);
+			reply.status(500).send({ success: false, err });
 		}
 	});
 }
