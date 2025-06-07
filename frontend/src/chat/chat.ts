@@ -3,7 +3,7 @@ import { loadRoutes } from '../main.ts';
 import initError from '../error.ts';
 let original_name:string;
 
-export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
+export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean, pongGame? : boolean, requestDecline?: boolean) {
 
 	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
@@ -21,6 +21,52 @@ export async function sendMessage(username: string, content: string, pong?: bool
 	const data = await res.json();
 	if (data.status === 1)
 		return;
+
+	if (pongGame === true)
+	{
+		const oldContainer = document.getElementById('container-pong-game-join');
+		if (oldContainer)
+		{
+			oldContainer.remove();
+		}
+
+		const container = document.createElement("div");
+		container.id = "container-pong-game-join";
+		container.className = "flex flex-col items-center space-y-2 my-4";
+
+		const msg = document.createElement("div");
+		msg.id = "pong-game-join";
+		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
+		
+		if (username === original_name)
+			msg.textContent = `${targetUser} has accepted your invitation for a private pong game`;
+		else {
+			msg.textContent = `You have accepted a private pong game`;
+		}
+		
+		const buttonsDiv = document.createElement("div");
+		buttonsDiv.className = "flex gap-4 mt-2";
+		
+		const JoinBtn = document.createElement("button");
+		JoinBtn.id = 'join-button-pong';
+		JoinBtn.className = "bg-transparent border-2 border-[#00FFFF] px-6 py-2 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]";
+		JoinBtn.textContent = "Join";
+
+		JoinBtn.addEventListener('click', async () => {
+			const token = sessionStorage.getItem('token');
+			console.log("partie rejointe");
+		});
+
+		container.appendChild(msg);
+		container.appendChild(JoinBtn);
+		container.appendChild(buttonsDiv);
+		messageWrapper.appendChild(container);
+		const chatContainer = document.getElementById('chat-containers');
+		if (chatContainer) {
+			chatContainer.scrollTop = chatContainer.scrollHeight;
+		}
+		return;
+	}
 
 	if (pong === true) {
 		
@@ -51,29 +97,70 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		declineBtn.id = 'decline-button-pong';
 		declineBtn.className = "bg-transparent border-2 border-[#FF007A] px-6 py-2 rounded-xl text-[#FF007A] font-bold hover:bg-[#FF007A]/20 transition duration-200 shadow-[0_0_10px_#FF007A]";
 		declineBtn.textContent = "Decline";
-		
-		acceptBtn.addEventListener('click', () => {
-			// TODO: Handle game acceptance
-			console.log('Game accepted');
+
+		acceptBtn.addEventListener('click', async () => {
+			const token = sessionStorage.getItem('token');
+			await fetch("/api/reply-pong", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ token, target: targetUser, answer: 1 })
+			});
 			msg.remove();
 			acceptBtn.remove();
 			declineBtn.remove();
+			container.remove();
+			const ws = getWebSocket();
+			const targetUsername = targetUser;
+			let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 2};
+			ws?.send(JSON.stringify(chatdata));
 		});
-		
-		declineBtn.addEventListener('click', () => {
-			// TODO: Handle game decline
-			console.log('Game declined');
+
+		declineBtn.addEventListener('click', async () => {
+			const token = sessionStorage.getItem('token');
+			await fetch("/api/reply-pong", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ token, target: targetUser, answer: 0 })
+			});
 			msg.remove();
 			acceptBtn.remove();
 			declineBtn.remove();
+			container.remove();
+			const ws = getWebSocket();
+			const targetUsername = targetUser;
+			let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 3};
+			ws?.send(JSON.stringify(chatdata));
 		});
-		
+
 		container.appendChild(msg);
 		container.appendChild(acceptBtn);
 		container.appendChild(declineBtn);
 		container.appendChild(buttonsDiv);
 		messageWrapper.appendChild(container);
+		const chatContainer = document.getElementById('chat-containers');
+		if (chatContainer) {
+			chatContainer.scrollTop = chatContainer.scrollHeight;
+		}
+		return;
+	}
 
+	if (requestDecline === true)
+	{
+		const container = document.createElement("div");
+		container.id = "container-pong-request-decline";
+		container.className = "flex flex-col items-center space-y-2 my-4";
+
+		const msg = document.createElement("div");
+		msg.id = "Request-decline";
+		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
+		msg.textContent = `Request decline :(`;
+
+		container.appendChild(msg);
+		messageWrapper.appendChild(container);
+		const chatContainer = document.getElementById('chat-containers');
+		if (chatContainer) {
+			chatContainer.scrollTop = chatContainer.scrollHeight;
+		}
 		return;
 	}
 
@@ -103,11 +190,11 @@ export async function sendMessage(username: string, content: string, pong?: bool
 			const tokenID = sessionStorage.getItem('token');
 			const target = targetUser; 
 			const res = await fetch("/api/replyrequest", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ tokenID, target , answer: 1})
-                });
-            const data = await res.json();
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ tokenID, target , answer: 1})
+				});
+			const data = await res.json();
 			window.location.reload();
 		});
 		
@@ -115,11 +202,11 @@ export async function sendMessage(username: string, content: string, pong?: bool
 			const tokenID = sessionStorage.getItem('token');
 			const target = targetUser; 
 			const res = await fetch("/api/replyrequest", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ tokenID, target , answer: 0})
-                });
-            const data = await res.json();
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ tokenID, target , answer: 0})
+				});
+			const data = await res.json();
 			window.location.reload();
 		});
 		
@@ -128,6 +215,10 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		container.appendChild(declineBtn);
 		container.appendChild(buttonsDiv);
 		messageWrapper.appendChild(container);
+		const chatContainer = document.getElementById('chat-containers');
+		if (chatContainer) {
+			chatContainer.scrollTop = chatContainer.scrollHeight;
+		}
 		return;
 	}
 
@@ -147,7 +238,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		usernameDiv.className = "text-[#FF007A] font-mono text-sm hover:underline cursor-pointer";
 		msg.className = "font-mono text-[#00FFFF] px-4 py-2 w-fit max-w-[80%] break-words border border-[#FF007A] bg-black/40 rounded-md shadow-[0_0_5px_#FF007A]";
 	}
-	
+
 	usernameDiv.textContent = username;
 	usernameDiv.href = `/users/${username}`;
 	msg.textContent = content;
@@ -208,16 +299,16 @@ export default function initChat() {
 			const content = input.value.trim();
 			if (content === "") return;
 			let chatdata;
-            if (document.getElementById("chat-messages-global"))
-            {
-			    chatdata = { type: 'new_message', token, content };
-            }
-            else
-            {
+			if (document.getElementById("chat-messages-global"))
+			{
+				chatdata = { type: 'new_message', token, content };
+			}
+			else
+			{
 				const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 				const targetUsername = BoxTarget?.id.split('-').pop();
-                chatdata = { type: 'new_private_message', token, content , targetUsername};
-            }
+				chatdata = { type: 'new_private_message', token, content , targetUsername};
+			}
 			ws?.send(JSON.stringify(chatdata));
 			input.value = "";
 		});
@@ -228,17 +319,17 @@ export default function initChat() {
 				const token = sessionStorage.getItem('token');
 				const content = input.value.trim();
 				if (content === "") return;
-                let chatdata;
-                if (document.getElementById("chat-messages-global"))
-                {
-				    chatdata = { type: 'new_message', token, content };
-                }
-                else
-                {
+				let chatdata;
+				if (document.getElementById("chat-messages-global"))
+				{
+					chatdata = { type: 'new_message', token, content };
+				}
+				else
+				{
 					const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 					const targetUsername = BoxTarget?.id.split('-').pop();
-                    chatdata = { type: 'new_private_message', token, content , targetUsername, pongRequest: 0};
-                }
+					chatdata = { type: 'new_private_message', token, content , targetUsername, pongRequest: 0};
+				}
 				ws?.send(JSON.stringify(chatdata));
 				input.value = "";
 			}

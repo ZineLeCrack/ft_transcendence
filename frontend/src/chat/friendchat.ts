@@ -239,6 +239,17 @@ export default async function initFriendChat() {
 						}
 					}
 				}
+				else if (message.pongRequest === 2)
+				{
+					await sendMessage(message.username1 , "", false, otherUser, false, true);
+				}
+				else if (message.pongRequest === 3)
+				{
+					const oldmsg = document.getElementById('pong-request-send');
+					if (oldmsg)
+						oldmsg.remove();
+					await sendMessage(message.username1 , "", false, otherUser, false, false, true);
+				}
 				else
 				{
 					await sendMessage(message.username1, message.content, false, otherUser);
@@ -252,6 +263,7 @@ export default async function initFriendChat() {
 			pongBtn.innerHTML = '<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">';
 			inputArea.appendChild(pongBtn);
 			
+			
 			const ws = getWebSocket();
 			pongBtn.addEventListener("click", async () => {
 				let chatdata;
@@ -261,20 +273,6 @@ export default async function initFriendChat() {
 				
 				chatdata = { type: 'new_private_message', token, content: "" , targetUsername, pongRequest: 1};
 				ws?.send(JSON.stringify(chatdata));
-
-				const messageWrapper = document.getElementById(`chat-messages-${targetUsername}`);
-				if (messageWrapper)
-				{
-					const oldmsg = document.getElementById('pong-request-send');
-					if (oldmsg)
-						oldmsg.remove();
-
-					const msg = document.createElement("div");
-					msg.id = 'pong-request-send';
-					msg.className = "font-mono text-[#00FFFF] px-4 py-2 my-2 border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
-					msg.textContent = `Invitation sent to ${targetUsername}`;
-					messageWrapper.appendChild(msg);
-				}
 			});
 		});
 	});

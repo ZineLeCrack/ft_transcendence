@@ -1,4 +1,5 @@
 import { sendMessage } from "./chat/chat.js";
+import initError from "./error.js";
 import { generateTournamentView } from "./tournament/in_tournament.js";
 
 let ws: WebSocket | null = null;
@@ -20,6 +21,10 @@ export function initWebSocket(original: string) {
 
 	ws.onmessage = async (event) => {
 		const data = JSON.parse(event.data);
+		if (data.type === 'error') {
+			initError(data.message);
+			return;
+		}
 		if (data.type !== 'tournament_new_player' && !data.isHistoryMessage) {
 			if (data.type === 'new_message') {
 				sendMessage(data.username, data.content);
@@ -29,10 +34,45 @@ export function initWebSocket(original: string) {
 				{
 					if (data.targetUsername === original_name)
 						sendMessage(data.targetUsername , "", true, data.username);
+					else
+					{
+						const messageWrapper = document.getElementById(`chat-messages-${data.targetUsername}`);
+						if (messageWrapper)
+						{
+							const oldmsg = document.getElementById('pong-request-send');
+							if (oldmsg)
+								oldmsg.remove();
+							const msg = document.createElement("div");
+							msg.id = 'pong-request-send';
+							msg.className = "font-mono text-[#00FFFF] px-4 py-2 my-2 border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
+							msg.textContent = `Invitation sent to ${data.targetUsername}`;
+							messageWrapper.appendChild(msg);
+						}
+					}
 					return;
 				}
 				const isSender = data.username === original_name;
 				const otherUser = isSender ? data.targetUsername : data.username;
+				if (data.pongRequest === 2)
+				{
+					const oldmsg = document.getElementById('pong-request-send');
+					if (oldmsg)
+						oldmsg.remove();
+					await sendMessage(data.targetUsername , "", false, otherUser, false, true);
+					const chatContainer = document.getElementById('chat-containers');
+					if (chatContainer) {
+						chatContainer.scrollTop = chatContainer.scrollHeight;
+					}
+					return ;
+				}
+				if (data.pongRequest === 3)
+				{
+					const oldmsg = document.getElementById('pong-request-send');
+					if (oldmsg)
+						oldmsg.remove();
+					await sendMessage(data.username , "", false, otherUser, false, false, true);
+					return ;
+				}
 				sendMessage(data.username, data.content, false, otherUser);
 			}
 		} else if (data.type === 'tournament_new_player') {
