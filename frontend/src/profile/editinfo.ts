@@ -1,4 +1,3 @@
-import  imageCompression  from 'browser-image-compression';
 import initError from '../error';
 import { loadRoutes } from '../main';
 
