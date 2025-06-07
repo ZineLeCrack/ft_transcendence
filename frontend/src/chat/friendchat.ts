@@ -69,7 +69,7 @@ export default async function initFriendChat() {
 			for (let i = 0; i < tab.length; i++)
 			{
 				const message = { ...tab[i], isHistoryMessage: true };
-				sendMessage(message.username, message.content);
+				await sendMessage(message.username, message.content);
 			}
 		}
 	});
@@ -221,7 +221,7 @@ export default async function initFriendChat() {
 				if (message.pongRequest === 1)
 				{
 					if (message.username2 === original_name)
-						sendMessage(message.username2 , "", true, message.username1);
+						await sendMessage(message.username2 , "", true, message.username1);
 					else
 					{
 						const messageWrapper = document.getElementById(`chat-messages-${message.username2}`);
@@ -241,7 +241,7 @@ export default async function initFriendChat() {
 				}
 				else
 				{
-					sendMessage(message.username1, message.content, false, otherUser);
+					await sendMessage(message.username1, message.content, false, otherUser);
 				}
 			}
 

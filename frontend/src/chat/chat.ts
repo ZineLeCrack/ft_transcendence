@@ -5,7 +5,6 @@ let original_name:string;
 
 export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean) {
 
-
 	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
 
@@ -152,11 +151,10 @@ export async function sendMessage(username: string, content: string, pong?: bool
 	usernameDiv.textContent = username;
 	usernameDiv.href = `/users/${username}`;
 	msg.textContent = content;
-
+	
 	messageContainer.appendChild(usernameDiv);
 	messageContainer.appendChild(msg);
 	messageWrapper.appendChild(messageContainer);
-
 	const chatContainer = document.getElementById('chat-containers');
 	if (chatContainer) {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -188,24 +186,17 @@ export default function initChat() {
 		const data = await response.json();
 		original_name = data.original;
 
-		interface Message {
-			created_at: string;
-			username: string;
-			content: string;
-		}
-
 		async function displayAllMessages() {
 			try {
 				const response = await fetch(`/api/getmessages`, {
 					method: 'POST',
 				});
 				const data = await response.json();
-				const tab: Message [] = data.tab;
-				tab.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+				const tab = data.tab;
 				messageBox.innerHTML = "";
 				for (let i = 0; i < tab.length; i++) {
 					const message = { ...tab[i], isHistoryMessage: true };
-					sendMessage(message.username, message.content);
+					await sendMessage(message.username, message.content);
 				}
 			} catch (err) {
 				console.error("Erreur lors de la récupération des messages :", err);
