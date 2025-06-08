@@ -1,0 +1,23 @@
+{
+  "chat_global": "TCHAT://public",
+  "switch_to_friends": "Passer au chat entre amis",
+  "enter_chat": "envoyer un message",
+  "search_users": "rechercher un utilisateur",
+  "french": "Français",
+  "english": "Anglais",
+  "spanish": "Espagnol",
+  "game_button": "JOUER",
+  "tournament": "TOURNOI",
+  "join": "REJOINDRE",
+  "create": "CRÉER",
+  "no_tournament": "Aucun tournoi en cours",
+  "create_or_join": "Créez ou rejoignez un tournoi pour commencer à jouer",
+  "create_tournament": "CRÉER UN TOURNOI",
+  "back": "RETOUR",
+  "tournament_name": "Nom du Tournoi",
+  "type": "Type:",
+  "public": "Public",
+  "private": "privée",
+  "tournament_password": "Mot de passe du tournoi",
+  "join_tournament": "REJOIGNEZ LE TOURNOI"
+}

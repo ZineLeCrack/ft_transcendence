@@ -1,0 +1,23 @@
+{
+  "chat_global": "CHAT://global",
+  "switch_to_friends": "Switch to friends chat",
+  "enter_chat": "Send a message",
+  "search_users": "Search users...",
+  "french": "French",
+  "english": "English",
+  "spanish": "Spanish",
+  "game_button": "PLAY",
+  "tournament": "TOURNAMENT",
+  "join": "JOIN",
+  "create": "CREATE",
+  "no_tournament": "No tournament in progress",
+  "create_or_join": "Create or join a tournament to start playing",
+  "create_tournament": "CREATE TOURNAMENT",
+  "back": "BACK",
+  "tournament_name": "Tournament Name",
+  "type": "Type:",
+  "public": "Public",
+  "private": "Private",
+  "tournament_password": "Tournament Password",
+  "join_tournament": "JOIN TOURNAMENT"
+}

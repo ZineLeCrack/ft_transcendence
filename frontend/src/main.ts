@@ -254,3 +254,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 		await router();
 	}
 });
+
+
+// src/main.ts
+import { initLanguageSelector } from './language';
+// ... autres imports
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialise le sélecteur de langue et applique les traductions au chargement
+    initLanguageSelector();
+
+    // ... autres initialisations de votre application
+});
