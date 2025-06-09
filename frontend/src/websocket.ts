@@ -1,6 +1,7 @@
 import { sendMessage } from "./chat/chat.js";
 import initError from "./error.js";
 import { generateTournamentView } from "./tournament/in_tournament.js";
+import { translate } from "./i18n.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -64,7 +65,9 @@ export function initWebSocket(original: string) {
 							const msg = document.createElement("div");
 							msg.id = 'pong-request-send';
 							msg.className = "font-mono text-[#00FFFF] px-4 py-2 my-2 border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
-							msg.textContent = `Invitation sent to ${data.targetUsername}`;
+							
+							const InvitationText = translate('invitation_to_pong');
+							msg.textContent = `${InvitationText} ${data.targetUsername}`;
 							messageWrapper.appendChild(msg);
 						}
 					}

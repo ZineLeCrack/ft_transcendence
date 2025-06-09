@@ -2,9 +2,11 @@ import { togglePassword } from '../profile/utils.js';
 import { loadRoutes } from '../main.js';
 import initError from '../error.js';
 import initSuccess from '../success.js';
+import { initLanguageSelector } from '../language.js';
 
 export default function initLogin() {
 
+	initLanguageSelector();
 
 	// Champs mots de passe
 	const signInPasswordInput = document.getElementById('sign-in-password-input') as HTMLInputElement;

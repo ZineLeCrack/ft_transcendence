@@ -1,10 +1,29 @@
-<form id="a2f" action="" method="POST" class="space-y-4 max-w-md w-full border-4 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] bg-white/5 backdrop-blur p-6 rounded-2xl">
-	<h2 class="text-center text-2xl text-[#00FFFF] font-bold drop-shadow-[0_0_10px_#00FFFF] mb-4">Two-factor authentication</h2>
-	<div id="code-div">
-		<label for="code-input" class="block text-white font-semibold mb-1">Code</label>
-		<input id="code-input" type="text"  placeholder="enter code here" class="w-full p-2 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 text-white focus:outline-none focus:border-[#00FFFF]"/>
-	</div>
-	<button type="button" id="to-send-a2f" class="w-full bg-transparent px-4 py-2 border-2 border-[#00FFFF] rounded-lg text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">Send me the code !</button>
-	<button type="submit" id="to-click-a2f" class="w-full bg-transparent px-4 py-2 border-2 border-[#00FFFF] rounded-lg text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">Connexion</button>
-</form>
+<div class="relative w-full max-w-md mx-auto"> <div class="absolute top-4 right-4 z-50"> <button id="language-selector" class="group w-10 h-10 rounded-lg border-2 border-[#B026FF] shadow-[0_0_10px_#B026FF] overflow-hidden flex items-center justify-center hover:border-[#FF2E9F] transition-colors duration-200">
+            <img id="current-flag" src="/images/en.png" alt="English" class="w-full h-full object-cover">
+        </button>
+        <div id="language-dropdown" class="hidden absolute top-full right-[50%] translate-x-[50%] mt-2 bg-black/90 border-2 border-[#B026FF] rounded-lg shadow-[0_0_10px_#B026FF] overflow-hidden z-[100] min-w-[150px]">
+            <button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="en">
+                <img src="/images/en.png" alt="English" class="w-6 h-6 object-cover rounded">
+                <span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="english">English</span>
+            </button>
+            <button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="fr">
+                <img src="/images/fr.png" alt="French" class="w-6 h-6 object-cover rounded">
+                <span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="french">French</span>
+            </button>
+            <button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="es">
+                <img src="/images/es.png" alt="Spanish" class="w-6 h-6 object-cover rounded">
+                <span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="spanish">Spanish</span>
+            </button>
+        </div>
+    </div>
 
+    <form id="a2f" action="" method="POST" class="space-y-4 max-w-md w-full border-4 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] bg-white/5 backdrop-blur pt-16 p-6 rounded-2xl">
+        <h2 class="text-center text-2xl text-[#00FFFF] font-bold drop-shadow-[0_0_10px_#00FFFF] mb-4" data-i18n="a2f_title">Two-factor authentication</h2>
+        <div id="code-div">
+            <label for="code-input" class="block text-white font-semibold mb-1" data-i18n="code_label">Code</label>
+            <input id="code-input" type="text" data-i18n-placeholder="code_placeholder" placeholder="enter code here" class="w-full p-2 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 text-white focus:outline-none focus:border-[#00FFFF]"/>
+        </div>
+        <button type="button" id="to-send-a2f" class="w-full bg-transparent px-4 py-2 border-2 border-[#00FFFF] rounded-lg text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]" data-i18n="send_code_button">Send me the code !</button>
+        <button type="submit" id="to-click-a2f" class="w-full bg-transparent px-4 py-2 border-2 border-[#00FFFF] rounded-lg text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]" data-i18n="connect_button">Connexion</button>
+    </form>
+</div>
