@@ -1,4 +1,5 @@
 import { loadTranslations, applyTranslations, setStoredLanguage, getStoredLanguage } from './i18n';
+import { refreshGameModeDisplay } from './game/choosegame';
 
 export async function initLanguageSelector() {
     const languageSelector = document.getElementById('language-selector');
@@ -37,8 +38,9 @@ export async function initLanguageSelector() {
 async function changeLanguage(lang: string): Promise<void> {
     await loadTranslations(lang);
     applyTranslations();
-}
 
+    refreshGameModeDisplay();
+}
 
 function updateFlag(lang: string): void {
     const currentFlag = document.getElementById('current-flag') as HTMLImageElement;

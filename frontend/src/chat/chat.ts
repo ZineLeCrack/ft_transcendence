@@ -1,7 +1,9 @@
 import { getWebSocket } from '../websocket';
 import { loadRoutes } from '../main.ts';
 import initError from '../error.ts';
-import { loadProfilePicture } from '../profile/editinfo.ts';
+import { translate } from '../i18n.ts';
+// import { loadProfilePicture } from '../profile/editinfo.ts';
+
 let original_name:string;
 
 export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean, pongGame? : boolean, requestDecline?: boolean) {
@@ -39,10 +41,13 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		msg.id = "pong-game-join";
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
 		
-		if (username === original_name)
-			msg.textContent = `${targetUser} has accepted your invitation for a private pong game`;
+		if (username === original_name) {
+			const invitationText = translate('pong_game_accepted_you');
+			msg.textContent = `${targetUser} ${invitationText}`;
+		}
 		else {
-			msg.textContent = `You have accepted a private pong game`;
+			const invitationText = translate('pong_game_accepted_other');
+			msg.textContent = `${invitationText}`;
 		}
 		
 		const buttonsDiv = document.createElement("div");
@@ -51,7 +56,8 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		const JoinBtn = document.createElement("button");
 		JoinBtn.id = 'join-button-pong';
 		JoinBtn.className = "bg-transparent border-2 border-[#00FFFF] px-6 py-2 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]";
-		JoinBtn.textContent = "Join";
+		const joinText = translate('join_button');
+		JoinBtn.textContent = `${joinText}`;
 
 		JoinBtn.addEventListener('click', async () => {
 			const token = sessionStorage.getItem('token');
@@ -84,7 +90,8 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		const msg = document.createElement("div");
 		msg.id = "pong-request";
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
-		msg.textContent = `${username} wants to play with you !`;
+		const requestText = translate('pong_request_message');
+		msg.textContent = `${username} ${requestText}`;
 		
 		const buttonsDiv = document.createElement("div");
 		buttonsDiv.className = "flex gap-4 mt-2";
@@ -92,12 +99,14 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		const acceptBtn = document.createElement("button");
 		acceptBtn.id = 'accept-button-pong';
 		acceptBtn.className = "bg-transparent border-2 border-[#00FFFF] px-6 py-2 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]";
-		acceptBtn.textContent = "Accept";
+		const acceptText = translate('accept_button');
+		acceptBtn.textContent = `${acceptText}`;
 		
 		const declineBtn = document.createElement("button");
 		declineBtn.id = 'decline-button-pong';
 		declineBtn.className = "bg-transparent border-2 border-[#FF007A] px-6 py-2 rounded-xl text-[#FF007A] font-bold hover:bg-[#FF007A]/20 transition duration-200 shadow-[0_0_10px_#FF007A]";
-		declineBtn.textContent = "Decline";
+		const declineText = translate('decline_button');
+		declineBtn.textContent = `${declineText}`;
 
 		acceptBtn.addEventListener('click', async () => {
 			const token = sessionStorage.getItem('token');
@@ -154,7 +163,8 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		const msg = document.createElement("div");
 		msg.id = "Request-decline";
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
-		msg.textContent = `Request decline :(`;
+		const requestText = translate('request_declined_message');
+		msg.textContent = `${requestText}`;
 
 		container.appendChild(msg);
 		messageWrapper.appendChild(container);
@@ -174,18 +184,21 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		
 		const msg = document.createElement("div");
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
-		msg.textContent = `${targetUser} wants to be friend with you !`;
+		const friendText = translate('friend_request_message');
+		msg.textContent = `${targetUser} ${friendText}`;
 	
 		const buttonsDiv = document.createElement("div");
 		buttonsDiv.className = "flex gap-4 mt-2";
 
 		const acceptBtn = document.createElement("button");
 		acceptBtn.className = "bg-transparent border-2 border-[#00FFFF] px-6 py-2 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]";
-		acceptBtn.textContent = "Accept";
+		const acceptText = translate('accept_button');
+		acceptBtn.textContent = `${acceptText}`;
 		
 		const declineBtn = document.createElement("button");
 		declineBtn.className = "bg-transparent border-2 border-[#FF007A] px-6 py-2 rounded-xl text-[#FF007A] font-bold hover:bg-[#FF007A]/20 transition duration-200 shadow-[0_0_10px_#FF007A]";
-		declineBtn.textContent = "Decline";
+		const declineText = translate('decline_button');
+		declineBtn.textContent = `${declineText}`;
 
 		acceptBtn.addEventListener('click', async () => {
 			const tokenID = sessionStorage.getItem('token');
@@ -338,6 +351,6 @@ export default function initChat() {
 
 		displayAllMessages();
 	})();
-	loadProfilePicture("profileBtn");
+	// loadProfilePicture("profileBtn");
 }
 

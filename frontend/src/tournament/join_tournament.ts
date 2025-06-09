@@ -1,5 +1,9 @@
 import { togglePassword } from "../profile/utils";
 import { getWebSocket } from '../websocket';
+import { translate } from '../i18n'
+
+
+let currentGenerateTournamentList: (() => void) | null = null;
 
 export default async function initJoinTournament() {
 
@@ -43,25 +47,33 @@ export default async function initJoinTournament() {
 				{
 					const message = document.createElement('div');
 					message.className = 'text-center text-white font-bold text-2xl mt-10';
-					message.textContent = "There are no tournaments available at the moment!";
+					message.textContent = translate("no_tournaments_available");
 					tournamentContainer.appendChild(message);
 					return;
 				}
+				
 				TournamentItem.forEach(tournament => {
 					const tournamentElement = document.createElement('div');
 					tournamentElement.className = 'flex items-center justify-between p-2 mb-2 bg-black/40 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_5px_#00FFFF]';
+					
+					const playersLabel = translate("players_label");
+					const typeLabel = translate("type");
+					const enterPasswordPlaceholder = translate("enter_password_placeholder");
+					const joinButton = translate("join_button");
+					const privateType = translate("private");
+					const publicType = translate("public");
 					if (tournament.type === 'public')
 					{
 						tournamentElement.innerHTML = `<div class="flex items-center gap-8">
 						<span class="text-[#FFD700] font-bold text-xl min-w-[200px]">${tournament.name}</span>
-						<span class="text-[#00FFFF] min-w-[100px]">Players: <span class="text-[#FF2E9F]">${tournament.players}/${tournament.maxPlayers}</span></span>
-						<span class="text-[#00FFFF]">Type: <span class="text-[#FF2E9F]">${tournament.type}</span></span>
+						<span class="text-[#00FFFF] min-w-[100px]">${playersLabel}: <span class="text-[#FF2E9F]">${tournament.players}/${tournament.maxPlayers}</span></span>
+						<span class="text-[#00FFFF]">${typeLabel}<span class="text-[#FF2E9F]">${publicType}</span></span>
 					</div>
 					<div class="flex items-center gap-4">
 						<div id="password-container" class="relative hidden">
 							<input type="password" 
 								class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-48 pr-12 focus:outline-none focus:border-[#FFD700]" 
-								placeholder="Enter Password"/>
+								placeholder="${enterPasswordPlaceholder}"/>
 							<button type="button" class="toggle-password absolute top-1/2 -translate-y-1/2 right-2">
 								<img src="/images/closerobot.png" 
 									class="size-8 drop-shadow-[0_0_10px_#FF007A]" 
@@ -69,7 +81,7 @@ export default async function initJoinTournament() {
 							</button>
 						</div>
 						<button id="join-tournament-btn-${tournament.id}" class="bg-transparent border-2 border-[#FFD700] text-[#FFD700] font-bold py-2 px-6 rounded-xl hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">
-							JOIN
+							${joinButton}
 						</button>
 					</div>`;
 					}
@@ -77,14 +89,14 @@ export default async function initJoinTournament() {
 					{
 						tournamentElement.innerHTML = `<div class="flex items-center gap-8">
 						<span class="text-[#FFD700] font-bold text-xl min-w-[200px]">${tournament.name}</span>
-						<span class="text-[#00FFFF] min-w-[100px]">Players: <span class="text-[#FF2E9F]">${tournament.players}/${tournament.maxPlayers}</span></span>
-						<span class="text-[#00FFFF]">Type: <span class="text-[#FF2E9F]">${tournament.type}</span></span>
+						<span class="text-[#00FFFF] min-w-[100px]">${playersLabel}:<span class="text-[#FF2E9F]">${tournament.players}/${tournament.maxPlayers}</span></span>
+						<span class="text-[#00FFFF]">${typeLabel} <span class="text-[#FF2E9F]">${privateType}</span></span>
 					</div>
 					<div class="flex items-center gap-4">
 						<div id="password-container" class="relative">
 							<input id="password-input-${tournament.id}" type="password" 
 								class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-48 pr-12 focus:outline-none focus:border-[#FFD700]" 
-								placeholder="Enter Password"/>
+								placeholder="${enterPasswordPlaceholder}"/>
 							<button id="toggle-password-${tournament.id}" type="button" class="absolute top-1/2 -translate-y-1/2 right-2">
 								<img id=password-icon-${tournament.id} src="/images/closerobot.png" 
 									class="size-8 drop-shadow-[0_0_10px_#FF007A]" 
@@ -92,7 +104,7 @@ export default async function initJoinTournament() {
 							</button>
 						</div>
 						<button id="join-tournament-btn-${tournament.id}" class="bg-transparent border-2 border-[#FFD700] text-[#FFD700] font-bold py-2 px-6 rounded-xl hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">
-							JOIN
+							${joinButton}
 						</button>
 					</div>`;
 					}
@@ -108,20 +120,25 @@ export default async function initJoinTournament() {
 
 	const JoinBtnTournament = document.querySelectorAll('[id^="join-tournament-btn-"]');
 	
+	const chooseTournamentAliasTitle = translate("choose_tournament_alias_title");
+    const enterYourAliasPlaceholder = translate("enter_your_alias_placeholder");
+    const cancelButton = translate("cancel_button");
+    const confirmJoinButton = translate("confirm_join_button");
+
 	const aliasPopUp = `<div id="alias-popup" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
     <div class="bg-black/90 p-8 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] w-96">
-        <h3 class="text-[#00FFFF] text-xl font-bold mb-6 text-center">Choose Tournament Alias</h3>
+        <h3 class="text-[#00FFFF] text-xl font-bold mb-6 text-center">${chooseTournamentAliasTitle}</h3>
         <input type="text" id="tournament-alias" maxlength="10"
             class="w-full bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 mb-6 focus:outline-none focus:border-[#FFD700]"
-            placeholder="Enter your alias..." />
+            placeholder="${enterYourAliasPlaceholder}"/>
         <div class="flex justify-between gap-4">
             <button id="cancel-alias" 
                 class="flex-1 bg-transparent border-2 border-[#FF2E9F] text-[#FF2E9F] font-bold py-2 px-6 rounded-xl hover:bg-[#FF2E9F]/20 transition duration-200">
-                Cancel
+                ${cancelButton}
             </button>
             <button id="confirm-alias" 
                 class="flex-1 bg-transparent border-2 border-[#FFD700] text-[#FFD700] font-bold py-2 px-6 rounded-xl hover:bg-[#FFD700]/20 transition duration-200">
-                Join
+                ${confirmJoinButton}
             </button>
         </div>
     </div>
@@ -270,5 +287,4 @@ export default async function initJoinTournament() {
 			togglePassword(passwordInput, button as HTMLButtonElement, passwordIcon);
 		});
 	}
-			
 }

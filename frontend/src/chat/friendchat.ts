@@ -1,6 +1,7 @@
 import initError from '../error.ts';
 import { sendMessage } from './chat.ts';
 import { getWebSocket } from '../websocket.ts';
+import { translate } from '../i18n.ts';
 
 export default async function initFriendChat() {
 	const switchChatBtn = document.getElementById('switch-chat') as HTMLButtonElement;
@@ -8,7 +9,7 @@ export default async function initFriendChat() {
 	const friendslist = document.getElementById('friends-list') as HTMLDivElement;
 	
 	switchChatBtn.addEventListener('click', async () => {
-		if (switchChatBtn.textContent?.includes("friends"))
+		if (document.getElementById('chat-messages-global'))
 		{
 			const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
 			privateChats.forEach(chat => chat.remove());
@@ -18,17 +19,22 @@ export default async function initFriendChat() {
 				globalChat.remove();
 			}
 
+			const tooltipSwitchGlobal = translate('switch_to_global');
+			const ChatTitle = translate('chat_global')
 			switchChatBtn.innerHTML =`
-			CHAT://global
-			<div id="tooltip-switch-chat" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
+			<span data-i18n="chat_global">${ChatTitle}</span>
+			<div id="tooltip-switch-chat" data-i18n="switch_to_global" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
 				opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap 
 				border border-[#FF2E9F] pointer-events-none">
-				Switch to global chat
+				${tooltipSwitchGlobal}
 			</div>`;
+
 			const chatInfo = document.getElementById('chat-info') as HTMLDivElement;
+
+			const ChatInfoTitle = translate('chat_friends');
 			chatInfo.innerHTML = `
 				<span class="mr-2 text-[#FF2E9F]">⚡</span>
-        	   	CHAT://friends
+        	   	<span data-i18n="chat_friends">${ChatInfoTitle}</span>
         	    <span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>
 				`;
 			friendslist.classList.remove("hidden");
@@ -46,18 +52,22 @@ export default async function initFriendChat() {
 			globalChat.className = 'flex flex-col space-y-4';
 			chatContainers.appendChild(globalChat);
 
+			const tooltipSwitchFriends = translate('switch_to_friends');
+			const ChatTitle = translate('chat_friends')
 			switchChatBtn.innerHTML =`
-				CHAT://friends
-				<div id="tooltip-switch-chat" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
+				<span data-i18n="chat_friends">${ChatTitle}</span>
+				<div id="tooltip-switch-chat" data-i18n="switch_to_friends" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
 					opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap 
 					border border-[#FF2E9F] pointer-events-none">
-					Switch to friends chat
+					${tooltipSwitchFriends}
 				</div>`;
 
 			const chatInfo = document.getElementById('chat-info') as HTMLDivElement;
+
+			const ChatInfoTitle = translate('chat_global');
 			chatInfo.innerHTML = `
 			<span class="mr-2 text-[#FF2E9F]">⚡</span>
-           	CHAT://global
+			<span data-i18n="chat_global">${ChatInfoTitle}</span>
             <span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>
 			`
 			friendslist.classList.remove("flex");
@@ -83,7 +93,8 @@ export default async function initFriendChat() {
 	function generateFriendList(Friend: Friend[]) {
 		friendslist.innerHTML = '';
 		if (Friend.length === 0) {
-			friendslist.innerHTML = '<p class="text-[#FF2E9F]">You don\'t have friends :(</p>';
+			const noFriendsText = translate('no_friends');
+			friendslist.innerHTML = `<p class="text-[#FF2E9F]">${noFriendsText}</p>`;
 			return;
 		}
 		Friend.forEach(Friend => {
@@ -106,8 +117,7 @@ export default async function initFriendChat() {
 						<a href="/users/${Friend.username}" data-link class="text-[#FF2E9F] text-xs whitespace-nowrap font-bold mt-2 hover:underline cursor-pointer">
 							${Friend.username}
 						</a>
-					</div>
-				</div>`;
+					</div>`;
 			}
 			else { 
 				friendElement.innerHTML = `<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
@@ -188,10 +198,10 @@ export default async function initFriendChat() {
 			chatArea.id = `chat-messages-${username}`;
 			chatArea.className = 'flex-1 flex flex-col space-y-4';
 			chatContainers.appendChild(chatArea);
-
+			const chatTranslate = translate('chat')
 			chatInfo.innerHTML = `
             <span class="mr-2 text-[#FF2E9F]">⚡</span>
-            CHAT://${username}
+            ${chatTranslate}://${username}
             <span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
 
 
@@ -234,7 +244,8 @@ export default async function initFriendChat() {
 							const msg = document.createElement("div");
 							msg.id = 'pong-request-send';
 							msg.className = "font-mono text-[#00FFFF] px-4 py-2 my-2 border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
-							msg.textContent = `Invitation sent to ${message.username2}`;
+							const InvitationText = translate('invitation_to_pong');
+							msg.textContent = `${InvitationText} ${message.username2}`;
 							messageWrapper.appendChild(msg);
 						}
 					}

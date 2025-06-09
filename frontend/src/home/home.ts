@@ -12,6 +12,7 @@ import { initLanguageSelector } from '../language.js';
 
 export default async function initHome() {
 	
+	initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',
@@ -33,7 +34,6 @@ export default async function initHome() {
 	initChooseGame();
 	initChat();
 	initFriendChat();
-	initLanguageSelector();
 	await initsearch();
 	
 	const res = await fetch('/api/tournament/is_in', {
