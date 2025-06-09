@@ -46,10 +46,18 @@ export default async function authRoutes(fastify: FastifyInstance)
 			const uniqueFilename = `uploads/${uuidv4()}.png`;
 	  		fs.copyFileSync('uploads/default.png', uniqueFilename);
 
-			await db.run(
+			const result = await db.run(
 				`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
 				[username, email, hashedPassword]
-		);
+			);
+
+			const player_id = result.lastID;
+
+			await db.run(
+				`INSERT INTO stats (games_played, wins, loses, total_points, tournaments_played, tournaments_win, tournaments_lose, id_player)
+				VALUES (0, 0, 0, 0, 0, 0, 0, ?)`,
+				[player_id]
+			);
 
 			reply.status(200).send('User created');
 		}

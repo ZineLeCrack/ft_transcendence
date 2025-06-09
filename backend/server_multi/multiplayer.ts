@@ -1,4 +1,4 @@
-const IP_NAME = process.env.IP_NAME || '10.12.200.0';
+const IP_NAME = process.env.IP_NAME;
 
 export class GameInstance {
 	private = false;
