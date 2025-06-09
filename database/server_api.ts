@@ -26,7 +26,7 @@ dotenv.config();
 
 const privateKey = fs.readFileSync('/certs/transcend.key', 'utf8');
 const certificate = fs.readFileSync('/certs/transcend.crt', 'utf8');
-const IP_NAME = process.env.IP_NAME || '10.12.200.0';
+const IP_NAME = process.env.IP_NAME;
 
 async function main() {
 	const app = Fastify({
