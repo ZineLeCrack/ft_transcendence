@@ -21,7 +21,11 @@ export async function loadProfilePicture(div: string) {
 
 	const profilPicDiv = document.getElementById(div);
 	if (profilPicDiv) {
-		profilPicDiv.innerHTML = `<img src="${imageUrl}" class="w-full h-full object-cover rounded-full" alt="Profile Pic"/>`;
+		const Img = document.createElement('img');
+		Img.src = `${imageUrl}`;
+		Img.classList = `w-full h-full object-cover rounded-full`;
+		Img.alt = 'Profile Pic';
+		profilPicDiv.appendChild(Img);
 	}
 }
 
@@ -108,6 +112,7 @@ picturebutton.addEventListener('click', async (event) =>{
 		}
 			loadProfilePicture("profil-pic");
 			pictureInput.value = '';
+			window.location.reload();
 			console.log("Your profile has been updated successfully");
 		} 
 		catch (error) 

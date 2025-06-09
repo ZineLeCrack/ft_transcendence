@@ -121,27 +121,27 @@ export default async function initJoinTournament() {
 	const JoinBtnTournament = document.querySelectorAll('[id^="join-tournament-btn-"]');
 	
 	const chooseTournamentAliasTitle = translate("choose_tournament_alias_title");
-    const enterYourAliasPlaceholder = translate("enter_your_alias_placeholder");
-    const cancelButton = translate("cancel_button");
-    const confirmJoinButton = translate("confirm_join_button");
+	const enterYourAliasPlaceholder = translate("enter_your_alias_placeholder");
+	const cancelButton = translate("cancel_button");
+	const confirmJoinButton = translate("confirm_join_button");
 
 	const aliasPopUp = `<div id="alias-popup" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-    <div class="bg-black/90 p-8 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] w-96">
-        <h3 class="text-[#00FFFF] text-xl font-bold mb-6 text-center">${chooseTournamentAliasTitle}</h3>
-        <input type="text" id="tournament-alias" maxlength="10"
-            class="w-full bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 mb-6 focus:outline-none focus:border-[#FFD700]"
-            placeholder="${enterYourAliasPlaceholder}"/>
-        <div class="flex justify-between gap-4">
-            <button id="cancel-alias" 
-                class="flex-1 bg-transparent border-2 border-[#FF2E9F] text-[#FF2E9F] font-bold py-2 px-6 rounded-xl hover:bg-[#FF2E9F]/20 transition duration-200">
-                ${cancelButton}
-            </button>
-            <button id="confirm-alias" 
-                class="flex-1 bg-transparent border-2 border-[#FFD700] text-[#FFD700] font-bold py-2 px-6 rounded-xl hover:bg-[#FFD700]/20 transition duration-200">
-                ${confirmJoinButton}
-            </button>
-        </div>
-    </div>
+	<div class="bg-black/90 p-8 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] w-96">
+		<h3 class="text-[#00FFFF] text-xl font-bold mb-6 text-center">${chooseTournamentAliasTitle}</h3>
+		<input type="text" id="tournament-alias" maxlength="10"
+			class="w-full bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 mb-6 focus:outline-none focus:border-[#FFD700]"
+			placeholder="${enterYourAliasPlaceholder}"/>
+		<div class="flex justify-between gap-4">
+			<button id="cancel-alias" 
+				class="flex-1 bg-transparent border-2 border-[#FF2E9F] text-[#FF2E9F] font-bold py-2 px-6 rounded-xl hover:bg-[#FF2E9F]/20 transition duration-200">
+				${cancelButton}
+			</button>
+			<button id="confirm-alias" 
+				class="flex-1 bg-transparent border-2 border-[#FFD700] text-[#FFD700] font-bold py-2 px-6 rounded-xl hover:bg-[#FFD700]/20 transition duration-200">
+				${confirmJoinButton}
+			</button>
+		</div>
+	</div>
 </div>`;
 
 	if (JoinBtnTournament.length > 0) {

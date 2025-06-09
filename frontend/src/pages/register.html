@@ -1,99 +1,97 @@
 <div class="relative w-full max-w-md mx-auto"> <div class="absolute top-4 right-4 z-50"> <button id="language-selector" class="group w-10 h-10 rounded-lg border-2 border-[#B026FF] shadow-[0_0_10px_#B026FF] overflow-hidden flex items-center justify-center hover:border-[#FF2E9F] transition-colors duration-200">
-            <img id="current-flag" src="/images/en.png" alt="English" class="w-full h-full object-cover">
-        </button>
-        <div id="language-dropdown" class="hidden absolute top-full right-[50%] translate-x-[50%] mt-2 bg-black/90 border-2 border-[#B026FF] rounded-lg shadow-[0_0_10px_#B026FF] overflow-hidden z-[100] min-w-[150px]">
-            <button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="en">
-                <img src="/images/en.png" alt="English" class="w-6 h-6 object-cover rounded">
-                <span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="english">English</span>
-            </button>
-            <button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="fr">
-                <img src="/images/fr.png" alt="French" class="w-6 h-6 object-cover rounded">
-                <span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="french">French</span>
-            </button>
-            <button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="es">
-                <img src="/images/es.png" alt="Spanish" class="w-6 h-6 object-cover rounded">
-                <span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="spanish">Spanish</span>
-            </button>
-        </div>
-    </div>
+			<img id="current-flag" src="/images/en.png" alt="English" class="w-full h-full object-cover">
+		</button>
+		<div id="language-dropdown" class="hidden absolute top-full right-[50%] translate-x-[50%] mt-2 bg-black/90 border-2 border-[#B026FF] rounded-lg shadow-[0_0_10px_#B026FF] overflow-hidden z-[100] min-w-[150px]">
+			<button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="en">
+				<img src="/images/en.png" alt="English" class="w-6 h-6 object-cover rounded">
+				<span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="english">English</span>
+			</button>
+			<button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="fr">
+				<img src="/images/fr.png" alt="French" class="w-6 h-6 object-cover rounded">
+				<span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="french">French</span>
+			</button>
+			<button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="es">
+				<img src="/images/es.png" alt="Spanish" class="w-6 h-6 object-cover rounded">
+				<span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="spanish">Spanish</span>
+			</button>
+		</div>
+	</div>
 
-    <form id="sign-up" action="" method="POST" class="space-y-4 max-w-md w-full border-4 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] bg-white/5 backdrop-blur pt-16 p-6 rounded-2xl">
-        <h2 class="text-2xl font-bold text-center text-[#00FFFF] drop-shadow-[0_0_10px_#00FFFF] mb-4" data-i18n="signup_title">Sign Up to ft_transcendence</h2>
-        
-        <div>
-            <label for="sign-up-username"  class="block font-semibold mb-1 text-white" data-i18n="username_label">Username
-                <span class="text-red-500">*</span>
-            </label>
-            <input 
-                id="sign-up-username"
-                name="username"
-                data-i18n-placeholder="username_placeholder"
-                placeholder="Pseudo_42"
-                minlength="3" 
-                maxlength="14" 
-                pattern="[a-zA-Z0-9_]{3,14}"
-                type="text" 
-                required 
-                class="w-full p-2 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 text-white focus:outline-none focus:border-[#00FFFF]"
-            />
-            <span id="username-error" class="text-red-500 text-sm hidden" data-i18n="username_error">Username must be 3-14 characters long and contain only letters, numbers, underscore or hyphen</span>
-        </div>
+	<form id="sign-up" action="" method="POST" class="space-y-4 max-w-md w-full border-4 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] bg-white/5 backdrop-blur pt-16 p-6 rounded-2xl">
+		<h2 class="text-2xl font-bold text-center text-[#00FFFF] drop-shadow-[0_0_10px_#00FFFF] mb-4" data-i18n="signup_title">Sign Up to ft_transcendence</h2>
+		
+		<div>
+			<label for="sign-up-username"  class="block font-semibold mb-1 text-white" data-i18n="username_label">Username
+				<span class="text-red-500">*</span>
+			</label>
+			<input 
+				id="sign-up-username"
+				name="username"
+				data-i18n-placeholder="username_placeholder"
+				placeholder="Pseudo_42"
+				minlength="3" 
+				maxlength="14" 
+				pattern="[a-zA-Z0-9_]{3,14}"
+				type="text" 
+				required 
+				class="w-full p-2 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 text-white focus:outline-none focus:border-[#00FFFF]"
+			/>
+			<span id="username-error" class="text-red-500 text-sm hidden" data-i18n="username_error">Username must be 3-14 characters long and contain only letters, numbers, underscore or hyphen</span>
+		</div>
 
-        <div>
-            <label for="sign-up-email" class="block font-semibold mb-1 text-white" data-i18n="email_label">Email
-                <span class="text-red-500">*</span>
-            </label>
-            <input id="sign-up-email" data-i18n-placeholder="email_placeholder" placeholder="your.email@exemple.com" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" name="email" type="email" required class="w-full p-2 rounded-lg border text-white bg-black/30 border-[#00FFFF]/30 focus:outline-none focus:border-[#00FFFF]"/>
-            <span id="email-error" class="text-red-500 text-sm hidden" data-i18n="email_error">The email address entered is not valid. Please ensure it follows a standard format (user@domain.com).</span>
-        </div>
-        
-        <div>
-            <label for="sign-up-password-input" class="block font-semibold mb-1 text-white" data-i18n="password_label">Password
-                <span class="text-red-500">*</span>
-            </label>
-            <div class="flex items-center">
-                <div class="relative w-full">
-                    <input 
-                        id="sign-up-password-input" 
-                        name="password" 
-                        minlength="6" 
-                        placeholder="********" 
-                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}" 
-                        data-i18n-title="password_title"
-                        title="Password must contain at least 6 characters, including uppercase, lowercase and number" 
-                        type="password" 
-                        required 
-                        class="w-full p-2 pr-12 rounded-lg text-white border-2 bg-black/30 border-[#00FFFF]/30 focus:outline-none focus:border-[#00FFFF]"
-                    />
-                    <button type="button" id="sign-up-password-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
-                        <img id="sign-up-password-icon" src="/images/closerobot.png" class="size-12 drop-shadow-[0_0_10px_#FF007A]"/>
-                    </button>
-                </div>
-                <img id="badPasswordIcon" src="/images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
-                <img id="goodPasswordIcon" src="/images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
-            </div>
-            <span id="password-error" class="text-red-500 text-sm hidden mt-1" data-i18n="password_error">Your password must be at least 6 characters long and include at least one lowercase letter, one uppercase letter, and one number</span>
-        </div>
+		<div>
+			<label for="sign-up-email" class="block font-semibold mb-1 text-white" data-i18n="email_label">Email
+				<span class="text-red-500">*</span>
+			</label>
+			<input id="sign-up-email" data-i18n-placeholder="email_placeholder" placeholder="your.email@exemple.com" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" name="email" type="email" required class="w-full p-2 rounded-lg border text-white bg-black/30 border-[#00FFFF]/30 focus:outline-none focus:border-[#00FFFF]"/>
+			<span id="email-error" class="text-red-500 text-sm hidden" data-i18n="email_error">The email address entered is not valid. Please ensure it follows a standard format (user@domain.com).</span>
+		</div>
+		
+		<div>
+			<label for="sign-up-password-input" class="block font-semibold mb-1 text-white" data-i18n="password_label">Password
+				<span class="text-red-500">*</span>
+			</label>
+			<div class="flex items-center">
+				<div class="relative w-full">
+					<input 
+						id="sign-up-password-input" 
+						name="password" 
+						minlength="6" 
+						placeholder="********" 
+						pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}" 
+						type="password" 
+						required 
+						class="w-full p-2 pr-12 rounded-lg text-white border-2 bg-black/30 border-[#00FFFF]/30 focus:outline-none focus:border-[#00FFFF]"
+					/>
+					<button type="button" id="sign-up-password-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+						<img id="sign-up-password-icon" src="/images/closerobot.png" class="size-12 drop-shadow-[0_0_10px_#FF007A]"/>
+					</button>
+				</div>
+				<img id="badPasswordIcon" src="/images/bad.png" class="hidden ml-2 w-6 h-6 shrink-0" />
+				<img id="goodPasswordIcon" src="/images/good.png" class="hidden ml-2 w-6 h-6 shrink-0" />
+			</div>
+			<span id="password-error" class="text-red-500 text-sm hidden mt-1" data-i18n="password_error">Your password must be at least 6 characters long and include at least one lowercase letter, one uppercase letter, and one number</span>
+		</div>
 
-        <div>
-            <label for="sign-up-confirmpassword-input"  class="block font-semibold mb-1 text-white" data-i18n="confirm_password_label">Confirm Password
-                <span class="text-red-500" >*</span>
-            </label>
-            <div class="flex items-center">
-                <div class="relative w-full">
-                    <input id="sign-up-confirmpassword-input" placeholder="********" name="confirmPassword" type="password" required class="w-full p-2 pr-12 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 text-white focus:outline-none focus:border-[#00FFFF]"/>
-                    <button type="button" id="sign-up-confirmpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
-                        <img id="sign-up-confirmpassword-icon" src="/images/closerobot.png" class="size-12 drop-shadow-[0_0_10px_#FF007A]"/>
-                    </button>
-                </div>
-                <img id="badConfirmPasswordIcon" src="/images/bad.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
-                <img id="goodConfirmPasswordIcon" src="/images/good.svg" class="hidden ml-2 w-6 h-6 shrink-0" />
-            </div>
-        </div>
+		<div>
+			<label for="sign-up-confirmpassword-input"  class="block font-semibold mb-1 text-white" data-i18n="confirm_password_label">Confirm Password
+				<span class="text-red-500" >*</span>
+			</label>
+			<div class="flex items-center">
+				<div class="relative w-full">
+					<input id="sign-up-confirmpassword-input" placeholder="********" name="confirmPassword" type="password" required class="w-full p-2 pr-12 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 text-white focus:outline-none focus:border-[#00FFFF]"/>
+					<button type="button" id="sign-up-confirmpassword-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+						<img id="sign-up-confirmpassword-icon" src="/images/closerobot.png" class="size-12 drop-shadow-[0_0_10px_#FF007A]"/>
+					</button>
+				</div>
+				<img id="badConfirmPasswordIcon" src="/images/bad.png" class="hidden ml-2 w-6 h-6 shrink-0" />
+				<img id="goodConfirmPasswordIcon" src="/images/good.png" class="hidden ml-2 w-6 h-6 shrink-0" />
+			</div>
+		</div>
 
-        <button type="submit" class="w-full border-2 border-[#00FFFF] bg-transparent text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 px-4 py-2 rounded-lg shadow-[0_0_10px_#00FFFF]"data-i18n="signup_button">Sign Up</button>
-        <div class="flex justify-end">
-            <a href="/login" data-link id="to-sign-in" class="hover:underline cursor-pointer text-[#00FFFF] text-sm "data-i18n="already_have_account">Already have an account ?</a>
-        </div>
-    </form>
+		<button type="submit" class="w-full border-2 border-[#00FFFF] bg-transparent text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 px-4 py-2 rounded-lg shadow-[0_0_10px_#00FFFF]"data-i18n="signup_button">Sign Up</button>
+		<div class="flex justify-end">
+			<a href="/login" data-link id="to-sign-in" class="hover:underline cursor-pointer text-[#00FFFF] text-sm "data-i18n="already_have_account">Already have an account ?</a>
+		</div>
+	</form>
 </div>

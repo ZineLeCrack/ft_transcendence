@@ -256,7 +256,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 	} else {
 		await router();
 	}
-	initLanguageSelector();
 });
-
-

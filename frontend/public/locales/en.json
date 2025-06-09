@@ -4,7 +4,6 @@
   "username_error": "Username must be 3-14 characters long and contain only letters, numbers, underscore or hyphen",
   "email_placeholder": "your.email@example.com",
   "email_error": "The email address entered is not valid. Please ensure it follows a standard format (user@domain.com).",
-  "password_title": "Password must contain at least 6 characters, including uppercase, lowercase and number",
   "password_error": "Your password must be at least 6 characters long and include at least one lowercase letter, one uppercase letter, and one number",
   "confirm_password_label": "Confirm Password",
   "signup_button": "Sign Up",

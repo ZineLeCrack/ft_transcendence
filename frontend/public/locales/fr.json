@@ -4,7 +4,6 @@
   "username_error": "Le nom d'utilisateur doit contenir entre 3 et 14 caractères et ne peut contenir que des lettres, des chiffres, des tirets du bas ou des tirets.",
   "email_placeholder": "votre.email@exemple.com",
   "email_error": "L'adresse e-mail saisie n'est pas valide. Veuillez vous assurer qu'elle suit un format standard (utilisateur@domaine.com).",
-  "password_title": "Le mot de passe doit contenir au moins 6 caractères, incluant majuscule, minuscule et un chiffre",
   "password_error": "Votre mot de passe doit contenir au moins 6 caractères et inclure au moins une lettre minuscule, une lettre majuscule et un chiffre.",
   "confirm_password_label": "Confirmer le mot de passe",
   "signup_button": "S'inscrire",
@@ -24,7 +23,7 @@
   "code_placeholder": "saisissez le code ici",
   "send_code_button": "Envoyez-moi le code !",
   "connect_button": "Connexion",
-  
+
   "chat_global": "TCHAT://général",
   "chat_friends":"TCHAT://amis",
   "switch_to_friends": "Passer au chat entre amis",
