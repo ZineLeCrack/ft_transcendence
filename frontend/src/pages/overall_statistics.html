@@ -47,14 +47,14 @@
 				<div class="flex w-full space-x-24 items-start">
 					<!-- Parties jouées -->
 					<div class="flex flex-col items-center justify-center mx-10 bg-black/30 h-40 rounded-xl w-1/3 border-2 space-y-3 border-[#00FFFF] shadow-[0_0_10px_#00FFFF]">
-						<p class="text-5xl text-[#00FFFF] text-center font-semibold">GAME PLAYED</p>
-						<p class="text-5xl text-[#FFD700] text-center font-bold">156</p>
+						<div class="text-5xl text-[#00FFFF] text-center font-semibold">GAME PLAYED</div>
+						<div id="game_played" class="text-5xl text-[#FFD700] text-center font-bold"></div>
 					</div>
 			
 					<!-- Points gagnés -->
 					<div class="flex flex-col items-center justify-center bg-black/30 h-40 rounded-xl w-1/3 border-2 space-y-3 border-[#00FFFF] shadow-[0_0_10px_#00FFFF]">
-						<p class="text-5xl text-[#00FFFF] text-center font-semibold">POINTS EARNED</p>
-						<p class="text-5xl text-[#FFD700] text-center font-bold">2050</p>
+						<div class="text-5xl text-[#00FFFF] text-center font-semibold">POINTS EARNED</div>
+						<div id="point_earned" class="text-5xl text-[#FFD700] text-center font-bold"></div>
 					</div>
 			
 					<!-- Graphique circulaire -->
@@ -72,6 +72,11 @@
 						</div>
 						<canvas id="graph-win-lose" class="w-48 h-48 rounded-full"></canvas>
 					</div>              
+				</div>
+				<div class="w-full h-[300px] bg-black/30 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] p-4 mt-6">
+					<div class="w-1/2 h-full">
+						<canvas id="graph-history-trend" class="w-full h-full"></canvas>
+					</div>
 				</div>
 			</div>
 		</div>

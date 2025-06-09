@@ -5,13 +5,15 @@ export default async function addhistoryRoutes(fastify: FastifyInstance) {
 	fastify.post('/addhistory', async (request, reply) => {
 		const { Id1, Id2, score1, score2 } = request.body as { Id1: string, Id2: string, score1: number, score2: number };
 
+
 		try {
+
 			const db = await getDb_user();
 			await db.run(
 				`
-				INSERT INTO history (id_player1, id_player2, point_player1, point_player2, game_date) values (?, ?, ?, ?, '27/05/25 17:48');
+				INSERT INTO history (id_player1, id_player2, point_player1, point_player2) values (?, ?, ?, ?);
 				`,
-				[Id1, Id2, score1, score2] // DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATE AAAAAA CHANGEEEEEEEEEEEEEEEEEEEEEEEEEER
+				[Id1, Id2, score1, score2]
 			);
 
 			await db.run(

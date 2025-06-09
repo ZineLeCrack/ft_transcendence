@@ -22,6 +22,7 @@ import getPlayersATournamentRoutes from './tournament/get_players.js';
 import getWinnersATournamentRoutes from './tournament/get_winners.js';
 import privateGameRoute from './chat/private_game.js'
 import postResultsRoutes from './tournament/post_results.js';
+import StatsRoutes from './stats/stats_back.js';
 
 dotenv.config();
 
@@ -67,6 +68,7 @@ async function main() {
 	await app.register(getWinnersATournamentRoutes);
 	await app.register(privateGameRoute);
 	await app.register(postResultsRoutes);
+	await app.register(StatsRoutes);
 
 	await app.listen({ port: 3451, host: '0.0.0.0' });
 

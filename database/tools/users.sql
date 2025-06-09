@@ -28,7 +28,7 @@ CREATE TABLE history (
     id_player2 INTEGER NOT NULL,
     point_player1 INTEGER NOT NULL,
     point_player2 INTEGER NOT NULL,
-    game_date TEXT NOT NULL,
+    game_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
     FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
 );
