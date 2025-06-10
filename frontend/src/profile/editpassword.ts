@@ -2,6 +2,7 @@ import {togglePassword, checkPasswordMatch } from './utils.js';
 import { loadRoutes } from '../main.js';
 import initError from '../error.js';
 import initSuccess from '../success.js';
+import { loadProfilePicture } from './editinfo.js';
 
 export default async function initEditPassword() {
 	const token = sessionStorage.getItem('token');
@@ -127,5 +128,5 @@ export default async function initEditPassword() {
 			validatePasswordField(editNewPasswordInput);
 		});
 	}
-	
+loadProfilePicture("profile-pic-pass", "l");
 }

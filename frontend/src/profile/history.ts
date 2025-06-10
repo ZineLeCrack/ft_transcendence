@@ -1,6 +1,7 @@
 import { userData } from "../game/choosegame.js";
 import initError from "../error.js";
 import { loadRoutes } from "../main.js";
+import { loadProfilePicture } from "./editinfo.js";
 
 export interface CardHistory {
 	imageplayer1: string;
@@ -39,15 +40,13 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 				}
 
 				cardElement.innerHTML = `
-					<div class=" ml-28 flex flex-col items-center">
-						  <img src="${CardHistory.imageplayer1}" class="rounded-full w-[150px]" alt="">
+					<div id="profile-pic-player1" class=" ml-28 flex flex-col items-center">
 						 <div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#00FFFF] mt-1">${CardHistory.usernameplayer1}</div>
 					</div>
 					<div class="text-center text-8xl ml-28 font-bold text-[#00FFFF] drop-shadow-[0_0_10px_#00FFFF]">${CardHistory.pointplayer1}</div>
 					<img src="/images/VS.png" class="rounded-full ml-14 w-[270px] h-[270px] "alt="">
 					<div class="text-center text-8xl ml-14 font-bold text-[#FF007A] drop-shadow-[0_0_10px_#FF007A]">${CardHistory.pointplayer2}</div>
-					<div class=" ml-28 flex flex-col items-center">
-						  <img src="${CardHistory.imageplayer2}" class="rounded-full w-[150px]" alt="">
+					<div id="profile-pic-player2" class=" ml-28 flex flex-col items-center">
 						 <div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer2}</div>
 					</div>
 					<div class="absolute bottom-2 right-4 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">
@@ -55,6 +54,8 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 					</div>
 				</div>
 				`;
+				loadProfilePicture("profile-pic-player1", CardHistory.usernameplayer1);
+				loadProfilePicture("profile-pic-player2", CardHistory.usernameplayer2);
 			}
 			else
 			{
@@ -67,15 +68,13 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 					cardElement.className = 'relative bg-red-600/30 border-4 border-red-500 shadow-[0_0_10px_#ff0000,0_0_20px_#ff0000,0_0_40px_#ff0000] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
 				}
 					cardElement.innerHTML = `
-					<div class=" ml-28 flex flex-col items-center">
-						  <img src="${CardHistory.imageplayer2}" class="rounded-full w-[150px]" alt="">
+					<div id="profile-lose1" class=" ml-28 flex flex-col items-center">
 						 <div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#00FFFF] mt-1">${CardHistory.usernameplayer2}</div>
 					</div>
 					<div class="text-center text-8xl ml-28 font-bold text-[#00FFFF] drop-shadow-[0_0_10px_#00FFFF]">${CardHistory.pointplayer2}</div>
 					<img src="/images/VS.png" class="rounded-full ml-14 w-[270px] h-[270px] "alt="">
 					<div class="text-center text-8xl ml-14 font-bold text-[#FF007A] drop-shadow-[0_0_10px_#FF007A]">${CardHistory.pointplayer1}</div>
-					<div class=" ml-28 flex flex-col items-center">
-						  <img src="${CardHistory.imageplayer1}" class="rounded-full w-[150px]" alt="">
+					<div id="profile-lose2" class=" ml-28 flex flex-col items-center">
 						 <div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer1}</div>
 					</div>
 					<div class="absolute bottom-2 right-4 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">
@@ -83,6 +82,8 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 					</div>
 				</div>
 				`;
+				loadProfilePicture("profile-lose1", CardHistory.usernameplayer1);
+				loadProfilePicture("profile-lose2", CardHistory.usernameplayer2);
 			}
 			container.appendChild(cardElement);
 		});
