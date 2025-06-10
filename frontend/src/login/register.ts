@@ -46,7 +46,7 @@ export default function initRegister() {
 
 		if (signUpPasswordInput.value !== signUpConfirmPasswordInput.value)
 		{
-			initError('Les mots de passe ne correspondent pas.');
+			initError('Password does not match.');
 			return ;
 		}
 

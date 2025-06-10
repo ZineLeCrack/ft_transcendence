@@ -1,6 +1,8 @@
 import { translate } from '../i18n.js';
 import { loadRoutes } from '../main.js';
 
+import initError from '../error.js';
+
 interface TournamentDataLose_Win {
 	winner1: string,
 	loser1: string,
@@ -195,7 +197,7 @@ export default async function  initInTournament(id: string) {
 			const data = await response.json();
 
 			if (data.err) {
-				alert(data.message);
+				initError(data.message);
 			}
 			else {
 				sessionStorage.setItem("gameId", data.gameId);

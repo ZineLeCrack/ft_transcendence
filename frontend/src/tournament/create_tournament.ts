@@ -1,5 +1,7 @@
 import { togglePassword } from "../profile/utils";
 
+import initError from '../error.js';
+
 export default function initCreateTournament() {
 	const createTournamentBtn = document.getElementById('create-tournament');
 	const backToTournamentBtn = document.getElementById('back-to-tournament');
@@ -53,12 +55,12 @@ export default function initCreateTournament() {
 		const password = (document.getElementById('tournament-password') as HTMLInputElement)?.value;
 
 		if (!tournamentName) {
-			alert('Please enter a tournament name');
+			initError('Please enter a tournament name');
 			return;
 		}
 
 		if (type.value === 'private' && !password) {
-			alert('Please enter a password for private tournament');
+			initError('Please enter a password for private tournament');
 			return;
 		}
 
@@ -82,8 +84,7 @@ export default function initCreateTournament() {
 			mainView?.classList.remove('hidden');
 			window.location.reload();
 		} catch (error) {
-			console.error('Error creating tournament:', error);
-			alert('Failed to create tournament');
+			initError('Failed to create tournament');
 		}
 	});
 }

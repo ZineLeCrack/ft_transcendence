@@ -18,8 +18,7 @@ import tournamentsStatHTML from './pages/tournament_statistics.html?raw';
 
 import SearchHTML from './pages/search.html?raw';
 
-import { initLanguageSelector } from './language';
-
+import initError from './error.js';
 
 const notFoundPageContent = `
     <div class="text-center p-8 bg-transparent rounded-lg shadow-lg">
@@ -196,8 +195,7 @@ export const loadRoutes = async (path: string) => {
                     }
                     return;
                 } catch (error) {
-                    console.error("Error verifying user:", error);
-					alert ("An error occurred while verifying the user. Please try again later.");
+					initError ("An error occurred while verifying the user. Please try again later.");
 					body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
 					body.style.backgroundSize = "1920px 920px"; 
 					body.style.backgroundImage = "url('/images/404notfound.jpg')";

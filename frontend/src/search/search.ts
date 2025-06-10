@@ -1,5 +1,7 @@
 import { loadRoutes } from "../main.js";
 
+import initError from '../error.js';
+
 export default async function initSearch() 
 {
 
@@ -24,10 +26,10 @@ export default async function initSearch()
 					history.pushState(null, '', '/users/' + username);
 					await loadRoutes('/users/' + username);
 				} else {
-					alert("Utilisateur non trouvé !");
+					initError("User not found !");
 				}
 			} catch (err) {
-				console.error("Erreur lors de la vérification de l'utilisateur :", err);
+				initError("An error occurred while verifying the user.");
 			}
 		}
 	});

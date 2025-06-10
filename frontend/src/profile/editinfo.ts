@@ -1,5 +1,6 @@
 import initError from '../error';
 import { loadRoutes } from '../main';
+import initSuccess from '../success';
 
 export async function loadProfilePicture(div: string) {
 	const token = sessionStorage.getItem("token");
@@ -74,12 +75,12 @@ if (editProfileForm) {
 				const err = await response.text();
 				throw new Error(err || "Fail change");
 			}
-				alert("Your profile has been updated successfully");
+				initSuccess("Your profile has been updated successfully");
 				editProfileForm.reset();
 			} 
 			catch (error) 
 			{
-				alert(error);
+				initError(error as string);
 			}
 	});
 }
@@ -91,7 +92,7 @@ picturebutton.addEventListener('click', async (event) =>{
 	const file = pictureInput.files![0];
 	if (!file)
 	{
-		alert("Please select a picture");
+		initError("Please select a picture");
 	}
 	try {
 		
@@ -117,7 +118,7 @@ picturebutton.addEventListener('click', async (event) =>{
 		} 
 		catch (error) 
 		{
-			alert(error);
+			initError(error as string);
 		}
 });
 

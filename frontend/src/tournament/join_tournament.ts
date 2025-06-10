@@ -1,10 +1,10 @@
 import { togglePassword } from "../profile/utils";
 import { getWebSocket } from '../websocket';
 import { translate } from '../i18n'
-import initError from "../error";
-
 
 let currentGenerateTournamentList: (() => void) | null = null;
+
+import initError from '../error.js';
 
 export default async function initJoinTournament() {
 
@@ -213,7 +213,7 @@ export default async function initJoinTournament() {
 						window.location.reload();
 					} catch (err) {
 						console.error(err);
-						alert(err);
+						initError(err as string);
 					}
 				});
 
@@ -270,8 +270,7 @@ export default async function initJoinTournament() {
 				// 			mainView?.classList.remove('hidden');
 				// 			window.location.reload();
 				// 		} catch (err) {
-				// 			console.error(err);
-				// 			alert(err);
+				// 			initError(err);
 				// 		}
 				// 	}
 				// });

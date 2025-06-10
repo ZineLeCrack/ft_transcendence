@@ -1,6 +1,7 @@
 import {togglePassword, checkPasswordMatch } from './utils.js';
 import { loadRoutes } from '../main.js';
 import initError from '../error.js';
+import initSuccess from '../success.js';
 
 export default async function initEditPassword() {
 	const token = sessionStorage.getItem('token');
@@ -64,12 +65,12 @@ export default async function initEditPassword() {
 			event.preventDefault();
 			if (editNewPasswordInput.value !== editConfirmNewPasswordInput.value)
 			{
-				alert('les mots de passe sont pas bon');
+				initError('les mots de passe sont pas bon');
 				return ;
 			}
 			else if (editNewPasswordInput.value === editCurrentPasswordInput.value)
 			{
-				alert('change pas ton mot de passe par le meme debile !!!');
+				initError('change pas ton mot de passe par le meme debile !!!');
 				return ;
 			}
 			try {
@@ -87,19 +88,18 @@ export default async function initEditPassword() {
                 });
                 if (!response.ok)
                 {
-                    // alert("Your current password is not the current password");
+                    // initError("Your current password is not the current password");
                     const err = await response.text();
                     throw new Error(err || "Fail change");
                 }
-				alert("password edit success");
+				initSuccess("password edit success");
 				history.pushState(null, '', '/profile/edit');
 				await loadRoutes('/profile/edit');
 
             }
             catch (error) 
             {
-                alert(error);
-				console.log(error);
+                initError(error as string);
             }
 		});
 	}
