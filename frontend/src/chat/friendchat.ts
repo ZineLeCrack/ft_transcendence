@@ -2,6 +2,7 @@ import initError from '../error.ts';
 import { sendMessage } from './chat.ts';
 import { getWebSocket } from '../websocket.ts';
 import { translate } from '../i18n.ts';
+import { loadProfilePicture } from '../profile/editinfo.ts';
 
 export default async function initFriendChat() {
 	const switchChatBtn = document.getElementById('switch-chat') as HTMLButtonElement;
@@ -106,8 +107,7 @@ export default async function initFriendChat() {
 					<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
 						<div class="relative">
 							<button id="Friend-button-${Friend.username}" class="group w-12 h-12 rounded-full border-2 border-[#FF2E9F] hover:shadow-[0_0_10px_#FF2E9F] transition-shadow">
-								<div class="w-full h-full rounded-full overflow-hidden">
-									<img src="${Friend.profilPic}" alt="Friend" class="w-full h-full object-cover">
+								<div id="profile-pic-friend" class="w-full h-full rounded-full overflow-hidden">
 								</div>
 							</button>
 							<div id="Friend-Status-${Friend.username}" class="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-black transform translate-x-[1px] translate-y-[-2px]">
@@ -118,13 +118,13 @@ export default async function initFriendChat() {
 							${Friend.username}
 						</a>
 					</div>`;
+					loadProfilePicture("profile-pic-friend", Friend.username);
 			}
 			else { 
 				friendElement.innerHTML = `<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
 						<div class="relative">
 							<button id="Friend-button-${Friend.username}" class="group w-12 h-12 rounded-full border-2 border-[#FF2E9F] hover:shadow-[0_0_10px_#FF2E9F] transition-shadow">
-								<div class="w-full h-full rounded-full overflow-hidden">
-									<img src="${Friend.profilPic}" alt="Friend" class="w-full h-full object-cover">
+								<div id="profile-pic-offline" class="w-full h-full rounded-full overflow-hidden">
 								</div>
 							</button>
 							<div id="Friend-Status-${Friend.username}" class="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-black transform translate-x-[1px] translate-y-[-2px]">
@@ -136,6 +136,7 @@ export default async function initFriendChat() {
 						</a>
 					</div>
 				</div>`;
+				loadProfilePicture("profile-pic-offline", Friend.username);
 			}
 
 			friendslist.appendChild(friendElement);
