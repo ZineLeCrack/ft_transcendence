@@ -164,7 +164,8 @@ export default async function initJoinTournament() {
 							body: JSON.stringify({
 								id_tournament: tournamentId,
 								token: token,
-								password: passwordInput ? passwordInput.value : ''
+								password: passwordInput ? passwordInput.value : '',
+								alias: inputAlias.value.trim()
 							})
 						});
 
@@ -211,64 +212,64 @@ export default async function initJoinTournament() {
 					}
 				});
 
-				inputAlias.addEventListener('keydown', async (e) => {
-					if (e.key === "Enter") {
-						e.preventDefault();
-						try {
-							const token = sessionStorage.getItem('token');
-							const response = await fetch('/api/tournament/join', {
-								method: 'POST',
-								headers: { 'Content-Type': 'application/json' },
-								body: JSON.stringify({
-									id_tournament: tournamentId,
-									token: token,
-									password: passwordInput ? passwordInput.value : ''
-								})
-							});
+				// inputAlias.addEventListener('keydown', async (e) => {
+				// 	if (e.key === "Enter") {
+				// 		e.preventDefault();
+				// 		try {
+				// 			const token = sessionStorage.getItem('token');
+				// 			const response = await fetch('/api/tournament/join', {
+				// 				method: 'POST',
+				// 				headers: { 'Content-Type': 'application/json' },
+				// 				body: JSON.stringify({
+				// 					id_tournament: tournamentId,
+				// 					token: token,
+				// 					password: passwordInput ? passwordInput.value : ''
+				// 				})
+				// 			});
 
-							if (!response.ok) {
-								throw new Error(response.statusText);
-							}
+				// 			if (!response.ok) {
+				// 				throw new Error(response.statusText);
+				// 			}
 
-							const data = await response.json();
-							const ws = getWebSocket();
-							ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
+				// 			const data = await response.json();
+				// 			const ws = getWebSocket();
+				// 			ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
 
-							if (data.full)
-							{
-								try {
-									const response1 = await fetch('/api/tournament/get_players', {
-										method: 'POST',
-										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ tournamentId: data.id })
-									});
-									const players = await response1.json();
-									const response2 = await fetch('/api/tournament/get_winners', {
-										method: 'POST',
-										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ tournamentId: data.id })
-									});
-									const results = await response2.json();
-									await fetch('/api/multi/tournament/start', {
-										method: 'POST',
-										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ id: data.id, ...players, ...results })
-									});
-								} catch (err) {
-									console.error(`Error starting tournament: `, err);
-									return ;
-								}
-							}
+				// 			if (data.full)
+				// 			{
+				// 				try {
+				// 					const response1 = await fetch('/api/tournament/get_players', {
+				// 						method: 'POST',
+				// 						headers: { 'Content-Type': 'application/json' },
+				// 						body: JSON.stringify({ tournamentId: data.id })
+				// 					});
+				// 					const players = await response1.json();
+				// 					const response2 = await fetch('/api/tournament/get_winners', {
+				// 						method: 'POST',
+				// 						headers: { 'Content-Type': 'application/json' },
+				// 						body: JSON.stringify({ tournamentId: data.id })
+				// 					});
+				// 					const results = await response2.json();
+				// 					await fetch('/api/multi/tournament/start', {
+				// 						method: 'POST',
+				// 						headers: { 'Content-Type': 'application/json' },
+				// 						body: JSON.stringify({ id: data.id, ...players, ...results })
+				// 					});
+				// 				} catch (err) {
+				// 					console.error(`Error starting tournament: `, err);
+				// 					return ;
+				// 				}
+				// 			}
 
-							joinView?.classList.add('hidden');
-							mainView?.classList.remove('hidden');
-							window.location.reload();
-						} catch (err) {
-							console.error(err);
-							alert(err);
-						}
-					}
-				});
+				// 			joinView?.classList.add('hidden');
+				// 			mainView?.classList.remove('hidden');
+				// 			window.location.reload();
+				// 		} catch (err) {
+				// 			console.error(err);
+				// 			alert(err);
+				// 		}
+				// 	}
+				// });
 
 				cancelAlias.addEventListener('click', async () => {
 					const PopPup = document.getElementById('alias-popup') as HTMLDivElement;

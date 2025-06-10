@@ -1,17 +1,29 @@
 import { FastifyInstance } from 'fastify';
 import { getDb_tournaments } from '../database.js';
+import { getDb_user } from '../database.js';
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function joinTournamentRoutes(fastify: FastifyInstance) {
 	fastify.post('/tournament/join', async (request, reply) => {
-		const { id_tournament, token, password } = request.body as { id_tournament: string, token: string, password: string | null };
+		const { id_tournament, token, password, alias } = request.body as { id_tournament: string, token: string, password: string | null, alias: string };
 
 		try {
+			const dbUsers = await getDb_user();
 			const db = await getDb_tournaments();
 			const tournament = await db.get(`SELECT * FROM tournaments WHERE id = ?`,
 			[id_tournament]
 			);
+
+			let userId;
+			try {
+				const decoded = jwt.verify(token, JWT_SECRET);
+				userId = (decoded as { userId: string }).userId;
+			}
+			catch (err) {
+				reply.status(401).send(`Invalid token: ${err}`);
+				return ;
+			}
 
 			if (tournament.players === tournament.players_max)
 			{
@@ -24,6 +36,8 @@ export default async function joinTournamentRoutes(fastify: FastifyInstance) {
 				reply.status(500).send('Wrong password !');
 				return ;
 			}
+
+			await dbUsers.run(`UPDATE users SET aliastournament = ? WHERE id = ?`, [alias, userId]);
 
 			const list = await db.get(
 				`SELECT player1, player2, player3, player4, player5, player6, player7, player8
@@ -52,16 +66,6 @@ export default async function joinTournamentRoutes(fastify: FastifyInstance) {
 			}
 
 			const playerSlot = 'player' + (tab[Math.floor(Math.random() * tab.length)]).toString();
-
-			let userId;
-			try {
-				const decoded = jwt.verify(token, JWT_SECRET);
-				userId = (decoded as { userId: string }).userId;
-			}
-			catch (err) {
-				reply.status(401).send(`Invalid token: ${err}`);
-				return ;
-			}
 
 			await db.run(
 				`UPDATE tournaments SET ${playerSlot} = ?, players = players + 1 WHERE id = ?`,
