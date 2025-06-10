@@ -5,7 +5,7 @@ import { loadRoutes } from '../main.js';
 
 import { generateCardsHistory} from "../profile/history.js";
 import initSearch from './search.js';
-
+import { loadProfilePicture } from '../profile/editinfo.js';
 export default async function initUsers(username?: string, isHistory: boolean = false) {
     const tokenID = sessionStorage.getItem("token");
     const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
@@ -26,8 +26,9 @@ export default async function initUsers(username?: string, isHistory: boolean = 
         }, 1000);
         return;
     }
-
     if (username) {
+        loadProfilePicture("profile-pic-search", username);
+        loadProfilePicture("profileBtn", "l");
         const usernameh2 = document.getElementById('username-h2');
         if (usernameh2) {
             usernameh2.textContent = username;

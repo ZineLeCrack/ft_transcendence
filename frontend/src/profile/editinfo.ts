@@ -1,13 +1,13 @@
 import initError from '../error';
 import { loadRoutes } from '../main';
 
-export async function loadProfilePicture(div: string) {
+export async function loadProfilePicture(div: string, name: string) {
 	const token = sessionStorage.getItem("token");
 	if (!token) return;
 
 	const response = await fetch('/api/picture', {
 		headers: {
-			'Authorization': `Bearer ${token}`
+			'Authorization': `Bearer ${token} ${name}`,
 		}
 	});
 
@@ -110,7 +110,7 @@ picturebutton.addEventListener('click', async (event) =>{
 			const err = await response.text();
 			throw new Error(err || "Fail change");
 		}
-			loadProfilePicture("profil-pic");
+			loadProfilePicture("profil-pic", "l");
 			pictureInput.value = '';
 			window.location.reload();
 			console.log("Your profile has been updated successfully");
@@ -166,5 +166,5 @@ if (emailInput) {
 		validateEmailField(emailInput);
 	});
 }
-loadProfilePicture("profil-pic");
+loadProfilePicture("profil-pic", "l");
 }
