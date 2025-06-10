@@ -47,7 +47,25 @@ export default async function initEditProfile() {
 			}, 1000);
 			return;
 		}
-
+		const res = await response.json();
+		const username = res.original;
+		const email = res.email;
+		const usernamediv = document.getElementById("username");
+		const emaildiv = document.getElementById("mail");
+		if (usernamediv)
+		{
+			const for_username = document.createElement('span');
+			for_username.classList = `text-[#FFD700] text-2xl font-bold`;
+			for_username.textContent = `${username}`;
+			usernamediv.appendChild(for_username);
+		}
+		if (emaildiv)
+		{
+			const for_mail = document.createElement('span');
+			for_mail.classList= `text-[#FFD700] text-2xl font-bold`;
+			for_mail.textContent = `${email}`;
+			emaildiv?.appendChild(for_mail);
+		}
 const usernameInput = document.getElementById("edit-username-input") as HTMLInputElement;
 const emailInput = document.getElementById("edit-email-input") as HTMLInputElement;
 const picturebutton = document.getElementById("button-edit-profile") as HTMLInputElement;
@@ -77,6 +95,7 @@ if (editProfileForm) {
 			}
 				initSuccess("Your profile has been updated successfully");
 				editProfileForm.reset();
+				window.location.reload();
 			} 
 			catch (error) 
 			{
