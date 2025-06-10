@@ -70,7 +70,7 @@ export class GameInstance {
 
 			this.handleCollisions();
 
-			if (this.ballX <= 0) {
+			if (this.ballX <= -10) {
 				this.rightScore++;
 				this.resetBall();
 			} else if (this.ballX >= 800) {
