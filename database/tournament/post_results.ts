@@ -25,6 +25,10 @@ export default async function postResultsRoutes(fastify: FastifyInstance) {
 				await db_user.run(
 					`UPDATE stats SET tournaments_played = tournaments_played + 1, tournaments_win = tournaments_win + 1 WHERE id_player = ?`
 					, [winner]);
+				setTimeout(async () => {
+					await db.run(`DELETE FROM tournaments WHERE id = ?`, [tournamentId]);
+					await db.run(`DELETE FROM result WHERE id = ?`, [tournamentId]);
+				}, 5000);
 			}
 			reply.send({ success: true });
 		} catch (err) {
