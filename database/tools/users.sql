@@ -29,6 +29,7 @@ CREATE TABLE history (
     point_player1 INTEGER NOT NULL,
     point_player2 INTEGER NOT NULL,
     tournament INTEGER DEFAULT 0,
+    tournamentId INTEGER DEFAULT 0,
     game_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
     FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
