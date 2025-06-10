@@ -131,12 +131,11 @@ async function loadHistoryContent(username: string) {
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({userId: username}),
+                body: JSON.stringify({userId: '', username}),
             });
 
             const data = await response.json();
             generateCardsHistory('history-div-search', data);
-            
         }
         catch (err)
         {

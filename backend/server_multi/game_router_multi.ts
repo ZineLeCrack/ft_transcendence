@@ -48,13 +48,13 @@ export default async function gameRouter(fastify: FastifyInstance) {
 			}
 		}
 		const id = generateGameId();
-		const game = new GameInstance(id, userId, userName, false);
+		const game = new GameInstance(id, userId, userName, false, '');
 		games.set(id, game);
 		console.log(`Game created : ${id}`);
 		reply.send({ gameId: id, player: "player1" });
 	});
 
-	fastify.post('/:id/end', (request, reply) => {
+	fastify.post('/:id/end', async (request, reply) => {
 		const { id } = request.body as { id: string };
 		const game = games.get(id);
 		if (!game)
@@ -71,7 +71,15 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		game?.stop();
 		games.delete(id);
 		console.log(`Game close : ${id}`);
-		reply.status(200).send(gameStat);
+		if (game.tournamentId !== '') {
+			reply.status(200).send({
+				...gameStat,
+				tournament: true,
+				tournamentId: game.tournamentId
+			});
+		}
+		else
+			reply.status(200).send(gameStat);
 	})
 
 	fastify.get('/:id/state', async (request, reply) => {

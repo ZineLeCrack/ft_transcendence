@@ -104,8 +104,8 @@ const routes: { [path: string]: Route } = {
 		view: overallStatHTML,
 		bodyStyleImage: "url('/images/statscyberpunk.png')",
 		script: async () => {
-			const {default: initGlobalGraph} = await import ('./profile/global.ts');
-			initGlobalGraph();
+			const {default: initOverallStats} = await import ('./profile/global.ts');
+			initOverallStats();
 		}
 	},
 	'/profile/statistics/history': 

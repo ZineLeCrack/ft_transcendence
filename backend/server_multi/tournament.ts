@@ -30,7 +30,8 @@ interface TournamentInstance {
 	winner_final: string,
 	loser_final: string,
 	gameId: string,
-	instance: GameInstance
+	instance: GameInstance,
+	game: number
 }
 
 const tournamentsInstances = new Map<string, TournamentInstance>();
@@ -62,11 +63,13 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			winner_final: string,
 			loser_final: string,
 			gameId: string,
-			instance: GameInstance
+			instance: GameInstance,
+			game: number
 		};
 
+		tournamentData.game = 1;
 		tournamentData.gameId = generateGameId();
-		tournamentData.instance = new GameInstance(tournamentData.gameId, "", "", true);
+		tournamentData.instance = new GameInstance(tournamentData.gameId, '', '', true, tournamentData.id);
 		tournamentData.instance.player1.id = tournamentData.player1;
 		tournamentData.instance.player2.id = tournamentData.player2;
 		games.set(tournamentData.gameId, tournamentData.instance);
@@ -92,7 +95,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		}
 
 		const game = tournamentsInstances.get(tournamentId.toString())?.instance!;
-		console.log(`POST: (${game.gameId}) (${tournamentsInstances.get(tournamentId.toString())?.gameId})`);
 
 		if (game.player1.id === userId) {
 			if (game.player1.name === '') {
@@ -122,7 +124,128 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			reply.status(200).send({ gameId: '0', err: true, message: 'Not your turn !' });
 			return ;
 		}
-	})
+	});
+
+	fastify.post('/next_game', async (request, reply) => {
+		const { tournamentId } = request.body as { tournamentId: string };
+
+		const tournament = tournamentsInstances.get(tournamentId.toString());
+		tournament!.game += 1;
+		const game = tournament?.instance;
+		let winner = '?';
+		let loser = '?';
+		if (game?.leftScore === 5) {
+			winner = game.player1.id;
+			loser = game.player2.id;
+		} else if (game?.rightScore === 5) {
+			winner = game.player2.id;
+			loser = game.player1.id;
+		}
+
+		let results;
+
+		if (tournament?.game === 2) {
+			tournament.winner1 = winner;
+			tournament.loser1 = loser;
+			results = {
+				winner: winner,
+				loser: loser,
+				pos1: 'winner1',
+				pos2: 'loser1'
+			}
+			tournament.gameId = generateGameId();
+			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
+			tournament.instance.player1.id = tournament.player3;
+			tournament.instance.player2.id = tournament.player4;
+			games.set(tournament.gameId, tournament.instance);
+			console.log(`Second game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
+		} else if (tournament?.game === 3) {
+			tournament.winner2 = winner;
+			tournament.loser2 = loser;
+			results = {
+				winner: winner,
+				loser: loser,
+				pos1: 'winner2',
+				pos2: 'loser2'
+			}
+			tournament.gameId = generateGameId();
+			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
+			tournament.instance.player1.id = tournament.player5;
+			tournament.instance.player2.id = tournament.player6;
+			games.set(tournament.gameId, tournament.instance);
+			console.log(`Third game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
+		} else if (tournament?.game === 4) {
+			tournament.winner3 = winner;
+			tournament.loser3 = loser;
+			results = {
+				winner: winner,
+				loser: loser,
+				pos1: 'winner3',
+				pos2: 'loser3'
+			}
+			tournament.gameId = generateGameId();
+			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
+			tournament.instance.player1.id = tournament.player7;
+			tournament.instance.player2.id = tournament.player8;
+			games.set(tournament.gameId, tournament.instance);
+			console.log(`Fourth game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
+		} else if (tournament?.game === 5) {
+			tournament.winner4 = winner;
+			tournament.loser4 = loser;
+			results = {
+				winner: winner,
+				loser: loser,
+				pos1: 'winner4',
+				pos2: 'loser4'
+			}
+			tournament.gameId = generateGameId();
+			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
+			tournament.instance.player1.id = tournament.winner1;
+			tournament.instance.player2.id = tournament.winner2;
+			games.set(tournament.gameId, tournament.instance);
+			console.log(`First semifinal game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
+		} else if (tournament?.game === 6) {
+			tournament.winner1_semifinals = winner;
+			tournament.loser1_semifinals = loser;
+			results = {
+				winner: winner,
+				loser: loser,
+				pos1: 'winner1_semifinals',
+				pos2: 'loser1_semifinals'
+			}
+			tournament.gameId = generateGameId();
+			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
+			tournament.instance.player1.id = tournament.winner3;
+			tournament.instance.player2.id = tournament.winner4;
+			games.set(tournament.gameId, tournament.instance);
+			console.log(`Second semifinal game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
+		} else if (tournament?.game === 7) {
+			tournament.winner2_semifinals = winner;
+			tournament.loser2_semifinals = loser;
+			results = {
+				winner: winner,
+				loser: loser,
+				pos1: 'winner2_semifinals',
+				pos2: 'loser2_semifinals'
+			}
+			tournament.gameId = generateGameId();
+			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
+			tournament.instance.player1.id = tournament.winner1_semifinals;
+			tournament.instance.player2.id = tournament.winner2_semifinals;
+			games.set(tournament.gameId, tournament.instance);
+			console.log(`Final game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
+		} else if (tournament?.game === 8) {
+			tournament.winner_final = winner;
+			tournament.loser_final = loser;
+			results = {
+				winner: winner,
+				loser: loser,
+				pos1: 'winner_final',
+				pos2: 'loser_final'
+			}
+		}
+		reply.status(200).send({ ...results, tournamentId: tournamentId });
+	});
 }
 
 // sqlite3 database/tournaments.db

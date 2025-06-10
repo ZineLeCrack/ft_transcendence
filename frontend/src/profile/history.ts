@@ -31,11 +31,11 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 			{
 				if (CardHistory.pointplayer1 > CardHistory.pointplayer2)
 				{
-					cardElement.className = 'bg-[#00ff88]/30 border-4 border-[#00ff88] shadow-[0_0_10px_#00ff88,0_0_20px_#00ff88,0_0_40px_#00ff88] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
+					cardElement.className = 'relative bg-[#00ff88]/30 border-4 border-[#00ff88] shadow-[0_0_10px_#00ff88,0_0_20px_#00ff88,0_0_40px_#00ff88] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
 				}
 				else
 				{
-					cardElement.className = 'bg-red-600/30 border-4 border-red-500 shadow-[0_0_10px_#ff0000,0_0_20px_#ff0000,0_0_40px_#ff0000] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
+					cardElement.className = 'relative bg-red-600/30 border-4 border-red-500 shadow-[0_0_10px_#ff0000,0_0_20px_#ff0000,0_0_40px_#ff0000] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
 				}
 
 				cardElement.innerHTML = `
@@ -50,6 +50,9 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 						  <img src="${CardHistory.imageplayer2}" class="rounded-full w-[150px]" alt="">
 						 <div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer2}</div>
 					</div>
+					<div class="absolute bottom-2 right-4 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">
+						${CardHistory.date}
+					</div>
 				</div>
 				`;
 			}
@@ -57,11 +60,11 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 			{
 				if (CardHistory.pointplayer1 < CardHistory.pointplayer2)
 				{
-					cardElement.className = 'bg-[#00ff88]/30 border-4 border-[#00ff88] shadow-[0_0_10px_#00ff88,0_0_20px_#00ff88,0_0_40px_#00ff88] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
+					cardElement.className = 'relative bg-[#00ff88]/30 border-4 border-[#00ff88] shadow-[0_0_10px_#00ff88,0_0_20px_#00ff88,0_0_40px_#00ff88] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
 				}
 				else
 				{
-					cardElement.className = 'bg-red-600/30 border-4 border-red-500 shadow-[0_0_10px_#ff0000,0_0_20px_#ff0000,0_0_40px_#ff0000] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
+					cardElement.className = 'relative bg-red-600/30 border-4 border-red-500 shadow-[0_0_10px_#ff0000,0_0_20px_#ff0000,0_0_40px_#ff0000] w-4/5 h-[195px] mx-auto flex items-center justify-start rounded-xl';
 				}
 					cardElement.innerHTML = `
 					<div class=" ml-28 flex flex-col items-center">
@@ -75,13 +78,15 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 						  <img src="${CardHistory.imageplayer1}" class="rounded-full w-[150px]" alt="">
 						 <div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer1}</div>
 					</div>
+					<div class="absolute bottom-2 right-4 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">
+						${CardHistory.date}
+					</div>
 				</div>
 				`;
 			}
-
 			container.appendChild(cardElement);
 		});
-	 }
+	}
 }
 
 export default async function  initHistory() 

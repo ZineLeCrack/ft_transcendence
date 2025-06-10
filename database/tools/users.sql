@@ -11,13 +11,13 @@ CREATE TABLE users (
 );
 
 CREATE TABLE stats (
-    game_playeds INTEGER NOT NULL,
-    wins INTEGER NOT NULL,
-    loses INTEGER NOT NULL,
-    total_points INTEGER NOT NULL,
-    tournament_playeds INTEGER NOT NULL,
-    tournament_wins INTEGER NOT NULL,
-    tournament_loses INTEGER NOT NULL,
+    games_played INTEGER DEFAULT 0,
+    wins INTEGER DEFAULT 0,
+    loses INTEGER DEFAULT 0,
+    total_points INTEGER DEFAULT 0,
+    tournaments_played INTEGER DEFAULT 0,
+    tournaments_win INTEGER DEFAULT 0,
+    tournaments_lose INTEGER DEFAULT 0,
     id_player INTEGER NOT NULL,
     FOREIGN KEY (id_player) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -28,7 +28,7 @@ CREATE TABLE history (
     id_player2 INTEGER NOT NULL,
     point_player1 INTEGER NOT NULL,
     point_player2 INTEGER NOT NULL,
-    game_date TEXT NOT NULL,
+    game_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
     FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
 );

@@ -21,7 +21,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			reply.status(400).send('Invalid password');
 			return;
 		}
-
 		let IdUser;
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
@@ -118,23 +117,15 @@ export default async function editRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/picture', async (request, reply) => {
-		const parts = request.parts();
-		const data = await request.file();
-		let token: any;
+		const fileData = await request.file();
+		const authHeader = request.headers['authorization'];
+		const token = authHeader?.split(' ')[1];
 		const start = Date.now();
-		for await (const part of parts) {
-			const partStartTime = Date.now();
-			if (part.type === 'field' && part.fieldname === 'token') {
-				token = part.value;
-				console.log(`Token part processed in ${Date.now() - partStartTime} ms`);
-			}
-		}
 		console.log(`All parts processed in ${Date.now() - start} ms`);
-		if (!data || !token) {
+		if (!fileData || !token) {
 			reply.status(400).send('Missing image or token');
 			return;
 		}
-
 		let IdUser;
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
@@ -145,14 +136,16 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		}
 
 		const chunks: Buffer[] = [];
-		for await (const chunk of data.file) {
+		for await (const chunk of fileData.file) {
 			chunks.push(Buffer.from(chunk));
 		}
 		const originalBuffer = Buffer.concat(chunks);
+
 		let jpegBuffer: Buffer;
 		try {
 			jpegBuffer = await sharp(originalBuffer).png().toBuffer();
-		} catch (err) {
+		} 
+		catch (err) {
 			console.error('Image conversion failed:', err);
 			reply.status(500).send('Image conversion error');
 			return;
@@ -163,11 +156,39 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			await db.run('UPDATE users SET profile_pic = ? WHERE id = ?', [jpegBuffer, IdUser]);
 			console.log("picture update success");
 
-			reply.status(200).header('Content-Type', 'image/jpeg').send(jpegBuffer);
-		}
-		catch (err) {
+			reply.status(200).header('Content-Type', 'image/png').send(jpegBuffer);
+		} catch (err) {
 			console.error(err);
 			reply.status(500).send('Database error');
 		}
+	});
+	fastify.get('/picture', async (request, reply) => {
+		const authHeader = request.headers['authorization'];
+		const token = authHeader?.split(' ')[1];
+
+		if (!token) {
+			return reply.status(401).send('Token missing');
+		}
+
+		let userId;
+		try {
+			const decoded = jwt.verify(token, JWT_SECRET);
+			userId = (decoded as { userId: string }).userId;
+		} 
+		catch {
+			return reply.status(401).send('Invalid token');
+		}
+		try {
+			const db = await getDb_user();
+			const result = await db.get('SELECT profile_pic FROM users WHERE id = ?', [userId]);
+			if (!result || !result.profile_pic) {
+			return reply.status(404).send('Image not found');
+		}
+			reply.header('Content-Type', 'image/png').send(result.profile_pic);
+		} 
+		catch (err) {
+			console.error(err);
+			reply.status(500).send('Database error');
+	}
 	});
 }

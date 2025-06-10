@@ -15,10 +15,10 @@ export default function initError(content?: string)
 </div>`;
 	
 	const oldPopup = document.getElementById('error-popup');
-    if (oldPopup)
+	if (oldPopup)
 		oldPopup.remove();
 
-    document.body.insertAdjacentHTML('beforeend', errorPopUpHTML);
+	document.body.insertAdjacentHTML('beforeend', errorPopUpHTML);
 
 	const messageElement = document.getElementById('error-popup-message');
 	if (messageElement && content)
@@ -27,17 +27,17 @@ export default function initError(content?: string)
 	}
 	else if (messageElement) 
 	{
-		messageElement.textContent = 'An unexpected error occurred.';
+		messageElement.textContent = 'Sorry, you encountered an error.';
 	}
 
-    const popup = document.getElementById('error-popup');
-    const closeBtn = document.getElementById('close-error-popup');
+	const popup = document.getElementById('error-popup');
+	const closeBtn = document.getElementById('close-error-popup');
 
-    const closePopup = () => {
-        popup?.remove();
-    };
+	const closePopup = () => {
+		popup?.remove();
+	};
 
-    closeBtn?.addEventListener('click', closePopup);
+	closeBtn?.addEventListener('click', closePopup);
 
-    setTimeout(closePopup, 2000);
+	setTimeout(closePopup, 2000);
 }

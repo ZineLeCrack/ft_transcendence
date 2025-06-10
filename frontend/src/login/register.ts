@@ -2,11 +2,13 @@ import { togglePassword, checkPasswordMatch} from '../profile/utils.js';
 import { loadRoutes } from '../main.js';
 import initError from '../error.js';
 import initSuccess from '../success.js';
+import { initLanguageSelector } from '../language.js';
 
 
 export default function initRegister() {
+	initLanguageSelector();
 
-const signupform = document.getElementById('sign-up') as HTMLFormElement;
+	const signupform = document.getElementById('sign-up') as HTMLFormElement;
 
 	// Champs mots de passe
 	const signUpPasswordInput = document.getElementById('sign-up-password-input') as HTMLInputElement;
@@ -74,9 +76,9 @@ const signupform = document.getElementById('sign-up') as HTMLFormElement;
 
 			initSuccess('Registration successful! redirecting to login page...');
 			setTimeout(async () => {
-    history.pushState(null, '', '/login');
-    await loadRoutes('/login');
-}, 1000);
+			    history.pushState(null, '', '/login');
+			    await loadRoutes('/login');
+			}, 1000);
 		}
 		catch (err)
 		{

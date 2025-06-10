@@ -1,7 +1,34 @@
-import  imageCompression  from 'browser-image-compression';
 import initError from '../error';
 import { loadRoutes } from '../main';
 import initSuccess from '../success';
+
+export async function loadProfilePicture(div: string) {
+	const token = sessionStorage.getItem("token");
+	if (!token) return;
+
+	const response = await fetch('/api/picture', {
+		headers: {
+			'Authorization': `Bearer ${token}`
+		}
+	});
+
+	if (!response.ok) {
+		console.error("Failed to load profile picture");
+		return;
+	}
+
+	const blob = await response.blob();
+	const imageUrl = URL.createObjectURL(blob);
+
+	const profilPicDiv = document.getElementById(div);
+	if (profilPicDiv) {
+		const Img = document.createElement('img');
+		Img.src = `${imageUrl}`;
+		Img.classList = `w-full h-full object-cover rounded-full`;
+		Img.alt = 'Profile Pic';
+		profilPicDiv.appendChild(Img);
+	}
+}
 
 export default async function initEditProfile() {
 
@@ -58,11 +85,11 @@ if (editProfileForm) {
 	});
 }
 
+
 picturebutton.addEventListener('click', async (event) =>{
 	event.preventDefault();
 
 	const file = pictureInput.files![0];
-	const Token = sessionStorage.getItem('token')!;
 	if (!file)
 	{
 		initError("Please select a picture");
@@ -70,23 +97,23 @@ picturebutton.addEventListener('click', async (event) =>{
 	try {
 		
 		const formData = new FormData();
-		const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true
-        };
-		formData.append('picture', file, file.name);
-		formData.append('token', Token);
+		formData.append('picture', file);
 
 		const response = await fetch('/api/picture', {
 			method: 'POST',
 			body: formData,
+			headers: {
+    			'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+  			},
 		});
 		if (!response.ok)
 		{
 			const err = await response.text();
 			throw new Error(err || "Fail change");
 		}
+			loadProfilePicture("profil-pic");
+			pictureInput.value = '';
+			window.location.reload();
 			console.log("Your profile has been updated successfully");
 		} 
 		catch (error) 
@@ -140,5 +167,5 @@ if (emailInput) {
 		validateEmailField(emailInput);
 	});
 }
-
+loadProfilePicture("profil-pic");
 }

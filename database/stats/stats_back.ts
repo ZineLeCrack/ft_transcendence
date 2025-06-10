@@ -1,35 +1,20 @@
-import { Router } from 'express';
+import { FastifyInstance } from 'fastify';
 import { getDb_user } from '../database.js';
+import jwt from 'jsonwebtoken';
+const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
-const router = Router();
+export default async function StatsRoutes(fastify: FastifyInstance) {
+	fastify.post('/stats', async (request, reply) => {
+		const { userId } = request.body as { userId: string };
 
-router.post('/global', async (req, res) => {
-    const { userId } = req.body;
-
-    try {
-        const db = await getDb_user();
-        const rows = await db.all(`
-            SELECT 
-                s.game_playeds,
-                s.wins,
-                s.loses,
-                s.total_points,
-            FROM stats s
-            WHERE s.id_player = ?
-        `, [userId]);
-
-        const formatted = rows.map(row => ({
-            game_playeds: row.game_playeds,
-            wins: row.wins,
-            loses: row.loses,
-            total_points: row.total_points,
-        }));
-
-        res.json(formatted);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error');
-    }
-});
-
-export default router;
+		try {
+			const db = await getDb_user();
+			const stats = await db.get(`SELECT * FROM stats WHERE id_player = ?;`,[userId]);
+			
+			reply.send(stats);
+		} catch (err) {
+			console.error(err);
+			reply.status(500).send('Error');
+		}
+	});
+}
