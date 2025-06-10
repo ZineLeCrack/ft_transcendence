@@ -56,9 +56,16 @@ function getcolor(player1: string, player2: string, winner: string, loser: strin
 	}
 }
 
-export function generateTournamentView(TournamentData_Players: TournamentData_Players, TournamentData_Lose_Win: TournamentDataLose_Win) 
+export async function generateTournamentView(TournamentData_Players: TournamentData_Players, TournamentData_Lose_Win: TournamentDataLose_Win) 
 {
 	const container = document.getElementById('tournament-view') as HTMLDivElement;
+	const res = await fetch('/api/tournament/turn_into_alias', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ ...TournamentData_Players, ...TournamentData_Lose_Win })
+	});
+
+	const TournamentData = await res.json();
 	
 	if (container)
 	{
@@ -70,35 +77,35 @@ export function generateTournamentView(TournamentData_Players: TournamentData_Pl
 		<div class="flex justify-between items-center gap-4">
 			<div class="flex flex-col gap-3">
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Players.player1, TournamentData_Players.player2, TournamentData_Lose_Win.winner1, TournamentData_Lose_Win.loser1)} p-1 w-24 text-center rounded-lg ">${TournamentData_Players.player1}</div>
+					<div class="border-2 ${getcolor(TournamentData.player1, TournamentData.player2, TournamentData.winner1, TournamentData.loser1)} p-1 w-24 text-center rounded-lg ">${TournamentData.player1}</div>
 					<div class="absolute h-6 w-3 border-r-2 border-t-2 border-[#00FFFF] right-[-12px] top-[50%]"></div>
 				</div>
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Players.player2, TournamentData_Players.player1, TournamentData_Lose_Win.winner1, TournamentData_Lose_Win.loser1)} p-1 w-24 text-center rounded-lg ">${TournamentData_Players.player2}</div>
+					<div class="border-2 ${getcolor(TournamentData.player2, TournamentData.player1, TournamentData.winner1, TournamentData.loser1)} p-1 w-24 text-center rounded-lg ">${TournamentData.player2}</div>
 					<div class="absolute h-6 w-3 border-r-2 border-b-2 border-[#00FFFF] right-[-12px] top-[-50%]"></div>
 				</div>
 				<div class="relative mt-3">
-					<div class="border-2 ${getcolor(TournamentData_Players.player3, TournamentData_Players.player4,TournamentData_Lose_Win.winner2, TournamentData_Lose_Win.loser2)} p-1 w-24 text-center rounded-lg ">${TournamentData_Players.player3}</div>
+					<div class="border-2 ${getcolor(TournamentData.player3, TournamentData.player4,TournamentData.winner2, TournamentData.loser2)} p-1 w-24 text-center rounded-lg ">${TournamentData.player3}</div>
 					<div class="absolute h-6 w-3 border-r-2 border-t-2 border-[#00FFFF] right-[-12px] top-[50%]"></div>
 				</div>
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Players.player4, TournamentData_Players.player3, TournamentData_Lose_Win.winner2, TournamentData_Lose_Win.loser2)} p-1 w-24 text-center rounded-lg">${TournamentData_Players.player4}</div>
+					<div class="border-2 ${getcolor(TournamentData.player4, TournamentData.player3, TournamentData.winner2, TournamentData.loser2)} p-1 w-24 text-center rounded-lg">${TournamentData.player4}</div>
 					<div class="absolute h-6 w-3 border-r-2 border-b-2 border-[#00FFFF] right-[-12px] top-[-50%]"></div>
 				</div>
 			</div>
 			<div class="flex flex-col gap-12 relative">
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner1, TournamentData_Lose_Win.winner2 ,TournamentData_Lose_Win.winner1_semifinals , TournamentData_Lose_Win.loser1_semifinals)} p-1 w-28 text-center rounded-lg ">${TournamentData_Lose_Win.winner1}</div>
+					<div class="border-2 ${getcolor(TournamentData.winner1, TournamentData.winner2 ,TournamentData.winner1_semifinals , TournamentData.loser1_semifinals)} p-1 w-28 text-center rounded-lg ">${TournamentData.winner1}</div>
 					<div class="absolute h-8 w-3 border-r-2 border-t-2 border-[#00FFFF] right-[-12px] top-[50%]"></div>
 				</div>
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner2, TournamentData_Lose_Win.winner1 ,TournamentData_Lose_Win.winner1_semifinals , TournamentData_Lose_Win.loser1_semifinals)} p-1 w-28 text-center rounded-lg ">${TournamentData_Lose_Win.winner2}</div>
+					<div class="border-2 ${getcolor(TournamentData.winner2, TournamentData.winner1 ,TournamentData.winner1_semifinals , TournamentData.loser1_semifinals)} p-1 w-28 text-center rounded-lg ">${TournamentData.winner2}</div>
 					<div class="absolute h-8 w-3 border-r-2 border-b-2 border-[#00FFFF] right-[-12px] top-[-50%]"></div>
 				</div>
 				<div class="absolute h-12 w-0 border-r-2 border-[#00FFFF] right-[-12px] top-[50%] -translate-y-1/2"></div>
 			</div>
 			<div class="flex flex-col items-center mb-14 justify-center relative">
-				<div class="border-2 border-[#ad39f0] p-1 w-28 text-center rounded-lg text-[#FFD700] shadow-[0_0_10px_#ad39f0] z-10">🏆 ${TournamentData_Lose_Win.winner_final}</div>
+				<div class="border-2 border-[#ad39f0] p-1 w-28 text-center rounded-lg text-[#FFD700] shadow-[0_0_10px_#ad39f0] z-10">🏆 ${TournamentData.winner_final}</div>
 				<div class="flex justify-between w-48 relative mt-4">
 					<div class="w-px h-8 bg-[#ad39f0]"></div>
 					<div class="w-px h-8 bg-[#ad39f0]"></div>
@@ -106,36 +113,36 @@ export function generateTournamentView(TournamentData_Players: TournamentData_Pl
 					<div class="absolute -top-4 left-1/2 w-px h-4 bg-[#ad39f0] -translate-x-1/2"></div>
 				</div>
 				<div class="flex items-center gap-32 relative">
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner1_semifinals, TournamentData_Lose_Win.winner2_semifinals ,TournamentData_Lose_Win.winner_final , TournamentData_Lose_Win.loser_final)} p-1 w-24 text-center rounded-lg text-[#FFD700] z-10">${TournamentData_Lose_Win.winner1_semifinals}</div>
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner2_semifinals, TournamentData_Lose_Win.winner1_semifinals ,TournamentData_Lose_Win.winner_final , TournamentData_Lose_Win.loser_final)} p-1 w-24 text-center rounded-lg text-[#FFD700] z-10">${TournamentData_Lose_Win.winner2_semifinals}</div>
+					<div class="border-2 ${getcolor(TournamentData.winner1_semifinals, TournamentData.winner2_semifinals ,TournamentData.winner_final , TournamentData.loser_final)} p-1 w-24 text-center rounded-lg text-[#FFD700] z-10">${TournamentData.winner1_semifinals}</div>
+					<div class="border-2 ${getcolor(TournamentData.winner2_semifinals, TournamentData.winner1_semifinals ,TournamentData.winner_final , TournamentData.loser_final)} p-1 w-24 text-center rounded-lg text-[#FFD700] z-10">${TournamentData.winner2_semifinals}</div>
 				</div>
 			</div>
 			<div class="flex flex-col gap-12 relative">
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner3, TournamentData_Lose_Win.winner4 , TournamentData_Lose_Win.winner2_semifinals , TournamentData_Lose_Win.loser2_semifinals)} p-1 w-28 text-center rounded-lg">${TournamentData_Lose_Win.winner3}</div>
+					<div class="border-2 ${getcolor(TournamentData.winner3, TournamentData.winner4 , TournamentData.winner2_semifinals , TournamentData.loser2_semifinals)} p-1 w-28 text-center rounded-lg">${TournamentData.winner3}</div>
 					<div class="absolute h-8 w-3 border-l-2 border-t-2 border-[#00FFFF] left-[-12px] top-[50%]"></div>
 				</div>
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Lose_Win.winner4, TournamentData_Lose_Win.winner3, TournamentData_Lose_Win.winner2_semifinals , TournamentData_Lose_Win.loser2_semifinals)} p-1 w-28 text-center rounded-lg">${TournamentData_Lose_Win.winner4}</div>
+					<div class="border-2 ${getcolor(TournamentData.winner4, TournamentData.winner3, TournamentData.winner2_semifinals , TournamentData.loser2_semifinals)} p-1 w-28 text-center rounded-lg">${TournamentData.winner4}</div>
 					<div class="absolute h-8 w-3 border-l-2 border-b-2 border-[#00FFFF] left-[-12px] top-[-50%]"></div>
 				</div>
 				<div class="absolute h-12 w-0 border-l-2 border-[#00FFFF] left-[-12px] top-[50%] -translate-y-1/2"></div>
 			</div>
 			<div class="flex flex-col gap-3">
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Players.player5, TournamentData_Players.player6 ,TournamentData_Lose_Win.winner3 , TournamentData_Lose_Win.loser3)} p-1 w-24 text-center rounded-lg">${TournamentData_Players.player5}</div>
+					<div class="border-2 ${getcolor(TournamentData.player5, TournamentData.player6 ,TournamentData.winner3 , TournamentData.loser3)} p-1 w-24 text-center rounded-lg">${TournamentData.player5}</div>
 					<div class="absolute h-6 w-3 border-l-2 border-t-2 border-[#00FFFF] left-[-12px] top-[50%]"></div>
 				</div>
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Players.player6, TournamentData_Players.player5 ,TournamentData_Lose_Win.winner3 , TournamentData_Lose_Win.loser3)} p-1 w-24 text-center rounded-lg">${TournamentData_Players.player6}</div>
+					<div class="border-2 ${getcolor(TournamentData.player6, TournamentData.player5 ,TournamentData.winner3 , TournamentData.loser3)} p-1 w-24 text-center rounded-lg">${TournamentData.player6}</div>
 					<div class="absolute h-6 w-3 border-l-2 border-b-2 border-[#00FFFF] left-[-12px] top-[-50%]"></div>
 				</div>
 				<div class="relative mt-3">
-					<div class="border-2 ${getcolor(TournamentData_Players.player7, TournamentData_Players.player8, TournamentData_Lose_Win.winner4 , TournamentData_Lose_Win.loser4)} p-1 w-24 text-center rounded-lg">${TournamentData_Players.player7}</div>
+					<div class="border-2 ${getcolor(TournamentData.player7, TournamentData.player8, TournamentData.winner4 , TournamentData.loser4)} p-1 w-24 text-center rounded-lg">${TournamentData.player7}</div>
 					<div class="absolute h-6 w-3 border-l-2 border-t-2 border-[#00FFFF] left-[-12px] top-[50%]"></div>
 				</div>
 				<div class="relative">
-					<div class="border-2 ${getcolor(TournamentData_Players.player8, TournamentData_Players.player7 ,TournamentData_Lose_Win.winner4 , TournamentData_Lose_Win.loser4)} p-1 w-24 text-center rounded-lg">${TournamentData_Players.player8}</div>
+					<div class="border-2 ${getcolor(TournamentData.player8, TournamentData.player7 ,TournamentData.winner4 , TournamentData.loser4)} p-1 w-24 text-center rounded-lg">${TournamentData.player8}</div>
 					<div class="absolute h-6 w-3 border-l-2 border-b-2 border-[#00FFFF] left-[-12px] top-[-50%]"></div>
 				</div>
 			</div>
