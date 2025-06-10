@@ -12,18 +12,11 @@ import a2fRoutes from './a2f/check_a2f.js';
 import addhistoryRoutes from './stats/add_history.js';
 import searchRoutes from './search/search_back.js';
 import editRoutes from './edit/edit.js';
-import createTournamentRoutes from './tournament/create_tournament.js';
-import listTournamentsRoutes from './tournament/list_tournaments.js';
-import joinTournamentRoutes from './tournament/join_tournament.js';
 import friendRoutes from './Friend-block/friend-back.js';
 import blockRoutes from './Friend-block/block-back.js';
-import isInATournamentRoutes from './tournament/is_in_a_tournament.js';
-import getPlayersATournamentRoutes from './tournament/get_players.js';
-import getWinnersATournamentRoutes from './tournament/get_winners.js';
 import privateGameRoute from './chat/private_game.js';
-import postResultsRoutes from './tournament/post_results.js';
 import StatsRoutes from './stats/stats_back.js';
-import turnIntoAliasRoutes from './tournament/turn_into_alias.js';
+import tournamentRoutes from './tournament/tournament_router.js';
 
 dotenv.config();
 
@@ -59,18 +52,11 @@ async function main() {
 	await app.register(addhistoryRoutes);
 	await app.register(searchRoutes);
 	await app.register(editRoutes);
-	await app.register(createTournamentRoutes);
-	await app.register(listTournamentsRoutes);
-	await app.register(joinTournamentRoutes);
 	await app.register(friendRoutes);
 	await app.register(blockRoutes);
-	await app.register(isInATournamentRoutes);
-	await app.register(getPlayersATournamentRoutes);
-	await app.register(getWinnersATournamentRoutes);
 	await app.register(privateGameRoute);
-	await app.register(postResultsRoutes);
 	await app.register(StatsRoutes);
-	await app.register(turnIntoAliasRoutes);
+	await app.register(tournamentRoutes, { prefix: '/tournament' });
 
 	await app.listen({ port: 3451, host: '0.0.0.0' });
 
