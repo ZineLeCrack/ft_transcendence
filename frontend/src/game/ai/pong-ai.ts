@@ -1,6 +1,7 @@
 import { draw_ai } from "./drawmap-ai.js";
 import initError from "../../error.js";
 import { loadRoutes} from "../../main.js";
+import { initWebSocket } from '../../websocket';
 
 export let ballX = 400;
 export let ballY = 300;
@@ -32,8 +33,10 @@ export default async function initPong() {
 			}, 1000);
 			return;
 		}
-
-	let keys: { [key: string]: boolean } = {
+		const info = await response.json();
+		
+		initWebSocket(info.original);
+	let keys: { [key: string]: boolean } =  {
 		w: false,
 		s: false,
 		ArrowUp: false,
@@ -105,8 +108,9 @@ export default async function initPong() {
 	}
 
 	document.addEventListener("keydown", (e) => {
-		if (e.key === "ArrowUp" || e.key === "ArrowDown") return;
-		if (e.key in keys) keys[e.key] = true;
+		if (e.key === "w" || e.key === "s") return;
+		if (e.key === "ArrowUp") keys["w"] = true;
+		if (e.key === "ArrowDown") keys["s"] = true;
 		if (e.key === " ") {
 			fetch(`${SERVER_URL}/start`, { method: "POST" });
 			gameStarted = true;
@@ -114,8 +118,9 @@ export default async function initPong() {
 	});
 
 	document.addEventListener("keyup", (e) => {
-		if (e.key === "ArrowUp" || e.key === "ArrowDown") return;
-		if (e.key in keys) keys[e.key] = false;
+		if (e.key === "w" || e.key === "s") return;
+		if (e.key === "ArrowUp") keys["w"] = false;
+		if (e.key === "ArrowDown") keys["s"] = false;
 	});
 
 	setInterval(() => {

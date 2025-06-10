@@ -6,6 +6,8 @@ import { loadRoutes } from '../main.js';
 import { generateCardsHistory} from "../profile/history.js";
 import initSearch from './search.js';
 
+import { initWebSocket } from '../websocket';
+
 export default async function initUsers(username?: string, isHistory: boolean = false) {
     const tokenID = sessionStorage.getItem("token");
     const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
@@ -26,7 +28,9 @@ export default async function initUsers(username?: string, isHistory: boolean = 
         }, 1000);
         return;
     }
-
+    const info = await response.json();
+        
+    initWebSocket(info.original);
     if (username) {
         const usernameh2 = document.getElementById('username-h2');
         if (usernameh2) {
