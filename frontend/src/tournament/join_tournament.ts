@@ -2,7 +2,6 @@ import { togglePassword } from "../profile/utils";
 import { getWebSocket } from '../websocket';
 import { translate } from '../i18n'
 
-
 let currentGenerateTournamentList: (() => void) | null = null;
 
 import initError from '../error.js';
@@ -127,24 +126,25 @@ export default async function initJoinTournament() {
 	const cancelButton = translate("cancel_button");
 	const confirmJoinButton = translate("confirm_join_button");
 
-	const aliasPopUp = `<div id="alias-popup" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-	<div class="bg-black/90 p-8 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] w-96">
-		<h3 class="text-[#00FFFF] text-xl font-bold mb-6 text-center">${chooseTournamentAliasTitle}</h3>
-		<input type="text" id="tournament-alias" maxlength="10"
-			class="w-full bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 mb-6 focus:outline-none focus:border-[#FFD700]"
-			placeholder="${enterYourAliasPlaceholder}"/>
-		<div class="flex justify-between gap-4">
-			<button id="cancel-alias" 
-				class="flex-1 bg-transparent border-2 border-[#FF2E9F] text-[#FF2E9F] font-bold py-2 px-6 rounded-xl hover:bg-[#FF2E9F]/20 transition duration-200">
-				${cancelButton}
-			</button>
-			<button id="confirm-alias" 
-				class="flex-1 bg-transparent border-2 border-[#FFD700] text-[#FFD700] font-bold py-2 px-6 rounded-xl hover:bg-[#FFD700]/20 transition duration-200">
-				${confirmJoinButton}
-			</button>
+	const aliasPopUp =
+	`<div id="alias-popup" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+		<div class="bg-black/90 p-8 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] w-96">
+			<h3 class="text-[#00FFFF] text-xl font-bold mb-6 text-center">${chooseTournamentAliasTitle}</h3>
+			<input type="text" id="tournament-alias" maxlength="10"
+				class="w-full bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 mb-6 focus:outline-none focus:border-[#FFD700]"
+				placeholder="${enterYourAliasPlaceholder}"/>
+			<div class="flex justify-between gap-4">
+				<button id="cancel-alias" 
+					class="flex-1 bg-transparent border-2 border-[#FF2E9F] text-[#FF2E9F] font-bold py-2 px-6 rounded-xl hover:bg-[#FF2E9F]/20 transition duration-200">
+					${cancelButton}
+				</button>
+				<button id="confirm-alias" 
+					class="flex-1 bg-transparent border-2 border-[#FFD700] text-[#FFD700] font-bold py-2 px-6 rounded-xl hover:bg-[#FFD700]/20 transition duration-200">
+					${confirmJoinButton}
+				</button>
+			</div>
 		</div>
-	</div>
-</div>`;
+	</div>`;
 
 	if (JoinBtnTournament.length > 0) {
 		JoinBtnTournament.forEach(button => {
@@ -159,6 +159,10 @@ export default async function initJoinTournament() {
 				
 				confirmAlias.addEventListener('click', async () => {
 					try {
+						if (inputAlias.value.trim().length > 10) {
+							initError('Alias too long !');
+							return ;
+						}
 						const token = sessionStorage.getItem('token');
 						const response = await fetch('/api/tournament/join', {
 							method: 'POST',
@@ -166,7 +170,8 @@ export default async function initJoinTournament() {
 							body: JSON.stringify({
 								id_tournament: tournamentId,
 								token: token,
-								password: passwordInput ? passwordInput.value : ''
+								password: passwordInput ? passwordInput.value : '',
+								alias: inputAlias.value.trim()
 							})
 						});
 
@@ -217,6 +222,10 @@ export default async function initJoinTournament() {
 					if (e.key === "Enter") {
 						e.preventDefault();
 						try {
+							if (inputAlias.value.trim().length > 10) {
+								initError('Alias too long !');
+								return ;
+							}
 							const token = sessionStorage.getItem('token');
 							const response = await fetch('/api/tournament/join', {
 								method: 'POST',
@@ -224,18 +233,19 @@ export default async function initJoinTournament() {
 								body: JSON.stringify({
 									id_tournament: tournamentId,
 									token: token,
-									password: passwordInput ? passwordInput.value : ''
+									password: passwordInput ? passwordInput.value : '',
+									alias: inputAlias.value.trim()
 								})
 							});
-
+						
 							if (!response.ok) {
 								throw new Error(response.statusText);
 							}
-
+						
 							const data = await response.json();
 							const ws = getWebSocket();
 							ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
-
+						
 							if (data.full)
 							{
 								try {
@@ -261,11 +271,12 @@ export default async function initJoinTournament() {
 									return ;
 								}
 							}
-
+						
 							joinView?.classList.add('hidden');
 							mainView?.classList.remove('hidden');
 							window.location.reload();
 						} catch (err) {
+							console.error(err);
 							initError(err as string);
 						}
 					}

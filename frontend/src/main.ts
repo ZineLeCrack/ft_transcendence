@@ -121,6 +121,10 @@ const routes: { [path: string]: Route } = {
 	{
 		view: tournamentsStatHTML,
 		bodyStyleImage: "url('/images/statscyberpunk.png')",
+		script: async () => {
+			const {default: initTournamentStats} = await import ('./profile/tournament.ts');
+			initTournamentStats();
+		}
 	},
 	'/profile/edit': 
 	{

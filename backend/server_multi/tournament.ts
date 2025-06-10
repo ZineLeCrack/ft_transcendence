@@ -247,6 +247,3 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		reply.status(200).send({ ...results, tournamentId: tournamentId });
 	});
 }
-
-// sqlite3 database/tournaments.db
-// UPDATE tournaments SET players_max = 1 WHERE id = 1;

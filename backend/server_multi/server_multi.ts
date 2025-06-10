@@ -20,8 +20,8 @@ async function main() {
     },
   });
   
-  await app.register(tournamentRoutes, { prefix: '/tournament'});
   await app.register(cors, { origin: true });
+  await app.register(tournamentRoutes, { prefix: '/tournament'});
   await app.register(gameRoutes, { prefix: '/game' });
   await app.listen({ port: 4001, host: '0.0.0.0' });
 

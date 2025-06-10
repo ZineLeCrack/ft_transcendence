@@ -4,7 +4,7 @@ import type { ChartConfiguration } from 'chart.js';
 import initError from '../error';
 import { loadRoutes } from '../main';
 
-export default async function initOverallStats() {
+export default async function initTournamentStats() {
 
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
@@ -46,13 +46,14 @@ export async function initGlobalGraph(userId: string, originalUsername: string) 
 	});
 	const history = await historyRes.json();
 
-	const point_earned = document.getElementById('point_earned') as HTMLDivElement;
-	point_earned.textContent = `${stats.total_points}`;
-	const game_played = document.getElementById('game_played') as HTMLDivElement;
-	game_played.textContent = `${stats.games_played}`;
+	const tournaments_played = document.getElementById('tournaments_played') as HTMLDivElement;
+	tournaments_played.textContent = `${stats.tournaments_played}`;
+	const best_ranking = document.getElementById('best_ranking') as HTMLDivElement;
+	best_ranking.textContent = `final`;
 
 	const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
 	history.forEach((match: any) => {
+		if (match.tournament === 0) return;
 		const date = match.date.split('T')[0];
 		const isWin = match.usernameplayer1 === originalUsername
 			? match.pointplayer1 > match.pointplayer2
@@ -132,8 +133,8 @@ export async function initGlobalGraph(userId: string, originalUsername: string) 
 		const ctx = canvas.getContext('2d');
 		if (!ctx) throw new Error("Canvas context not found");
 	
-		const wins = stats.wins;
-		const loses = stats.loses;
+		const wins = stats.tournaments_win;
+		const loses = stats.tournaments_lose;
 	
 		const config: ChartConfiguration<'pie'> = {
 			type: 'pie',
