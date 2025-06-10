@@ -93,6 +93,8 @@ picturebutton.addEventListener('click', async (event) =>{
 	if (!file)
 	{
 		initError("Please select a picture");
+		pictureInput.value = '';
+		return;
 	}
 	try {
 		

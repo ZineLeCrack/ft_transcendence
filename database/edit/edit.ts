@@ -123,7 +123,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		const start = Date.now();
 		console.log(`All parts processed in ${Date.now() - start} ms`);
 		if (!fileData || !token) {
-			reply.status(400).send('Missing image or token');
+			reply.status(400).send('Please select a picture');
 			return;
 		}
 		let IdUser;
@@ -147,7 +147,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		} 
 		catch (err) {
 			console.error('Image conversion failed:', err);
-			reply.status(500).send('Image conversion error');
+			reply.status(500).send('Please a valid image (PNG, JPG, WEBP, ...)');
 			return;
 		}
 
