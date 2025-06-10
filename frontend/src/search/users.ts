@@ -28,9 +28,9 @@ export default async function initUsers(username?: string, isHistory: boolean = 
         }, 1000);
         return;
     }
-    const info = await response.json();
+    const data = await response.json();
         
-    initWebSocket(info.original);
+    initWebSocket(data.original);
     if (username) {
         const usernameh2 = document.getElementById('username-h2');
         if (usernameh2) {
@@ -65,7 +65,6 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 			body: JSON.stringify({ tokenID, target })
 		});
 		const block = await blockCheck.json();
-        const data = await response.json();
         if (data.original === username)
         {
             blockbtn.classList.add('hidden');

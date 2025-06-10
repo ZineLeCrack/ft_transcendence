@@ -1,7 +1,7 @@
 import { draw } from "./drawmap_multi.js";
 import { loadRoutes } from "../../main.js";
 import initError from "../../error.js";
-import { getWebSocket } from "../../websocket.js";
+import { getWebSocket, initWebSocket } from "../../websocket.js";
 
 export let ballX = 400;
 export let ballY = 300;
@@ -29,7 +29,9 @@ export default async function initMultiplayer() {
 		}, 1000);
 		return ;
 	}
-
+	const info = await response.json();
+					
+	initWebSocket(info.original);
 
 	const player = sessionStorage.getItem("player");
 

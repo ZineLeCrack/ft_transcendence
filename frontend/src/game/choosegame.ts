@@ -63,7 +63,7 @@ export default function initChooseGame() {
 
 					history.pushState(null, '', '/game/local');
 					await loadRoutes('/game/local');
-					//window.location.reload();
+					window.location.reload();
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode local :", err);
 				}
@@ -91,7 +91,7 @@ export default function initChooseGame() {
 
 					history.pushState(null, '', '/game/multi');
 					await loadRoutes('/game/multi');
-					//window.location.reload();
+					window.location.reload();
 				} catch (err) {
 					initError("Error : Local game can't start.\n" + err);
 				}
@@ -119,7 +119,7 @@ export default function initChooseGame() {
 
 					history.pushState(null, '', '/game/ai');
 					await loadRoutes('/game/ai');
-					//window.location.reload();
+					window.location.reload();
 				} catch (err) {
 					console.error("❌ Erreur lors du démarrage du mode ai :", err);
 				}
