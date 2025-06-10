@@ -1,6 +1,7 @@
 import { togglePassword } from "../profile/utils";
 import { getWebSocket } from '../websocket';
 import { translate } from '../i18n'
+import initError from "../error";
 
 
 let currentGenerateTournamentList: (() => void) | null = null;
@@ -157,6 +158,10 @@ export default async function initJoinTournament() {
 				
 				confirmAlias.addEventListener('click', async () => {
 					try {
+						if (inputAlias.value.trim().length > 10) {
+							initError('Alias too long !');
+							return ;
+						}
 						const token = sessionStorage.getItem('token');
 						const response = await fetch('/api/tournament/join', {
 							method: 'POST',
