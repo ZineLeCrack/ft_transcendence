@@ -76,7 +76,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		console.log(`First game launch at tournament ${tournamentData.id} -> gameId: ${tournamentData.gameId}`);
 		tournamentsInstances.set(tournamentData.id, tournamentData);
 
-		reply.status(200);
+		reply.status(200).send({ next_player1: tournamentData.player1, next_player2: tournamentData.player2 });
 	});
 
 	fastify.post('/join', async (request, reply) => {
@@ -151,7 +151,9 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				winner: winner,
 				loser: loser,
 				pos1: 'winner1',
-				pos2: 'loser1'
+				pos2: 'loser1',
+				next_player1: tournament.player3,
+				next_player2: tournament.player4
 			}
 			tournament.gameId = generateGameId();
 			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
@@ -166,7 +168,9 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				winner: winner,
 				loser: loser,
 				pos1: 'winner2',
-				pos2: 'loser2'
+				pos2: 'loser2',
+				next_player1: tournament.player5,
+				next_player2: tournament.player6
 			}
 			tournament.gameId = generateGameId();
 			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
@@ -181,7 +185,9 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				winner: winner,
 				loser: loser,
 				pos1: 'winner3',
-				pos2: 'loser3'
+				pos2: 'loser3',
+				next_player1: tournament.player7,
+				next_player2: tournament.player8
 			}
 			tournament.gameId = generateGameId();
 			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
@@ -196,7 +202,9 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				winner: winner,
 				loser: loser,
 				pos1: 'winner4',
-				pos2: 'loser4'
+				pos2: 'loser4',
+				next_player1: tournament.winner1,
+				next_player2: tournament.winner2
 			}
 			tournament.gameId = generateGameId();
 			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
@@ -211,7 +219,9 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				winner: winner,
 				loser: loser,
 				pos1: 'winner1_semifinals',
-				pos2: 'loser1_semifinals'
+				pos2: 'loser1_semifinals',
+				next_player1: tournament.winner3,
+				next_player2: tournament.winner4
 			}
 			tournament.gameId = generateGameId();
 			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
@@ -226,7 +236,9 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				winner: winner,
 				loser: loser,
 				pos1: 'winner2_semifinals',
-				pos2: 'loser2_semifinals'
+				pos2: 'loser2_semifinals',
+				next_player1: tournament.winner1_semifinals,
+				next_player2: tournament.winner2_semifinals
 			}
 			tournament.gameId = generateGameId();
 			tournament.instance = new GameInstance(tournament.gameId, '', '', true, tournament.id);
@@ -241,7 +253,9 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				winner: winner,
 				loser: loser,
 				pos1: 'winner_final',
-				pos2: 'loser_final'
+				pos2: 'loser_final',
+				next_player1: '',
+				next_player2: ''
 			}
 		}
 		reply.status(200).send({ ...results, tournamentId: tournamentId });

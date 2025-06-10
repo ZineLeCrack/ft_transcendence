@@ -106,13 +106,13 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 
 			if (!tournament)
 			{
-				reply.status(200).send({ tournamentId: '0' });
+				reply.status(200).send({ tournamentId: '0', userId: userId });
 				return ;
 			}
 
 			else
 			{
-				reply.status(200).send({ tournamentId: tournament.id });
+				reply.status(200).send({ tournamentId: tournament.id, userId: userId });
 				return ;
 			}
 		} catch (err) {
