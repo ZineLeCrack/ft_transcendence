@@ -6,6 +6,9 @@ import { loadRoutes } from '../main.js';
 import { generateCardsHistory} from "../profile/history.js";
 import initSearch from './search.js';
 import { loadProfilePicture } from '../profile/editinfo.js';
+import { initWebSocket } from '../websocket';
+
+
 export default async function initUsers(username?: string, isHistory: boolean = false) {
     const tokenID = sessionStorage.getItem("token");
     const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
@@ -26,6 +29,9 @@ export default async function initUsers(username?: string, isHistory: boolean = 
         }, 1000);
         return;
     }
+    const data = await response.json();
+        
+    initWebSocket(data.original);
     if (username) {
         loadProfilePicture("profile-pic-search", username);
         loadProfilePicture("profileBtn", "l");
@@ -62,7 +68,6 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 			body: JSON.stringify({ tokenID, target })
 		});
 		const block = await blockCheck.json();
-        const data = await response.json();
         if (data.original === username)
         {
             blockbtn.classList.add('hidden');
