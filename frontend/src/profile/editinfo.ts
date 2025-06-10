@@ -41,14 +41,33 @@ export default async function initEditProfile() {
 		body: JSON.stringify({ token }),
 	});
 	if (!response.ok)
-	{
-		initError('Please Sign in or Sign up !');
-		setTimeout(async () => {
-			history.pushState(null, '', '/login');
-			await loadRoutes('/login');
-		}, 1000);
-		return;
-	}
+		{
+			initError('Please Sign in or Sign up !');
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return;
+		}
+		const res = await response.json();
+		const username = res.original;
+		const email = res.email;
+		const usernamediv = document.getElementById("username");
+		const emaildiv = document.getElementById("mail");
+		if (usernamediv)
+		{
+			const for_username = document.createElement('span');
+			for_username.classList = `text-[#FFD700] text-2xl font-bold`;
+			for_username.textContent = `${username}`;
+			usernamediv.appendChild(for_username);
+		}
+		if (emaildiv)
+		{
+			const for_mail = document.createElement('span');
+			for_mail.classList= `text-[#FFD700] text-2xl font-bold`;
+			for_mail.textContent = `${email}`;
+			emaildiv?.appendChild(for_mail);
+		}
 	const info = await response.json();
 	initWebSocket(info.original);
 	const usernameInput = document.getElementById("edit-username-input") as HTMLInputElement;
@@ -106,6 +125,7 @@ export default async function initEditProfile() {
 			}
 				initSuccess("Your profile has been updated successfully");
 				editProfileForm.reset();
+				window.location.reload();
 			} 
 			catch (error) 
 			{

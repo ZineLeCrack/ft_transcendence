@@ -20,6 +20,25 @@ export default async function initEditPassword() {
 			}, 1000);
 			return;
 		}
+		const res = await response.json();
+		const username = res.original;
+		const email = res.email;
+		const usernamediv = document.getElementById("username-pass");
+		const emaildiv = document.getElementById("mail-pass");
+		if (usernamediv)
+		{
+			const for_username = document.createElement('span');
+			for_username.classList = `text-[#FFD700] text-2xl font-bold`;
+			for_username.textContent = `${username}`;
+			usernamediv.appendChild(for_username);
+		}
+		if (emaildiv)
+		{
+			const for_mail = document.createElement('span');
+			for_mail.classList= `text-[#FFD700] text-2xl font-bold`;
+			for_mail.textContent = `${email}`;
+			emaildiv?.appendChild(for_mail);
+		}
 
 	const editPasswordForm = document.getElementById('edit-password-form') as HTMLFormElement;
 	

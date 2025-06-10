@@ -58,7 +58,8 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 			const response = await db.get(`SELECT * FROM users WHERE id = ?`, [id_user]);
 			const original = response.name;
 			const profile_pic = response.profile_pic;
-			reply.status(200).send({ original, id_user , profile_pic});
+			const email = response.email;
+			reply.status(200).send({ original, id_user , profile_pic, email});
 		} 
 		catch (err) {
 			console.error(err);
