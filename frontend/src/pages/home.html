@@ -3,24 +3,20 @@
 	<div class="flex items-center justify-between mb-4 border-b border-[#FF0F4D] pb-2">
 		<div id="chat-info" class="text-[#ad39f0] font-bold flex items-center">
 			<span class="mr-2 text-[#FF2E9F]">⚡</span>
-			CHAT://global
+			<span data-i18n="chat_global">CHAT://global</span>
 			<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>
 		</div>
 
 		<div class="relative">
 			<button id="switch-chat"
 				class="group text-[#ad39f0] opacity-40 z-10 font-bold flex items-center hover:text-[#FF2E9F] hover:opacity-100 transition-colors duration-200">
-				CHAT://friends
-				<div id="tooltip-switch-chat" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
+				<span data-i18n="chat_friends">CHAT://friends</span>
+				<div id="tooltip-switch-chat" data-i18n="switch_to_friends" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
 					opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap 
 					border border-[#FF2E9F] pointer-events-none">
 					Switch to friends chat
 				</div>
 			</button>
-			<div id="friend-requests-count"
-				class="absolute opacity-75 -top-3 -right-3 w-6 h-6 bg-[#FF2E9F] text-white text-xs rounded-full flex items-center justify-center animate-pulse shadow-[0_0_10px_#FF2E9F] border border-white/50">
-				2
-			</div>
 		</div>
 	</div>
 
@@ -43,15 +39,11 @@
 	</div>
 
 	<!-- Input area -->
-	<div class="flex items-center gap-2 w-full border-t border-[#00FFFF] pt-2 bg-black/40">
+	<div id="input-Area" class="flex items-center gap-2 w-full border-t border-[#00FFFF] pt-2 bg-black/40">
 		<span class="text-[#00FFFF] animate-pulse">></span>
-		<input id="chat-input" type="text" placeholder="Enter command..." maxlength="512"
+		<input id="chat-input" type="text" data-i18n-placeholder="enter_chat" placeholder="Enter chat..." maxlength="512"
 			class="bg-transparent p-2 text-[#00FFFF] flex-grow min-w-0 border-none focus:outline-none focus:ring-0 placeholder-[#00FFFF]/50" />
 		<button id="chat-send" class="text-[#00FFFF] hover:text-white transition-colors px-2">⮐</button>
-		<button id="pong-send"
-			class="w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10 transition-colors">
-			<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">
-		</button>
 	</div>
 </div>
 
@@ -60,14 +52,33 @@
 	<!-- TOP BAR -->
 	<div class="flex items-center justify-between p-5">
 		<div class="flex-1 flex justify-center">
-			<input id="search-bar" type="search" placeholder="Search users... "
+			<input id="search-bar" type="search" data-i18n-placeholder="search_users" placeholder="Search users... "
 				class="font-mono border-2 ml-40 text-[#FF2E9F] rounded-2xl border-spacing-4 p-3 w-[500px] border-[#FF2E9F] bg-black/30 backdrop-blur-lg shadow-[0_0_10px_#FF2E9F] placeholder-[#FF2E9F]/50 focus:outline-none focus:border-[#B026FF]" />
 		</div>
 		<div id="topbar-buttons" class="flex items-center gap-6">
+			<div class="relative">
+				<button id="language-selector" class="group w-10 h-10 rounded-lg border-2 border-[#B026FF] shadow-[0_0_10px_#B026FF] overflow-hidden flex items-center justify-center hover:border-[#FF2E9F] transition-colors duration-200">
+					<img id="current-flag" src="/images/en.png" alt="English" class="w-full h-full object-cover">
+				</button>
+				<div id="language-dropdown" class="hidden absolute top-full right-[50%] translate-x-[50%] mt-2 bg-black/90 border-2 border-[#B026FF] rounded-lg shadow-[0_0_10px_#B026FF] overflow-hidden z-[100] min-w-[150px]">
+					<button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200"data-lang="en">
+						<img src="/images/en.png" alt="English" class="w-6 h-6 object-cover rounded">
+						<span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="english">English</span>
+					</button>
+					<button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200"data-lang="fr">
+						<img src="/images/fr.png" alt="French" class="w-6 h-6 object-cover rounded">
+						<span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="french">French</span>
+					</button>
+					<button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200"data-lang="es">
+						<img src="/images/es.png" alt="Spanish" class="w-6 h-6 object-cover rounded">
+						<span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="spanish">Spanish</span>
+					</button>
+				</div>
+			</div>
 			<div class="relative group">
 				<a href="/profile/statistics" data-link id="profileBtn"
 					class="w-14 h-14  bg-black/20 rounded-full flex items-center justify-center border-2 border-[#B026FF] shadow-[0_0_10px_#B026FF] overflow-hidden">
-					<span class="text-black font-bold text-xl">P</span>
+					<span class="text-black font-bold text-xl"></span>
 				</a>
 			</div>
 		</div>
@@ -84,7 +95,7 @@
 				<div id="game-mode" class="text-[#00FFFF] px-4 py-1.5 rounded text-3xl font-bold "></div>
 				<div id="description-game-mode" class="text-[#00FFFF]/80 px-4 py-10 rounded text-md font-bold"></div>
 				<button id="game-play-button"
-					class="bg-transparent border-2 border-[#00FFFF] py-2 px-6 rounded-xl  text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">
+					class="bg-transparent border-2 border-[#00FFFF] py-2 px-6 rounded-xl  text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]" data-i18n="game_button">
 					PLAY
 				</button>
 			</div>
@@ -98,32 +109,32 @@
 
 			<!-- Vue principale du tournoi -->
 			<div id="tournament-main-view" class="w-full h-full flex flex-col">
-				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">TOURNAMENT</h2>
+				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center" data-i18n="tournament">TOURNAMENT</h2>
 
 				<div id="tournament-div" class="flex-1 flex items-center justify-between">
 					<button id="join-tournament"
-						class="bg-transparent rounded-xl ml-20 border-2 border-[#FFD700] text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">JOIN</button>
+						class="bg-transparent rounded-xl ml-20 border-2 border-[#FFD700] text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]" data-i18n="join">JOIN</button>
 					<div id="tournament-view" class="flex flex-col items-center justify-center w-[600px] -mt-4">
 						<div id="default-tournament-view" class="flex flex-col items-center gap-4">
 							<img src="/images/pong_racquet.png" alt="pong racquet" class="w-16 h-16 mb-2" />
-							<p class="text-[#00FFFF]/90 text-xl font-bold text-center">No tournament in progress</p>
-							<p class="text-[#00FFFF]/80 text-sm">Create or join a tournament to start playing</p>
+							<p class="text-[#00FFFF]/90 text-xl font-bold text-center" data-i18n="no_tournament">No tournament in progress</p>
+							<p class="text-[#00FFFF]/80 text-sm" data-i18n="create_or_join">Create or join a tournament to start playing</p>
 						</div>
 					</div>
 					<button id="create-tournament"
-						class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">CREATE</button>
+						class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]" data-i18n="create">CREATE</button>
 				</div>
 			</div>
 
 			<!-- Vue création de tournoi (initialement cachée) -->
 			<div id="tournament-create-view" class="w-full hidden">
-				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">CREATE
+				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center" data-i18n="create_tournament">CREATE
 					TOURNAMENT</h2>
 				<div class="flex items-center justify-between w-full">
 					<button id="back-to-tournament"
-						class="bg-transparent rounded-xl ml-20 border-2 border-[#00FFFF] text-[#00FFFF] text-2xl font-bold py-5 px-10 hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">BACK</button>
+						class="bg-transparent rounded-xl ml-20 border-2 border-[#00FFFF] text-[#00FFFF] text-2xl font-bold py-5 px-10 hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]" data-i18n="back">BACK</button>
 					<div class="flex flex-col items-center gap-4">
-						<input type="text" id="tournament-name" placeholder="Tournament Name" maxlength="20"
+						<input type="text" id="tournament-name" data-i18n-placeholder="tournament_name" placeholder="Tournament Name" maxlength="14"
 							class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-64 focus:outline-none focus:border-[#FFD700]" />
 						<div class="flex items-center gap-8">
 							<div class="flex items-center gap-4">
@@ -131,17 +142,17 @@
 								<label class="flex items-center gap-2">
 									<input type="radio" name="type" value="public" checked
 										class="text-[#FFD700] accent-[#FFD700]">
-									<span class="text-[#00FFFF]">Public</span>
+									<span class="text-[#00FFFF]" data-i18n="public">Public</span>
 								</label>
 								<label class="flex items-center gap-2">
 									<input type="radio" name="type" value="private"
 										class="text-[#FFD700] accent-[#FFD700]">
-									<span class="text-[#00FFFF]">Private</span>
+									<span class="text-[#00FFFF]" data-i18n="private">Private</span>
 								</label>
 							</div>
 						</div>
 						<div class="h-[42px] relative">
-							<input type="password" id="tournament-password" placeholder="Tournament Password"
+							<input type="password" id="tournament-password" data-i18n-placeholder="tournament_password" placeholder="Tournament Password"
 								class="invisible bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-64 pr-12 focus:outline-none focus:border-[#FFD700]" />
 							<button type="button" id="tournament-password-btn"
 								class="absolute top-1/2 -translate-y-1/2 right-2 flex items-center justify-center invisible">
@@ -152,16 +163,16 @@
 					</div>
 
 					<button id="create-tournament-submit"
-						class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]">CREATE</button>
+						class="bg-transparent border-2 border-[#FFD700] mr-20 rounded-xl text-[#FFD700] text-2xl font-bold py-5 px-10 hover:bg-[#FFD700]/20 transition duration-200 shadow-[0_0_10px_#FFD700]" data-i18n="create">CREATE</button>
 				</div>
 			</div>
 
 			<div id="tournament-join-view" class="w-full hidden">
-				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center">JOIN
+				<h2 class="text-4xl font-bold text-[#00FFFF] mb-8 drop-shadow-[0_0_10px_#00FFFF] text-center" data-i18n="join_tournament">JOIN
 					TOURNAMENT</h2>
 				<div class="flex items-center justify-between w-full">
 					<button id="back-to-tournament-join"
-						class="bg-transparent rounded-xl ml-20 border-2 border-[#00FFFF] text-[#00FFFF] text-2xl font-bold py-5 px-10 hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">BACK</button>
+						class="bg-transparent rounded-xl ml-20 border-2 border-[#00FFFF] text-[#00FFFF] text-2xl font-bold py-5 px-10 hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]" data-i18n="back">BACK</button>
 					<div id="tournament-container"
 						class="flex-1 mx-20 h-[150px] space-y-5 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-black/20 [&::-webkit-scrollbar-thumb]:bg-[#00FFFF] [&::-webkit-scrollbar-thumb]:rounded-none">
 					</div>

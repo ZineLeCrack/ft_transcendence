@@ -1,20 +1,141 @@
-import {Chart, PieController,ArcElement,Tooltip,Legend} from 'chart.js';
+import {Chart, PieController, ArcElement, Tooltip, Legend,LineController, LineElement, PointElement, LinearScale, CategoryScale, BarController, BarElement ,Filler} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import type { ChartConfiguration } from 'chart.js';
+import initError from '../error';
+import { loadRoutes } from '../main';
 
+export default async function initOverallStats() {
 
-export default function initGlobalGraph() {
+	const token = sessionStorage.getItem('token');
+	const response = await fetch('/api/verifuser', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ token }),
+	});
+	if (!response.ok) {
+		initError('Please Sign in or Sign up !');
+		setTimeout(async () => {
+			history.pushState(null, '', '/login');
+			await loadRoutes('/login');
+		}, 1000);
+		return;
+	}
+	const info = await response.json();
+	initGlobalGraph(info.id_user, info.original)
+}
+
+export async function initGlobalGraph(userId: string, originalUsername: string) {
+
 	
-	Chart.register(PieController, ArcElement, Tooltip, Legend, ChartDataLabels);
-	
+
+	Chart.register(
+		PieController, ArcElement, Tooltip, Legend,
+		LineController, LineElement, PointElement,
+		LinearScale, CategoryScale, Filler,
+		ChartDataLabels, BarController, BarElement
+	);
+	const statsRes = await fetch('/api/stats', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ userId })
+	});
+	const stats = await statsRes.json();
+
+	const historyRes = await fetch('/api/history', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ userId })
+	});
+	const history = await historyRes.json();
+
+	const point_earned = document.getElementById('point_earned') as HTMLDivElement;
+	point_earned.textContent = `${stats.total_points}`;
+	const game_played = document.getElementById('game_played') as HTMLDivElement;
+	game_played.textContent = `${stats.games_played}`;
+
+	const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
+	history.forEach((match: any) => {
+		const date = match.date.split('T')[0];
+		const isWin = match.usernameplayer1 === originalUsername
+			? match.pointplayer1 > match.pointplayer2
+			: match.pointplayer2 > match.pointplayer1;
+
+		if (!historyMap.has(date)) {
+			historyMap.set(date, { points: 0, wins: 0, loses: 0 });
+		}
+
+		const entry = historyMap.get(date)!;
+		entry.points += match.usernameplayer1 === originalUsername ? match.pointplayer1 : match.pointplayer2;
+		if (isWin) entry.wins += 1;
+		else entry.loses += 1;
+	});
+
+	const labels = Array.from(historyMap.keys()).sort();
+	const pointsData = labels.map(date => historyMap.get(date)!.points);
+	const winsData = labels.map(date => historyMap.get(date)!.wins);
+	const losesData = labels.map(date => historyMap.get(date)!.loses);
+
+	const canvasHistory = document.getElementById('graph-history-trend') as HTMLCanvasElement | null;
+
+	if (canvasHistory) {
+		const ctx = canvasHistory.getContext('2d');
+		if (!ctx) throw new Error("Canvas context not found");
+
+		new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: labels,
+				datasets: [
+					{
+						label: 'Points',
+						data: pointsData,
+						borderColor: '#FFD700',
+					},
+					{
+						label: 'Wins',
+						data: winsData,
+						borderColor: '#00FF00',
+					},
+					{
+						label: 'Loses',
+						data: losesData,
+						borderColor: '#FF007A',
+					}
+				]
+
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				scales: {
+					y: {
+						beginAtZero: true,
+						grid: { color: '#00FFFF30' },
+						ticks: { color: '#FFD700' }
+					},
+					x: {
+						grid: { color: '#00FFFF30' },
+						ticks: { color: '#FFD700' }
+					}
+				},
+				plugins: {
+					legend: {
+						labels: { color: '#FFD700' }
+					}
+				}
+
+			}
+		});
+	}
+
 	const canvas = document.getElementById('graph-win-lose') as HTMLCanvasElement | null;
-	
+
 	if (canvas) {
 		const ctx = canvas.getContext('2d');
 		if (!ctx) throw new Error("Canvas context not found");
 	
-		const wins = 110;
-		const loses = 46;
+		const wins = stats.wins;
+		const loses = stats.loses;
 	
 		const config: ChartConfiguration<'pie'> = {
 			type: 'pie',
@@ -22,7 +143,7 @@ export default function initGlobalGraph() {
 				labels: ['Wins', 'Loses'],
 				datasets: [{
 					data: [wins, loses],
-					backgroundColor: ['#007f5c', '#FF007A'],
+					backgroundColor: ['#00FF00', '#FF007A'],
 					borderWidth: 0
 				}]
 			},
@@ -63,5 +184,4 @@ export default function initGlobalGraph() {
 	
 		new Chart(ctx, config);
 	}
-	
 }

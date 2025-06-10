@@ -36,14 +36,14 @@ export function getAIMove(
 
         if (Math.abs(delta) > 10) {
             direction = delta > 0 ? 'down' : 'up';
-            duration = Math.min(300, Math.max(10, Math.abs(delta / PADDLE_SPEED) * 10));
+            duration = Math.min(1000, Math.max(10, Math.abs(delta / PADDLE_SPEED) * 12));
         }
     } else {
         const target = (GAME_HEIGHT - PADDLE_HEIGHT) / 2;
         const delta = target - paddlePosition;
         if (Math.abs(delta) > 10) {
             direction = delta > 0 ? 'down' : 'up';
-            duration = Math.min(300, Math.max(10, Math.abs(delta / PADDLE_SPEED) * 10));
+            duration = Math.min(1000, Math.max(10, Math.abs(delta / PADDLE_SPEED) * 12));
         }
     }
 

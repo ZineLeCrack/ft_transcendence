@@ -1,41 +1,7 @@
 import { sendMessage } from "./chat/chat.js";
+import initError from "./error.js";
 import { generateTournamentView } from "./tournament/in_tournament.js";
-
-// interface TournamentDataLose_Win {
-// 	winner1: string,
-// 	loser1: string,
-// 	winner2: string,
-// 	loser2: string,
-// 	winner3: string,
-// 	loser3: string,
-// 	winner4: string,
-// 	loser4: string,
-
-// 	winner1_semifinal: string,
-// 	loser1_semifinal: string,
-// 	winner2_semifinal: string,
-// 	loser2_semifinal: string,
-
-// 	winner_final: string,
-// 	loser_final: string,
-// }
-
-// const TournamentData_Lose_Win: TournamentDataLose_Win = {
-// 	winner1: `?`,
-// 	loser1: `?`,
-// 	winner2: `?`,
-// 	loser2: `?`,
-// 	winner3: `?`,
-// 	loser3: `?`,
-// 	winner4: `?`,
-// 	loser4: `?`,
-// 	winner1_semifinal: `?`,
-// 	loser1_semifinal: `?`,
-// 	winner2_semifinal: `?`,
-// 	loser2_semifinal: `?`,
-// 	winner_final: `?`,
-// 	loser_final: `?`
-// };
+import { translate } from "./i18n.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -47,22 +13,88 @@ export function initWebSocket(original: string) {
 	ws = new WebSocket(`wss://${window.location.host}/ws/`);
 
 	ws.onopen = () => {
+		fetch('/api/setstatus', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '1' })
+		})
 		console.log("WebSocket connecté !");
 	};
 
 	ws.onerror = (err) => {
+		fetch('/api/setstatus', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
+		})
 		console.error("WebSocket erreur:", err);
+	};
+
+	ws.onclose = () => {
+		fetch('/api/setstatus', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
+		});
+		console.warn("WebSocket déconnecté :");
 	};
 
 	ws.onmessage = async (event) => {
 		const data = JSON.parse(event.data);
+		if (data.type === 'error') {
+			initError(data.message);
+			return;
+		}
 		if (data.type !== 'tournament_new_player' && !data.isHistoryMessage) {
 			if (data.type === 'new_message') {
 				sendMessage(data.username, data.content);
 			}
 			if (data.type === 'new_private_message') {
+				if (data.pongRequest === 1)
+				{
+					if (data.targetUsername === original_name)
+						sendMessage(data.targetUsername , "", true, data.username);
+					else
+					{
+						const messageWrapper = document.getElementById(`chat-messages-${data.targetUsername}`);
+						if (messageWrapper)
+						{
+							const oldmsg = document.getElementById('pong-request-send');
+							if (oldmsg)
+								oldmsg.remove();
+							const msg = document.createElement("div");
+							msg.id = 'pong-request-send';
+							msg.className = "font-mono text-[#00FFFF] px-4 py-2 my-2 border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
+							
+							const InvitationText = translate('invitation_to_pong');
+							msg.textContent = `${InvitationText} ${data.targetUsername}`;
+							messageWrapper.appendChild(msg);
+						}
+					}
+					return;
+				}
 				const isSender = data.username === original_name;
 				const otherUser = isSender ? data.targetUsername : data.username;
+				if (data.pongRequest === 2)
+				{
+					const oldmsg = document.getElementById('pong-request-send');
+					if (oldmsg)
+						oldmsg.remove();
+					await sendMessage(data.targetUsername , "", false, otherUser, false, true);
+					const chatContainer = document.getElementById('chat-containers');
+					if (chatContainer) {
+						chatContainer.scrollTop = chatContainer.scrollHeight;
+					}
+					return ;
+				}
+				if (data.pongRequest === 3)
+				{
+					const oldmsg = document.getElementById('pong-request-send');
+					if (oldmsg)
+						oldmsg.remove();
+					await sendMessage(data.username , "", false, otherUser, false, false, true);
+					return ;
+				}
 				sendMessage(data.username, data.content, false, otherUser);
 			}
 		} else if (data.type === 'tournament_new_player') {
@@ -93,6 +125,13 @@ export function initWebSocket(original: string) {
 			}
 		}
 	};
+
+	window.addEventListener('beforeunload', () => {
+        if (ws) {
+            ws.close();
+            ws = null;
+        }
+    });
 }
 
 export function getWebSocket(): WebSocket | null {

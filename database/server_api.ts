@@ -20,7 +20,9 @@ import blockRoutes from './Friend-block/block-back.js';
 import isInATournamentRoutes from './tournament/is_in_a_tournament.js';
 import getPlayersATournamentRoutes from './tournament/get_players.js';
 import getWinnersATournamentRoutes from './tournament/get_winners.js';
+import privateGameRoute from './chat/private_game.js'
 import postResultsRoutes from './tournament/post_results.js';
+import StatsRoutes from './stats/stats_back.js';
 
 dotenv.config();
 
@@ -35,10 +37,20 @@ async function main() {
 			key: privateKey,
 			cert: certificate,
 		},
-		bodyLimit: 10 * 1024 * 1024,
+		bodyLimit: 100 * 1024 * 1024,
+		connectionTimeout: 120000,
 	});
-	await app.register(fastifyMultipart);
+
+	await app.register(fastifyMultipart, {
+		limits: {
+			fileSize: 500 * 1024 * 1024,
+			files: 1,
+			fields: 10,
+		}
+	});
+
 	await app.register(cors, { origin: true });
+
 	await app.register(authRoutes);
 	await app.register(historyRoutes);
 	await app.register(chatRoutes);
@@ -54,7 +66,9 @@ async function main() {
 	await app.register(isInATournamentRoutes);
 	await app.register(getPlayersATournamentRoutes);
 	await app.register(getWinnersATournamentRoutes);
+	await app.register(privateGameRoute);
 	await app.register(postResultsRoutes);
+	await app.register(StatsRoutes);
 
 	await app.listen({ port: 3451, host: '0.0.0.0' });
 

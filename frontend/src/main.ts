@@ -18,6 +18,9 @@ import tournamentsStatHTML from './pages/tournament_statistics.html?raw';
 
 import SearchHTML from './pages/search.html?raw';
 
+import { initLanguageSelector } from './language';
+
+
 const notFoundPageContent = `
     <div class="text-center p-8 bg-transparent rounded-lg shadow-lg">
 		<a href="/home" data-link class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] px-6 py-2 rounded-xl  hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">Return Home</a>
@@ -102,8 +105,8 @@ const routes: { [path: string]: Route } = {
 		view: overallStatHTML,
 		bodyStyleImage: "url('/images/statscyberpunk.png')",
 		script: async () => {
-			const {default: initGlobalGraph} = await import ('./profile/global.ts');
-			initGlobalGraph();
+			const {default: initOverallStats} = await import ('./profile/global.ts');
+			initOverallStats();
 		}
 	},
 	'/profile/statistics/history': 

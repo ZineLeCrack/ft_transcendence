@@ -6,6 +6,10 @@ export const userData = {
 };
 
 import { loadRoutes } from '../main.js';
+import { translate } from '../i18n.js';
+
+let currentUpdateDisplay: (() => void) | null = null;
+;
 
 export default function initChooseGame() {
 
@@ -16,19 +20,25 @@ export default function initChooseGame() {
 	const gameModeDiv = document.getElementById("game-mode") as HTMLDivElement;
 	const descriptionmode = document.getElementById("description-game-mode") as HTMLDivElement;
 
+	 const modeTranslationKeys: Record<string, string> = {
+        "LOCAL": "game_mode_local",
+        "MULTI": "game_mode_multi",
+        "AI": "game_mode_ai"
+    };
+
 	const modes = ["LOCAL", "MULTI", "AI"];
 	const description: Record<string, string> = {
-		"LOCAL": "Play against a friend on the same keyboard.",
-		"MULTI": "Compete against other players online.",
-		"AI": "Test your skills against the computer."
+		"LOCAL": "game_mode_local_description",
+		"MULTI": "game_mode_multi_description",
+		"AI": "game_mode_ai_description"
 	};
 
 	let currentIndex = 0;
 
 	function updateDisplay() {
 		const mode = modes[currentIndex];
-		gameModeDiv.textContent = mode;
-		descriptionmode.textContent = description[mode];
+		gameModeDiv.textContent = translate(modeTranslationKeys[mode]);
+		descriptionmode.textContent = translate(description[mode]);
 
 		if (mode === "LOCAL") {
 			playBtn.onclick = async () => {
@@ -128,4 +138,13 @@ export default function initChooseGame() {
 	});
 
 	updateDisplay();
+
+	currentUpdateDisplay = updateDisplay;
+}
+
+export function refreshGameModeDisplay()
+{
+	 if (currentUpdateDisplay) {
+        currentUpdateDisplay();
+    }
 }

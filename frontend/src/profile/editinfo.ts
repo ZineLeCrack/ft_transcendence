@@ -1,5 +1,51 @@
-import  imageCompression  from 'browser-image-compression';
+import initError from '../error';
+import { loadRoutes } from '../main';
+
+export async function loadProfilePicture(div: string) {
+	const token = sessionStorage.getItem("token");
+	if (!token) return;
+
+	const response = await fetch('/api/picture', {
+		headers: {
+			'Authorization': `Bearer ${token}`
+		}
+	});
+
+	if (!response.ok) {
+		console.error("Failed to load profile picture");
+		return;
+	}
+
+	const blob = await response.blob();
+	const imageUrl = URL.createObjectURL(blob);
+
+	const profilPicDiv = document.getElementById(div);
+	if (profilPicDiv) {
+		const Img = document.createElement('img');
+		Img.src = `${imageUrl}`;
+		Img.classList = `w-full h-full object-cover rounded-full`;
+		Img.alt = 'Profile Pic';
+		profilPicDiv.appendChild(Img);
+	}
+}
+
 export default async function initEditProfile() {
+
+	const token = sessionStorage.getItem('token');
+		const response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
+		if (!response.ok)
+		{
+			initError('Please Sign in or Sign up !');
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return;
+		}
 
 const usernameInput = document.getElementById("edit-username-input") as HTMLInputElement;
 const emailInput = document.getElementById("edit-email-input") as HTMLInputElement;
@@ -38,11 +84,11 @@ if (editProfileForm) {
 	});
 }
 
+
 picturebutton.addEventListener('click', async (event) =>{
 	event.preventDefault();
 
 	const file = pictureInput.files![0];
-	const Token = sessionStorage.getItem('token')!;
 	if (!file)
 	{
 		alert("Please select a picture");
@@ -50,23 +96,23 @@ picturebutton.addEventListener('click', async (event) =>{
 	try {
 		
 		const formData = new FormData();
-		const options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true
-        };
-		formData.append('picture', file, file.name);
-		formData.append('token', Token);
+		formData.append('picture', file);
 
 		const response = await fetch('/api/picture', {
 			method: 'POST',
 			body: formData,
+			headers: {
+    			'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+  			},
 		});
 		if (!response.ok)
 		{
 			const err = await response.text();
 			throw new Error(err || "Fail change");
 		}
+			loadProfilePicture("profil-pic");
+			pictureInput.value = '';
+			window.location.reload();
 			console.log("Your profile has been updated successfully");
 		} 
 		catch (error) 
@@ -120,5 +166,5 @@ if (emailInput) {
 		validateEmailField(emailInput);
 	});
 }
-
+loadProfilePicture("profil-pic");
 }
