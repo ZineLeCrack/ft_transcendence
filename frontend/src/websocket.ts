@@ -98,6 +98,7 @@ export function initWebSocket(original: string) {
 				sendMessage(data.username, data.content, false, otherUser);
 			}
 		} else if (data.type === 'tournament_new_player') {
+			console.log('received', data.id);
 			try {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',

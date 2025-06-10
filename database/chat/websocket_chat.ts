@@ -19,7 +19,7 @@ export function setupWebSocket(server: any) {
 		ws.on('message', async (message) => {
 			try {
 				const data = JSON.parse(message.toString());
-				const { type, token, content, targetUsername, id, pongRequest} = data;
+				const { type, token, content, targetUsername, id, pongRequest } = data;
 				const dbusers = await getDb_user();
 				const dbchat = await getDb_chat();
 				if (type === 'new_message') {
@@ -31,7 +31,7 @@ export function setupWebSocket(server: any) {
 					}
 					catch (err) {
 						console.error(err);
-						return;
+						return ;
 					}
 					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`, [id_user]);
 					const username = response.name;
@@ -47,6 +47,7 @@ export function setupWebSocket(server: any) {
 					}
 				}
 				else if (type === 'tournament_new_player') {
+					console.log('backend', id);
 					for (const client of clients) {
 						if (client.readyState === ws.OPEN) {
 							client.send(JSON.stringify({ type, token, id }));

@@ -204,7 +204,6 @@ export default async function  initInTournament(id: string) {
 				sessionStorage.setItem("player", data.player);
 				history.pushState(null, '', '/game/multi');
 				await loadRoutes('/game/multi');
-				window.location.reload();
 			}
 		} catch (err) {
 			console.error(err);
