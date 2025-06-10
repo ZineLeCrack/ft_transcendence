@@ -203,6 +203,7 @@ export default async function initJoinTournament() {
 										headers: { 'Content-Type': 'application/json' },
 										body: JSON.stringify({ id: data.id, ...players, ...results })
 									});
+									ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: players.player1, next_player2: players.player2, id: data.id }));
 								} catch (err) {
 									console.error(`Error starting tournament: `, err);
 									return ;
