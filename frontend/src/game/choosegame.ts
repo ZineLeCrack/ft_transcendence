@@ -1,3 +1,5 @@
+import initError from '../error.js';
+
 export const userData = {
 	userId: sessionStorage.getItem('userId'),
 	userName: sessionStorage.getItem('userName'),
@@ -81,8 +83,7 @@ export default function initChooseGame() {
 					await loadRoutes('/game/multi');
 					window.location.reload();
 				} catch (err) {
-					console.error("❌ Erreur lors du démarrage du mode multijoueur :", err);
-					alert("Erreur : impossible de démarrer le jeu local.\n" + err);
+					initError("Error : Local game can't start.\n" + err);
 				}
 			};
 			document.body.style.backgroundImage = "url('/images/tournament.png')";

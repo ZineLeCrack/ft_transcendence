@@ -44,7 +44,7 @@ const signupform = document.getElementById('sign-up') as HTMLFormElement;
 
 		if (signUpPasswordInput.value !== signUpConfirmPasswordInput.value)
 		{
-			alert('Les mots de passe ne correspondent pas.');
+			initError('Password does not match.');
 			return ;
 		}
 

@@ -1,6 +1,8 @@
 import { togglePassword } from "../profile/utils";
 import { getWebSocket } from '../websocket';
 
+import initError from '../error.js';
+
 export default async function initJoinTournament() {
 
 	const joinTournamentBtn = document.getElementById('join-tournament');
@@ -190,7 +192,7 @@ export default async function initJoinTournament() {
 						window.location.reload();
 					} catch (err) {
 						console.error(err);
-						alert(err);
+						initError(err as string);
 					}
 				});
 
@@ -247,8 +249,7 @@ export default async function initJoinTournament() {
 							mainView?.classList.remove('hidden');
 							window.location.reload();
 						} catch (err) {
-							console.error(err);
-							alert(err);
+							initError(err as string);
 						}
 					}
 				});
