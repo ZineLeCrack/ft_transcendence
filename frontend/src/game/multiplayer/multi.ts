@@ -91,9 +91,9 @@ export default async function initMultiplayer() {
 								headers: { 'Content-Type': 'application/json' },
 								body: JSON.stringify(results)
 							});
+							const ws = getWebSocket();
+							ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: results.next_player1, next_player2: results.next_player2, id: gameStat.tournamentId }));
 						}
-						const ws = getWebSocket();
-						ws?.send(JSON.stringify({ type: 'tournament_new_player', token: sessionStorage.getItem('token'), id: gameStat.tournamentId }));
 					}
 					history.pushState(null, '', '/home');
 					await loadRoutes('/home');

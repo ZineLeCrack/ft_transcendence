@@ -5,6 +5,7 @@ import { translate } from "./i18n.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
+let userId = '';
 
 export function initWebSocket(original: string) {
 	if (ws) return;
@@ -45,7 +46,7 @@ export function initWebSocket(original: string) {
 			initError(data.message);
 			return;
 		}
-		if (data.type !== 'tournament_new_player' && !data.isHistoryMessage) {
+		if ((data.type === 'new_message' || data.type === 'new_private_message') && !data.isHistoryMessage) {
 			if (data.type === 'new_message') {
 				sendMessage(data.username, data.content);
 			}
@@ -97,8 +98,8 @@ export function initWebSocket(original: string) {
 				}
 				sendMessage(data.username, data.content, false, otherUser);
 			}
-		} else if (data.type === 'tournament_new_player') {
-			console.log('received', data.id);
+		}
+		if (data.type === 'tournament_new_player' || data.type === 'tournament_next_game') {
 			try {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
@@ -112,6 +113,7 @@ export function initWebSocket(original: string) {
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({ tournamentId: data.id })
 					});
+					userId = is_in.userId;
 					const TournamentData_Players = await response1.json();
 					const response2 = await fetch('/api/tournament/get_winners', {
 						method: 'POST',
@@ -123,6 +125,11 @@ export function initWebSocket(original: string) {
 				}
 			} catch (err) {
 				console.error('Error getting players:', err);
+			}
+		}
+		if (data.type === 'tournament_next_game') {
+			if (userId === data.next_player1 || userId === data.next_player2) {
+				sendMessage('AAA', 'A TOI DE JOUER !', false, 'global', false, false, false);
 			}
 		}
 	};
