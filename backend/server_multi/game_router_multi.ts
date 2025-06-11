@@ -1,6 +1,8 @@
 import { FastifyInstance } from 'fastify';
 import { GameInstance } from './multiplayer.js';
 import jwt from 'jsonwebtoken';
+import { request } from 'http';
+import { response } from 'express';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export const games = new Map<string, GameInstance>();
@@ -18,19 +20,19 @@ export default async function gameRouter(fastify: FastifyInstance) {
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 			userName = (decoded as { name: string }).name;
-		} 
+		}
 		catch (err) {
 			reply.status(401).send('Invalid token');
-			return;
+			return ;
 		}
 		for (const [id, game] of games) {
-			if (game.player1.id === userId)
+			if (!game.private && game.player1.id === userId)
 			{
 				console.log(`Game join : ${id}`);
 				reply.send({ gameId: id, player: "player1" });
 				return ;
 			}
-			else if (game.player2.id === userId)
+			else if (!game.private && game.player2.id === userId)
 			{
 				console.log(`Game join : ${id}`);
 				reply.send({ gameId: id, player: "player2" });
@@ -130,5 +132,64 @@ export default async function gameRouter(fastify: FastifyInstance) {
 			return reply.status(404).send({ error: "Game not found" });
 		const Name = game.getName();
 		reply.status(200).send(Name);
+	});
+
+	fastify.post('/private/create', async (request, reply) => {
+		const { token, target } = request.body as { token: string, target: string };
+
+		let userId;
+		try {
+			const decoded = jwt.verify(token, JWT_SECRET);
+			userId = (decoded as { userId: string }).userId;
+		}
+		catch (err) {
+			reply.status(401).send('Invalid token');
+			return ;
+		}
+
+		const id = generateGameId();
+		const game = new GameInstance(id, '', '', true, '');
+		game.player1.id = userId;
+		game.player2.id = target;
+		games.set(id, game);
+		reply.status(200).send({ gameId: id });
+	});
+
+	fastify.post('/private/join', async (request, reply) => {
+		const { token } = request.body as { token: string };
+		let userId, userName;
+
+		try {
+			const decoded = jwt.verify(token, JWT_SECRET);
+			userId = (decoded as { userId: string }).userId;
+			userName = (decoded as { name: string }).name;
+		} catch (err) {
+			reply.status(401).send('Invalid token');
+			return ;
+		}
+
+		console.log('userId', userId);
+		for (const [id, game] of games) {
+			console.log(`Test: userId = ${userId} (${userName}), tournamentId = ${id} with ${game.player1.id} vs ${game.player2.id}\n
+-> game is private ? ${game.private} ! if = ${game.private && game.player1.id === userId} | else if = ${game.private && game.player2.id === userId}`);
+			if (game.private && game.player1.id.toString() === userId.toString()) {
+				game.player1.name = userName;
+				if (game.player2.name !== '') {
+					game.full = true;
+					game.startGame();
+				}
+				reply.status(200).send({ gameId: id, player: 'player1' });
+				return ;
+			} else if (game.private && game.player2.id.toString() === userId.toString()) {
+				game.player2.name = userName;
+				if (game.player1.name !== '') {
+					game.full = true;
+					game.startGame();
+				}
+				reply.status(200).send({ gameId: id, player: 'player2' });
+				return ;
+			}
+		}
+		reply.status(404).send('Game not found');
 	});
 }

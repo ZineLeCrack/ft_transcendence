@@ -20,9 +20,9 @@ export default async function initSearch()
 					body: JSON.stringify({username: username}),
 				});
 	
-				const { exists } = await res.json();
+				const data = await res.json();
 				
-				if (exists) {
+				if (data.exists) {
 					history.pushState(null, '', '/users/' + username);
 					await loadRoutes('/users/' + username);
 				} else {

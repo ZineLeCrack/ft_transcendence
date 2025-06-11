@@ -11,8 +11,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
 
-	if (!messageWrapper)
-		return;
+	if (!messageWrapper) return ;
 
 	const target = username;
 	const tokenID = sessionStorage.getItem('token');
@@ -22,14 +21,14 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		body: JSON.stringify({ tokenID, target })
 	});
 	const data = await res.json();
-	if (data.status === 1)
-		return;
 
-	if (pongGame === true)
-	{
+	if (data.status === 1) return ;
+
+	if (pongGame === true) {
+
 		const oldContainer = document.getElementById('container-pong-game-join');
-		if (oldContainer)
-		{
+
+		if (oldContainer) {
 			oldContainer.remove();
 		}
 
@@ -41,13 +40,10 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		msg.id = "pong-game-join";
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
 		
-		if (username === original_name)
-		{
+		if (username === original_name) {
 			const invitationText = translate('pong_game_accepted_you');
 			msg.textContent = `${targetUser} ${invitationText}`;
-		}
-		else
-		{
+		} else {
 			const invitationText = translate('pong_game_accepted_other');
 			msg.textContent = `${invitationText}`;
 		}
@@ -62,8 +58,17 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		JoinBtn.textContent = `${joinText}`;
 
 		JoinBtn.addEventListener('click', async () => {
-			const token = sessionStorage.getItem('token');
-			console.log("partie rejointe");
+			const response = await fetch('/api/multi/game/private/join', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token: tokenID })
+			});
+			const data = await response.json();
+			sessionStorage.setItem("gameId", data.gameId);
+			sessionStorage.setItem("player", data.player);
+			history.pushState(null, '', '/game/multi');
+			await loadRoutes('/game/multi');
+			window.location.reload();
 		});
 
 		container.appendChild(msg);
@@ -71,17 +76,19 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		container.appendChild(buttonsDiv);
 		messageWrapper.appendChild(container);
 		const chatContainer = document.getElementById('chat-containers');
+
 		if (chatContainer) {
 			chatContainer.scrollTop = chatContainer.scrollHeight;
 		}
-		return;
+
+		return ;
 	}
 
 	if (pong === true) {
 		
 		const oldContainer = document.getElementById('container-pong-request');
-		if (oldContainer)
-		{
+
+		if (oldContainer) {
 			oldContainer.remove();
 		}
 
@@ -94,16 +101,16 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
 		const requestText = translate('pong_request_message');
 		msg.textContent = `${username} ${requestText}`;
-		
+
 		const buttonsDiv = document.createElement("div");
 		buttonsDiv.className = "flex gap-4 mt-2";
-		
+
 		const acceptBtn = document.createElement("button");
 		acceptBtn.id = 'accept-button-pong';
 		acceptBtn.className = "bg-transparent border-2 border-[#00FFFF] px-6 py-2 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]";
 		const acceptText = translate('accept_button');
 		acceptBtn.textContent = `${acceptText}`;
-		
+
 		const declineBtn = document.createElement("button");
 		declineBtn.id = 'decline-button-pong';
 		declineBtn.className = "bg-transparent border-2 border-[#FF007A] px-6 py-2 rounded-xl text-[#FF007A] font-bold hover:bg-[#FF007A]/20 transition duration-200 shadow-[0_0_10px_#FF007A]";
@@ -121,6 +128,17 @@ export async function sendMessage(username: string, content: string, pong?: bool
 			acceptBtn.remove();
 			declineBtn.remove();
 			container.remove();
+			const response = await fetch ('/api/search', {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ username: targetUser })
+			});
+			const userData = await response.json();
+			await fetch('/api/multi/game/private/create', {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ token, target: userData.id })
+			});
 			const ws = getWebSocket();
 			const targetUsername = targetUser;
 			let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 2};
@@ -140,7 +158,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 			container.remove();
 			const ws = getWebSocket();
 			const targetUsername = targetUser;
-			let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 3};
+			let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 3 };
 			ws?.send(JSON.stringify(chatdata));
 		});
 
@@ -150,10 +168,12 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		container.appendChild(buttonsDiv);
 		messageWrapper.appendChild(container);
 		const chatContainer = document.getElementById('chat-containers');
+
 		if (chatContainer) {
 			chatContainer.scrollTop = chatContainer.scrollHeight;
 		}
-		return;
+
+		return ;
 	}
 
 	if (requestDecline === true)
@@ -171,10 +191,12 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		container.appendChild(msg);
 		messageWrapper.appendChild(container);
 		const chatContainer = document.getElementById('chat-containers');
+
 		if (chatContainer) {
 			chatContainer.scrollTop = chatContainer.scrollHeight;
 		}
-		return;
+
+		return ;
 	}
 
 	if (friendRequest === true) {
@@ -183,12 +205,12 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		container.className = "flex flex-col items-center space-y-2 my-4";
 
 		messageWrapper.className = "flex flex-col items-center space-y-2 my-4";
-		
+
 		const msg = document.createElement("div");
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
 		const friendText = translate('friend_request_message');
 		msg.textContent = `${targetUser} ${friendText}`;
-	
+
 		const buttonsDiv = document.createElement("div");
 		buttonsDiv.className = "flex gap-4 mt-2";
 
@@ -208,45 +230,48 @@ export async function sendMessage(username: string, content: string, pong?: bool
 			const res = await fetch("/api/replyrequest", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target , answer: 1})
+					body: JSON.stringify({ tokenID, target , answer: 1 })
 				});
 			const data = await res.json();
 			window.location.reload();
 		});
-		
+
 		declineBtn.addEventListener('click', async () => {
 			const tokenID = sessionStorage.getItem('token');
 			const target = targetUser; 
 			const res = await fetch("/api/replyrequest", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target , answer: 0})
+					body: JSON.stringify({ tokenID, target , answer: 0 })
 				});
 			const data = await res.json();
 			window.location.reload();
 		});
-		
+
 		container.appendChild(msg);
 		container.appendChild(acceptBtn);
 		container.appendChild(declineBtn);
 		container.appendChild(buttonsDiv);
 		messageWrapper.appendChild(container);
 		const chatContainer = document.getElementById('chat-containers');
+
 		if (chatContainer) {
 			chatContainer.scrollTop = chatContainer.scrollHeight;
 		}
-		return;
+
+		return ;
 	}
 
-	if (content === "") return;
+	if (content === "") return ;
 
 	const messageContainer = document.createElement("div");
-	messageContainer.className = original_name === username ? 
+	messageContainer.className = original_name === username ?
 		"flex flex-col items-end gap-1" : 
 		"flex flex-col items-start gap-1";
 
 	const usernameDiv = document.createElement("a");
 	const msg = document.createElement("div");
+
 	if (original_name === username) {
 		usernameDiv.className = "text-[#0f9292] font-mono text-sm hover:underline cursor-pointer";
 		msg.className = "font-mono text-[#00FFFF] px-4 py-2 w-fit max-w-[80%] break-words border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
@@ -258,11 +283,12 @@ export async function sendMessage(username: string, content: string, pong?: bool
 	usernameDiv.textContent = username;
 	usernameDiv.href = `/users/${username}`;
 	msg.textContent = content;
-	
+
 	messageContainer.appendChild(usernameDiv);
 	messageContainer.appendChild(msg);
 	messageWrapper.appendChild(messageContainer);
 	const chatContainer = document.getElementById('chat-containers');
+
 	if (chatContainer) {
 		chatContainer.scrollTop = chatContainer.scrollHeight;
 	}
@@ -282,14 +308,15 @@ export default function initChat() {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
 		});
-		if (!response.ok)
-		{
+
+		if (!response.ok) {
 			initError('Please Sign in or Sign out !');
 			setTimeout(async () => {
 				history.pushState(null, '', '/login');
 				await loadRoutes('/login');
 			}, 1000);
 		}
+
 		const data = await response.json();
 		original_name = data.original;
 
@@ -313,18 +340,17 @@ export default function initChat() {
 		sendBtn.addEventListener("click", async () => {
 			const token = sessionStorage.getItem('token');
 			const content = input.value.trim();
-			if (content === "") return;
+			if (content === "") return ;
 			let chatdata;
-			if (document.getElementById("chat-messages-global"))
-			{
+
+			if (document.getElementById("chat-messages-global")) {
 				chatdata = { type: 'new_message', token, content };
-			}
-			else
-			{
+			} else {
 				const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 				const targetUsername = BoxTarget?.id.split('-').pop();
-				chatdata = { type: 'new_private_message', token, content , targetUsername};
+				chatdata = { type: 'new_private_message', token, content , targetUsername };
 			}
+
 			ws?.send(JSON.stringify(chatdata));
 			input.value = "";
 		});
@@ -334,18 +360,17 @@ export default function initChat() {
 				e.preventDefault();
 				const token = sessionStorage.getItem('token');
 				const content = input.value.trim();
-				if (content === "") return;
+				if (content === "") return ;
 				let chatdata;
-				if (document.getElementById("chat-messages-global"))
-				{
+
+				if (document.getElementById("chat-messages-global")) {
 					chatdata = { type: 'new_message', token, content };
-				}
-				else
-				{
+				} else {
 					const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 					const targetUsername = BoxTarget?.id.split('-').pop();
-					chatdata = { type: 'new_private_message', token, content , targetUsername, pongRequest: 0};
+					chatdata = { type: 'new_private_message', token, content , targetUsername, pongRequest: 0 };
 				}
+
 				ws?.send(JSON.stringify(chatdata));
 				input.value = "";
 			}
@@ -355,4 +380,3 @@ export default function initChat() {
 	})();
 	loadProfilePicture("profileBtn", "l");
 }
-
