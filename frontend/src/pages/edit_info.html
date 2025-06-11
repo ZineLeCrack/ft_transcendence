@@ -3,11 +3,11 @@
 		<!-- Centre buttons container -->
 		<div class="absolute left-1/2 -translate-x-1/2 flex justify-center gap-4">
 			<a id="stats-btn" href="/profile/statistics" data-link 
-				class="tab-button px-10 py-3 rounded-xl font-semibold bg-transparent border-2 border-[#00FFFF] text-[#FFD700] hover:bg-[#00FFFF]/20 transition shadow-[0_0_10px_#00FFFF]">
+				class="tab-button px-10 py-3 rounded-xl font-semibold bg-transparent border-2 border-[#00FFFF] text-[#FFD700] hover:bg-[#00FFFF]/20 transition shadow-[0_0_10px_#00FFFF]" data-i18n="Stats">
 				Statistics
 			</a>
 			<a id="edit-btn" href="/profile/edit" data-link 
-				class="tab-button px-10 py-3 rounded-xl font-semibold bg-[#00FFFF]/20 border-2 border-[#00FFFF] text-[#FFD700] hover:bg-[#00FFFF]/30 transition shadow-[0_0_10px_#00FFFF]">
+				class="tab-button px-10 py-3 rounded-xl font-semibold bg-[#00FFFF]/20 border-2 border-[#00FFFF] text-[#FFD700] hover:bg-[#00FFFF]/30 transition shadow-[0_0_10px_#00FFFF]" data-i18n="Edit_trad">
 				Edit profile
 			</a>
 		</div>
@@ -15,7 +15,7 @@
 		<div class="ml-auto">
 			<a href="/home" data-link 
 				class="w-20 h-9 border-2 border-[#00FFFF] bg-black/30 rounded-xl flex items-center justify-center cursor-pointer hover:bg-[#00FFFF]/20 transition-all duration-200 shadow-[0_0_10px_#00FFFF]">
-				<span class="text-[#FFD700] font-bold text-lg">HOME</span>
+				<span class="text-[#FFD700] font-bold text-lg" data-i18n="home">HOME</span>
 			</a>
 		</div>
 	</div>
@@ -27,7 +27,7 @@
 			<div class="flex flex-col items-center mt-10 md:w-1/3">
 				<div id="profil-pic" class="group relative size-80 rounded-full mb-4 border-4 border-[#00FFFF] bg-black/30 shadow-[0_0_10px_#00FFFF] overflow-hidden">
 					<div class="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-						<span class="text-[#00FFFF] text-lg font-semibold">Change Picture</span>
+						<span class="text-[#00FFFF] text-lg font-semibold" data-i18n="change_pic_trad" >Change Picture</span>
 					</div>
 					<input type="file" id="pictureInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"/>
 				</div>
@@ -39,7 +39,7 @@
 				</div>
 			
 				<button type="button" id="button-edit-profile" 
-					class="px-6 py-3 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl hover:bg-[#00FFFF]/20 transition shadow-[0_0_10px_#00FFFF]">
+					class="px-6 py-3 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl hover:bg-[#00FFFF]/20 transition shadow-[0_0_10px_#00FFFF]" data-i18n="edit_picture_trad">
 					Edit Profile Picture
 				</button>
 			</div>
@@ -47,24 +47,24 @@
 			<!-- Right part (form) -->
 			<div class="md:w-2/3 mt-20 space-y-5">
 				<div id="edit-username-div" class="flex flex-col">
-					<label class="block text-sm font-bold mb-1 text-[#FF2E9F]">EDIT USERNAME</label>
+					<label class="block text-sm font-bold mb-1 text-[#FF2E9F]" data-i18n="username_trad" >EDIT USERNAME</label>
 					<input id="edit-username-input" type="text" minlength="3" maxlength="14" pattern="[a-zA-Z0-9_]{3,14}" 
 						placeholder="Pseudo_42" 
 						class="w-full md:w-2/3 px-4 py-3 rounded-xl border-2 bg-black/30 border-[#00FFFF] text-[#00FFFF] placeholder-[#00FFFF]/50 focus:outline-none focus:border-[#ad39f0] transition"/>
-					<span id="edit-username-error" class="text-red-500 text-sm hidden">Username must be 3-14 characters long and contain only letters, numbers, underscore or hyphen</span>
+					<span id="edit-username-error" class="text-red-500 text-sm hidden" data-i18n="username_error">Username must be 3-14 characters long and contain only letters, numbers, underscore or hyphen</span>
 				</div>
 				
 				<div id="edit-email-div" class="flex flex-col">
-					<label class="block text-sm font-bold mb-1 text-[#FF2E9F]">EDIT EMAIL</label>
+					<label class="block text-sm font-bold mb-1 text-[#FF2E9F]" data-i18n="mail_trad" >EDIT EMAIL</label>
 					<input id="edit-email-input" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" type="email" title="Enter a valid address" 
 						placeholder="your.email@exemple.com" 
 						class="w-full md:w-2/3 px-4 py-3 rounded-xl border-2 bg-black/30 border-[#00FFFF] text-[#00FFFF] placeholder-[#00FFFF]/50 focus:outline-none focus:border-[#ad39f0] transition"/>
-					<span id="edit-email-error" class="text-red-500 text-sm hidden">The email address entered is not valid. Please ensure it follows a standard format (user@domain.com).</span>
+					<span id="edit-email-error" class="text-red-500 text-sm hidden" data-i18n="email_error" >The email address entered is not valid. Please ensure it follows a standard format (user@domain.com).</span>
 				</div>
 				
 				<div class="flex items-center md:w-2/3">
 					<a id="edit-password-btn" href="/profile/edit/password" data-link 
-						class="px-6 py-3 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl hover:bg-[#00FFFF]/20 transition shadow-[0_0_10px_#00FFFF]">
+						class="px-6 py-3 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl hover:bg-[#00FFFF]/20 transition shadow-[0_0_10px_#00FFFF]" data-i18n="Edit_pass_trad">
 						Edit Password
 					</a>
 				</div>
@@ -72,11 +72,11 @@
 				<!-- Buttons -->
 				<div class="flex justify-start gap-6 pt-8">
 					<button type="button" id="unsave-btn" 
-						class="px-6 py-3 bg-transparent border-2 border-[#FF0F4D] text-[#FF0F4D] rounded-xl hover:bg-[#FF0F4D]/20 transition shadow-[0_0_10px_#FF0F4D]">
+						class="px-6 py-3 bg-transparent border-2 border-[#FF0F4D] text-[#FF0F4D] rounded-xl hover:bg-[#FF0F4D]/20 transition shadow-[0_0_10px_#FF0F4D]" data-i18n="save">
 						Unsave
 					</button>
 					<button type="submit" id="save-btn" 
-						class="px-6 py-3 bg-transparent border-2 border-[#00FF00] text-[#00FF00] rounded-xl hover:bg-[#00FF00]/20 transition shadow-[0_0_10px_#00FF00]">
+						class="px-6 py-3 bg-transparent border-2 border-[#00FF00] text-[#00FF00] rounded-xl hover:bg-[#00FF00]/20 transition shadow-[0_0_10px_#00FF00]" data-i18n="unsave">
 						Save
 					</button>
 				</div>
