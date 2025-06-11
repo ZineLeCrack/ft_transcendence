@@ -23,10 +23,12 @@ export default async function initTournamentStats() {
 		return;
 	}
 	const info = await response.json();
-	initGlobalGraph(info.id_user, info.original)
+	initTournamentGraph(info.original);
 }
 
-export async function initGlobalGraph(userId: string, originalUsername: string) {
+export async function initTournamentGraph(originalUsername: string) {
+
+	const token = sessionStorage.getItem('token');
 
 	Chart.register(
 		PieController, ArcElement, Tooltip, Legend,
@@ -37,14 +39,14 @@ export async function initGlobalGraph(userId: string, originalUsername: string) 
 	const statsRes = await fetch('/api/stats', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ userId })
+		body: JSON.stringify({ token })
 	});
 	const stats = await statsRes.json();
 
 	const historyRes = await fetch('/api/history', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ userId })
+		body: JSON.stringify({ token })
 	});
 	const history = await historyRes.json();
 

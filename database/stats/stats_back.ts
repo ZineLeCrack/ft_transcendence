@@ -5,11 +5,27 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function StatsRoutes(fastify: FastifyInstance) {
 	fastify.post('/stats', async (request, reply) => {
-		const { userId } = request.body as { userId: string };
+		const { token, username } = request.body as { token: string, username: string };
 
 		try {
 			const db = await getDb_user();
-			const stats = await db.get(`SELECT * FROM stats WHERE id_player = ?;`,[userId]);
+			const decoded = jwt.verify(token, JWT_SECRET);
+			let ID
+			if (username)
+			{
+				const name = await db.get(`SELECT * FROM users WHERE name = ?`, [username])
+				if (!name)
+				{
+					reply.status(404).send('This user doesn\'t exist');
+					return;
+				}
+				ID = name.id;
+			}
+			if (!ID)
+			{
+				ID = (decoded as { userId: string }).userId;
+			}
+			const stats = await db.get(`SELECT * FROM stats WHERE id_player = ?;`,[ID]);
 			
 			reply.send(stats);
 		} catch (err) {
