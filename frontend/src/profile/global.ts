@@ -53,16 +53,19 @@ export async function initGlobalGraph(userId: string, originalUsername: string) 
 
 	const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
 	history.forEach((match: any) => {
-		const date = match.date.split('T')[0];
+		const date = new Date(match.date);
 		const isWin = match.usernameplayer1 === originalUsername
 			? match.pointplayer1 > match.pointplayer2
 			: match.pointplayer2 > match.pointplayer1;
 
-		if (!historyMap.has(date)) {
-			historyMap.set(date, { points: 0, wins: 0, loses: 0 });
+		const roundedDate = new Date(Math.floor(date.getTime() / (10 * 60 * 1000)) * (10 * 60 * 1000));
+		const roundedKey = roundedDate.toISOString();
+
+		if (!historyMap.has(roundedKey)) {
+			historyMap.set(roundedKey, { points: 0, wins: 0, loses: 0 });
 		}
 
-		const entry = historyMap.get(date)!;
+		const entry = historyMap.get(roundedKey)!;
 		entry.points += match.usernameplayer1 === originalUsername ? match.pointplayer1 : match.pointplayer2;
 		if (isWin) entry.wins += 1;
 		else entry.loses += 1;

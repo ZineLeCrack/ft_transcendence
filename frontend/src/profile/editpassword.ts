@@ -2,6 +2,7 @@ import {togglePassword, checkPasswordMatch } from './utils.js';
 import { loadRoutes } from '../main.js';
 import initError from '../error.js';
 import initSuccess from '../success.js';
+import { loadProfilePicture } from './editinfo.js';
 
 export default async function initEditPassword() {
 	const token = sessionStorage.getItem('token');
@@ -18,6 +19,25 @@ export default async function initEditPassword() {
 				await loadRoutes('/login');
 			}, 1000);
 			return;
+		}
+		const res = await response.json();
+		const username = res.original;
+		const email = res.email;
+		const usernamediv = document.getElementById("username-pass");
+		const emaildiv = document.getElementById("mail-pass");
+		if (usernamediv)
+		{
+			const for_username = document.createElement('span');
+			for_username.classList = `text-[#FFD700] text-2xl font-bold`;
+			for_username.textContent = `${username}`;
+			usernamediv.appendChild(for_username);
+		}
+		if (emaildiv)
+		{
+			const for_mail = document.createElement('span');
+			for_mail.classList= `text-[#FFD700] text-2xl font-bold`;
+			for_mail.textContent = `${email}`;
+			emaildiv?.appendChild(for_mail);
 		}
 
 	const editPasswordForm = document.getElementById('edit-password-form') as HTMLFormElement;
@@ -127,5 +147,5 @@ export default async function initEditPassword() {
 			validatePasswordField(editNewPasswordInput);
 		});
 	}
-	
+loadProfilePicture("profile-pic-pass", "l");
 }

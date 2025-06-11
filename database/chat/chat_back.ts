@@ -55,9 +55,11 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 				reply.status(401).send('Invalid token');
 			return;
 			}
-			const response = await db.get(`SELECT name FROM users WHERE id = ?`, [id_user]);
-			const original = response.name; 
-			reply.status(200).send({ original, id_user });
+			const response = await db.get(`SELECT * FROM users WHERE id = ?`, [id_user]);
+			const original = response.name;
+			const profile_pic = response.profile_pic;
+			const email = response.email;
+			reply.status(200).send({ original, id_user , profile_pic, email});
 		} 
 		catch (err) {
 			console.error(err);

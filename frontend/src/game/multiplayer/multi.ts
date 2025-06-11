@@ -34,6 +34,18 @@ export default async function initMultiplayer() {
 	initWebSocket(info.original);
 
 	const player = sessionStorage.getItem("player");
+	
+	const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
+	const h1player2 = document.getElementById('name-player2') as HTMLHeadingElement;
+
+	if (player === 'player1')
+	{
+		h1player1.textContent = `${info.original}`;
+	}
+	else
+	{
+		h1player2.textContent = `${info.original}`;	
+	}
 
 	let keys: { [key: string]: boolean } = {
 		ArrowUp: false,

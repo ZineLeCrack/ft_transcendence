@@ -5,8 +5,9 @@ import { loadRoutes } from '../main.js';
 
 import { generateCardsHistory} from "../profile/history.js";
 import initSearch from './search.js';
-
+import { loadProfilePicture } from '../profile/editinfo.js';
 import { initWebSocket } from '../websocket';
+
 
 export default async function initUsers(username?: string, isHistory: boolean = false) {
     const tokenID = sessionStorage.getItem("token");
@@ -32,6 +33,8 @@ export default async function initUsers(username?: string, isHistory: boolean = 
         
     initWebSocket(data.original);
     if (username) {
+        loadProfilePicture("profile-pic-search", username);
+        loadProfilePicture("profileBtn", "l");
         const usernameh2 = document.getElementById('username-h2');
         if (usernameh2) {
             usernameh2.textContent = username;

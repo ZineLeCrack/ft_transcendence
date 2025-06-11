@@ -43,12 +43,11 @@ export default async function authRoutes(fastify: FastifyInstance)
 
 			const hashedPassword = await bcrypt.hash(password, 10);
 
-			const uniqueFilename = `uploads/${uuidv4()}.png`;
-	  		fs.copyFileSync('uploads/default.png', uniqueFilename);
+	  		const image = fs.readFileSync('uploads/default.png');
 
 			const result = await db.run(
-				`INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
-				[username, email, hashedPassword]
+				`INSERT INTO users (name, email, password, profile_pic) VALUES (?, ?, ?, ?)`,
+				[username, email, hashedPassword, image]
 			);
 
 			const player_id = result.lastID;
