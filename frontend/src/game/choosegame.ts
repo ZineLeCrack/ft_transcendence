@@ -43,14 +43,7 @@ export default function initChooseGame() {
 		if (mode === "LOCAL") {
 			playBtn.onclick = async () => {
 				try {
-					const response = await fetch(`api/main/game/start`, {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({
-							userId: userData.userId,
-							userName: userData.userName
-						})
-					});
+					const response = await fetch(`api/main/game/start`, { method: 'POST' });
 
 					if (!response.ok)
 						throw new Error(`Erreur HTTP: ${response.status}`);
@@ -99,14 +92,7 @@ export default function initChooseGame() {
 		else if (mode === "AI") {
 			playBtn.onclick = async () => {
 				try {
-					const response = await fetch(`api/main/game/start`, {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({
-							userId: userData.userId,
-							userName: userData.userName
-						})
-					});
+					const response = await fetch(`api/main/game/start`, { method: 'POST', });
 
 					if (!response.ok)
 						throw new Error(`Erreur HTTP: ${response.status}`);
@@ -143,7 +129,7 @@ export default function initChooseGame() {
 
 export function refreshGameModeDisplay()
 {
-	 if (currentUpdateDisplay) {
+	if (currentUpdateDisplay) {
         currentUpdateDisplay();
     }
 }

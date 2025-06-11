@@ -43,24 +43,39 @@ export default async function initMultiplayer() {
 	let gameOver = false;
 
 	const gameId = sessionStorage.getItem("gameId");
+	if (!gameId)
+	{
+		initError('You are not in a game');
+		return ;
+	}
 	const SERVER_URL = `/api/multi/game/${gameId}`;
 
 	const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
 	const h1player2 = document.getElementById('name-player2') as HTMLHeadingElement;
 
-	const getname = await fetch(`${SERVER_URL}/getname`,{ method: 'POST'});
+	try {
+		const getname = await fetch(`${SERVER_URL}/getname`, { method: 'POST'});	
+		const name = await getname.json();
+		if (!name.player2 || !name.player1) {
+			initError('Failed to load player ids');
+			return ;
+		}
+		if (player === 'player1')
+		{
+			h1player1.textContent = `${info.original}`;
+			h1player2.textContent = `${name.player2.name}`;
+		}
+		else
+		{
+			h1player1.textContent = `${name.player1.name}`;
+			h1player2.textContent = `${info.original}`;	
+		}
+	} catch (err) {
+		initError('Failed to load player ids');
+		return ;
+	}
 
-	const name = await getname.json();
-	if (player === 'player1')
-	{
-		h1player1.textContent = `${info.original}`;
-		h1player2.textContent = `${name.player2.name}`;
-	}
-	else
-	{
-		h1player1.textContent = `${name.player1.name}`;
-		h1player2.textContent = `${info.original}`;	
-	}
+	
 
 	async function fetchState() {
 		if (gameOver)
@@ -100,6 +115,7 @@ export default async function initMultiplayer() {
 							ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: results.next_player1, next_player2: results.next_player2, id: gameStat.tournamentId }));
 						}
 					}
+					sessionStorage.removeItem("gameId");
 					history.pushState(null, '', '/home');
 					await loadRoutes('/home');
 				}, 1000);
