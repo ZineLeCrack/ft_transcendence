@@ -55,6 +55,9 @@ export default function initA2f() {
 		const result = await response.json();
 		const jwtToken = result.token;
 		sessionStorage.setItem('token', jwtToken);
+		sessionStorage.removeItem("userId");
+		sessionStorage.removeItem("userName");
+		sessionStorage.removeItem("userPicture");
 		initSuccess('A2F code verified, redirecting to home page...');
 	    setTimeout(async () => {
 			history.pushState(null, '', '/home');

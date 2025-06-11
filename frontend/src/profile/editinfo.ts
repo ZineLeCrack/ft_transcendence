@@ -1,4 +1,5 @@
 import initError from '../error';
+import { initLanguageSelector } from '../language';
 import { loadRoutes } from '../main';
 import initSuccess from '../success';
 import { initWebSocket } from '../websocket';
@@ -33,6 +34,7 @@ export async function loadProfilePicture(div: string, name: string) {
 
 export default async function initEditProfile() {
 
+	initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',

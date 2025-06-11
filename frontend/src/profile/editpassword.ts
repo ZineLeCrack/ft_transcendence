@@ -3,8 +3,10 @@ import { loadRoutes } from '../main.js';
 import initError from '../error.js';
 import initSuccess from '../success.js';
 import { loadProfilePicture } from './editinfo.js';
+import { initLanguageSelector } from '../language.js';
 
 export default async function initEditPassword() {
+	initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 		const response = await fetch('/api/verifuser', {
 			method: 'POST',

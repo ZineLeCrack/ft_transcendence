@@ -7,9 +7,11 @@ import { generateCardsHistory} from "../profile/history.js";
 import initSearch from './search.js';
 import { loadProfilePicture } from '../profile/editinfo.js';
 import { initWebSocket } from '../websocket';
+import { initLanguageSelector } from '../language.js';
 
 
 export default async function initUsers(username?: string, isHistory: boolean = false) {
+    initLanguageSelector();
     const tokenID = sessionStorage.getItem("token");
     const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
     const blockbtn = document.getElementById("block-btn") as HTMLButtonElement;
