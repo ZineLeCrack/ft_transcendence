@@ -1,24 +1,11 @@
 import { ballX, ballY, rightPaddleY, rightScore, leftPaddleY, leftScore, message, paddleHeight, paddleWidth } from "./multi.js";
 
-/* ------------------------------- STAT PART ---------------------------------------- */
-
-const leftCanvas = document.getElementById("statPlayer1") as HTMLCanvasElement;
-const rightCanvas = document.getElementById("statPlayer2") as HTMLCanvasElement;
-const left = leftCanvas.getContext("2d")!;
-const right = rightCanvas.getContext("2d")!;
-
-left.font = "40px 'Caveat'";
-right.font = "40px 'Caveat'";
-
 /* ------------------------------- GAME PART ---------------------------------------- */
 
 const gameCanvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 const topCanvas = document.getElementById("topCanvas") as HTMLCanvasElement;
 const game = gameCanvas.getContext("2d")!;
 const score = topCanvas.getContext("2d")!;
-const gameDiv = document.getElementById('gameDiv') as HTMLDivElement;
-
-// position et score par défaut
 
 score.font = "40px 'Caveat'";
 game.font = "80px 'Caveat'";
