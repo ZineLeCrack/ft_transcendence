@@ -34,7 +34,7 @@ export function getAIMove(
         const target = simY - PADDLE_HEIGHT / 2 + BALL_SIZE / 2;
         const delta = target - paddlePosition;
 
-        if (Math.abs(delta) > 10) {
+        if (Math.abs(delta) > 8) {
             direction = delta > 0 ? 'down' : 'up';
             duration = Math.min(1000, Math.max(10, Math.abs(delta / PADDLE_SPEED) * 12));
         }
