@@ -27,7 +27,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 			const db = await getDb_user();
 			const user = await db.get(`SELECT email FROM users WHERE id = ?`, [IdUser]);
 			if (!user?.email) {
-				reply.status(404).send('User not found');
+				reply.status(404).send('User not connected please connect first');
 				return;
 			}
 
