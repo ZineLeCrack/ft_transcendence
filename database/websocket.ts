@@ -1,7 +1,7 @@
 import { WebSocketServer } from 'ws';
 import type { WebSocket } from 'ws';
-import { getDb_chat } from '../database.js';
-import { getDb_user } from '../database.js';
+import { getDb_chat } from './database.js';
+import { getDb_user } from './database.js';
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 const clients = new Set<WebSocket>();
@@ -60,7 +60,8 @@ export function setupWebSocket(server: any) {
 						}
 					}
 				}
-				else if (type === 'new_private_message') {
+				else if (type === 'new_private_message')
+				{
 					if (pongRequest === 1 || pongRequest === 2 || pongRequest === 3)
 					{
 						if (!token || !targetUsername) return;
@@ -108,7 +109,9 @@ export function setupWebSocket(server: any) {
 						}
 					}
 				}
-			} catch (err) {
+			}
+			catch (err)
+			{
 				console.error('Erreur WebSocket :', err);
 			}
 		});

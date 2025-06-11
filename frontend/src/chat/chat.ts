@@ -41,15 +41,17 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		msg.id = "pong-game-join";
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
 		
-		if (username === original_name) {
+		if (username === original_name)
+		{
 			const invitationText = translate('pong_game_accepted_you');
 			msg.textContent = `${targetUser} ${invitationText}`;
 		}
-		else {
+		else
+		{
 			const invitationText = translate('pong_game_accepted_other');
 			msg.textContent = `${invitationText}`;
 		}
-		
+
 		const buttonsDiv = document.createElement("div");
 		buttonsDiv.className = "flex gap-4 mt-2";
 		

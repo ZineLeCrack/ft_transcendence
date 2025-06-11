@@ -30,22 +30,10 @@ export default async function initMultiplayer() {
 		return ;
 	}
 	const info = await response.json();
-					
+
 	initWebSocket(info.original);
 
 	const player = sessionStorage.getItem("player");
-	
-	const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
-	const h1player2 = document.getElementById('name-player2') as HTMLHeadingElement;
-
-	if (player === 'player1')
-	{
-		h1player1.textContent = `${info.original}`;
-	}
-	else
-	{
-		h1player2.textContent = `${info.original}`;	
-	}
 
 	let keys: { [key: string]: boolean } = {
 		ArrowUp: false,
@@ -56,6 +44,23 @@ export default async function initMultiplayer() {
 
 	const gameId = sessionStorage.getItem("gameId");
 	const SERVER_URL = `/api/multi/game/${gameId}`;
+
+	const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
+	const h1player2 = document.getElementById('name-player2') as HTMLHeadingElement;
+
+	const getname = await fetch(`${SERVER_URL}/getname`,{ method: 'POST'});
+
+	const name = await getname.json();
+	if (player === 'player1')
+	{
+		h1player1.textContent = `${info.original}`;
+		h1player2.textContent = `${name.player2.name}`;
+	}
+	else
+	{
+		h1player1.textContent = `${name.player1.name}`;
+		h1player2.textContent = `${info.original}`;	
+	}
 
 	async function fetchState() {
 		if (gameOver)

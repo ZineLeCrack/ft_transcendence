@@ -84,6 +84,12 @@ export class GameInstance {
 		if (this.interval) clearInterval(this.interval);
 	}
 
+	getName()
+	{
+		if (this.player1 && this.player2)
+			return {player1: this.player1, player2: this.player2};
+	}
+
 	handleCollisions() {
 		const collision = (paddleY: number, ballY: number) => {
 			if (ballY < paddleY + 34) return -2;
