@@ -122,4 +122,13 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		game.move_right(body.keys);
 		reply.status(200).send({ status: "ok" });
 	});
+
+	fastify.post('/:id/getname', async (request, reply) => {
+		const { id } = request.params as { id: string };
+		const game = games.get(id);
+		if (!game)
+			return reply.status(404).send({ error: "Game not found" });
+		const Name = game.getName();
+		reply.status(200).send(Name);
+	});
 }
