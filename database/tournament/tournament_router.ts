@@ -152,13 +152,13 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 
 			if (tournament.players === tournament.players_max)
 			{
-				reply.status(500).send('This tournament is full !');
+				reply.status(401).send('This tournament is full !');
 				return ;
 			}
 
 			if (tournament.type === 'private' && !is_pass_valid)
 			{
-				reply.status(500).send('Wrong password !');
+				reply.status(401).send('Wrong password !');
 				return ;
 			}
 
@@ -213,7 +213,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			reply.status(200).send({ full: full, id: id_tournament });
 		} catch (err) {
 			console.error(err);
-			reply.status(500).send('Error');
+			reply.status(500).send(err);
 		}
 	});
 

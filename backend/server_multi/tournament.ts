@@ -94,7 +94,11 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			return;
 		}
 
-		const game = tournamentsInstances.get(tournamentId.toString())?.instance!;
+		const game = tournamentsInstances.get(tournamentId.toString())?.instance;
+		if (!game) {
+			reply.status(200).send({ gameId: '0', err: true, message: 'The tournament is not started !' });
+			return ;
+		}
 
 		if (game.player1.id === userId) {
 			if (game.player1.name === '') {

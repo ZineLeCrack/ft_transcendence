@@ -183,31 +183,30 @@ export default async function initJoinTournament() {
 						const ws = getWebSocket();
 						ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
 
-						if (data.full)
-						{
+						if (data.full) {
 							try {
-									const response1 = await fetch('/api/tournament/get_players', {
-										method: 'POST',
-										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ tournamentId: data.id })
-									});
-									const players = await response1.json();
-									const response2 = await fetch('/api/tournament/get_winners', {
-										method: 'POST',
-										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ tournamentId: data.id })
-									});
-									const results = await response2.json();
-									await fetch('/api/multi/tournament/start', {
-										method: 'POST',
-										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ id: data.id, ...players, ...results })
-									});
-									ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: players.player1, next_player2: players.player2, id: data.id }));
-								} catch (err) {
-									console.error(`Error starting tournament: `, err);
-									return ;
-								}
+								const response1 = await fetch('/api/tournament/get_players', {
+									method: 'POST',
+									headers: { 'Content-Type': 'application/json' },
+									body: JSON.stringify({ tournamentId: data.id })
+								});
+								const players = await response1.json();
+								const response2 = await fetch('/api/tournament/get_winners', {
+									method: 'POST',
+									headers: { 'Content-Type': 'application/json' },
+									body: JSON.stringify({ tournamentId: data.id })
+								});
+								const results = await response2.json();
+								await fetch('/api/multi/tournament/start', {
+									method: 'POST',
+									headers: { 'Content-Type': 'application/json' },
+									body: JSON.stringify({ id: data.id, ...players, ...results })
+								});
+								ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: players.player1, next_player2: players.player2, id: data.id }));
+							} catch (err) {
+								console.error(`Error starting tournament: `, err);
+								return ;
+							}
 						}
 
 						joinView?.classList.add('hidden');
@@ -240,15 +239,16 @@ export default async function initJoinTournament() {
 							});
 						
 							if (!response.ok) {
-								throw new Error(response.statusText);
+								const error = await response.text(); 
+								initError(error);
+								return ;
 							}
 						
 							const data = await response.json();
 							const ws = getWebSocket();
 							ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
 						
-							if (data.full)
-							{
+							if (data.full) {
 								try {
 									const response1 = await fetch('/api/tournament/get_players', {
 										method: 'POST',
@@ -277,7 +277,6 @@ export default async function initJoinTournament() {
 							mainView?.classList.remove('hidden');
 							window.location.reload();
 						} catch (err) {
-							console.error(err);
 							initError(err as string);
 						}
 					}
