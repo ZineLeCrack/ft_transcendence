@@ -12,7 +12,7 @@ export interface CardHistory {
 	date: string;
 }
 
-export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): void 
+export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], username: string): void 
 {
 	const container = document.getElementById(div);
 	if (container)
@@ -27,7 +27,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 		}
 		cardsHistory.forEach(CardHistory => {
 			const cardElement = document.createElement('div');
-			if (userData.userName === CardHistory.usernameplayer1)
+			if (username === CardHistory.usernameplayer1)
 			{
 				if (CardHistory.pointplayer1 > CardHistory.pointplayer2)
 				{
@@ -106,18 +106,18 @@ export default async function  initHistory()
 		}, 1000);
 		return;
 	}
-
+	const name = await response.json();
 	try
 	{
 		const response = await fetch(`/api/history`,
 		{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({userId: userData.userId}),
+			body: JSON.stringify({ token }),
 		});
 
 		const data = await response.json();
-		generateCardsHistory('History-Div', data);
+		generateCardsHistory('History-Div', data, name.original);
 	}
 	catch (err)
 	{

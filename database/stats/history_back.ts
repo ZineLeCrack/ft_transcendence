@@ -5,11 +5,12 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function historyRoutes(fastify: FastifyInstance) {
 	fastify.post('/history', async (request, reply) => {
-		const { userId, username } = request.body as { userId: string , username: string};
+		const { token, username } = request.body as { token: string , username: string};
 
 		try {
 			const db = await getDb_user();
-			let ID = userId;
+			const decoded = jwt.verify(token, JWT_SECRET);
+			let ID
 			if (username)
 			{
 				const name = await db.get(`SELECT * FROM users WHERE name = ?`, [username])
@@ -19,6 +20,10 @@ export default async function historyRoutes(fastify: FastifyInstance) {
 					return;
 				}
 				ID = name.id;
+			}
+			if (!ID)
+			{
+				ID = (decoded as { userId: string }).userId;
 			}
 			const rows = await db.all(
 			`
@@ -35,7 +40,7 @@ export default async function historyRoutes(fastify: FastifyInstance) {
 				WHERE u1.id = ? OR u2.id = ?
 				ORDER BY history.game_date DESC
 			`,
-			[userId, userId]
+			[ID, ID]
 		);
 			const formatted = rows.map((row: any) => ({
 				imageplayer1: "/images/pdp_cle-berr.png",

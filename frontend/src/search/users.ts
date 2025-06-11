@@ -130,15 +130,16 @@ async function loadHistoryContent(username: string) {
     if (historyDiv) {
         try
         {
+            const token = sessionStorage.getItem('token');
             const response = await fetch(`/api/history`,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({userId: '', username}),
+                body: JSON.stringify({token, username}),
             });
 
             const data = await response.json();
-            generateCardsHistory('history-div-search', data);
+            generateCardsHistory('history-div-search', data, username);
         }
         catch (err)
         {
