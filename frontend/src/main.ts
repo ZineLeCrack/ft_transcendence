@@ -21,45 +21,45 @@ import SearchHTML from './pages/search.html?raw';
 import initError from './error.js';
 
 const notFoundPageContent = `
-    <div class="text-center p-8 bg-transparent rounded-lg shadow-lg">
+	<div class="text-center p-8 bg-transparent rounded-lg shadow-lg">
 		<a href="/home" data-link class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] px-6 py-2 rounded-xl  hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">Return Home</a>
 	</div>
 `;
 
 interface Route {
-    view: string;
-    script?: (params?: string) => Promise<void>;
-    bodyClass?: string;
-    bodyStyleImage?: string;
-    pattern?: RegExp;
+	view: string;
+	script?: (params?: string) => Promise<void>;
+	bodyClass?: string;
+	bodyStyleImage?: string;
+	pattern?: RegExp;
 }
 
 const routes: { [path: string]: Route } = {
-    
+	
 	'/login': 
 	{
-        view: loginHtml,
+		view: loginHtml,
 		script: async () => {
 			const {default: initLogin} = await import ('./login/login.ts');
 			initLogin();
 		}
-    },
+	},
 	'/register': 
 	{
-        view: registerHtml,
+		view: registerHtml,
 		script: async () => {
 			const {default: initRegister} = await import ('./login/register.ts');
 			initRegister();
 		}
-    },
+	},
 	'/login/a2f': 
 	{
-        view: a2fHTML,
+		view: a2fHTML,
 		script: async () => {
 			const {default: initA2f} = await import ('./login/a2f.ts');
 			initA2f();
 		}
-    },
+	},
 	'/home':
 	{
 		view: homeHTML,
@@ -146,96 +146,96 @@ const routes: { [path: string]: Route } = {
 	},
 	'/users': 
 	{
-        view: SearchHTML,
-        pattern: /^\/users\/([^\/]+)(?:\/history)?$/,
-        script: async (username?: string) => {
-            const {default: initUsers} = await import('./search/users.ts');
+		view: SearchHTML,
+		pattern: /^\/users\/([^\/]+)(?:\/history)?$/,
+		script: async (username?: string) => {
+			const {default: initUsers} = await import('./search/users.ts');
 			const isHistory = window.location.pathname.endsWith('/history');
-            initUsers(username, isHistory);
-        },
-        bodyStyleImage: "url('/images/statscyberpunk.png')",
-        bodyClass: "bg-cover bg-center bg-no-repeat h-screen flex",
-    },
+			initUsers(username, isHistory);
+		},
+		bodyStyleImage: "url('/images/statscyberpunk.png')",
+		bodyClass: "bg-cover bg-center bg-no-repeat h-screen flex",
+	},
 	
 };
 
 export const loadRoutes = async (path: string) => {
-    const body = document.body;
+	const body = document.body;
 
-    body.style.backgroundSize = "1920px 1080px";
+	body.style.backgroundSize = "1920px 1080px";
 
-    // Check dynamic routes first
-    for (const [_, route] of Object.entries(routes)) {
-        if (route.pattern) {
-            const match = path.match(route.pattern);
-            if (match) {
-                const username = match[1];
-                try {
-                    const res = await fetch(`/api/search`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username })
-                    });
-                    const { exists } = await res.json();
-                    
-                    if (!exists) {
+	// Check dynamic routes first
+	for (const [_, route] of Object.entries(routes)) {
+		if (route.pattern) {
+			const match = path.match(route.pattern);
+			if (match) {
+				const username = match[1];
+				try {
+					const res = await fetch(`/api/search`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ username })
+					});
+					const data = await res.json();
+					
+					if (!data.exists) {
 						body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
 						body.style.backgroundSize = "1920px 920px"; 
 						body.style.backgroundImage = "url('/images/404notfound.jpg')";
-                        body.innerHTML = notFoundPageContent;
-                        return;
-                    }
-                    
-                    body.innerHTML = route.view;
-                    body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
-                    body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
-                    
-                    if (route.script) {
-                        await route.script(username);
-                    }
-                    return;
-                } catch (error) {
+						body.innerHTML = notFoundPageContent;
+						return;
+					}
+					
+					body.innerHTML = route.view;
+					body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
+					body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
+					
+					if (route.script) {
+						await route.script(username);
+					}
+					return;
+				} catch (error) {
 					initError ("An error occurred while verifying the user. Please try again later.");
 					body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
 					body.style.backgroundSize = "1920px 920px"; 
 					body.style.backgroundImage = "url('/images/404notfound.jpg')";
-                    body.innerHTML = notFoundPageContent;
-                    return;
-                }
-            }
-        }
-    }
+					body.innerHTML = notFoundPageContent;
+					return;
+				}
+			}
+		}
+	}
 
-    const route = routes[path];
+	const route = routes[path];
 
-    if (route) {
-        body.innerHTML = route.view;
-        
-        body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
-        body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
-        if (route.script) {
-            try {
-                await route.script();
-            } catch (error) {
-                console.error(`Error loading script for ${path}:`, error);
-            }
-        }
-    } else {
+	if (route) {
+		body.innerHTML = route.view;
+		
+		body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
+		body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
+		if (route.script) {
+			try {
+				await route.script();
+			} catch (error) {
+				console.error(`Error loading script for ${path}:`, error);
+			}
+		}
+	} else {
 		body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
 		body.style.backgroundSize = "1920px 920px"; 
 		body.style.backgroundImage = "url('/images/404notfound.jpg')";
-        body.innerHTML = notFoundPageContent;
-    }
+		body.innerHTML = notFoundPageContent;
+	}
 }
 
 const router = async () => {
-    await loadRoutes(window.location.pathname);
+	await loadRoutes(window.location.pathname);
 };
 
 const navigate = (url: string) => {
-    if (window.location.pathname === url) return;
-    history.pushState(null, '', url); 
-    loadRoutes(url);
+	if (window.location.pathname === url) return;
+	history.pushState(null, '', url); 
+	loadRoutes(url);
 };
 
 document.addEventListener('click', (e) => {
