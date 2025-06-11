@@ -26,6 +26,10 @@ export default function initA2f() {
 		{
 			const error = await response.text();
 			initError(error);
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
 			return;
 		}
 	    initSuccess('A2F code sent, please enter it');
