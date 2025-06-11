@@ -91,5 +91,9 @@
   "tournament_played": "TOURNOIS JOUÉS",
   "best_rank": "MEILLEUR CLASSEMENT",
   "tournament_l": "Défaites en tournoi",
-  "tournament_w": "Victoires en tournoi"
+  "tournament_w": "Victoires en tournoi",
+  "GAME_P": "PARTIES JOUÉS",
+  "POINTS_E": "POINTS GAGNÉS",
+  "game_w": "Parties gagnés",
+  "game_l": "Parties perdus"
 }
