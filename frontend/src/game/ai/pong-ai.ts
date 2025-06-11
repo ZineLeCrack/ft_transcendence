@@ -3,6 +3,7 @@ import initError from "../../error.js";
 import { loadRoutes} from "../../main.js";
 import { initWebSocket } from '../../websocket';
 import { translate } from "../../i18n.js";
+import { initLanguageSelector } from "../../language.js";
 
 export let ballX = 400;
 export let ballY = 300;
@@ -37,11 +38,12 @@ export default async function initPong() {
 	const info = await response.json();
 	
 	initWebSocket(info.original);
+	await initLanguageSelector();
 
 	const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
 	const h1player2 = document.getElementById('name-player2') as HTMLHeadingElement;
-	const AIText = translate('game_mode_ai');
 	h1player1.textContent = `${info.original}`;
+	const AIText = translate('game_mode_ai');
 	h1player2.textContent = `${AIText}`;
 
 	let keys: { [key: string]: boolean } =  {
