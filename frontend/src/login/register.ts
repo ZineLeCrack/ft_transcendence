@@ -90,7 +90,7 @@ export default function initRegister() {
         const errorElement = document.getElementById('username-error');
         if (!errorElement) return;
 
-        const isValid = /^[a-zA-Z0-9_-]{3,18}$/.test(input.value);
+        const isValid = /^[a-zA-Z0-9_]{3,18}$/.test(input.value);
         
         if (!isValid && input.value.length >= 1) {
             errorElement.classList.remove('hidden');
