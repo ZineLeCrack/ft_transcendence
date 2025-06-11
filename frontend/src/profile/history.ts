@@ -2,6 +2,7 @@ import { userData } from "../game/choosegame.js";
 import initError from "../error.js";
 import { loadRoutes } from "../main.js";
 import { loadProfilePicture } from "./editinfo.js";
+import { initLanguageSelector } from "../language.js";
 
 export interface CardHistory {
 	imageplayer1: string;
@@ -92,6 +93,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[]): 
 
 export default async function  initHistory() 
 {
+	initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',

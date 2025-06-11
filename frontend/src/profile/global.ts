@@ -3,9 +3,11 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import type { ChartConfiguration } from 'chart.js';
 import initError from '../error';
 import { loadRoutes } from '../main';
+import { initLanguageSelector } from '../language';
 
 export default async function initOverallStats() {
 
+	initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',
@@ -26,6 +28,7 @@ export default async function initOverallStats() {
 
 export async function initGlobalGraph(userId: string, originalUsername: string) {
 
+	initLanguageSelector();
 	Chart.register(
 		PieController, ArcElement, Tooltip, Legend,
 		LineController, LineElement, PointElement,
