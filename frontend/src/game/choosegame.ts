@@ -11,10 +11,8 @@ import { loadRoutes } from '../main.js';
 import { translate } from '../i18n.js';
 
 let currentUpdateDisplay: (() => void) | null = null;
-;
 
 export default function initChooseGame() {
-
 
 	const leftBtn = document.getElementById("left-button-game") as HTMLButtonElement;
 	const rightBtn = document.getElementById("right-button-game") as HTMLButtonElement;

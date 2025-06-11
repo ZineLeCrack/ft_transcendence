@@ -2,7 +2,7 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import dotenv from 'dotenv';
 import fs from 'fs';
-import { setupWebSocket } from './chat/websocket_chat.js';
+import { setupWebSocket } from './websocket.js';
 import fastifyMultipart from '@fastify/multipart';
 
 import authRoutes from './auth/auth_back.js';

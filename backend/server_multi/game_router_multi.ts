@@ -36,7 +36,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 				reply.send({ gameId: id, player: "player2" });
 				return ;
 			}
-			else if (!game.private && !game.full) {.67
+			else if (!game.private && !game.full) {
 				game.full = true;
 				game.player2.id = userId;
 				game.player2.name = userName;
@@ -121,5 +121,14 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const body = request.body as { keys: any };
 		game.move_right(body.keys);
 		reply.status(200).send({ status: "ok" });
+	});
+
+	fastify.post('/:id/getname', async (request, reply) => {
+		const { id } = request.params as { id: string };
+		const game = games.get(id);
+		if (!game)
+			return reply.status(404).send({ error: "Game not found" });
+		const Name = game.getName();
+		reply.status(200).send(Name);
 	});
 }

@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { getDb_user } from '../database';
 import { getDb_tournaments } from '../database';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt'
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function tournamentRoutes(fastify: FastifyInstance) {
@@ -9,10 +10,15 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		const { name, players_max, type, password } = request.body as { name: string, players_max: number, type: string, password: string | null };
 
 		try {
+			let hashed;
 			const db = await getDb_tournaments();
+			if (password)
+			{
+				hashed = await bcrypt.hash(password, 10);
+			}
 			const result = await db.run(
 				`INSERT INTO tournaments (name, type, password) VALUES (?, ?, ?)`,
-				[name, type, password]
+				[name, type, hashed]
 			);
 			const tournamentId = result.lastID;
 			await db.run(
@@ -106,13 +112,13 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 
 			if (!tournament)
 			{
-				reply.status(200).send({ tournamentId: '0' });
+				reply.status(200).send({ tournamentId: '0', userId: userId });
 				return ;
 			}
 
 			else
 			{
-				reply.status(200).send({ tournamentId: tournament.id });
+				reply.status(200).send({ tournamentId: tournament.id, userId: userId });
 				return ;
 			}
 		} catch (err) {
@@ -124,12 +130,16 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		const { id_tournament, token, password, alias } = request.body as { id_tournament: string, token: string, password: string | null, alias: string };
 
 		try {
+			let is_pass_valid;
 			const dbUsers = await getDb_user();
 			const db = await getDb_tournaments();
 			const tournament = await db.get(`SELECT * FROM tournaments WHERE id = ?`,
 			[id_tournament]
 			);
-
+			if (password)
+			{
+				is_pass_valid = await bcrypt.compare(password, tournament.password);
+			}
 			let userId;
 			try {
 				const decoded = jwt.verify(token, JWT_SECRET);
@@ -146,7 +156,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				return ;
 			}
 
-			if (tournament.type === 'private' && password !== tournament.password)
+			if (tournament.type === 'private' && !is_pass_valid)
 			{
 				reply.status(500).send('Wrong password !');
 				return ;

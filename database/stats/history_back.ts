@@ -32,6 +32,7 @@ export default async function historyRoutes(fastify: FastifyInstance) {
 					history.point_player2,
 					history.game_date,
 					history.tournament,
+					history.tournamentId,
 					u1.name AS usernameplayer1,
 					u2.name AS usernameplayer2
 				FROM history
@@ -50,6 +51,7 @@ export default async function historyRoutes(fastify: FastifyInstance) {
 				pointplayer1: row.point_player1,
 				pointplayer2: row.point_player2,
 				tournament: row.tournament,
+				tournamentId: row.tournamentId,
 				date: row.game_date,
 			}));
 

@@ -54,16 +54,24 @@ export async function initGlobalGraph(userId: string, originalUsername: string) 
 	const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
 	history.forEach((match: any) => {
 		if (match.tournament === 0) return;
-		const date = match.date.split('T')[0];
+
 		const isWin = match.usernameplayer1 === originalUsername
 			? match.pointplayer1 > match.pointplayer2
 			: match.pointplayer2 > match.pointplayer1;
 
-		if (!historyMap.has(date)) {
-			historyMap.set(date, { points: 0, wins: 0, loses: 0 });
+		const rawDate = new Date(match.date);
+		const formattedDate = rawDate.getFullYear() + "/" +
+			String(rawDate.getMonth() + 1).padStart(2, '0') + "/" +
+			String(rawDate.getDate()).padStart(2, '0') + " " +
+			String(rawDate.getHours()).padStart(2, '0') + ":" +
+			String(rawDate.getMinutes()).padStart(2, '0');
+
+		const rawId = match.tournamentId;
+		if (!historyMap.has(rawId)) {
+			historyMap.set(rawId, { points: 0, wins: 0, loses: 0 });
 		}
 
-		const entry = historyMap.get(date)!;
+		const entry = historyMap.get(rawId)!;
 		entry.points += match.usernameplayer1 === originalUsername ? match.pointplayer1 : match.pointplayer2;
 		if (isWin) entry.wins += 1;
 		else entry.loses += 1;
@@ -81,7 +89,7 @@ export async function initGlobalGraph(userId: string, originalUsername: string) 
 		if (!ctx) throw new Error("Canvas context not found");
 
 		new Chart(ctx, {
-			type: 'line',
+			type: 'bar',
 			data: {
 				labels: labels,
 				datasets: [
@@ -89,16 +97,19 @@ export async function initGlobalGraph(userId: string, originalUsername: string) 
 						label: 'Points',
 						data: pointsData,
 						borderColor: '#FFD700',
+						backgroundColor: '#FFD700',
 					},
 					{
 						label: 'Wins',
 						data: winsData,
 						borderColor: '#00FF00',
+						backgroundColor: '#00FF00',
 					},
 					{
 						label: 'Loses',
 						data: losesData,
 						borderColor: '#FF007A',
+						backgroundColor: '#FF007A',
 					}
 				]
 

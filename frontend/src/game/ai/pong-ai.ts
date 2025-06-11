@@ -2,6 +2,7 @@ import { draw_ai } from "./drawmap-ai.js";
 import initError from "../../error.js";
 import { loadRoutes} from "../../main.js";
 import { initWebSocket } from '../../websocket';
+import { translate } from "../../i18n.js";
 
 export let ballX = 400;
 export let ballY = 300;
@@ -18,24 +19,31 @@ export const paddleHeight = 100;
 export let message = "";
 
 export default async function initPong() {
-		const token = sessionStorage.getItem('token');
-		const response = await fetch('/api/verifuser', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
-		});
-		if (!response.ok)
-		{
-			initError('Please Sign in or Sign up !');
-			setTimeout(async () => {
-				history.pushState(null, '', '/login');
-				await loadRoutes('/login');
-			}, 1000);
-			return;
-		}
-		const info = await response.json();
-		
-		initWebSocket(info.original);
+	const token = sessionStorage.getItem('token');
+	const response = await fetch('/api/verifuser', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ token }),
+	});
+	if (!response.ok)
+	{
+		initError('Please Sign in or Sign up !');
+		setTimeout(async () => {
+			history.pushState(null, '', '/login');
+			await loadRoutes('/login');
+		}, 1000);
+		return;
+	}
+	const info = await response.json();
+	
+	initWebSocket(info.original);
+
+	const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
+	const h1player2 = document.getElementById('name-player2') as HTMLHeadingElement;
+	const AIText = translate('game_mode_ai');
+	h1player1.textContent = `${info.original}`;
+	h1player2.textContent = `${AIText}`;
+
 	let keys: { [key: string]: boolean } =  {
 		w: false,
 		s: false,
