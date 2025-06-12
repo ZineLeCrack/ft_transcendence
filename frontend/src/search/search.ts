@@ -1,6 +1,7 @@
 import { loadRoutes } from "../main.js";
 
 import initError from '../error.js';
+import { translate } from "../i18n.js";
 
 export default async function initSearch() 
 {
@@ -26,10 +27,10 @@ export default async function initSearch()
 					history.pushState(null, '', '/users/' + username);
 					await loadRoutes('/users/' + username);
 				} else {
-					initError("User not found !");
+					initError(translate("User not found !"));
 				}
 			} catch (err) {
-				initError("An error occurred while verifying the user.");
+				initError(translate("An error occurred while verifying the user."));
 			}
 		}
 	});

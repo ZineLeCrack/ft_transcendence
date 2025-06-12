@@ -115,5 +115,24 @@
   "your_turn": "It's your turn to play in the tournament",
   "games_stats": "Games Statistics",
   "tournaments_stats": "Tournaments Statistics",
-  "points_stats": "Points Statistics"
+  "points_stats": "Points Statistics",
+  "Error_verif_user": "An error occurred while verifying the user. Please try again later.",
+  "not_friend": "You are not friends with this user.",
+  "already_send": "You have sent a friend request to this user. Please wait for their response.",
+  "local_can't_start": "Error : Local game can't start.",
+  "not_in_game": "You are not in a game",
+  "err_co": "Error connecting to the game",
+  "failed_id": "Failed to load player ids",
+  "pass_match": "Password does not match.",
+  "picture_no": "Please select a picture",
+  "alias_too_long": "Alias too long !",
+  "torn_faield": "Failed to create tournament",
+  "torn_name": "Please enter a tournament name",
+  "torn_pass": "Please enter a password for private tournament",
+  "user_NOT_FOUND": "User not found !",
+  "error_user": "An error occurred while verifying the user.",
+  "no_pass": "Password wrong",
+  "same_pass": "Don't change your passwor with the last",
+  "not_the_current": "Your current password is not the current password"
+  
 }

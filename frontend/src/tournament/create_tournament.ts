@@ -1,6 +1,7 @@
 import { togglePassword } from "../profile/utils";
 
 import initError from '../error.js';
+import { translate } from "../i18n.js";
 
 export default function initCreateTournament() {
 	const createTournamentBtn = document.getElementById('create-tournament');
@@ -55,12 +56,12 @@ export default function initCreateTournament() {
 		const password = (document.getElementById('tournament-password') as HTMLInputElement)?.value;
 
 		if (!tournamentName) {
-			initError('Please enter a tournament name');
+			initError(translate('Please enter a tournament name'));
 			return;
 		}
 
 		if (type.value === 'private' && !password) {
-			initError('Please enter a password for private tournament');
+			initError(translate('Please enter a password for private tournament'));
 			return;
 		}
 
@@ -84,7 +85,7 @@ export default function initCreateTournament() {
 			mainView?.classList.remove('hidden');
 			window.location.reload();
 		} catch (error) {
-			initError('Failed to create tournament');
+			initError(translate('Failed to create tournament'));
 		}
 	});
 }

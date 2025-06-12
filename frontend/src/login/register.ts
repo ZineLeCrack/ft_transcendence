@@ -3,6 +3,7 @@ import { loadRoutes } from '../main.js';
 import initError from '../error.js';
 import initSuccess from '../success.js';
 import { initLanguageSelector } from '../language.js';
+import { translate } from '../i18n.js';
 
 
 export default function initRegister() {
@@ -46,7 +47,7 @@ export default function initRegister() {
 
 		if (signUpPasswordInput.value !== signUpConfirmPasswordInput.value)
 		{
-			initError('Password does not match.');
+			initError(translate('Password does not match.'));
 			return ;
 		}
 

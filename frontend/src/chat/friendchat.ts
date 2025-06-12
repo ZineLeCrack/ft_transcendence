@@ -170,14 +170,14 @@ export default async function initFriendChat() {
 			});
 			const friendStatus = await friendCheck.json();
 			if (friendStatus.status === 0) {
-				initError("You are not friends with this user.");
+				initError(translate("You are not friends with this user."));
 				setTimeout(async () => {
 					window.location.reload();
 				}, 1000);
 				return ;
 			}
 			if (friendStatus.status === 2) {
-				initError("You have sent a friend request to this user. Please wait for their response.");
+				initError(translate("You have sent a friend request to this user. Please wait for their response."));
 				setTimeout(async () => {
 					window.location.reload();
 				}, 1000);

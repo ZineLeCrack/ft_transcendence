@@ -43,7 +43,7 @@ export default async function initMultiplayer() {
 	
 	const gameId = sessionStorage.getItem("gameId");
 	if (!gameId) {
-		initError('You are not in a game');
+		initError(translate('You are not in a game'));
 		return ;
 	}
 	
@@ -57,7 +57,7 @@ export default async function initMultiplayer() {
 	const player = data.player;
 
 	if (!player) {
-		initError('Error connecting to the game');
+		initError(translate('Error connecting to the game'));
 		return ;
 	}
 
@@ -70,7 +70,7 @@ export default async function initMultiplayer() {
 		const getname = await fetch(`${SERVER_URL}/getname`, { method: 'POST'});	
 		const name = await getname.json();
 		if (!name.player2 || !name.player1) {
-			initError('Failed to load player ids');
+			initError(translate('Failed to load player ids'));
 			return ;
 		}
 		if (player === 'player1')
@@ -82,7 +82,7 @@ export default async function initMultiplayer() {
 			h1player2.textContent = `${info.original}`;	
 		}
 	} catch (err) {
-		initError('Failed to load player ids');
+		initError(translate('Failed to load player ids'));
 		return ;
 	}
 

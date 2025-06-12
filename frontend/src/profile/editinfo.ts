@@ -120,7 +120,7 @@ export default async function initEditProfile() {
 		const file = pictureInput.files![0];
 		if (!file)
 		{
-			initError("Please select a picture");
+			initError(translate("Please select a picture"));
 			pictureInput.value = '';
 			return;
 		}

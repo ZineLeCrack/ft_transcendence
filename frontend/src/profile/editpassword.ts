@@ -88,12 +88,12 @@ export default async function initEditPassword() {
 			event.preventDefault();
 			if (editNewPasswordInput.value !== editConfirmNewPasswordInput.value)
 			{
-				initError('les mots de passe sont pas bon');
+				initError(translate('Password wrong'));
 				return ;
 			}
 			else if (editNewPasswordInput.value === editCurrentPasswordInput.value)
 			{
-				initError('change pas ton mot de passe par le meme debile !!!');
+				initError(translate("Don't change your passwor with the last"));
 				return ;
 			}
 			try {
@@ -111,7 +111,7 @@ export default async function initEditPassword() {
                 });
                 if (!response.ok)
                 {
-                    // initError("Your current password is not the current password");
+                    initError(translate("Your current password is not the current password"));
                     const err = await response.text();
                     throw new Error(err || "Fail change");
                 }
