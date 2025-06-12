@@ -1,7 +1,8 @@
 import { draw } from "./drawmap_local.js";
 import { initWebSocket } from '../../websocket';
 import { initLanguageSelector } from "../../language.js";
-
+import { loadRoutes } from "../../main.js";
+import initError from "../../error.js";
 
 export let ballX = 400;
 export let ballY = 300;
@@ -34,6 +35,16 @@ export default async function initPong() {
 
 	let gameStarted = false;
 	const gameId = sessionStorage.getItem("gameId");
+
+	if (!gameId) {
+		initError('You are not in a game');
+		setTimeout(async () => {
+			history.pushState(null, '', '/home');
+			await loadRoutes('/home');
+		}, 1000);
+		return ;
+	}
+
 	const SERVER_URL = `/api/main/game/${gameId}`;
 
 	async function fetchState() {

@@ -44,6 +44,10 @@ export default async function initMultiplayer() {
 	const gameId = sessionStorage.getItem("gameId");
 	if (!gameId) {
 		initError('You are not in a game');
+		setTimeout(async () => {
+			history.pushState(null, '', '/home');
+			await loadRoutes('/home');
+		}, 1000);
 		return ;
 	}
 	
@@ -58,6 +62,10 @@ export default async function initMultiplayer() {
 
 	if (!player) {
 		initError('Error connecting to the game');
+		setTimeout(async () => {
+			history.pushState(null, '', '/home');
+			await loadRoutes('/home');
+		}, 1000);
 		return ;
 	}
 
