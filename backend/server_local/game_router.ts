@@ -13,7 +13,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const id = generateGameId();
 		const game = new GameInstance();
 		games.set(id, game);
-		console.log(`Game created: ${id}`);
 		reply.send({ gameId: id });
 	});
 
@@ -46,6 +45,23 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		game.move(body.keys);
 		reply.status(200).send({ status: "ok" });
 	});
+
+	fastify.post('/end', async (request, reply) => {
+		const { gameId } = request.body as { gameId: string };
+
+		const game = games.get(gameId.toString());
+
+		if (!game) {
+			reply.status(404).send('Game not found');
+			return ;
+		}
+
+		game.stop();
+		games.delete(gameId.toString())
+
+		reply.status(200).send({ success: true });
+	});
+
 	fastify.post('/:id/ai', async (request, reply) => {
         const { id } = request.params as { id: string };
         const game = games.get(id);

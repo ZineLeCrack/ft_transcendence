@@ -20,7 +20,7 @@ export function draw() {
 	game.fillText(message, 400 - (message.length * 14), 150);
 
 	for (let i = 0; i < 600; i += 18.9)
-		game.fillRect(404, i, 2, 15);
+		game.fillRect(399, i, 2, 15);
 	
 	game.fillStyle = "#00FFFF";
 	game.shadowColor = "#00FFFF";
@@ -32,11 +32,12 @@ export function draw() {
 	game.shadowBlur = 10;
 	game.fillRect(gameCanvas.width - paddleWidth - 5, rightPaddleY, paddleWidth, paddleHeight);
 
+	game.beginPath();
+	game.arc(ballX + 5, ballY + 5, 5, 0, Math.PI * 2);
 	game.fillStyle = "#FFFFFF";
 	game.shadowColor = "#FFFFFF";
 	game.shadowBlur = 10;
-
-	game.fillRect(ballX, ballY, 10, 10);
+	game.fill();
 	
 	score.fillStyle = "#00FFFF";
 	score.shadowColor = "#00FFFF";

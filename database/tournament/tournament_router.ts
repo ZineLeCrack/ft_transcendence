@@ -258,12 +258,14 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 
 			const db_user = await getDb_user();
 			await db_user.run(
-				`UPDATE stats SET tournaments_played = tournaments_played + 1, tournaments_lose = tournaments_lose + 1 WHERE id_player = ?`
-				, [loser]);
+				`UPDATE stats SET tournaments_played = tournaments_played + 1, tournaments_lose = tournaments_lose + 1,
+				last_ranking = ? WHERE id_player = ?`
+				, [pos2, loser]);
 			if (pos1 === 'winner_final') {
 				await db_user.run(
-					`UPDATE stats SET tournaments_played = tournaments_played + 1, tournaments_win = tournaments_win + 1 WHERE id_player = ?`
-					, [winner]);
+					`UPDATE stats SET tournaments_played = tournaments_played + 1, tournaments_win = tournaments_win + 1,
+					last_ranking = ? WHERE id_player = ?`
+					, [pos1, winner]);
 				setTimeout(async () => {
 					await db.run(`DELETE FROM tournaments WHERE id = ?`, [tournamentId]);
 					await db.run(`DELETE FROM result WHERE id = ?`, [tournamentId]);

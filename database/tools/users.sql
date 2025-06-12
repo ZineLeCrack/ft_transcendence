@@ -18,6 +18,7 @@ CREATE TABLE stats (
 	tournaments_played INTEGER DEFAULT 0,
 	tournaments_win INTEGER DEFAULT 0,
 	tournaments_lose INTEGER DEFAULT 0,
+	last_ranking TEXT DEFAULT 'N/A',
 	id_player INTEGER NOT NULL,
 	FOREIGN KEY (id_player) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -42,7 +43,6 @@ CREATE TABLE friend (
 	FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
 	FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
 	UNIQUE(id_player1, id_player2)
-
 );
 
 CREATE TABLE block (

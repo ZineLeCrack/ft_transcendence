@@ -21,11 +21,13 @@ export let message = "";
 
 export default async function initPong() {
 	const token = sessionStorage.getItem('token');
+
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ token }),
 	});
+
 	if (!response.ok)
 	{
 		initError(translate('Please Sign in or Sign up !'));
@@ -35,8 +37,8 @@ export default async function initPong() {
 		}, 1000);
 		return;
 	}
+
 	const info = await response.json();
-	
 	initWebSocket(info.original);
 	await initLanguageSelector();
 
@@ -91,21 +93,20 @@ export default async function initPong() {
 					ballDirection: { x: ballVX, y: ballVY }
 				})
 			});
+
 			const data = await res.json();
 
-			// Réinitialise les touches IA
 			keys["ArrowUp"] = false;
 			keys["ArrowDown"] = false;
 
-			// Applique la direction pour la durée spécifiée
 			if (data.direction === "up") {
 				keys["ArrowUp"] = true;
 			} else if (data.direction === "down") {
 				keys["ArrowDown"] = true;
 			}
 
-			// Arrête le mouvement après la durée donnée
 			if (aiTimeout) clearTimeout(aiTimeout);
+
 			if (data.direction !== "none" && data.duration > 0) {
 				aiTimeout = window.setTimeout(() => {
 					keys["ArrowUp"] = false;
@@ -133,7 +134,7 @@ export default async function initPong() {
 		if (e.key === "ArrowDown") keys["s"] = false;
 	});
 
-	setInterval(() => {
+	const interval1 = setInterval(() => {
 		fetch(`${SERVER_URL}/move`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -141,6 +142,17 @@ export default async function initPong() {
 		}).catch(err => console.error("Erreur POST /move:", err));
 	}, 16);
 
-	setInterval(callAI, 1000);
-	setInterval(fetchState, 16);
+	const interval2 = setInterval(callAI, 1000);
+	const interval3 = setInterval(fetchState, 16);
+
+	window.addEventListener('popstate', async () => {
+		if (interval1) clearInterval(interval1);
+		if (interval2) clearInterval(interval2);
+		if (interval3) clearInterval(interval3);
+		await fetch(`/api/main/game/end`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ gameId: gameId })
+		});
+	});
 }

@@ -1,7 +1,8 @@
 import { draw } from "./drawmap_local.js";
 import { initWebSocket } from '../../websocket';
 import { initLanguageSelector } from "../../language.js";
-
+import { loadRoutes } from "../../main.js";
+import initError from "../../error.js";
 
 export let ballX = 400;
 export let ballY = 300;
@@ -34,6 +35,16 @@ export default async function initPong() {
 
 	let gameStarted = false;
 	const gameId = sessionStorage.getItem("gameId");
+
+	if (!gameId) {
+		initError('You are not in a game');
+		setTimeout(async () => {
+			history.pushState(null, '', '/home');
+			await loadRoutes('/home');
+		}, 1000);
+		return ;
+	}
+
 	const SERVER_URL = `/api/main/game/${gameId}`;
 
 	async function fetchState() {
@@ -65,7 +76,7 @@ export default async function initPong() {
 		if (e.key in keys) keys[e.key] = false;
 	});
 
-	setInterval(() => {
+	const interval1 = setInterval(() => {
 		fetch(`${SERVER_URL}/move`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -73,5 +84,15 @@ export default async function initPong() {
 		}).catch(err => console.error("Erreur POST /move:", err));
 	}, 16);
 
-	setInterval(fetchState, 16);
+	const interval2 = setInterval(fetchState, 16);
+
+	window.addEventListener('popstate', async () => {
+		if (interval1) clearInterval(interval1);
+		if (interval2) clearInterval(interval2);
+		await fetch(`/api/main/game/end`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ gameId: gameId })
+		});
+	});
 }

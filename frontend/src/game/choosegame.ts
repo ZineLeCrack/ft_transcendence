@@ -56,7 +56,7 @@ export default function initChooseGame() {
 					await loadRoutes('/game/local');
 					window.location.reload();
 				} catch (err) {
-					console.error("❌ Erreur lors du démarrage du mode local :", err);
+					console.error("Local game can't start.\n" + err);
 				}
 			};
 			document.body.style.backgroundImage = "url('/images/localgame.png')";
@@ -64,12 +64,11 @@ export default function initChooseGame() {
 		else if (mode === "MULTI") {
 			playBtn.onclick = async () => {
 				try {
+					const token = sessionStorage.getItem('token');
 					const response = await fetch(`/api/multi/game/start`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({
-							token : userData.token,
-						})
+						body: JSON.stringify({ token })
 					});
 					if (!response.ok)
 						throw new Error(`Erreur HTTPS: ${response.status}`);

@@ -11,7 +11,6 @@ export default function initRegister() {
 
 	const signupform = document.getElementById('sign-up') as HTMLFormElement;
 
-	// Champs mots de passe
 	const signUpPasswordInput = document.getElementById('sign-up-password-input') as HTMLInputElement;
 	const signUpPasswordBtn = document.getElementById('sign-up-password-btn') as HTMLButtonElement;
 	const signUpPasswordIcon = document.getElementById('sign-up-password-icon') as HTMLImageElement;
@@ -25,12 +24,9 @@ export default function initRegister() {
 	const badConfirmPasswordIcon = document.getElementById('badConfirmPasswordIcon') as HTMLImageElement;
 	const goodConfirmPasswordIcon = document.getElementById('goodConfirmPasswordIcon') as HTMLImageElement;
 
-
-	// Affichage mot de passe
 	togglePassword(signUpPasswordInput, signUpPasswordBtn, signUpPasswordIcon);
 	togglePassword(signUpConfirmPasswordInput, signUpConfirmPasswordBtn, signUpConfirmPasswordIcon);
 
-	// Vérification des mots de passe en temps réel
 	signUpPasswordInput.addEventListener('input', () =>
 	{
 		checkPasswordMatch(signUpPasswordInput, signUpConfirmPasswordInput, badPasswordIcon, badConfirmPasswordIcon, goodPasswordIcon, goodConfirmPasswordIcon);

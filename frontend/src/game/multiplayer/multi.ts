@@ -44,6 +44,10 @@ export default async function initMultiplayer() {
 	const gameId = sessionStorage.getItem("gameId");
 	if (!gameId) {
 		initError(translate('You are not in a game'));
+		setTimeout(async () => {
+			history.pushState(null, '', '/home');
+			await loadRoutes('/home');
+		}, 1000);
 		return ;
 	}
 	
@@ -58,6 +62,10 @@ export default async function initMultiplayer() {
 
 	if (!player) {
 		initError(translate('Error connecting to the game'));
+		setTimeout(async () => {
+			history.pushState(null, '', '/home');
+			await loadRoutes('/home');
+		}, 1000);
 		return ;
 	}
 
@@ -120,6 +128,12 @@ export default async function initMultiplayer() {
 							});
 							const ws = getWebSocket();
 							ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: results.next_player1, next_player2: results.next_player2, id: gameStat.tournamentId }));
+						} else if (gameStat.private) {
+							await fetch('/api/private_game/end', {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify({ username1: gameStat.username1, username2: gameStat.username2 })
+							});
 						}
 					}
 					sessionStorage.removeItem("gameId");
@@ -148,7 +162,7 @@ export default async function initMultiplayer() {
 		if (e.key in keys) keys[e.key] = false;
 	});
 
-	setInterval(() => {
+	const interval1 = setInterval(() => {
 		if (gameOver) return ;
 		fetch(`${SERVER_URL}/${player}move`, {
 			method: 'POST',
@@ -157,5 +171,15 @@ export default async function initMultiplayer() {
 		}).catch(err => console.error("Erreur POST /move:", err));
 	}, 16);
 
-	setInterval(fetchState, 16);
+	const interval2 = setInterval(fetchState, 16);
+
+	window.addEventListener('popstate', async () => {
+		if (interval1) clearInterval(interval1);
+		if (interval2) clearInterval(interval2);
+		await fetch(`/api/multi/game/disconnection`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ gameId: gameId })
+		});
+	});
 }
