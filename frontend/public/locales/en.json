@@ -103,5 +103,17 @@
   "login_sucess": "Login successfull! Redirecting to 2FA page...",
   "register_success": "Registration successful! redirecting to login page...",
   "edit_sucess": "Your profile has been updated successfully",
-  "password_edit_sucess": "Password edit success"
+  "password_edit_sucess": "Password edit success",
+  "total_games_trad": "Total Games",
+  "Victories_trad": "Victories",
+  "Defeats_trad": "Defeats",
+  "t_pl": "Tournaments played",
+  "t_w": "Tournaments Won",
+  "t_l": "Tournaments Lost",
+  "total_trad": "Total Points",
+  "points_t": "Points per Games",
+  "your_turn": "It's your turn to play in the tournament",
+  "games_stats": "Games Statistics",
+  "tournaments_stats": "Tournaments Statistics",
+  "points_stats": "Points Statistics"
 }

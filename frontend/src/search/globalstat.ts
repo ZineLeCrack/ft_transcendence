@@ -1,29 +1,5 @@
-import initError from '../error';
-import { initLanguageSelector } from '../language';
-import { loadRoutes } from '../main';
 
-export default async function initOverallStats(username: string) {
-
-	initLanguageSelector();
-	const token = sessionStorage.getItem('token');
-	const response = await fetch('/api/verifuser', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token }),
-	});
-	if (!response.ok) {
-		initError('Please Sign in or Sign up !');
-		setTimeout(async () => {
-			history.pushState(null, '', '/login');
-			await loadRoutes('/login');
-		}, 1000);
-		return;
-	}
-	const info = await response.json();
-	initGlobalstats(username);
-}
-
-async function initGlobalstats(username: string) {
+export default async function initGlobalstats(username: string) {
 
 	const token = sessionStorage.getItem('token');
 

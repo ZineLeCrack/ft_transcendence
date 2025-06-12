@@ -103,5 +103,17 @@
   "login_success": "Conexión correcta, redireccionamiento a la página del a2f",
   "register_success": "Creación de cuenta! redirigir a la página de conexión...",
   "edit_success": "Su perfil ha sido actualizado con éxito",
-  "password_edit_success": "Contraseña modificada con éxito"
+  "password_edit_success": "Contraseña modificada con éxito",
+  "total_games_trad": "Total de partidos",
+  "Victories_trad": "Victorias",
+  "Defeats_trad": "Derrotas",
+  "t_pl": "Torneos jugados",
+  "t_w": "Torneos ganados",
+  "t_l": "Torneos perdidos",
+  "total_trad": "Puntos totales",
+  "points_t": "Puntos por partido",
+  "your_turn": "Es tu turno de jugar en el torneo",
+  "games_stats": "Estadísticas de partidos",
+  "tournaments_stats": "Estadísticas de torneos",
+  "points_stats": "Estadísticas de puntos"
 }
