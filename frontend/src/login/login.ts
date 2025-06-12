@@ -9,12 +9,10 @@ export default function initLogin() {
 
 	initLanguageSelector();
 
-	// Champs mots de passe
 	const signInPasswordInput = document.getElementById('sign-in-password-input') as HTMLInputElement;
 	const signInPasswordBtn = document.getElementById('sign-in-password-btn') as HTMLButtonElement;
 	const signInPasswordIcon = document.getElementById('sign-in-password-icon') as HTMLImageElement;
 
-	// Switch entre email / username
 	const signInUsernameDiv = document.getElementById('sign-in-username-div') as HTMLElement;
 	const signInEmailDiv = document.getElementById('sign-in-email-div') as HTMLElement;
 	const signInWithEmail = document.getElementById('sign-in-with-email') as HTMLElement;
@@ -45,10 +43,7 @@ export default function initLogin() {
 		history.pushState(null, '', '/register');
 		await loadRoutes('/register');
 	});
-	// Affichage mot de passe
 	togglePassword(signInPasswordInput, signInPasswordBtn, signInPasswordIcon);
-
-	// Soumission du formulaire d'inscription
 
 	const signinform = document.getElementById('sign-in') as HTMLFormElement;
 
@@ -95,9 +90,7 @@ export default function initLogin() {
 		}
 	});
 
-
-	//template pour le bouton de test utilisateur
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	let increment = 1;
 	const registerTestBtn = document.getElementById('register-test-user');
 	registerTestBtn?.addEventListener('click', async (event) => {
@@ -129,5 +122,7 @@ export default function initLogin() {
 			initError((err as Error)?.message || String(err));
 		}
 	});
-	////fin du template pour le bouton de test utilisateur
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }

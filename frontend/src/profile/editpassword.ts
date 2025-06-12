@@ -111,7 +111,7 @@ export default async function initEditPassword() {
                 });
                 if (!response.ok)
                 {
-                    // initError("Your current password is not the current password");
+                    initError("Your current password is not the current password");
                     const err = await response.text();
                     throw new Error(err || "Fail change");
                 }
