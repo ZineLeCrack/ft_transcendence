@@ -147,7 +147,7 @@ export default async function initMultiplayer() {
 		if (e.key in keys) keys[e.key] = false;
 	});
 
-	setInterval(() => {
+	const interval1 = setInterval(() => {
 		if (gameOver) return ;
 		fetch(`${SERVER_URL}/${player}move`, {
 			method: 'POST',
@@ -156,5 +156,15 @@ export default async function initMultiplayer() {
 		}).catch(err => console.error("Erreur POST /move:", err));
 	}, 16);
 
-	setInterval(fetchState, 16);
+	const interval2 = setInterval(fetchState, 16);
+
+	window.addEventListener('popstate', async () => {
+		if (interval1) clearInterval(interval1);
+		if (interval2) clearInterval(interval2);
+		await fetch(`/api/multi/game/disconnection`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ gameId: gameId })
+		});
+	});
 }

@@ -8,6 +8,7 @@ import initSearch from './search.js';
 import { loadProfilePicture } from '../profile/editinfo.js';
 import { initWebSocket } from '../websocket';
 import { initLanguageSelector } from '../language.js';
+import initOverallStats from './globalstat.js';
 
 
 export default async function initUsers(username?: string, isHistory: boolean = false) {
@@ -149,11 +150,9 @@ async function loadOverallContent(username: string) {
 	const globalDiv = document.getElementById('global-div-search');
 	const historyDiv = document.getElementById('history-div-search');
 	if (globalDiv) {
-		// Load and display overall content
-		// Add your overall content logic here
 		if (historyDiv){
 			historyDiv.innerHTML = '';
 		}
-
+		await initOverallStats(username);
 	}
 }

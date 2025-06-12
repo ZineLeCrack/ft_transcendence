@@ -1,6 +1,6 @@
 export class GameInstance {
-	ballX = 400;
-	ballY = 300;
+	ballX = 395;
+	ballY = 295;
 	ballSpeedX = 0;
 	ballSpeedY = 0;
 	leftPaddleY = 250;
@@ -81,8 +81,8 @@ export class GameInstance {
 	}
 
 	resetBall() {
-		this.ballX = 400;
-		this.ballY = 300;
+		this.ballX = 395;
+		this.ballY = 295;
 		this.newSpeedX = this.ballSpeedX < 0 ? 5 : -5;
 		this.newSpeedY = this.ballSpeedY < 0 ? 5 : -5;
 		this.ballSpeedX = 0;
