@@ -17,14 +17,14 @@ export let message = "";
 
 export default async function initPong() {
 	const token = sessionStorage.getItem('token');
-		const response = await fetch('/api/verifuser', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
-		});
-		const info = await response.json();
-					
-		initWebSocket(info.original);
+	const response = await fetch('/api/verifuser', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ token })
+	});
+	const info = await response.json();
+
+	initWebSocket(info.original);
 	let keys: { [key: string]: boolean } = {
 		w: false,
 		s: false,
@@ -65,7 +65,7 @@ export default async function initPong() {
 		if (e.key in keys) keys[e.key] = false;
 	});
 
-	setInterval(() => {
+	const interval1 = setInterval(() => {
 		fetch(`${SERVER_URL}/move`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -73,5 +73,15 @@ export default async function initPong() {
 		}).catch(err => console.error("Erreur POST /move:", err));
 	}, 16);
 
-	setInterval(fetchState, 16);
+	const interval2 = setInterval(fetchState, 16);
+
+	window.addEventListener('popstate', async () => {
+		if (interval1) clearInterval(interval1);
+		if (interval2) clearInterval(interval2);
+		await fetch(`/api/main/game/end`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ gameId: gameId })
+		});
+	});
 }
