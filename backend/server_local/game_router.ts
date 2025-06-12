@@ -13,7 +13,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const id = generateGameId();
 		const game = new GameInstance();
 		games.set(id, game);
-		console.log(`Game created: ${id}`);
 		reply.send({ gameId: id });
 	});
 
@@ -58,10 +57,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		}
 
 		game.stop();
-
-		if (games.delete(gameId.toString())) {
-			console.log(`Local game ${gameId} close`);
-		}
+		games.delete(gameId.toString())
 
 		reply.status(200).send({ success: true });
 	});

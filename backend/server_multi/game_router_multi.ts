@@ -32,11 +32,9 @@ export default async function gameRouter(fastify: FastifyInstance) {
 
 		for (const [id, game] of games) {
 			if (!game.private && game.player1.id === userId) {
-				console.log(`Game join : ${id}`);
 				reply.send({ gameId: id, player: "player1" });
 				return ;
 			} else if (!game.private && game.player2.id === userId) {
-				console.log(`Game join : ${id}`);
 				reply.send({ gameId: id, player: "player2" });
 				return ;
 			} else if (!game.private && !game.full) {
@@ -45,7 +43,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 				game.player2.name = userName;
 				game.message = "";
 				game.startGame();
-				console.log(`Game join : ${id}`);
 				reply.send({ gameId: id, player: "player2" });
 				return ;
 			}
@@ -54,7 +51,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const id = generateGameId();
 		const game = new GameInstance(id, userId, userName, false, '');
 		games.set(id, game);
-		console.log(`Multiplayer game created : ${id}`);
 		reply.send({ gameId: id, player: "player1" });
 	});
 
@@ -77,7 +73,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 
 		game?.stop();
 		games.delete(id);
-		console.log(`Multiplayer game close : ${id}`);
 
 		if (game.tournamentId !== '') {
 			reply.status(200).send({
@@ -196,7 +191,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 			return ;
 		}
 
-		console.log('userId', userId);
 		for (const [id, game] of games) {
 			if (game.private && game.player1.id.toString() === userId.toString()) {
 				game.player1.name = userName;
@@ -262,7 +256,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		if (!game.full) {
 			game.stop();
 			games.delete(gameId.toString());
-			console.log(`Multiplayer game ${gameId} close`);
 			reply.status(200).send({ success: true });
 			return ;
 		}

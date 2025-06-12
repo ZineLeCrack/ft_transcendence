@@ -74,7 +74,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		tournamentData.instance.player1.id = tournamentData.player1;
 		tournamentData.instance.player2.id = tournamentData.player2;
 		games.set(tournamentData.gameId, tournamentData.instance);
-		console.log(`First game launch at tournament ${tournamentData.id} -> gameId: ${tournamentData.gameId}`);
 		tournamentsInstances.set(tournamentData.id, tournamentData);
 
 		reply.status(200).send({ next_player1: tournamentData.player1, next_player2: tournamentData.player2 });
@@ -167,7 +166,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			tournament.instance.player1.id = tournament.player3;
 			tournament.instance.player2.id = tournament.player4;
 			games.set(tournament.gameId, tournament.instance);
-			console.log(`Second game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
 		} else if (tournament?.game === 3) {
 			tournament.winner2 = winner;
 			tournament.loser2 = loser;
@@ -184,7 +182,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			tournament.instance.player1.id = tournament.player5;
 			tournament.instance.player2.id = tournament.player6;
 			games.set(tournament.gameId, tournament.instance);
-			console.log(`Third game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
 		} else if (tournament?.game === 4) {
 			tournament.winner3 = winner;
 			tournament.loser3 = loser;
@@ -201,7 +198,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			tournament.instance.player1.id = tournament.player7;
 			tournament.instance.player2.id = tournament.player8;
 			games.set(tournament.gameId, tournament.instance);
-			console.log(`Fourth game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
 		} else if (tournament?.game === 5) {
 			tournament.winner4 = winner;
 			tournament.loser4 = loser;
@@ -218,7 +214,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			tournament.instance.player1.id = tournament.winner1;
 			tournament.instance.player2.id = tournament.winner2;
 			games.set(tournament.gameId, tournament.instance);
-			console.log(`First semifinal game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
 		} else if (tournament?.game === 6) {
 			tournament.winner1_semifinals = winner;
 			tournament.loser1_semifinals = loser;
@@ -235,7 +230,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			tournament.instance.player1.id = tournament.winner3;
 			tournament.instance.player2.id = tournament.winner4;
 			games.set(tournament.gameId, tournament.instance);
-			console.log(`Second semifinal game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
 		} else if (tournament?.game === 7) {
 			tournament.winner2_semifinals = winner;
 			tournament.loser2_semifinals = loser;
@@ -252,7 +246,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			tournament.instance.player1.id = tournament.winner1_semifinals;
 			tournament.instance.player2.id = tournament.winner2_semifinals;
 			games.set(tournament.gameId, tournament.instance);
-			console.log(`Final game launch at tournament ${tournament.id} -> gameId: ${tournament.gameId}`);
 		} else if (tournament?.game === 8) {
 			tournament.winner_final = winner;
 			tournament.loser_final = loser;
