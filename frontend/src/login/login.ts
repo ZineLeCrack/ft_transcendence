@@ -81,8 +81,6 @@ export default function initLogin() {
 			const data = await response.json();
 
 			sessionStorage.setItem('userId', data.id);
-			sessionStorage.setItem('userName', data.name);
-			sessionStorage.setItem('userPicture', data.profile_pic);
 
 			initSuccess('Login successfull! Redirecting to 2FA page...');
 			setTimeout (async () => {
