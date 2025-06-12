@@ -3,6 +3,7 @@ import { initLanguageSelector } from '../language';
 import { loadRoutes } from '../main';
 import initSuccess from '../success';
 import { initWebSocket } from '../websocket';
+import { translate } from '../i18n';
 
 export async function loadProfilePicture(div: string, name: string) {
 	const token = sessionStorage.getItem("token");
@@ -43,7 +44,7 @@ export default async function initEditProfile() {
 	});
 	if (!response.ok)
 	{
-		initError('Please Sign in or Sign up !');
+		initError(translate('Please Sign in or Sign up !'));
 		setTimeout(async () => {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
@@ -101,7 +102,7 @@ export default async function initEditProfile() {
 					const err = await response.text();
 					throw new Error(err || "Fail change");
 				}
-					initSuccess("Your profile has been updated successfully");
+					initSuccess(translate("Your profile has been updated successfully"));
 					editProfileForm.reset();
 					window.location.reload();
 			}

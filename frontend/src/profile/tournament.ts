@@ -4,6 +4,7 @@ import type { ChartConfiguration } from 'chart.js';
 import initError from '../error';
 import { loadRoutes } from '../main';
 import { initLanguageSelector } from '../language';
+import { translate } from '../i18n';
 
 export default async function initTournamentStats() {
 
@@ -15,7 +16,7 @@ export default async function initTournamentStats() {
 		body: JSON.stringify({ token }),
 	});
 	if (!response.ok) {
-		initError('Please Sign in or Sign up !');
+		initError(translate('Please Sign in or Sign up !'));
 		setTimeout(async () => {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');

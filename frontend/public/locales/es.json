@@ -18,7 +18,7 @@
   "signin_button": "Iniciar sesión",
   "signup_link": "Registrarse",
 
-  "a2f_title": "Autenticación de dos factores",
+  "a2f_title": "Autentificación de dos factores",
   "code_label": "Código",
   "code_placeholder": "introduce el código aquí",
   "send_code_button": "¡Envíame el código!",
@@ -95,5 +95,13 @@
   "GAME_P": "PARTIDAS JUGADAS",
   "POINTS_E": "PUNTOS GANADOS",
   "game_w": "Partidas ganadas",
-  "game_l": "Partidas perdidas"
+  "game_l": "Partidas perdidas",
+  "history_mess": "Todavía no hay historial porque aún no se ha jugado ninguna partida",
+  "a2f_good_mess": "Código 2FA verificado, redireccionando a la página de inicio...",
+  "a2f_send": "Código 2FA enviado, por favor introdúzcalo",
+  "Error_co": "Inicie sesión o salga de la cuenta",
+  "login_success": "Conexión correcta, redireccionamiento a la página del a2f",
+  "register_success": "Creación de cuenta! redirigir a la página de conexión...",
+  "edit_success": "Su perfil ha sido actualizado con éxito",
+  "password_edit_success": "Contraseña modificada con éxito"
 }
