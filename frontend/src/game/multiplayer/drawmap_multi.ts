@@ -34,6 +34,7 @@ export function draw() {
 	game.shadowBlur = 10;
 	game.fillRect(gameCanvas.width - paddleWidth - 5, rightPaddleY, paddleWidth, paddleHeight);
 
+	game.beginPath();
 	game.arc(ballX + 5, ballY + 5, 5, 0, Math.PI * 2);
 	game.fillStyle = "#FFFFFF";
 	game.shadowColor = "#FFFFFF";
