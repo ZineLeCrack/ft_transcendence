@@ -24,9 +24,9 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		
 		msg.id = "your-turn";
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
-		const requestText = translate('your-turn');
+		const requestText = translate('your_turn');
 		
-		msg.textContent = `${requestText} TEST`;
+		msg.textContent = `${requestText}`;
 		container.appendChild(msg);
 		messageWrapper.appendChild(container);
 		const chatContainer = document.getElementById('chat-containers');
