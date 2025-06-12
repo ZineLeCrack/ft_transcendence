@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { GameInstance } from './multiplayer';
 import { generateGameId } from './game_router_multi';
 import { games } from './game_router_multi';
+import { getDb_user } from '../database';
 import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
@@ -83,11 +84,13 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		const { token, tournamentId } = request.body as { token: string, tournamentId: string };
 
 		let userId;
+		const db = await getDb_user();
 		let userName;
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
-			userName = (decoded as { name: string }).name;
+			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
+			userName = result.name;
 		} 
 		catch (err) {
 			reply.status(401).send('Invalid token');
