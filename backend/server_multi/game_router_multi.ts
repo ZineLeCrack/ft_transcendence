@@ -161,11 +161,12 @@ export default async function gameRouter(fastify: FastifyInstance) {
 	fastify.post('/private/join', async (request, reply) => {
 		const { token } = request.body as { token: string };
 		let userId, userName;
-
+		const db = await getDb_user();
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
-			userName = (decoded as { name: string }).name;
+			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
+			userName = result.name;
 		} catch (err) {
 			reply.status(401).send('Invalid token');
 			return ;
