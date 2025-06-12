@@ -58,7 +58,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/a2f/verify', async (request, reply) => {
-		const { IdUser, code , Name, PictureProfile} = request.body as { IdUser: string, code: string , Name : string, PictureProfile : string};
+		const { IdUser, code} = request.body as { IdUser: string, code: string};
 
 		if (!IdUser || !code) {
 			reply.status(400).send('Incomplete data');
@@ -72,8 +72,6 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
         const token = fastify.jwt.sign(
           {
             userId: IdUser,
-            name: Name,
-            Profile: PictureProfile,
           },
           { expiresIn: '24h' }
         );

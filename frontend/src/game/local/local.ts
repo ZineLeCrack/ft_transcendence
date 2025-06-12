@@ -1,7 +1,6 @@
 import { draw } from "./drawmap_local.js";
-import initError from "../../error.js";
-import { loadRoutes } from "../../main.js";
 import { initWebSocket } from '../../websocket';
+import { initLanguageSelector } from "../../language.js";
 
 
 export let ballX = 400;
@@ -17,14 +16,15 @@ export let message = "";
 
 export default async function initPong() {
 	const token = sessionStorage.getItem('token');
-	const response = await fetch('/api/verifuser', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token })
-	});
-	const info = await response.json();
-
+		const response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
+		const info = await response.json();
+					
 	initWebSocket(info.original);
+	await initLanguageSelector();
 	let keys: { [key: string]: boolean } = {
 		w: false,
 		s: false,

@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import { getDb_user } from '../database.js';
 import fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
 import { FastifyInstance } from 'fastify';
 
 import { validateUsername, validateEmail, validatePassword } from './../utils.js';

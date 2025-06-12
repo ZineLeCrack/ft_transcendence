@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { GameInstance } from './multiplayer.js';
 import jwt from 'jsonwebtoken';
+import { getDb_user} from "../database";
 import { request } from 'http';
 import { response } from 'express';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
@@ -17,13 +18,15 @@ export default async function gameRouter(fastify: FastifyInstance) {
 
 		let userId;
 		let userName;
-
+		const db = await getDb_user();
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
-			userName = (decoded as { name: string }).name;
-		} catch (err) {
-			reply.status(401).send('Invalid token');
+			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
+			userName = result.name;
+		}
+		catch (err) {
+			reply.status(401).send('Invalid token or database error');
 			return ;
 		}
 
@@ -182,11 +185,12 @@ export default async function gameRouter(fastify: FastifyInstance) {
 	fastify.post('/private/join', async (request, reply) => {
 		const { token } = request.body as { token: string };
 		let userId, userName;
-
+		const db = await getDb_user();
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
-			userName = (decoded as { name: string }).name;
+			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
+			userName = result.name;
 		} catch (err) {
 			reply.status(401).send('Invalid token');
 			return ;
@@ -194,8 +198,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 
 		console.log('userId', userId);
 		for (const [id, game] of games) {
-			console.log(`Test: userId = ${userId} (${userName}), tournamentId = ${id} with ${game.player1.id} vs ${game.player2.id}\n
--> game is private ? ${game.private} ! if = ${game.private && game.player1.id === userId} | else if = ${game.private && game.player2.id === userId}`);
 			if (game.private && game.player1.id.toString() === userId.toString()) {
 				game.player1.name = userName;
 				if (game.player2.name !== '') {
