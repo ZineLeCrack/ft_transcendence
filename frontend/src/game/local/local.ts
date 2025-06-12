@@ -1,7 +1,6 @@
 import { draw } from "./drawmap_local.js";
-import initError from "../../error.js";
-import { loadRoutes } from "../../main.js";
 import { initWebSocket } from '../../websocket';
+import { initLanguageSelector } from "../../language.js";
 
 
 export let ballX = 400;
@@ -24,7 +23,8 @@ export default async function initPong() {
 		});
 		const info = await response.json();
 					
-		initWebSocket(info.original);
+	initWebSocket(info.original);
+	await initLanguageSelector();
 	let keys: { [key: string]: boolean } = {
 		w: false,
 		s: false,
