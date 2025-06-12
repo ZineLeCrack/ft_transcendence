@@ -103,5 +103,14 @@
   "login_success": "Connexion réussie, redirection vers la page de l’a2f",
   "register_success": "Création de compte réussie ! redirection vers la page de connexion...",
   "edit_success": "Votre profil a été mis à jour avec succès",
-  "password_edit_success": "Mot de passe modifié avec succès"
+  "password_edit_success": "Mot de passe modifié avec succès",
+  "total_games_trad": "Total des matchs",
+  "Victories_trad": "Victoires",
+  "Defeats_trad": "Défaites",
+  "t_pl": "Tournois joués",
+  "t_w": "Tournois gagnés",
+  "t_l": "Tournois perdus",
+  "total_trad": "Total de points",
+  "points_t": "Points par match",
+  "your_turn": "C'est a votre tour de jouer dans le tournoi"
 }
