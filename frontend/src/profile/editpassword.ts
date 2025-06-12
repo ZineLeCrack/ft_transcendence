@@ -4,6 +4,7 @@ import initError from '../error.js';
 import initSuccess from '../success.js';
 import { loadProfilePicture } from './editinfo.js';
 import { initLanguageSelector } from '../language.js';
+import { translate } from '../i18n.js';
 
 export default async function initEditPassword() {
 	initLanguageSelector();
@@ -15,7 +16,7 @@ export default async function initEditPassword() {
 		});
 		if (!response.ok)
 		{
-			initError('Please Sign in or Sign up !');
+			initError(translate('Please Sign in or Sign up !'));
 			setTimeout(async () => {
 				history.pushState(null, '', '/login');
 				await loadRoutes('/login');
@@ -114,7 +115,7 @@ export default async function initEditPassword() {
                     const err = await response.text();
                     throw new Error(err || "Fail change");
                 }
-				initSuccess("password edit success");
+				initSuccess(translate("Password edit success"));
 				history.pushState(null, '', '/profile/edit');
 				await loadRoutes('/profile/edit');
 

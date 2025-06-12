@@ -28,7 +28,7 @@ export default async function initPong() {
 	});
 	if (!response.ok)
 	{
-		initError('Please Sign in or Sign up !');
+		initError(translate('Please Sign in or Sign up !'));
 		setTimeout(async () => {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');

@@ -95,5 +95,13 @@
   "GAME_P": "PARTIES JOUÉS",
   "POINTS_E": "POINTS GAGNÉS",
   "game_w": "Parties gagnés",
-  "game_l": "Parties perdus"
+  "game_l": "Parties perdus",
+  "history_mess": "Il n'y a pour l'instant pas encore d'historique car aucune partie n'a encore été jouée",
+  "a2f_good_mess": "Code A2F verifié, redrirection vers la page d'acceuil",
+  "a2f_send": "Code A2F envoyé, Veuillez le rentrer",
+  "Error_co": "Pouvez-vous vous connectez ou créer un compte",
+  "login_success": "Connexion réussie, redirection vers la page de l’a2f",
+  "register_success": "Création de compte réussie ! redirection vers la page de connexion...",
+  "edit_success": "Votre profil a été mis à jour avec succès",
+  "password_edit_success": "Mot de passe modifié avec succès"
 }
