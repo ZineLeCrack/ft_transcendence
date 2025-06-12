@@ -42,8 +42,6 @@ export default function initA2f() {
 	    {
 	        code : codeInput.value,
 	        IdUser : sessionStorage.getItem('userId'),
-			Name : sessionStorage.getItem('userName'),
-			PictureProfile : sessionStorage.getItem('UserPicture'),
 	    }
 	    const response = await fetch(`/api/a2f/verify`, {
 			method: 'POST',
@@ -60,8 +58,6 @@ export default function initA2f() {
 		const jwtToken = result.token;
 		sessionStorage.setItem('token', jwtToken);
 		sessionStorage.removeItem("userId");
-		sessionStorage.removeItem("userName");
-		sessionStorage.removeItem("userPicture");
 		initSuccess('A2F code verified, redirecting to home page...');
 	    setTimeout(async () => {
 			history.pushState(null, '', '/home');
