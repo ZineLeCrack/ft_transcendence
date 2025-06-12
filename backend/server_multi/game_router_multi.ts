@@ -65,13 +65,13 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		}
 
 		const gameStat = {
-			Id1: game?.player1.id,
-			Id2: game?.player2.id,
-			score1: game?.leftScore,
-			score2: game?.rightScore,
+			Id1: game.player1.id,
+			Id2: game.player2.id,
+			score1: game.leftScore,
+			score2: game.rightScore,
 		}
 
-		game?.stop();
+		game.stop();
 		games.delete(id);
 
 		if (game.tournamentId !== '') {
@@ -80,8 +80,10 @@ export default async function gameRouter(fastify: FastifyInstance) {
 				tournament: true,
 				tournamentId: game.tournamentId
 			});
+		} else if (game.private) {
+			reply.status(200).send({ ...gameStat, username1: game.player1.name, username2: game.player2.name, private: true });
 		} else {
-			reply.status(200).send(gameStat);
+			reply.status(200).send({ ...gameStat, private: false });
 		}
 	});
 

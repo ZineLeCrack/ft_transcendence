@@ -142,7 +142,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 
 		acceptBtn.addEventListener('click', async () => {
 			const token = sessionStorage.getItem('token');
-			await fetch("/api/reply-pong", {
+			await fetch("/api/private_game/reply-pong", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ token, target: targetUser, answer: 1 })
@@ -170,7 +170,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 
 		declineBtn.addEventListener('click', async () => {
 			const token = sessionStorage.getItem('token');
-			await fetch("/api/reply-pong", {
+			await fetch("/api/private_game/reply-pong", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ token, target: targetUser, answer: 0 })

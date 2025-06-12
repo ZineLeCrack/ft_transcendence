@@ -14,7 +14,7 @@ import searchRoutes from './search/search_back.js';
 import editRoutes from './edit/edit.js';
 import friendRoutes from './friend_block/friend-back.js';
 import blockRoutes from './friend_block/block-back.js';
-import privateGameRoute from './chat/private_game.js';
+import privateGameRoutes from './chat/private_game.js';
 import StatsRoutes from './stats/stats_back.js';
 import tournamentRoutes from './tournament/tournament_router.js';
 
@@ -54,7 +54,7 @@ async function main() {
 	await app.register(editRoutes);
 	await app.register(friendRoutes);
 	await app.register(blockRoutes);
-	await app.register(privateGameRoute);
+	await app.register(privateGameRoutes, { prefix: '/private_game'});
 	await app.register(StatsRoutes);
 	await app.register(tournamentRoutes, { prefix: '/tournament' });
 

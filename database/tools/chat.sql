@@ -15,7 +15,6 @@ CREATE TABLE privatechat (
     username1 TEXT NOT NULL,
     username2 TEXT NOT NULL,
     content TEXT NOT NULL,
-    pongRequest INTEGER DEFAULT 0, -- 0 no resquest, 1 request send or received, 2 request accept, 3 request decline
+    pongRequest INTEGER DEFAULT 0, -- 0 no resquest, 1 request send or received, 2 request accept, 3 request decline, 4 game finish
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-
 );
