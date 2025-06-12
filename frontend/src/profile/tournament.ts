@@ -53,8 +53,16 @@ export async function initTournamentGraph(originalUsername: string) {
 
 	const tournaments_played = document.getElementById('tournaments_played') as HTMLDivElement;
 	tournaments_played.textContent = `${stats.tournaments_played}`;
-	const best_ranking = document.getElementById('best_ranking') as HTMLDivElement;
-	best_ranking.textContent = `final`;
+	const last_ranking = document.getElementById('last_ranking') as HTMLDivElement;
+	
+	if (stats.last_ranking.length === 6)
+		last_ranking.textContent = 'quarter-final';
+	else if (stats.last_ranking.length === 17)
+		last_ranking.textContent = 'semi-final';
+	else if (stats.last_ranking.length === 11)
+		last_ranking.textContent = 'final';
+	else if (stats.last_ranking.length === 12)
+		last_ranking.textContent = 'winner';
 
 	const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
 	history.forEach((match: any) => {

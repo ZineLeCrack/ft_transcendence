@@ -18,6 +18,7 @@ CREATE TABLE stats (
 	tournaments_played INTEGER DEFAULT 0,
 	tournaments_win INTEGER DEFAULT 0,
 	tournaments_lose INTEGER DEFAULT 0,
+	last_ranking TEXT DEFAULT 'N/A',
 	id_player INTEGER NOT NULL,
 	FOREIGN KEY (id_player) REFERENCES users(id) ON DELETE CASCADE
 );
