@@ -100,7 +100,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 	}
 }
 
-export default async function  initHistory() 
+export default async function initHistory() 
 {
 	initLanguageSelector();
 	const token = sessionStorage.getItem('token');
