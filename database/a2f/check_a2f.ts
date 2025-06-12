@@ -72,8 +72,6 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
         const token = fastify.jwt.sign(
           {
             userId: IdUser,
-            name: Name,
-            Profile: PictureProfile,
           },
           { expiresIn: '24h' }
         );
