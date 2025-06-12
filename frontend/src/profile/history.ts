@@ -44,7 +44,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 
 				cardElement.innerHTML = `
 					<div class="flex flex-col items-center">
-						<div id="profile-pic-player1" class="w-[120px] h-[120px] overflow-hidden rounded-full"></div>
+						<div id="profile-pic-player1-${CardHistory.usernameplayer1}" class="w-[120px] h-[120px] overflow-hidden rounded-full"></div>
 						<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#00FFFF] mt-1">${CardHistory.usernameplayer1}</div>
 					</div>
 
@@ -55,15 +55,15 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 					<div class="text-8xl font-bold text-[#FF007A] drop-shadow-[0_0_10px_#FF007A] text-center">${CardHistory.pointplayer2}</div>
 
 					<div class="flex flex-col items-center">
-						<div id="profile-pic-player2" class="w-[120px] h-[120px] overflow-hidden rounded-full"></div>
+						<div id="profile-pic-player2-${CardHistory.usernameplayer2}" class="w-[120px] h-[120px] overflow-hidden rounded-full"></div>
 						<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer2}</div>
 					</div>
 
 					<div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">${CardHistory.date}</div>
 				`;
 
-				loadProfilePicture("profile-pic-player1", CardHistory.usernameplayer1);
-				loadProfilePicture("profile-pic-player2", CardHistory.usernameplayer2);
+				loadProfilePicture(`profile-pic-player1-${CardHistory.usernameplayer1}`, CardHistory.usernameplayer1);
+				loadProfilePicture(`profile-pic-player2-${CardHistory.usernameplayer2}`, CardHistory.usernameplayer2);
 			}
 			else
 			{
@@ -77,7 +77,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 				}
 				cardElement.innerHTML =`
 					<div class="flex flex-col items-center">
-						<div id="profile-lose1" class="w-[120px] h-[120px] overflow-hidden rounded-full"></div>
+						<div id="profile-lose1-${CardHistory.usernameplayer1}" class="w-[120px] h-[120px] overflow-hidden rounded-full"></div>
 						<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#00FFFF] mt-1">${CardHistory.usernameplayer2}</div>
 					</div>
 					
@@ -87,15 +87,15 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 					<div class="text-8xl font-bold text-[#FF007A] drop-shadow-[0_0_10px_#FF007A] text-center">${CardHistory.pointplayer1}</div>
 					
 					<div class="flex flex-col items-center">
-						<div id="profile-lose2" class="w-[120px] h-[120px] overflow-hidden rounded-full"></div>
+						<div id="profile-lose2-${CardHistory.usernameplayer2}" class="w-[120px] h-[120px] overflow-hidden rounded-full"></div>
 						<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer1}</div>
 					</div>
 					
 					<div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">${CardHistory.date}</div>
 				`;
 
-				loadProfilePicture("profile-lose1", CardHistory.usernameplayer2);
-				loadProfilePicture("profile-lose2", CardHistory.usernameplayer1);
+				loadProfilePicture(`profile-lose1-${CardHistory.usernameplayer2}`, CardHistory.usernameplayer2);
+				loadProfilePicture(`profile-lose2-${CardHistory.usernameplayer1}`, CardHistory.usernameplayer1);
 			}
 			container.appendChild(cardElement);
 		});
