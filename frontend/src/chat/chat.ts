@@ -5,13 +5,37 @@ import { translate } from '../i18n.ts';
 import { loadProfilePicture } from '../profile/editinfo.ts';
 
 let original_name:string;
+let original_id:string;
 
-export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean, pongGame? : boolean, requestDecline?: boolean) {
+export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean, pongGame? : boolean, requestDecline?: boolean, yourparty?: boolean) {
 
 	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
 
 	if (!messageWrapper) return ;
+
+	if (yourparty === true)
+	{
+		const container = document.createElement("div");
+		container.id = "container-is-your-turn";
+		container.className = "flex flex-col items-center space-y-2 my-4";
+
+		const msg = document.createElement("div");
+		
+		msg.id = "your-turn";
+		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
+		const requestText = translate('your-turn');
+		
+		msg.textContent = `${requestText} TEST`;
+		container.appendChild(msg);
+		messageWrapper.appendChild(container);
+		const chatContainer = document.getElementById('chat-containers');
+
+		if (chatContainer) {
+			chatContainer.scrollTop = chatContainer.scrollHeight;
+		}
+		return ;
+	}
 
 	const target = username;
 	const tokenID = sessionStorage.getItem('token');
@@ -318,6 +342,7 @@ export default function initChat() {
 
 		const data = await response.json();
 		original_name = data.original;
+		original_id = data.id_user;
 
 		async function displayAllMessages() {
 			try {
@@ -329,7 +354,17 @@ export default function initChat() {
 				messageBox.innerHTML = "";
 				for (let i = 0; i < tab.length; i++) {
 					const message = { ...tab[i], isHistoryMessage: true };
-					await sendMessage(message.username, message.content);
+					if (message.announceTournament === 2)
+					{
+						if (original_id == message.announceTournament_id1 || original_id == message.announceTournament_id2)
+						{
+							await sendMessage('', '', false, 'global', false, false, false, true);
+						}
+					}
+					else
+					{
+						await sendMessage(message.username, message.content);
+					}
 				}
 			} catch (err) {
 				console.error("Erreur lors de la récupération des messages :", err);

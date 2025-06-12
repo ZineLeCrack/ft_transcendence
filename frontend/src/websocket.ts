@@ -37,7 +37,7 @@ export function initWebSocket(original: string) {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
 		});
-		console.warn("WebSocket déconnecté :");
+		// console.warn("WebSocket déconnecté :");
 	};
 
 	ws.onmessage = async (event) => {
@@ -129,7 +129,7 @@ export function initWebSocket(original: string) {
 		}
 		if (data.type === 'tournament_next_game') {
 			if (userId === data.next_player1 || userId === data.next_player2) {
-				sendMessage('AAA', 'A TOI DE JOUER !', false, 'global', false, false, false);
+				sendMessage('', '', false, 'global', false, false, false, true);
 			}
 		}
 	};
