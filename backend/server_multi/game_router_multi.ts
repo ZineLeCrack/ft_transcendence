@@ -173,8 +173,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 
 		console.log('userId', userId);
 		for (const [id, game] of games) {
-			console.log(`Test: userId = ${userId} (${userName}), tournamentId = ${id} with ${game.player1.id} vs ${game.player2.id}\n
--> game is private ? ${game.private} ! if = ${game.private && game.player1.id === userId} | else if = ${game.private && game.player2.id === userId}`);
 			if (game.private && game.player1.id.toString() === userId.toString()) {
 				game.player1.name = userName;
 				if (game.player2.name !== '') {
