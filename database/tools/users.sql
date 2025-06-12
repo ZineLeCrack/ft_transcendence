@@ -43,7 +43,6 @@ CREATE TABLE friend (
 	FOREIGN KEY (id_player1) REFERENCES users(id) ON DELETE CASCADE
 	FOREIGN KEY (id_player2) REFERENCES users(id) ON DELETE CASCADE
 	UNIQUE(id_player1, id_player2)
-
 );
 
 CREATE TABLE block (
