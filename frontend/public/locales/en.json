@@ -95,5 +95,13 @@
   "GAME_P": "GAMES PLAYED",
   "POINTS_E": "POINTS EARNED",
   "game_w": "Games win",
-  "game_l": "Games lose"
+  "game_l": "Games lose",
+  "history_mess": "There are no history for the moment because no game have been played yet",
+  "a2f_good_mess": "2FA code verified, redirecting to home page...",
+  "a2f_send": "2FA code sent, please enter it",
+  "Error_co": "Please Sign in or Sign up !",
+  "login_sucess": "Login successfull! Redirecting to 2FA page...",
+  "register_success": "Registration successful! redirecting to login page...",
+  "edit_sucess": "Your profile has been updated successfully",
+  "password_edit_sucess": "Password edit success"
 }

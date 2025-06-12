@@ -3,6 +3,7 @@ import { loadRoutes } from '../main.js';
 import initError from '../error.js';
 import initSuccess from '../success.js';
 import { initLanguageSelector } from '../language.js';
+import { translate } from '../i18n.js';
 
 export default function initLogin() {
 
@@ -82,7 +83,7 @@ export default function initLogin() {
 
 			sessionStorage.setItem('userId', data.id);
 
-			initSuccess('Login successfull! Redirecting to 2FA page...');
+			initSuccess(translate('Login successfull! Redirecting to 2FA page...'));
 			setTimeout (async () => {
 				history.pushState(null, '', '/login/a2f');
 				await loadRoutes('/login/a2f');

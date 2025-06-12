@@ -2,6 +2,7 @@ import initError from '../error.js';
 import { loadRoutes } from '../main.js';
 import initSuccess from '../success.js';
 import { initLanguageSelector } from '../language.js';
+import { translate } from '../i18n.js';
 
 
 export default function initA2f() {
@@ -32,7 +33,7 @@ export default function initA2f() {
 			}, 1000);
 			return;
 		}
-	    initSuccess('A2F code sent, please enter it');
+	    initSuccess(translate('2FA code sent, please enter it'));
 	});
 
 	form.addEventListener("submit", async (event) => {
@@ -58,7 +59,7 @@ export default function initA2f() {
 		const jwtToken = result.token;
 		sessionStorage.setItem('token', jwtToken);
 		sessionStorage.removeItem("userId");
-		initSuccess('A2F code verified, redirecting to home page...');
+		initSuccess(translate('2FA code verified, redirecting to home page...'));
 	    setTimeout(async () => {
 			history.pushState(null, '', '/home');
 			await loadRoutes('/home');

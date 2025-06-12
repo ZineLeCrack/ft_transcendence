@@ -9,6 +9,7 @@ import { initWebSocket } from '../websocket.js';
 import initError from '../error.js'
 import { loadRoutes } from '../main.js';
 import { initLanguageSelector } from '../language.js';
+import { translate } from '../i18n.js';
 
 export default async function initHome() {
 	
@@ -21,7 +22,7 @@ export default async function initHome() {
 	});
 	if (!response.ok)
 	{
-		initError('Please Sign in or Sign up !');
+		initError(translate('Please Sign in or Sign up !'))
 		setTimeout(async () => {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');

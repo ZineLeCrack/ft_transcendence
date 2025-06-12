@@ -309,7 +309,6 @@ export default function initChat() {
 		});
 
 		if (!response.ok) {
-			initError('Please Sign in or Sign out !');
 			setTimeout(async () => {
 				history.pushState(null, '', '/login');
 				await loadRoutes('/login');
