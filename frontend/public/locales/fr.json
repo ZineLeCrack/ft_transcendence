@@ -112,5 +112,8 @@
   "t_l": "Tournois perdus",
   "total_trad": "Total de points",
   "points_t": "Points par match",
-  "your_turn": "C'est a votre tour de jouer dans le tournoi"
+  "your_turn": "C'est a votre tour de jouer dans le tournoi",
+  "games_stats": "Statistiques de Parties",
+  "tournaments_stats": "Statistiques de tournois",
+  "points_stats": "Statistiques de points"
 }

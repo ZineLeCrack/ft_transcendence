@@ -9,11 +9,11 @@ import { loadProfilePicture } from '../profile/editinfo.js';
 import { initWebSocket } from '../websocket';
 import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
-import initOverallStats from './globalstat.js';
+import initGlobalstats from './globalstat.js';
 
 
 export default async function initUsers(username?: string, isHistory: boolean = false) {
-	initLanguageSelector();
+	await initLanguageSelector();
 	const tokenID = sessionStorage.getItem("token");
 	const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
 	const blockbtn = document.getElementById("block-btn") as HTMLButtonElement;
@@ -154,6 +154,6 @@ async function loadOverallContent(username: string) {
 		if (historyDiv){
 			historyDiv.innerHTML = '';
 		}
-		await initOverallStats(username);
+		await initGlobalstats(username);
 	}
 }
