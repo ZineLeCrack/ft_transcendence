@@ -192,4 +192,34 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		}
 		reply.status(404).send('Game not found');
 	});
+
+	fastify.post('/which_player', async (request, reply) => {
+		const { token, gameId } = request.body as { token: string, gameId: string };
+		const game = games.get(gameId.toString());
+
+		if (!game) {
+			reply.status(404).send('Game not found');
+			return ;
+		}
+
+		let userId;
+
+		try {
+			const decoded = jwt.verify(token, JWT_SECRET);
+			userId = (decoded as { userId: string }).userId;
+		} catch (err) {
+			reply.status(401).send('Invalid token');
+			return ;
+		}
+
+		if (game.player1.id.toString() === userId.toString()) {
+			reply.status(200).send({ player: 'player1' });
+			return ;
+		} else if (game.player2.id.toString() === userId.toString()) {
+			reply.status(200).send({ player: 'player2' });
+			return ;
+		}
+
+		reply.status(401).send('Player not in the game');
+	});
 }
