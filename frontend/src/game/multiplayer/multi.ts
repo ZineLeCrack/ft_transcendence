@@ -16,12 +16,12 @@ export let message = "";
 export default async function initMultiplayer() {
 
 	const token = sessionStorage.getItem('token');
-	const response = await fetch('/api/verifuser', {
+	const response1 = await fetch('/api/verifuser', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token }),
+		body: JSON.stringify({ token })
 	});
-	if (!response.ok) {
+	if (!response1.ok) {
 		initError('Please Sign in or Sign up !');
 		setTimeout(async () => {
 			history.pushState(null, '', '/login');
@@ -29,27 +29,39 @@ export default async function initMultiplayer() {
 		}, 1000);
 		return ;
 	}
-	const info = await response.json();
+	const info = await response1.json();
 
 	initWebSocket(info.original);
-
-	const player = sessionStorage.getItem("player");
-
+	
 	let keys: { [key: string]: boolean } = {
 		ArrowUp: false,
 		ArrowDown: false
 	};
-
+	
 	let gameOver = false;
-
+	
 	const gameId = sessionStorage.getItem("gameId");
-	if (!gameId)
-	{
+	if (!gameId) {
 		initError('You are not in a game');
 		return ;
 	}
-	const SERVER_URL = `/api/multi/game/${gameId}`;
+	
+	const response2 = await fetch('/api/multi/game/which_player', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ token: token, gameId: gameId })
+	})
 
+	const data = await response2.json();
+	const player = data.player;
+
+	if (!player) {
+		initError('Error connecting to the game');
+		return ;
+	}
+
+	const SERVER_URL = `/api/multi/game/${gameId}`;
+	
 	const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
 	const h1player2 = document.getElementById('name-player2') as HTMLHeadingElement;
 
@@ -64,9 +76,7 @@ export default async function initMultiplayer() {
 		{
 			h1player1.textContent = `${info.original}`;
 			h1player2.textContent = `${name.player2.name}`;
-		}
-		else
-		{
+		} else {
 			h1player1.textContent = `${name.player1.name}`;
 			h1player2.textContent = `${info.original}`;	
 		}
@@ -75,16 +85,12 @@ export default async function initMultiplayer() {
 		return ;
 	}
 
-	
-
 	async function fetchState() {
-		if (gameOver)
-			return ;
+		if (gameOver) return ;
 		try {
 			const res = await fetch(`${SERVER_URL}/state`);
 			const data = await res.json();
-			if (data.end)
-			{
+			if (data.end) {
 				gameOver = true;
 				setTimeout(async () => {
 					if (player === "player1") {
@@ -142,8 +148,7 @@ export default async function initMultiplayer() {
 	});
 
 	setInterval(() => {
-		if (gameOver)
-			return ;
+		if (gameOver) return ;
 		fetch(`${SERVER_URL}/${player}move`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },

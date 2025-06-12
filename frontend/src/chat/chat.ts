@@ -65,7 +65,6 @@ export async function sendMessage(username: string, content: string, pong?: bool
 			});
 			const data = await response.json();
 			sessionStorage.setItem("gameId", data.gameId);
-			sessionStorage.setItem("player", data.player);
 			history.pushState(null, '', '/game/multi');
 			await loadRoutes('/game/multi');
 			window.location.reload();

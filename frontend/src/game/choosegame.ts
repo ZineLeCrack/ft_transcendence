@@ -78,7 +78,6 @@ export default function initChooseGame() {
 					const gameId = data.gameId;
 					const player = data.player;
 					sessionStorage.setItem("gameId", gameId);
-					sessionStorage.setItem("player", player);
 
 					history.pushState(null, '', '/game/multi');
 					await loadRoutes('/game/multi');
