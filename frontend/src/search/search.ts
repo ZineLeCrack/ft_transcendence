@@ -27,10 +27,10 @@ export default async function initSearch()
 					history.pushState(null, '', '/users/' + username);
 					await loadRoutes('/users/' + username);
 				} else {
-					initError(translate("User not found !"));
+					initError(translate("user_NOT_FOUND"));
 				}
 			} catch (err) {
-				initError(translate("An error occurred while verifying the user."));
+				initError(translate("Error_verif_user"));
 			}
 		}
 	});

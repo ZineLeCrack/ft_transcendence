@@ -23,7 +23,7 @@ export default async function initMultiplayer() {
 		body: JSON.stringify({ token })
 	});
 	if (!response1.ok) {
-		initError(translate('Please Sign in or Sign up !'));
+		initError(translate('Error_co'));
 		setTimeout(async () => {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
@@ -43,7 +43,7 @@ export default async function initMultiplayer() {
 	
 	const gameId = sessionStorage.getItem("gameId");
 	if (!gameId) {
-		initError(translate('You are not in a game'));
+		initError(translate('Error_co'));
 		setTimeout(async () => {
 			history.pushState(null, '', '/home');
 			await loadRoutes('/home');
@@ -61,7 +61,7 @@ export default async function initMultiplayer() {
 	const player = data.player;
 
 	if (!player) {
-		initError(translate('Error connecting to the game'));
+		initError(translate('err_co'));
 		setTimeout(async () => {
 			history.pushState(null, '', '/home');
 			await loadRoutes('/home');
@@ -78,7 +78,7 @@ export default async function initMultiplayer() {
 		const getname = await fetch(`${SERVER_URL}/getname`, { method: 'POST'});	
 		const name = await getname.json();
 		if (!name.player2 || !name.player1) {
-			initError(translate('Failed to load player ids'));
+			initError(translate('failed_id'));
 			return ;
 		}
 		if (player === 'player1')
@@ -90,7 +90,7 @@ export default async function initMultiplayer() {
 			h1player2.textContent = `${info.original}`;	
 		}
 	} catch (err) {
-		initError(translate('Failed to load player ids'));
+		initError(translate('failed_id'));
 		return ;
 	}
 

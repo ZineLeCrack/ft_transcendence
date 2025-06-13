@@ -196,7 +196,7 @@ export const loadRoutes = async (path: string) => {
 					}
 					return;
 				} catch (error) {
-					initError (translate("An error occurred while verifying the user. Please try again later."));
+					initError (translate("Error_verif_user"));
 					body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
 					body.style.backgroundSize = "1920px 920px"; 
 					body.style.backgroundImage = "url('/images/404notfound.jpg')";

@@ -37,7 +37,7 @@ export default async function initPong() {
 	const gameId = sessionStorage.getItem("gameId");
 
 	if (!gameId) {
-		initError('You are not in a game');
+		initError('not_in_game');
 		setTimeout(async () => {
 			history.pushState(null, '', '/home');
 			await loadRoutes('/home');

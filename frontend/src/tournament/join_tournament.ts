@@ -160,7 +160,7 @@ export default async function initJoinTournament() {
 				confirmAlias.addEventListener('click', async () => {
 					try {
 						if (inputAlias.value.trim().length > 10) {
-							initError(translate('Alias too long !'));
+							initError(translate('alias_too_long'));
 							return ;
 						}
 						const token = sessionStorage.getItem('token');
@@ -223,7 +223,7 @@ export default async function initJoinTournament() {
 						e.preventDefault();
 						try {
 							if (inputAlias.value.trim().length > 10) {
-								initError('Alias too long !');
+								initError('alias_too_long');
 								return ;
 							}
 							const token = sessionStorage.getItem('token');

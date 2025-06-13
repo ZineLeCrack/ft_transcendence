@@ -43,7 +43,7 @@ export default function initRegister() {
 
 		if (signUpPasswordInput.value !== signUpConfirmPasswordInput.value)
 		{
-			initError(translate('Password does not match.'));
+			initError(translate('pass_match'));
 			return ;
 		}
 
@@ -71,7 +71,7 @@ export default function initRegister() {
 				return;
 			}
 
-			initSuccess('Registration successful! redirecting to login page...');
+			initSuccess(translate('register_success'));
 			setTimeout(async () => {
 			    history.pushState(null, '', '/login');
 			    await loadRoutes('/login');

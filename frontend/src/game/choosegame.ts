@@ -82,7 +82,7 @@ export default function initChooseGame() {
 					await loadRoutes('/game/multi');
 					window.location.reload();
 				} catch (err) {
-					initError(translate("Error : Local game can't start."));
+					initError(translate("local_can't_start"));
 				}
 			};
 			document.body.style.backgroundImage = "url('/images/tournament.png')";

@@ -56,12 +56,12 @@ export default function initCreateTournament() {
 		const password = (document.getElementById('tournament-password') as HTMLInputElement)?.value;
 
 		if (!tournamentName) {
-			initError(translate('Please enter a tournament name'));
+			initError(translate('torn_name'));
 			return;
 		}
 
 		if (type.value === 'private' && !password) {
-			initError(translate('Please enter a password for private tournament'));
+			initError(translate('torn_name'));
 			return;
 		}
 
@@ -85,7 +85,7 @@ export default function initCreateTournament() {
 			mainView?.classList.remove('hidden');
 			window.location.reload();
 		} catch (error) {
-			initError(translate('Failed to create tournament'));
+			initError(translate('torn_failed'));
 		}
 	});
 }

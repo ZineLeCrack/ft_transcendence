@@ -78,7 +78,7 @@ export default function initLogin() {
 
 			sessionStorage.setItem('userId', data.id);
 
-			initSuccess(translate('Login successfull! Redirecting to 2FA page...'));
+			initSuccess(translate('login_success'));
 			setTimeout (async () => {
 				history.pushState(null, '', '/login/a2f');
 				await loadRoutes('/login/a2f');

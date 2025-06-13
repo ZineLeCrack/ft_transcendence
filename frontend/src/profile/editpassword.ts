@@ -16,7 +16,7 @@ export default async function initEditPassword() {
 		});
 		if (!response.ok)
 		{
-			initError(translate('Please Sign in or Sign up !'));
+			initError(translate('Error_co'));
 			setTimeout(async () => {
 				history.pushState(null, '', '/login');
 				await loadRoutes('/login');
@@ -88,12 +88,12 @@ export default async function initEditPassword() {
 			event.preventDefault();
 			if (editNewPasswordInput.value !== editConfirmNewPasswordInput.value)
 			{
-				initError(translate('Password wrong'));
+				initError(translate('no_pass'));
 				return ;
 			}
 			else if (editNewPasswordInput.value === editCurrentPasswordInput.value)
 			{
-				initError(translate("Don't change your passwor with the last"));
+				initError(translate("same_pass"));
 				return ;
 			}
 			try {
@@ -115,7 +115,7 @@ export default async function initEditPassword() {
                     const err = await response.text();
                     throw new Error(err || "Fail change");
                 }
-				initSuccess(translate("Password edit success"));
+				initSuccess(translate("password_edit_success"));
 				history.pushState(null, '', '/profile/edit');
 				await loadRoutes('/profile/edit');
 

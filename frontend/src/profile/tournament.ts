@@ -16,7 +16,7 @@ export default async function initTournamentStats() {
 		body: JSON.stringify({ token }),
 	});
 	if (!response.ok) {
-		initError(translate('Please Sign in or Sign up !'));
+		initError(translate('Error_co'));
 		setTimeout(async () => {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');

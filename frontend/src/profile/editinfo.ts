@@ -44,7 +44,7 @@ export default async function initEditProfile() {
 	});
 	if (!response.ok)
 	{
-		initError(translate('Please Sign in or Sign up !'));
+		initError(translate('Error_co'));
 		setTimeout(async () => {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
@@ -102,7 +102,7 @@ export default async function initEditProfile() {
 					const err = await response.text();
 					throw new Error(err || "Fail change");
 				}
-					initSuccess(translate("Your profile has been updated successfully"));
+					initSuccess(translate("edit_sucess"));
 					editProfileForm.reset();
 					window.location.reload();
 			}
@@ -120,7 +120,7 @@ export default async function initEditProfile() {
 		const file = pictureInput.files![0];
 		if (!file)
 		{
-			initError(translate("Please select a picture"));
+			initError(translate("picture_no"));
 			pictureInput.value = '';
 			return;
 		}

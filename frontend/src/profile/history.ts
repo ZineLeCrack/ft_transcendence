@@ -115,7 +115,7 @@ export default async function initHistory()
 	});
 	if (!response.ok)
 	{
-		initError(translate('Please Sign in or Sign up !'));
+		initError(translate('Error_co'));
 		setTimeout(async () => {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');

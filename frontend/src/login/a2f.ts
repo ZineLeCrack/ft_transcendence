@@ -33,7 +33,7 @@ export default function initA2f() {
 			}, 1000);
 			return;
 		}
-	    initSuccess(translate('2FA code sent, please enter it'));
+	    initSuccess(translate('a2f_send'));
 	});
 
 	form.addEventListener("submit", async (event) => {
@@ -59,7 +59,7 @@ export default function initA2f() {
 		const jwtToken = result.token;
 		sessionStorage.setItem('token', jwtToken);
 		sessionStorage.removeItem("userId");
-		initSuccess(translate('2FA code verified, redirecting to home page...'));
+		initSuccess(translate('a2f_good_mess'));
 	    setTimeout(async () => {
 			history.pushState(null, '', '/home');
 			await loadRoutes('/home');

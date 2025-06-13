@@ -116,7 +116,7 @@
   "games_stats": "Statistiques de Parties",
   "tournaments_stats": "Statistiques de tournois",
   "points_stats": "Statistiques de points",
-   "Error_verif_user" : "Une erreur s’est produite lors de la vérification de l’utilisateur. Veuillez réessayer plus tard.",
+  "Error_verif_user" : "Une erreur s’est produite lors de la vérification de l’utilisateur. Veuillez réessayer plus tard.",
   "not_friend" : "Vous n’êtes pas ami avec cet utilisateur." ,
   "already_send" : "Vous avez envoyé une demande d’ami à cet utilisateur. Veuillez attendre sa réponse." ,
   "local_can’t_start" : "Error : Local game cannot start." ,
