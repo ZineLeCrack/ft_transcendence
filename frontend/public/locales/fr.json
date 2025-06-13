@@ -133,5 +133,6 @@
 	"error_user" : "Une erreur s’est produite lors de la vérification de l’utilisateur." ,
 	"no_pass" : "Mot de passe incorrect",
 	"same_pass" : "Ne change pas ton mot de passe avec le dernier",
-	"not_the_current" : "Votre mot de passe actuel incorrect"
+	"not_the_current" : "Votre mot de passe actuel incorrect",
+  "controls": "Commmandes"
 }
