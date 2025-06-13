@@ -3,36 +3,36 @@ ZineLeCrack
  — 
 12:46
 ------------LOGIN----------------
-Mauvais mdp ou login -> erreur dans la console
-Mauvais code a2f -> erreur dans la console
+lelanglo - Mauvais mdp ou login -> erreur dans la console
+lelanglo - Mauvais code a2f -> erreur dans la console
+ebroudic - _ pas accepter dans les emails
 
 ------------MDP------------------
-Caractères spéciaux non acceptés
+ebroudic - Caractères spéciaux non acceptés
 
 ------------CHAT-----------------
-Quand spam clique sur un ami, plusieurs boutons de parties privées
-Quand partie privée accepter, le message revient tout en bas, sauf refresh où il revient au bon endroit
-Traduction qui a besoin d'un refresh quand tu n'as pas d'ami
+ebroudic - Quand spam clique sur un ami, plusieurs boutons de parties privées + plusieurs fois le même message
+ebroudic - Quand partie privée accepter, le message revient tout en bas, sauf refresh où il revient au bon endroit
 
 ------------PROFIL---------------
-NaN% C'est peut-être mieux de changer
-Dans le graphique points/wins/loses non traduits
+lelanglo - Dans le graphique points/wins/loses non traduits
 
 ------------AMI-BLOQUAGE---------
-WebSocket quand demande d'ami + demande d'ami acceptée + ami bloqué + ami plus ami
-On peut demander en ami quelqu'un qui nous a bloqué !!! (Ça part en couille après)
+ebroudic - WebSocket quand demande d'ami + demande d'ami acceptée + ami bloqué + ami plus ami
+cle-berr - On peut demander en ami quelqu'un qui nous a bloqué !!! (Ça part en couille après)
 
 -------------TOURNOI-------------
-Meilleur classement non traduit dans les stats
+lelanglo - Meilleur classement non traduit dans les stats
 
 -------------MULTI---------------
-Nom du 2e joueur manquant pour le joueur 1 s'il ne refresh pas
+rlebaill - Nom du 2e joueur manquant pour le joueur 1 s'il ne refresh pas
 
 -------------PONG----------------
-Rien n'est traduit ici à part le bouton home
+lelanglo - Message non traduit
 
 -----------PARTOUT---------------
-Tous les pop-ups ne sont pas traduits
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿
+lelanglo - Tous les pop-ups ne sont pas traduits
+
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿
 ZineLeCrack
 👍🏻👍🏻
