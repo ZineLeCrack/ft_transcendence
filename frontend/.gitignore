@@ -2,4 +2,5 @@
 logs
 .vscode
 .env
+node_modules
 
