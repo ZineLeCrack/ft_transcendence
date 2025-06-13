@@ -116,7 +116,7 @@ export default async function initEditProfile() {
 			}
 			catch (error)
 			{
-				initError(error as string);
+				initError((error as string).toString().substring(7));
 			}
 		});
 	}

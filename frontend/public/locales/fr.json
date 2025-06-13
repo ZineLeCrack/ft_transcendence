@@ -136,5 +136,5 @@
 	"not_the_current" : "Votre mot de passe actuel incorrect",
   	"controls": "Commmandes",
 	"incomplete_data": "Veuillez remplir les au moins l'un des deux champs !",
-  	"user_error": "Ce pseudonyme est deja utilisé"
+  	"user_error": "Un utilisateur possede deja ces informations"
 }
