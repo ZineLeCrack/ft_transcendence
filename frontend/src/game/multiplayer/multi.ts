@@ -3,6 +3,7 @@ import { loadRoutes } from "../../main.js";
 import initError from "../../error.js";
 import { getWebSocket, initWebSocket } from "../../websocket.js";
 import { translate } from "../../i18n.js";
+import { initLanguageSelector } from "../../language.js";
 
 export let ballX = 400;
 export let ballY = 300;
@@ -33,7 +34,8 @@ export default async function initMultiplayer() {
 	const info = await response1.json();
 
 	initWebSocket(info.original);
-	
+	await initLanguageSelector();
+
 	let keys: { [key: string]: boolean } = {
 		ArrowUp: false,
 		ArrowDown: false
