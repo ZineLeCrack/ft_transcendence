@@ -10,7 +10,7 @@ Mauvais code a2f -> erreur dans la console
 Caractères spéciaux non acceptés
 
 ------------CHAT-----------------
-Quand spam clique sur un ami, plusieurs boutons de parties privées
+Quand spam clique sur un ami, plusieurs boutons de parties privées + plusieurs fois le même message
 Quand partie privée accepter, le message revient tout en bas, sauf refresh où il revient au bon endroit
 Traduction qui a besoin d'un refresh quand tu n'as pas d'ami
 
@@ -29,7 +29,7 @@ Meilleur classement non traduit dans les stats
 Nom du 2e joueur manquant pour le joueur 1 s'il ne refresh pas
 
 -------------PONG----------------
-Rien n'est traduit ici à part le bouton home
+Message non traduit
 
 -----------PARTOUT---------------
 Tous les pop-ups ne sont pas traduits
