@@ -1,6 +1,6 @@
 FROM node:20-slim
 
-RUN apt-get update && apt-get install -y openssl php
+RUN apt-get update
 
 WORKDIR /app
 
