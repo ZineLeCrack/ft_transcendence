@@ -20,6 +20,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 	const container = document.getElementById(div);
 	if (container)
 	{
+		container.innerHTML = ``;
 		if (cardsHistory.length === 0)
 		{
 			const message = document.createElement('div');
@@ -106,7 +107,6 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 
 export default async function initHistory() 
 {
-	await initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',

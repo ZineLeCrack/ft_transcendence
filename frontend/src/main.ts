@@ -20,6 +20,7 @@ import SearchHTML from './pages/search.html?raw';
 
 import initError from './error.js';
 import { translate } from './i18n.ts';
+import { initLanguageSelector } from './language.ts';
 
 const notFoundPageContent = `
 	<div class="text-center p-8 bg-transparent rounded-lg shadow-lg">
@@ -116,6 +117,7 @@ const routes: { [path: string]: Route } = {
 		script: async () => {
 			const {default: initHistory} = await import ('./profile/history.ts');
 			initHistory();
+			await initLanguageSelector();
 		}
 	},
 	'/profile/statistics/tournaments':

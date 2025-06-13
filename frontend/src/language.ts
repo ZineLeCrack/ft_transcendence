@@ -1,6 +1,8 @@
 import { loadTranslations, applyTranslations, setStoredLanguage, getStoredLanguage } from './i18n';
 import { refreshGameModeDisplay } from './game/choosegame';
 import initJoinTournament from './tournament/join_tournament';
+import initFriendChat from './chat/friendchat';
+import initHistory from './profile/history';
 
 export async function initLanguageSelector() {
 	const languageSelector = document.getElementById('language-selector');
@@ -39,8 +41,16 @@ async function changeLanguage(lang: string): Promise<void> {
 	await loadTranslations(lang);
 	applyTranslations();
 
-	refreshGameModeDisplay();
-	initJoinTournament();
+	if (window.location.pathname === '/home')
+	{		
+		refreshGameModeDisplay();
+		initJoinTournament();
+		initFriendChat();
+	}
+	if (window.location.pathname === "/profile/statistics/history")
+	{
+		initHistory();
+	}
 }
 
 function updateFlag(lang: string): void {

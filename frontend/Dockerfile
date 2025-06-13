@@ -1,7 +1,7 @@
 FROM node:20-slim
 
 # Install nginx and openssl
-RUN apt update && apt install -y nginx openssl
+RUN apt update && apt install -y nginx openssl && rm -rf /var/lib/apt/lists/*
 
 # Certificats auto-signés
 RUN mkdir /certs && \
