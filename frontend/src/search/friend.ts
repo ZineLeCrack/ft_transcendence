@@ -1,3 +1,5 @@
+import { getWebSocket } from "../websocket";
+
 export default async function initAddFriend(target?: string) {
     if (target) {
         const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
@@ -28,6 +30,7 @@ export default async function initAddFriend(target?: string) {
         await checkFriendStatus();
 
         friendbtn.addEventListener("click", async () => {
+            const ws = getWebSocket();
             if (friendbtn.textContent === "Add Friend")
             {
                 const res = await fetch("/api/requestfriend", {
@@ -39,7 +42,9 @@ export default async function initAddFriend(target?: string) {
                 if (data.success) {
                     friendbtn.textContent = "Request Sent";
                 }
-
+                let chatdata;
+                chatdata = { type: 'add_friend', token: tokenID, targetUsername : target};
+                ws?.send(JSON.stringify(chatdata));
             }
             else if (friendbtn.textContent === "Remove Friend")
             {

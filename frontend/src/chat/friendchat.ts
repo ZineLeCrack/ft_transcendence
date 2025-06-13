@@ -4,11 +4,11 @@ import { getWebSocket } from '../websocket.ts';
 import { translate } from '../i18n.ts';
 import { loadProfilePicture } from '../profile/editinfo.ts';
 
-export default async function initFriendChat() {
+export function initSwitchChat()
+{
 	const switchChatBtn = document.getElementById('switch-chat') as HTMLButtonElement;
-	const chatInfo = document.getElementById('chat-info') as HTMLDivElement;
 	const friendslist = document.getElementById('friends-list') as HTMLDivElement;
-	
+
 	switchChatBtn.addEventListener('click', async () => {
 		if (document.getElementById('chat-messages-global')) {
 			const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
@@ -78,6 +78,11 @@ export default async function initFriendChat() {
 			}
 		}
 	});
+}
+
+export default async function initFriendChat() {
+	const chatInfo = document.getElementById('chat-info') as HTMLDivElement;
+	const friendslist = document.getElementById('friends-list') as HTMLDivElement;
 
 	interface Friend {
 		username: string;

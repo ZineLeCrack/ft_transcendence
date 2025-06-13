@@ -26,6 +26,7 @@ export default async function initPong() {
 					
 	initWebSocket(info.original);
 	await initLanguageSelector();
+
 	let keys: { [key: string]: boolean } = {
 		w: false,
 		s: false,

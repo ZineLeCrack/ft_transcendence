@@ -92,10 +92,7 @@ export function setupWebSocket(server: any) {
 						  ORDER BY created_at DESC LIMIT 1
 						`, [username, targetUsername, targetUsername, username]);
 					if (pongRequest === 1 && lastInvite) {
-						ws.send(JSON.stringify({
-							type: 'error',
-							message: 'A request has already been created, invitation canceled.'
-						}));
+						ws.send(JSON.stringify({type: 'error', message: 'A request has already been created, invitation canceled.'}));
 						return;
 					}
 
@@ -110,6 +107,25 @@ export function setupWebSocket(server: any) {
 					for (const client of clients) {
 						if (client.readyState === ws.OPEN) {
 							client.send(JSON.stringify({ type, username, targetUsername , content, pongRequest }));
+						}
+					}
+				}
+				else if (type === 'add_friend')
+				{
+					let id_user;
+					try {
+						const decoded = jwt.verify(token, JWT_SECRET);
+						id_user = (decoded as { userId: string }).userId;
+					}
+					catch (err) {
+						console.error(err);
+						return;
+					}
+					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`,[id_user]);
+					const username = response.name;
+					for (const client of clients) {
+						if (client.readyState === ws.OPEN) {
+							client.send(JSON.stringify({type, username, targetUsername}));
 						}
 					}
 				}

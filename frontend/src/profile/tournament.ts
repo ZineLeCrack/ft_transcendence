@@ -54,13 +54,13 @@ export async function initTournamentGraph(originalUsername: string) {
 	const tournaments_played = document.getElementById('tournaments_played') as HTMLDivElement;
 	tournaments_played.textContent = `${stats.tournaments_played}`;
 	const last_ranking = document.getElementById('last_ranking') as HTMLDivElement;
-	
+
 	if (stats.last_ranking.length === 6)
-		last_ranking.textContent = 'quarter-final';
+		last_ranking.textContent = 'quarter-finalist';
 	else if (stats.last_ranking.length === 17)
-		last_ranking.textContent = 'semi-final';
+		last_ranking.textContent = 'semi-finalist';
 	else if (stats.last_ranking.length === 11)
-		last_ranking.textContent = 'final';
+		last_ranking.textContent = 'finalist';
 	else if (stats.last_ranking.length === 12)
 		last_ranking.textContent = 'winner';
 

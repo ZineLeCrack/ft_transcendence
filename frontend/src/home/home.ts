@@ -4,7 +4,7 @@ import initsearch from '../search/search';
 import initCreateTournament from '../tournament/create_tournament';
 import initJoinTournament from '../tournament/join_tournament';
 import initInTournament from '../tournament/in_tournament';
-import initFriendChat from '../chat/friendchat';
+import initFriendChat, { initSwitchChat } from '../chat/friendchat';
 import { initWebSocket } from '../websocket.js';
 import initError from '../error.js'
 import { loadRoutes } from '../main.js';
@@ -36,6 +36,7 @@ export default async function initHome() {
 	initChooseGame();
 	initChat();
 	await initFriendChat();
+	await initSwitchChat();
 	await initsearch();
 	
 	const res = await fetch('/api/tournament/is_in', {

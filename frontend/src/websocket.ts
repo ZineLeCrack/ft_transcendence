@@ -2,6 +2,7 @@ import { sendMessage } from "./chat/chat.js";
 import initError from "./error.js";
 import { generateTournamentView } from "./tournament/in_tournament.js";
 import { translate } from "./i18n.js";
+import initFriendChat from "./chat/friendchat.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -45,6 +46,12 @@ export function initWebSocket(original: string) {
 		if (data.type === 'error') {
 			initError(data.message);
 			return;
+		}
+		if (data.type === "add_friend")
+		{
+			console.log("addfriend");
+			initFriendChat();
+			// sendMessage(original_name, "", false, data.targetUsername, true);
 		}
 		if ((data.type === 'new_message' || data.type === 'new_private_message') && !data.isHistoryMessage) {
 			if (data.type === 'new_message') {
