@@ -149,6 +149,11 @@ export default async function initEditProfile() {
 				const err = await response.text();
 				throw new Error(err || "Fail change");
 			}
+				const err = await response.text();
+				if (err === "Please a valid image (PNG, JPG, WEBP, ...)")
+				{
+					throw new Error(translate("bad_picture"));
+				}
 				loadProfilePicture("profil-pic", "l");
 				pictureInput.value = '';
 				window.location.reload();
@@ -156,7 +161,7 @@ export default async function initEditProfile() {
 			} 
 			catch (error) 
 			{
-				initError(error as string);
+				initError((error as string).toString().substring(7));
 			}
 	});
 

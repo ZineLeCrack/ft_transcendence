@@ -111,17 +111,21 @@ export default async function initEditPassword() {
                 });
                 if (!response.ok)
                 {
-                    initError(translate("not_the_current"));
                     const err = await response.text();
                     throw new Error(err || "Fail change");
                 }
+				const err = await response.text();
+				if (err === "invalid mdp")
+				{
+					throw new Error(translate("not_the_current"));
+				}
 				initSuccess(translate("password_edit_success"));
 				history.pushState(null, '', '/profile/edit');
 				await loadRoutes('/profile/edit');
             }
             catch (error) 
             {
-                initError(translate("not_the_current"));
+                initError((error as string).toString().substring(7));
             }
 		});
 	}

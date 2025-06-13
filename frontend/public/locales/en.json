@@ -134,7 +134,12 @@
 	"no_pass": "Wrong password ",
 	"same_pass": "Don't change your password with the last",
 	"not_the_current": "Your current password is not the current password",
-  "controls": "Controls",
+  	"controls": "Controls",
 	"incomplete_data": "Please fill in at least one of the two fields!" ,
-  "user_error": "Un usuario ya tiene esta información"
+  	"user_error": "A user already has this information",
+	"bad_picture": "Please select a valid image (PNG, JPG, WEBP, ...)",
+	"bad_code": "Wrong code",
+	"invalid_info": "invalid username or email, This user already exists",
+	"bad_mail_pass": "Invalid email or password",
+	"bad_user_pass": "Invalid username or password"
 }

@@ -40,7 +40,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 				console.log("password edit success");
 				reply.status(200).send("nice");
 			} else {
-				reply.status(401).send("invalid mdp");
+				reply.status(200).send("invalid mdp");
 			}
 		} catch (error) {
 			console.log(error);
@@ -119,11 +119,11 @@ export default async function editRoutes(fastify: FastifyInstance) {
 	fastify.post('/picture', async (request, reply) => {
 		const fileData = await request.file();
 		const authHeader = request.headers['authorization'];
-		const token = authHeader?.split(' ')[1];
+		const token = authHeader?.split(' ')[1]!;
 		const start = Date.now();
 		console.log(`All parts processed in ${Date.now() - start} ms`);
-		if (!fileData || !token) {
-			reply.status(400).send('Please select a picture');
+		if (!fileData) {
+			reply.status(200).send('Please select a picture');
 			return;
 		}
 		let IdUser;
@@ -147,7 +147,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		} 
 		catch (err) {
 			console.error('Image conversion failed:', err);
-			reply.status(500).send('Please a valid image (PNG, JPG, WEBP, ...)');
+			reply.status(200).send('Please a valid image (PNG, JPG, WEBP, ...)');
 			return;
 		}
 

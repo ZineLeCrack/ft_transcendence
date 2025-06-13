@@ -70,7 +70,11 @@ export default function initRegister() {
 				initError(error);
 				return;
 			}
-
+			const err = await response.text();
+			if (err === "invalid username or email, This user already exists")
+			{
+				throw new Error(translate("invalid_info"));
+			}
 			initSuccess(translate('register_success'));
 			setTimeout(async () => {
 			    history.pushState(null, '', '/login');
@@ -79,7 +83,7 @@ export default function initRegister() {
 		}
 		catch (err)
 		{
-            initError(err as string);
+            initError((err as string).toString().substring(7));
 		}
 	});
 

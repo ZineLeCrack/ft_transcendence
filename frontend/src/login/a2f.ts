@@ -52,10 +52,16 @@ export default function initA2f() {
 		if (!response.ok)
 		{
 			const error = await response.text();
-			initError(error);
+			console.error(error)
 			return;
 		}
-		const result = await response.json();
+		const err = await response.text();
+		if (err === "bad code")
+		{
+			initError(translate("bad_code"));
+			return;
+		}
+		const result = JSON.parse(err);
 		const jwtToken = result.token;
 		sessionStorage.setItem('token', jwtToken);
 		sessionStorage.removeItem("userId");
