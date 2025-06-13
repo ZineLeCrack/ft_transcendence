@@ -16,6 +16,7 @@ ebroudic - Quand partie privée accepter, le message revient tout en bas, sauf r
 
 ------------PROFIL---------------
 lelanglo - Dans le graphique points/wins/loses non traduits
+???????? - Le bouton unsave ne fonctionne plus
 
 ------------AMI-BLOQUAGE---------
 ebroudic - WebSocket quand demande d'ami + demande d'ami acceptée + ami bloqué + ami plus ami
