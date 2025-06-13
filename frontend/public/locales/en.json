@@ -134,5 +134,7 @@
 	"no_pass": "Wrong password ",
 	"same_pass": "Don't change your password with the last",
 	"not_the_current": "Your current password is not the current password",
-  "controls": "Controls"
+  "controls": "Controls",
+	"incomplete_data": "Please fill in at least one of the two fields!" ,
+  "user_error": "This pseudonym is already used"
 }
