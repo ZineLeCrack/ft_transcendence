@@ -2,6 +2,7 @@ import { togglePassword } from "../profile/utils";
 
 import initError from '../error.js';
 import { translate } from "../i18n.js";
+import { getWebSocket } from "../websocket.js";
 
 export default function initCreateTournament() {
 	const createTournamentBtn = document.getElementById('create-tournament');
@@ -81,6 +82,8 @@ export default function initCreateTournament() {
 				throw new Error('Failed to create tournament');
 			}
 
+			const ws = getWebSocket();
+			ws?.send(JSON.stringify({ type: 'tournament_created' }));
 			createView?.classList.add('hidden');
 			mainView?.classList.remove('hidden');
 			window.location.reload();
