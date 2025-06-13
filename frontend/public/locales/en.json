@@ -133,6 +133,6 @@
   "error_user": "An error occurred while verifying the user.",
   "no_pass": "Password wrong",
   "same_pass": "Don't change your passwor with the last",
-  "not_the_current": "Your current password is not the current password"
-  
+  "not_the_current": "Your current password is not the current password",
+  "controls": "Controls"
 }
