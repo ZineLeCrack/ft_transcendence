@@ -102,9 +102,9 @@ export default async function initEditProfile() {
 					const err = await response.text();
 					throw new Error(err || "Fail change");
 				}
-					initSuccess(translate("edit_sucess"));
+					initSuccess(translate("edit_success"));
 					editProfileForm.reset();
-					window.location.reload();
+					setTimeout(window.location.reload ,1000);
 			}
 			catch (error) 
 			{
