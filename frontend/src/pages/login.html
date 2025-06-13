@@ -1,0 +1,56 @@
+<div class="relative w-full max-w-md mx-auto"> <div class="absolute top-4 right-4 z-50"> <button id="language-selector" class="group w-10 h-10 rounded-lg border-2 border-[#B026FF] shadow-[0_0_10px_#B026FF] overflow-hidden flex items-center justify-center hover:border-[#FF2E9F] transition-colors duration-200">
+			<img id="current-flag" src="/images/en.png" alt="English" class="w-full h-full object-cover">
+		</button>
+		<div id="language-dropdown" class="hidden absolute top-full right-[50%] translate-x-[50%] mt-2 bg-black/90 border-2 border-[#B026FF] rounded-lg shadow-[0_0_10px_#B026FF] overflow-hidden z-[100] min-w-[150px]">
+			<button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="en">
+				<img src="/images/en.png" alt="English" class="w-6 h-6 object-cover rounded">
+				<span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="english">English</span>
+			</button>
+			<button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="fr">
+				<img src="/images/fr.png" alt="French" class="w-6 h-6 object-cover rounded">
+				<span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="french">French</span>
+			</button>
+			<button class="language-option w-full flex items-center gap-2 px-4 py-2 hover:bg-[#B026FF]/20 transition-colors duration-200" data-lang="es">
+				<img src="/images/es.png" alt="Spanish" class="w-6 h-6 object-cover rounded">
+				<span class="text-[#00FFFF] text-sm whitespace-nowrap" data-i18n="spanish">Spanish</span>
+			</button>
+		</div>
+	</div>
+
+	<form id="sign-in" action="" method="POST" class="space-y-4 max-w-md w-full border-4 border-[#00FFFF] shadow-[0_0_10px_#00FFFF] bg-white/5 backdrop-blur pt-16 p-6 rounded-2xl">
+		<h2 class="text-center text-2xl text-[#00FFFF] font-bold drop-shadow-[0_0_10px_#00FFFF] mb-4" data-i18n="signin_title">Sign In to ft_transcendence</h2>
+		
+		<div id="sign-in-username-div">
+			<label for="Sign-in-username" class="block text-white font-semibold mb-1"data-i18n="username_label">Username
+				<span id="sign-in-with-email" class="underline cursor-pointer text-[#00FFFF] font-bold " data-i18n="or_email_link">or Email</span>
+			</label>
+			<input id="Sign-in-username" name="username" type="text" class="w-full p-2 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 text-white focus:outline-none  focus:border-[#00FFFF]"/>
+		</div>
+		
+		<div id="sign-in-email-div" class="hidden">
+			<label for="Sign-in-email" class="block font-semibold mb-1 text-white" data-i18n="email_label">Email
+				<span id="sign-in-with-Username" class="underline cursor-pointer text-[#00FFFF] font-bold" data-i18n="or_username_link">or Username</span>
+			</label>
+			<input id="Sign-in-email" name="email" type="email" class="w-full p-2 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 focus:outline-none text-white  focus:border-[#00FFFF]"/>
+		</div>
+		
+		<div>
+			<label for="sign-in-password-input" class="block font-semibold mb-1 text-white" data-i18n="password_label">Password</label>
+			<div class="relative">
+				<input id="sign-in-password-input" name="password" type="password" required class="w-full p-2 rounded-lg border-2 bg-black/30 border-[#00FFFF]/30 text-white focus:outline-none  focus:border-[#00FFFF]"/>
+				<button type="button" id="sign-in-password-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+					<img id="sign-in-password-icon" src="/images/closerobot.png" class="size-12 drop-shadow-[0_0_10px_#FF007A]" alt="eye icon"/>
+				</button>
+			</div>
+		</div>
+
+		<button type="submit" class="w-full border-2 border-[#00FFFF] bg-transparent text-[#00FFFF] font-bold  hover:bg-[#0f9292]/20 transition duration-200 px-4 py-2 rounded-lg shadow-[0_0_10px_#00FFFF]" data-i18n="signin_button">Sign In</button>
+		<div class="flex justify-end mt-4">
+			<button type="button" id="to-sign-up-button" class="hover:underline cursor-pointer text-[#00FFFF] font-bold " data-i18n="signup_link">Sign Up</button>
+		</div>
+
+		<div class="flex justify-center mt-2"> 
+			<button id="register-test-user" class="w-auto px-6 py-2 border-2 border-pink-500 bg-pink-500/10 text-pink-500 font-bold hover:bg-pink-500/30 transition duration-200 rounded-lg shadow">Register Test User</button>
+		</div>
+	</form>
+</div>

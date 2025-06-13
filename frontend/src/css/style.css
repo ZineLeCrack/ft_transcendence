@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Styles personnalisés pour la scrollbar Firefox */
+#chat-messages {
+    scrollbar-width: thin;
+    scrollbar-color: #cf1177 transparent;
+}
+
+/* Styles personnalisés pour la scrollbar WebKit (Chrome, Safari, etc.) */
+#chat-messages::-webkit-scrollbar {
+    width: 2px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: #cf1177;
+    border-radius: 9999px;
+    box-shadow: 0 0 5px #cf1177;
+}
+
