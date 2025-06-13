@@ -24,7 +24,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 		{
 			const message = document.createElement('div');
 			message.className = 'text-center text-white font-bold text-8xl mt-10';
-			const mess = translate("There are no history for the moment because no game have been played yet")
+			const mess = translate("history_mess")
 			message.textContent = mess;
 			container.appendChild(message);
 			return;
