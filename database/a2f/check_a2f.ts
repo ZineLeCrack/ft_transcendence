@@ -84,7 +84,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 			}
 		} 
 		else {
-			reply.status(400).send('Invalid code or code expired, please request a new code');
+			reply.status(200).send('bad code');
 		}
 	});
 }

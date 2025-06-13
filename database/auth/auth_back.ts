@@ -36,7 +36,7 @@ export default async function authRoutes(fastify: FastifyInstance)
 
 			const existingUser = await db.get('SELECT * FROM users WHERE name = ? OR email = ?', [username, email]);
 			if (existingUser) {
-				reply.status(400).send('invalid username or email, This user already exists');
+				reply.status(200).send('invalid username or email, This user already exists');
 				return;
 			}
 
@@ -81,10 +81,10 @@ export default async function authRoutes(fastify: FastifyInstance)
 
 			if (!user || !(await bcrypt.compare(password, user.password))) {
 				if (required === 'email') {
-					reply.status(401).send('Invalid email or password');
+					reply.status(200).send('Invalid email or password');
 				}
 				else {
-					reply.status(401).send('Invalid username or password');
+					reply.status(200).send('Invalid username or password');
 				}
 				return;
 			}

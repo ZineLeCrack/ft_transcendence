@@ -73,8 +73,15 @@ export default function initLogin() {
 				initError(error);
 				return;
 			}
-
 			const data = await response.json();
+			if (data.toString() === "Invalid email or password")
+			{
+				throw new Error(translate("bad_mail_pass"));
+			}
+			else if (data.toString() === "Invalid username or password")
+			{
+				throw new Error(translate("bad_user_pass"))
+			}
 
 			sessionStorage.setItem('userId', data.id);
 
@@ -86,7 +93,7 @@ export default function initLogin() {
 		}
 		catch (err)
 		{
-			initError(err as string);
+			initError((err as string).toString().substring(7));
 		}
 	});
 
