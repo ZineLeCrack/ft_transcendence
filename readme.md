@@ -2,10 +2,6 @@
 ZineLeCrack
  — 
 12:46
-------------LOGIN----------------
-Mauvais mdp ou login -> erreur dans la console
-Mauvais code a2f -> erreur dans la console
-
 ------------MDP------------------
 Caractères spéciaux non acceptés
 
