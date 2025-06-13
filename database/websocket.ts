@@ -45,15 +45,19 @@ export function setupWebSocket(server: any) {
 							client.send(JSON.stringify({ type, username, content }));
 						}
 					}
-				}
-				else if (type === 'tournament_new_player') {
+				} else if (type === 'tournament_created') {
+					for (const client of clients) {
+						if (client.readyState === ws.OPEN) {
+							client.send(JSON.stringify({ type }));
+						}
+					}
+				} else if (type === 'tournament_new_player') {
 					for (const client of clients) {
 						if (client.readyState === ws.OPEN) {
 							client.send(JSON.stringify({ type, token, id }));
 						}
 					}
-				}
-				else if (type === 'tournament_next_game') {
+				} else if (type === 'tournament_next_game') {
 					
 					await dbchat.run(
 						`INSERT INTO chat (username, content, announceTournament, announceTournament_id1, announceTournament_id2) VALUES (?, ?, ?, ?, ?)`,
@@ -63,9 +67,7 @@ export function setupWebSocket(server: any) {
 							client.send(JSON.stringify({ type, next_player1, next_player2, id }));
 						}
 					}
-				}
-				else if (type === 'new_private_message')
-				{
+				} else if (type === 'new_private_message') {
 					if (pongRequest === 1 || pongRequest === 2 || pongRequest === 3)
 					{
 						if (!token || !targetUsername) return;

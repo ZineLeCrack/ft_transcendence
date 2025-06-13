@@ -20,7 +20,7 @@ export function draw_ai() {
 	game.fillText(message, 400 - (message.length * 14), 150);
 
 	for (let i = 0; i < 600; i += 18.9)
-		game.fillRect(404, i, 2, 15);
+		game.fillRect(399, i, 2, 15);
 
 	
 	game.fillStyle = "#00FFFF";

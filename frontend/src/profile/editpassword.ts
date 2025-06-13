@@ -111,18 +111,17 @@ export default async function initEditPassword() {
                 });
                 if (!response.ok)
                 {
-                    initError(translate("Your current password is not the current password"));
+                    initError(translate("not_the_current"));
                     const err = await response.text();
                     throw new Error(err || "Fail change");
                 }
 				initSuccess(translate("password_edit_success"));
 				history.pushState(null, '', '/profile/edit');
 				await loadRoutes('/profile/edit');
-
             }
             catch (error) 
             {
-                initError(error as string);
+                initError(translate("not_the_current"));
             }
 		});
 	}

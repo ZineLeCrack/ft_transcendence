@@ -3,6 +3,7 @@ import { initWebSocket } from '../../websocket';
 import { initLanguageSelector } from "../../language.js";
 import { loadRoutes } from "../../main.js";
 import initError from "../../error.js";
+import { translate } from "../../i18n.js";
 
 export let ballX = 400;
 export let ballY = 300;
@@ -38,7 +39,7 @@ export default async function initPong() {
 	const gameId = sessionStorage.getItem("gameId");
 
 	if (!gameId) {
-		initError('not_in_game');
+		initError(translate('not_in_game'));
 		setTimeout(async () => {
 			history.pushState(null, '', '/home');
 			await loadRoutes('/home');

@@ -83,7 +83,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			if (username && email) {
 				const existingUser = await db.get('SELECT * FROM users WHERE name = ? OR email = ?', [username, email]);
 				if (existingUser) {
-					reply.status(400).send('User already exists');
+					reply.status(200).send('User already exists');
 					return;
 				}
 				await db.run('UPDATE users SET name = ?, email = ? WHERE id = ?', [username, email, IdUser]);
@@ -93,7 +93,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			} else if (username) {
 				const existingUser = await db.get('SELECT * FROM users WHERE name = ?', [username]);
 				if (existingUser) {
-					reply.status(400).send('User already exists');
+					reply.status(200).send('User already exists');
 					return;
 				}
 				await db.run('UPDATE users SET name = ? WHERE id = ?', [username, IdUser]);
@@ -103,7 +103,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			} else if (email) {
 				const existingUser = await db.get('SELECT * FROM users WHERE email = ?', [email]);
 				if (existingUser) {
-					reply.status(400).send('User already exists');
+					reply.status(200).send('User already exists');
 					return;
 				}
 				await db.run('UPDATE users SET email = ? WHERE id = ?', [email, IdUser]);

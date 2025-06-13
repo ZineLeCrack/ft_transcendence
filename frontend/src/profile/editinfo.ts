@@ -100,13 +100,21 @@ export default async function initEditProfile() {
 				if (!response.ok)
 				{
 					const err = await response.text();
-					throw new Error(err || "Fail change");
+					if (err === "incomplete data")
+					{
+						throw new Error(translate("incomplete_data"));
+					}
 				}
-					initSuccess(translate("edit_sucess"));
+					const res = await response.text();
+					if (res === "User already exists")
+					{
+						throw new Error(translate("user_error"));
+					}
+					initSuccess(translate("edit_success"));
 					editProfileForm.reset();
-					window.location.reload();
+					setTimeout(window.location.reload ,1000);
 			}
-			catch (error) 
+			catch (error)
 			{
 				initError(error as string);
 			}

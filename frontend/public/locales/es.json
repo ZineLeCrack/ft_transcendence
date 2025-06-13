@@ -133,5 +133,8 @@
 	"error_user": "Se ha producido un error al verificar el usuario.",
 	"no_pass": "Contraseña incorrecta",
 	"same_pass": "No cambie su pase con el último",
-	"not_the_current": "Su contraseña actual no es la contraseña actual"
+	"not_the_current": "Su contraseña actual no es la contraseña actual",
+	"controls": "Pedidos",
+	"incomplete_data": "¡Rellene al menos uno de los dos campos!",
+	"user_error": "Este seudónimo ya se utiliza"
 }

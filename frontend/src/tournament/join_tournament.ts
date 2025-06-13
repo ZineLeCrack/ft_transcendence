@@ -44,6 +44,7 @@ export default async function initJoinTournament() {
 		{
 			if (tournamentContainer)
 			{
+				tournamentContainer.innerHTML = '';
 				if (TournamentItem.length === 0)
 				{
 					const message = document.createElement('div');

@@ -3,6 +3,7 @@ import initError from "./error.js";
 import { generateTournamentView } from "./tournament/in_tournament.js";
 import { translate } from "./i18n.js";
 import initFriendChat from "./chat/friendchat.js";
+import initJoinTournament from "./tournament/join_tournament.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -106,6 +107,25 @@ export function initWebSocket(original: string) {
 				sendMessage(data.username, data.content, false, otherUser);
 			}
 		}
+		if (data.type === 'tournament_created') {
+			try {
+				const res = await fetch('/api/tournament/is_in', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+				});
+				const is_in = await res.json();
+				if (is_in.tournamentId.toString() === '0') {
+					try {
+						initJoinTournament();
+					} catch (err) {
+						console.error(`Error loading tournaments list: `, err);
+					}
+				}
+			} catch (err) {
+				console.error('Error searching informations:', err);
+			}
+		}
 		if (data.type === 'tournament_new_player' || data.type === 'tournament_next_game') {
 			try {
 				const res = await fetch('/api/tournament/is_in', {
@@ -129,6 +149,12 @@ export function initWebSocket(original: string) {
 					});
 					const TournamentData_Lose_Win = await response2.json();
 					generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
+				} else if (is_in.tournamentId.toString() === '0') {
+					try {
+						initJoinTournament();
+					} catch (err) {
+						console.error(`Error loading tournaments list: `, err);
+					}
 				}
 			} catch (err) {
 				console.error('Error getting players:', err);
