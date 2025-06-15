@@ -1,6 +1,6 @@
 export function validateUsername(username: string): boolean
 {
-	return /^[a-zA-Z0-9_-]{3,18}$/.test(username);
+	return /^[a-zA-Z0-9_]{3,14}$/.test(username);
 }
 
 export function validateEmail(email: string): boolean

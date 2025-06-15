@@ -169,7 +169,7 @@ export default async function initEditProfile() {
 		const errorElement = document.getElementById('edit-username-error');
 		if (!errorElement) return;
 
-		const isValid = /^[a-zA-Z0-9_-]{3,18}$/.test(input.value);
+		const isValid = /^[a-zA-Z0-9_]{3,14}$/.test(input.value);
 
 		if (!isValid && input.value.length >= 1) {
 			errorElement.classList.remove('hidden');
