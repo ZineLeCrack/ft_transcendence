@@ -31,7 +31,7 @@ rlebaill - Nom du 2e joueur manquant pour le joueur 1 s'il ne refresh pas
 
 -------------PONG----------------
 
-lelanglo - Message venant du backend non traduit
+rlebaill - Message venant du backend non traduit
 
 -----------PARTOUT---------------
 
