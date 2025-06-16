@@ -36,7 +36,7 @@ export async function loadProfilePicture(div: string, name: string) {
 
 export default async function initEditProfile() {
 
-	initLanguageSelector();
+	await initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',
@@ -45,7 +45,7 @@ export default async function initEditProfile() {
 	});
 	if (!response.ok)
 	{
-		initError(translate('Error_co'));
+		initError(translate("Error_co"));
 		setTimeout(async () => {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
