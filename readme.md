@@ -19,6 +19,7 @@ lelanglo - Dans le graphique points/wins/loses non traduits
 ------------AMI-BLOQUAGE---------
 
 ebroudic - WebSocket quand demande d'ami + demande d'ami acceptée + ami bloqué + ami plus ami
+
 cle-berr - On peut demander en ami quelqu'un qui nous a bloqué !!! (Ça part en couille après)
 
 -------------TOURNOI-------------
