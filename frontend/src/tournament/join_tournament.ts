@@ -222,8 +222,7 @@ export default async function initJoinTournament() {
 						mainView?.classList.remove('hidden');
 						window.location.reload();
 					} catch (err) {
-						console.error(err);
-						initError(err as string);
+						initError((err as string).toString().substring(7));
 					}
 				});
 
