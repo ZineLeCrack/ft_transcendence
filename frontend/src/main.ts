@@ -24,7 +24,7 @@ import { initLanguageSelector } from './language.ts';
 
 const notFoundPageContent = `
 	<div class="text-center p-8 bg-transparent rounded-lg shadow-lg">
-		<a href="/home" data-link class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] px-6 py-2 rounded-xl  hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">Return Home</a>
+		<a href="/home" data-link class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-transparent border-4 border-[#00FFFF] text-[#00FFFF] text-xl px-10 py-4 rounded-2xl hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_20px_#00FFFF]">Return Home</a>
 	</div>
 `;
 
@@ -165,7 +165,7 @@ const routes: { [path: string]: Route } = {
 export const loadRoutes = async (path: string) => {
 	const body = document.body;
 
-	body.style.backgroundSize = "1920px 1080px";
+	body.style.backgroundSize = "cover";
 
 	// Check dynamic routes first
 	for (const [_, route] of Object.entries(routes)) {
@@ -183,7 +183,7 @@ export const loadRoutes = async (path: string) => {
 					
 					if (!data.exists) {
 						body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
-						body.style.backgroundSize = "1920px 920px"; 
+						body.style.backgroundSize = "cover"; 
 						body.style.backgroundImage = "url('/images/404notfound.jpg')";
 						body.innerHTML = notFoundPageContent;
 						return;
@@ -200,7 +200,7 @@ export const loadRoutes = async (path: string) => {
 				} catch (error) {
 					initError (translate("Error_verif_user"));
 					body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
-					body.style.backgroundSize = "1920px 920px"; 
+					body.style.backgroundSize = "cover";
 					body.style.backgroundImage = "url('/images/404notfound.jpg')";
 					body.innerHTML = notFoundPageContent;
 					return;
@@ -225,7 +225,7 @@ export const loadRoutes = async (path: string) => {
 		}
 	} else {
 		body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
-		body.style.backgroundSize = "1920px 920px"; 
+		body.style.backgroundSize = "cover"; 
 		body.style.backgroundImage = "url('/images/404notfound.jpg')";
 		body.innerHTML = notFoundPageContent;
 	}

@@ -19,7 +19,7 @@ export default async function chatRoutes(fastify: FastifyInstance) {
  	fastify.post('/getPrivateMessages', async (_request, reply) => {
 		try {
 			const { token, username2 } = _request.body as { token: string, username2: string };
-		
+
 			let username1;
 			let id_user;
 			const decoded = jwt.verify(token, JWT_SECRET);
@@ -28,11 +28,11 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 			username1 = await dbUser.get(`SELECT name FROM users WHERE id = ?`, [id_user]);
 			const dbChat = await getDb_chat();
 			const messages = await dbChat.all(
-	  			`SELECT * FROM privatechat 
-	   			WHERE (username1 = ? AND username2 = ?)
-	      		OR (username1 = ? AND username2 = ?)
+				`SELECT * FROM privatechat
+				WHERE (username1 = ? AND username2 = ?)
+				OR (username1 = ? AND username2 = ?)
 				ORDER BY created_at ASC`,
-	  			[username1.name, username2, username2, username1.name]
+				[username1.name, username2, username2, username1.name]
 			);
 			reply.status(200).send({ tab: messages });
 
@@ -41,8 +41,8 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 			reply.status(500).send('Server error');
 		}
 	});
-  
-  fastify.post('/verifuser', async (request, reply) => {
+
+	fastify.post('/verifuser', async (request, reply) => {
 		const {token} = request.body as {token: string};
 		try {
 			let id_user;
@@ -60,7 +60,7 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 			const profile_pic = response.profile_pic;
 			const email = response.email;
 			reply.status(200).send({ original, id_user , profile_pic, email});
-		} 
+		}
 		catch (err) {
 			console.error(err);
 			reply.status(500).send('Server error');

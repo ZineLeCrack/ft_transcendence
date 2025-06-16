@@ -22,10 +22,10 @@ export default function initChooseGame() {
 	const descriptionmode = document.getElementById("description-game-mode") as HTMLDivElement;
 
 	 const modeTranslationKeys: Record<string, string> = {
-        "LOCAL": "game_mode_local",
-        "MULTI": "game_mode_multi",
-        "AI": "game_mode_ai"
-    };
+		"LOCAL": "game_mode_local",
+		"MULTI": "game_mode_multi",
+		"AI": "game_mode_ai"
+	};
 
 	const modes = ["LOCAL", "MULTI", "AI"];
 	const description: Record<string, string> = {
@@ -131,6 +131,6 @@ export default function initChooseGame() {
 export function refreshGameModeDisplay()
 {
 	if (currentUpdateDisplay) {
-        currentUpdateDisplay();
-    }
+		currentUpdateDisplay();
+	}
 }

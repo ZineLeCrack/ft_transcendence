@@ -44,6 +44,10 @@ export default function initA2f() {
 	        code : codeInput.value,
 	        IdUser : sessionStorage.getItem('userId'),
 	    }
+		if (!Data.code)
+		{
+			return;
+		}
 	    const response = await fetch(`/api/a2f/verify`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },

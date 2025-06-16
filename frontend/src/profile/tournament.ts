@@ -56,13 +56,13 @@ export async function initTournamentGraph(originalUsername: string) {
 	const last_ranking = document.getElementById('last_ranking') as HTMLDivElement;
 
 	if (stats.last_ranking.length === 6)
-		last_ranking.textContent = 'quarter-finalist';
+		last_ranking.textContent = translate('quarter-finalist');
 	else if (stats.last_ranking.length === 17)
-		last_ranking.textContent = 'semi-finalist';
+		last_ranking.textContent = translate('semi-finalist');
 	else if (stats.last_ranking.length === 11)
-		last_ranking.textContent = 'finalist';
+		last_ranking.textContent = translate('finalist');
 	else if (stats.last_ranking.length === 12)
-		last_ranking.textContent = 'winner';
+		last_ranking.textContent = translate('winner');
 
 	const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
 	history.forEach((match: any) => {
@@ -107,19 +107,19 @@ export async function initTournamentGraph(originalUsername: string) {
 				labels: labels,
 				datasets: [
 					{
-						label: 'Points',
+						label: translate('point_trad'),
 						data: pointsData,
 						borderColor: '#FFD700',
 						backgroundColor: '#FFD700',
 					},
 					{
-						label: 'Wins',
+						label: translate('win_trad'),
 						data: winsData,
 						borderColor: '#00FF00',
 						backgroundColor: '#00FF00',
 					},
 					{
-						label: 'Loses',
+						label: translate('lose_trad'),
 						data: losesData,
 						borderColor: '#FF007A',
 						backgroundColor: '#FF007A',

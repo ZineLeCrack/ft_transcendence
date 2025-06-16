@@ -158,14 +158,15 @@ export default async function initFriendChat() {
 
 	friendButtons.forEach(button => {
 		button.addEventListener('click', async () => {
-			const oldPongBtn = document.getElementById('pong-send');
-			if (oldPongBtn)
-				oldPongBtn.remove();
+			
 			const username = button.id.split('-').pop();
-			
-			const existingChats = document.querySelectorAll('[id^="chat-messages-"]');
-			existingChats.forEach(chat => chat.remove());
-			
+			const alreadyInChat = document.getElementById(`chat-messages-${username}`);
+			if (alreadyInChat) return;
+
+			const existingChat = document.querySelectorAll(`[id^="chat-messages-"]`);
+			if (existingChat)
+				existingChat.forEach(chat => {chat.remove()});
+
 			const tokenID = sessionStorage.getItem("token");
 			const target = username;
 			const friendCheck = await fetch("/api/isfriend", {
@@ -173,6 +174,7 @@ export default async function initFriendChat() {
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ tokenID, target })
 			});
+
 			const friendStatus = await friendCheck.json();
 			if (friendStatus.status === 0) {
 				initError(translate("not_friend"));
@@ -181,6 +183,7 @@ export default async function initFriendChat() {
 				}, 1000);
 				return ;
 			}
+
 			if (friendStatus.status === 2) {
 				initError(translate("already_send"));
 				setTimeout(async () => {
@@ -189,15 +192,19 @@ export default async function initFriendChat() {
 				return ;
 			}
 
+			const existingChatArea = document.getElementById(`chat-messages-${username}`);
+			if (existingChatArea)
+				existingChatArea.remove();
+
 			const chatArea = document.createElement('div');
 			chatArea.id = `chat-messages-${username}`;
 			chatArea.className = 'flex-1 flex flex-col space-y-4';
 			chatContainers.appendChild(chatArea);
-			const chatTranslate = translate('chat')
+			const chatTranslate = translate('chat');
 			chatInfo.innerHTML = `
-			<span class="mr-2 text-[#FF2E9F]">⚡</span>
-			${chatTranslate}://${username}
-			<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
+				<span class="mr-2 text-[#FF2E9F]">⚡</span>
+				${chatTranslate}://${username}
+				<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
 
 			const checkUser = await fetch(`/api/verifuser`, {
 				method: 'POST',
@@ -250,6 +257,9 @@ export default async function initFriendChat() {
 			}
 
 			const inputArea = document.getElementById('input-Area') as HTMLDivElement;
+			const oldPongBtn = document.getElementById('pong-send');
+			if (oldPongBtn)
+				oldPongBtn.remove();
 			const pongBtn = document.createElement('div');
 			pongBtn.id = 'pong-send';
 			pongBtn.className = 'w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10';

@@ -41,7 +41,7 @@ export default async function authRoutes(fastify: FastifyInstance)
 
 			const hashedPassword = await bcrypt.hash(password, 10);
 
-	  		const image = fs.readFileSync('uploads/default.png');
+			const image = fs.readFileSync('uploads/default.png');
 
 			const result = await db.run(
 				`INSERT INTO users (name, email, password, profile_pic) VALUES (?, ?, ?, ?)`,
@@ -63,14 +63,14 @@ export default async function authRoutes(fastify: FastifyInstance)
 			reply.status(500).send('Error');
 		}
 	});
-  
+
 	fastify.post('/login', async (request, reply) => 
 	{
 		const { required, login, password } = request.body as { required: string, login: string, password: string };
 
 		if (!login || !password || (required !== 'email' && required !== 'name'))
 		{
-	  		reply.status(400).send('Incomplete or invalid data');
+			reply.status(400).send('Incomplete or invalid data');
 	 		return;
 		}
 
@@ -95,5 +95,5 @@ export default async function authRoutes(fastify: FastifyInstance)
 			console.error(err);
 			reply.status(500).send('Error');
 		}
-  });
+	});
 }
