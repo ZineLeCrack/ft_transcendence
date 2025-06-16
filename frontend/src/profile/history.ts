@@ -1,8 +1,6 @@
-import { userData } from "../game/choosegame.js";
 import initError from "../error.js";
 import { loadRoutes } from "../main.js";
 import { loadProfilePicture } from "./editinfo.js";
-import { initLanguageSelector } from "../language.js";
 import { translate } from "../i18n.js";
 
 export interface CardHistory {

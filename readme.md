@@ -1,8 +1,6 @@
 
 ------------LOGIN----------------
 
-ebroudic - _ pas accepter dans les emails
-
 ------------MDP------------------
 
 ebroudic - Caractères spéciaux non acceptés
