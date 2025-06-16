@@ -4,7 +4,6 @@ import { generateTournamentView } from "./tournament/in_tournament.js";
 import { translate } from "./i18n.js";
 import initFriendChat from "./chat/friendchat.js";
 import initJoinTournament from "./tournament/join_tournament.js";
-// import initMultiplayer from "./game/multiplayer/multi.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -49,12 +48,12 @@ export function initWebSocket(original: string) {
 			initError(data.message);
 			return;
 		}
-		// if (data.type === 'multi_player_join') {
-		// 	console.log('2:', data.gameId);
-		// 	if (sessionStorage.getItem('gameId') === data.gameId) {
-		// 		initMultiplayer();
-		// 	}
-		// }
+		if (data.type === 'multi_player_join') {
+			if (sessionStorage.getItem('gameId') === data.gameId) {
+				const module = await import('./game/multiplayer/multi.js');
+				module.default();
+			}
+		}
 		if (data.type === "add_friend") {
 			console.log("addfriend");
 			initFriendChat();

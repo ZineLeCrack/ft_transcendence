@@ -79,8 +79,8 @@ export default function initChooseGame() {
 					const player = data.player;
 					sessionStorage.setItem("gameId", gameId);
 
-					// const ws = getWebSocket();
-					// ws?.send(JSON.stringify({ type: 'multi_player_join', gameId: gameId }));
+					const ws = getWebSocket();
+					ws?.send(JSON.stringify({ type: 'multi_player_join', gameId: gameId }));
 					history.pushState(null, '', '/game/multi');
 					await loadRoutes('/game/multi');
 					window.location.reload();
