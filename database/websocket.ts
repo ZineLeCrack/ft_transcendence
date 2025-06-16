@@ -19,9 +19,17 @@ export function setupWebSocket(server: any) {
 		ws.on('message', async (message) => {
 			try {
 				const data = JSON.parse(message.toString());
-				const { type, token, content, targetUsername, id, pongRequest, next_player1, next_player2 } = data;
+				const { type, token, content, targetUsername, id, pongRequest, next_player1, next_player2, gameId } = data;
 				const dbusers = await getDb_user();
 				const dbchat = await getDb_chat();
+				// if (type === 'multi_player_join') {
+				// 	console.log('1:', gameId);
+				// 	for (const client of clients) {
+				// 		if (client.readyState === ws.OPEN) {
+				// 			client.send(JSON.stringify({ type, gameId }));
+				// 		}
+				// 	}
+				// }
 				if (type === 'new_message') {
 					if (!token || !content) return;
 					let id_user;

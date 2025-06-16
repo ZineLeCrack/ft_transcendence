@@ -16,7 +16,7 @@ export class GameInstance {
 	rightPaddleY = 250;
 	leftScore = 0;
 	rightScore = 0;
-	message = "Waiting for new player...";
+	message = "waiting";
 	gameStarted = false;
 	leftOldY = 250;
 	rightOldY = 250;
@@ -48,7 +48,7 @@ export class GameInstance {
 		if (this.full && this.gameStarted) {
 			if (this.leftScore === 5 || this.rightScore === 5) {
 				this.gameStarted = false;
-				this.message = this.leftScore === 5 ? `${this.player1.name} win !` : `${this.player2.name} win !`;
+				this.message = this.leftScore === 5 ? '1_win' : '2_win';
 				this.end = true;
 				// await fetch(`/api/addhistory`, {
 				// 	method: 'POST',

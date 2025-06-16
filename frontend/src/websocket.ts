@@ -4,6 +4,7 @@ import { generateTournamentView } from "./tournament/in_tournament.js";
 import { translate } from "./i18n.js";
 import initFriendChat from "./chat/friendchat.js";
 import initJoinTournament from "./tournament/join_tournament.js";
+// import initMultiplayer from "./game/multiplayer/multi.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -48,8 +49,13 @@ export function initWebSocket(original: string) {
 			initError(data.message);
 			return;
 		}
-		if (data.type === "add_friend")
-		{
+		// if (data.type === 'multi_player_join') {
+		// 	console.log('2:', data.gameId);
+		// 	if (sessionStorage.getItem('gameId') === data.gameId) {
+		// 		initMultiplayer();
+		// 	}
+		// }
+		if (data.type === "add_friend") {
 			console.log("addfriend");
 			initFriendChat();
 			// sendMessage(original_name, "", false, data.targetUsername, true);
@@ -59,36 +65,30 @@ export function initWebSocket(original: string) {
 				sendMessage(data.username, data.content);
 			}
 			if (data.type === 'new_private_message') {
-				if (data.pongRequest === 1)
-				{
-					if (data.targetUsername === original_name)
+				if (data.pongRequest === 1) {
+					if (data.targetUsername === original_name) {
 						sendMessage(data.targetUsername , "", true, data.username);
-					else
-					{
+					} else {
 						const messageWrapper = document.getElementById(`chat-messages-${data.targetUsername}`);
-						if (messageWrapper)
-						{
+						if (messageWrapper) {
 							const oldmsg = document.getElementById('pong-request-send');
-							if (oldmsg)
-								oldmsg.remove();
+							if (oldmsg) oldmsg.remove();
 							const msg = document.createElement("div");
 							msg.id = 'pong-request-send';
 							msg.className = "font-mono text-[#00FFFF] px-4 py-2 my-2 border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
-							
+
 							const InvitationText = translate('invitation_to_pong');
 							msg.textContent = `${InvitationText} ${data.targetUsername}`;
 							messageWrapper.appendChild(msg);
 						}
 					}
-					return;
+					return ;
 				}
 				const isSender = data.username === original_name;
 				const otherUser = isSender ? data.targetUsername : data.username;
-				if (data.pongRequest === 2)
-				{
+				if (data.pongRequest === 2) {
 					const oldmsg = document.getElementById('pong-request-send');
-					if (oldmsg)
-						oldmsg.remove();
+					if (oldmsg) oldmsg.remove();
 					await sendMessage(data.targetUsername , "", false, otherUser, false, true);
 					const chatContainer = document.getElementById('chat-containers');
 					if (chatContainer) {
@@ -96,11 +96,9 @@ export function initWebSocket(original: string) {
 					}
 					return ;
 				}
-				if (data.pongRequest === 3)
-				{
+				if (data.pongRequest === 3) {
 					const oldmsg = document.getElementById('pong-request-send');
-					if (oldmsg)
-						oldmsg.remove();
+					if (oldmsg) oldmsg.remove();
 					await sendMessage(data.username , "", false, otherUser, false, false, true);
 					return ;
 				}
