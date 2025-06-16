@@ -4,6 +4,7 @@ import { loadRoutes } from '../main';
 import initSuccess from '../success';
 import { initWebSocket } from '../websocket';
 import { translate } from '../i18n';
+import { validateEmail, validateUsername } from '../utils';
 
 export async function loadProfilePicture(div: string, name: string) {
 	const token = sessionStorage.getItem("token");
@@ -91,6 +92,11 @@ export default async function initEditProfile() {
 					email: emailInput.value,
 					token: sessionStorage.getItem('token'),
 				}
+				if ((EditData.email && !validateEmail(EditData.email)) || (EditData.username && !validateUsername(EditData.username)))
+				{
+					initError(translate("touch_html"));
+					return;
+				}
 				const response = await fetch(`/api/info`,
 				{
 					method: 'POST',
@@ -104,6 +110,10 @@ export default async function initEditProfile() {
 					{
 						throw new Error(translate("incomplete_data"));
 					}
+					else
+					{
+						throw new Error(translate("touch_html"))
+					}
 				}
 					const res = await response.text();
 					if (res === "User already exists")
@@ -112,7 +122,7 @@ export default async function initEditProfile() {
 					}
 					initSuccess(translate("edit_success"));
 					editProfileForm.reset();
-					setTimeout(window.location.reload ,1000);
+					setTimeout(() => window.location.reload(), 1000);
 			}
 			catch (error)
 			{

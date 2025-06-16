@@ -5,6 +5,7 @@ import initSuccess from '../success.js';
 import { loadProfilePicture } from './editinfo.js';
 import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
+import { validatePassword } from '../utils.js';
 
 export default async function initEditPassword() {
 	initLanguageSelector();
@@ -103,6 +104,11 @@ export default async function initEditPassword() {
                     newpass: editConfirmNewPasswordInput.value,
                     token: sessionStorage.getItem('token'),
                 }
+				if (!validatePassword(EditData.newpass))
+				{
+					initError(translate("touch_html"));
+					return;
+				}
                 const response = await fetch(`/api/edit`,
                 {
 			        method: 'POST',
@@ -112,7 +118,7 @@ export default async function initEditPassword() {
                 if (!response.ok)
                 {
                     const err = await response.text();
-                    throw new Error(err || "Fail change");
+                    throw new Error(translate("touch_html"));
                 }
 				const err = await response.text();
 				if (err === "invalid mdp")
