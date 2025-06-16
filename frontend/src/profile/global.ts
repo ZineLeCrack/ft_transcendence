@@ -103,7 +103,7 @@ export async function initGlobalGraph(originalUsername: string) {
 						borderColor: '#00FF00',
 					},
 					{
-						label: translate("Lose_trad"),
+						label: translate("lose_trad"),
 						data: losesData,
 						borderColor: '#FF007A',
 					}
