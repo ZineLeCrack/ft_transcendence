@@ -146,8 +146,9 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 				`SELECT u.name as username, u.profile_pic as profilPic, u.status as status
 				FROM friend f
 				JOIN users u ON u.id = f.id_player2
-				WHERE f.id_player1 = ? AND f.friend IN (1, 3)`,
-				[userID]
+				LEFT JOIN block b ON b.id_player2 = f.id_player2 AND b.id_player1 = ?
+				WHERE f.id_player1 = ? AND f.friend IN (1, 3) AND (b.blocked = 0 OR b.blocked IS NULL)`,
+				[userID , userID]
 			);
 
 			const friendsWithStatus = friends.map((f: any) => ({
