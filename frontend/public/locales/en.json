@@ -153,5 +153,11 @@
 	"quarter-finalist": "Quater-finalist",
 	"semi-finalist": "Semi-Finalist",
 	"finalist": "Finalist",
-	"winner": "Winner"
+	"winner": "Winner",
+	"player_1_trad": "Player 1",
+	"player_2_trad": "Player 2",
+	"Request_Sent": "Request Sent",
+	"Request_Received": "Request Received",
+	"Remove_Friend": "Remove Friend",
+	"Unblock_Player": "Unblock Player"
 }

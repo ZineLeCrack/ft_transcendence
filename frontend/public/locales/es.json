@@ -153,5 +153,11 @@
 	"quarter-finalist": "Quater-finalista",
 	"semifinalista": "Semi-Finalista",
 	"finalista": "Finalista",
-	"winner": "El ganador"
+	"winner": "El ganador",
+	"player_1_trad": "Jugador 1",
+	"player_2_trad": "Jugador 2",
+	"Request_Sent" : "Solicitud enviada",
+	"Request_Received" : "Solicitud recibida",
+	"Remove_Friend": "Eliminar un amigo",
+	"Unblock_Player": "Desbloquear este jugador"
 }
