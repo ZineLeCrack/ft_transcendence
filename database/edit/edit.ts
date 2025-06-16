@@ -143,7 +143,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 
 		let jpegBuffer: Buffer;
 		try {
-			jpegBuffer = await sharp(originalBuffer).png().toBuffer();
+			jpegBuffer = await sharp(originalBuffer).removeMetadata().png().toBuffer();
 		} 
 		catch (err) {
 			console.error('Image conversion failed:', err);
