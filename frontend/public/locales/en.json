@@ -139,6 +139,7 @@
 	"to_start": "Press space",
 	"1_win": "Player 1 win !",
 	"2_win": "Player 2 win !",
+	"ai_win": "AI win !",
 	"incomplete_data": "Please fill in at least one of the two fields!" ,
   	"user_error": "A user already has this information",
 	"bad_picture": "Please select a valid image (PNG, JPG, WEBP, ...)",
