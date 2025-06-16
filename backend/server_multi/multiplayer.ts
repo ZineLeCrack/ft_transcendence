@@ -30,9 +30,7 @@ export class GameInstance {
 			this.tournamentId = tournamentId;
 			this.private = true;
 			this.gameId = gameId;
-		}
-		else
-		{
+		} else {
 			this.gameId = gameId;
 			this.player1.id = userId;
 			this.player1.name = userName;
@@ -50,16 +48,6 @@ export class GameInstance {
 				this.gameStarted = false;
 				this.message = this.leftScore === 5 ? '1_win' : '2_win';
 				this.end = true;
-				// await fetch(`/api/addhistory`, {
-				// 	method: 'POST',
-				// 	headers: { 'Content-Type': 'application/json' },
-				// 	body: JSON.stringify({
-				// 		Id1: this.player1.id,
-				// 		Id2: this.player2.id,
-				// 		score1: this.leftScore,
-				// 		score2: this.rightScore
-				// 	})
-				// });
 			}
 
 			this.ballX += this.ballSpeedX;
@@ -101,8 +89,7 @@ export class GameInstance {
 			this.ballSpeedX = -this.ballSpeedX;
 			if (this.ballSpeedX < 10) this.ballSpeedX += 0.5;
 			this.ballSpeedY += collision(this.leftPaddleY, this.ballY);
-		}
-		else if (this.ballSpeedX > 0 && this.ballX >= 775 && this.ballY >= this.rightPaddleY && this.ballY <= this.rightPaddleY + 100) {
+		} else if (this.ballSpeedX > 0 && this.ballX >= 775 && this.ballY >= this.rightPaddleY && this.ballY <= this.rightPaddleY + 100) {
 			this.ballSpeedX = -this.ballSpeedX;
 			if (this.ballSpeedX > -10) this.ballSpeedX -= 0.5;
 			this.ballSpeedY += collision(this.rightPaddleY, this.ballY);
@@ -132,8 +119,8 @@ export class GameInstance {
 	move_left(keys: any) {
 		this.leftOldY = this.leftPaddleY;
 
-		if (keys.ArrowUp) this.leftPaddleY -= 10;
-		if (keys.ArrowDown) this.leftPaddleY += 10;
+		if (keys.ArrowUp) this.leftPaddleY -= 5;
+		if (keys.ArrowDown) this.leftPaddleY += 5;
 
 		this.leftPaddleY = Math.max(0, Math.min(500, this.leftPaddleY));
 	}
@@ -141,8 +128,8 @@ export class GameInstance {
 	move_right(keys: any) {
 		this.rightOldY = this.rightPaddleY;
 
-		if (keys.ArrowUp) this.rightPaddleY -= 10;
-		if (keys.ArrowDown) this.rightPaddleY += 10;
+		if (keys.ArrowUp) this.rightPaddleY -= 5;
+		if (keys.ArrowDown) this.rightPaddleY += 5;
 
 		this.rightPaddleY = Math.max(0, Math.min(500, this.rightPaddleY));
 	}

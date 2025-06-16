@@ -17,3 +17,5 @@ lelanglo - Tous les pop-ups ne sont pas traduits + pop-up wtf quand mauvais logi
 lelanglo - Code A2F vide -> erreur dans la console
 
 👍🏻👍🏻
+
+Photos de profil parsées ? (apparement on peut y mettre des injections sql)
