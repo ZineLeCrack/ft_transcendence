@@ -1,3 +1,4 @@
+import { translate } from "../i18n";
 
 export default async function initBlockPlayer(target?: string) {
 	if (target) {
@@ -14,9 +15,9 @@ export default async function initBlockPlayer(target?: string) {
 			const data = await res.json();
 			// status 1 = bloqué, 0 = pas bloqué
 			if (data.status === 1) {
-				blockbtn.textContent = "Unblock Player"; //faire en sorte qu'on puisse plus ajouter en ami !!!!!!!!!!!!!!!
+				blockbtn.textContent = translate("Unblock_Player"); //faire en sorte qu'on puisse plus ajouter en ami !!!!!!!!!!!!!!!
 			} else {
-				blockbtn.textContent = "Block Player";
+				blockbtn.textContent = translate("block_friend_trad");
 			}
 		};
 
@@ -39,7 +40,7 @@ export default async function initBlockPlayer(target?: string) {
 				})
 				const data = await res.json();
     	        if (data.success)
-					blockbtn.textContent = "Unblock Player";
+					blockbtn.textContent = translate("Unblock_Player");
 			} else if (block.status === 1) {
 				const res = await fetch("/api/unblockplayer", {
 					method: "POST",
@@ -48,7 +49,7 @@ export default async function initBlockPlayer(target?: string) {
 				});
 				const data = await res.json();
 				if (data.success) 
-					blockbtn.textContent = "Block Player";
+					blockbtn.textContent = translate("block_friend_trad");
 			}
 			window.location.reload();
 		});
