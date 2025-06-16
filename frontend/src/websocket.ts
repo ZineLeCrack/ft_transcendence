@@ -54,8 +54,8 @@ export function initWebSocket(original: string) {
 				module.default();
 			}
 		}
-		if (data.type === "add_friend") {
-			console.log("addfriend");
+		if (data.type === "add_friend") 
+		{
 			initFriendChat();
 		}
 		if ((data.type === 'new_message' || data.type === 'new_private_message') && !data.isHistoryMessage) {
