@@ -199,7 +199,7 @@ export default async function initEditProfile() {
 	}
 
 	function validateEmailField(input: HTMLInputElement) {
-		const errorElement = document.getElementById('email-error');
+		const errorElement = document.getElementById('edit-email-error');
 		if (!errorElement) return;
 		const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
 		
