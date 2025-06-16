@@ -149,5 +149,15 @@
 	"bad_user_pass": "Invalid username or password",
 	"points_trad": "Points",
 	"win_trad": "Wins",
-	"lose_trad": "Loses"
+	"lose_trad": "Loses",
+	"quarter-finalist": "Quater-finalist",
+	"semi-finalist": "Semi-Finalist",
+	"finalist": "Finalist",
+	"winner": "Winner",
+	"player_1_trad": "Player 1",
+	"player_2_trad": "Player 2",
+	"Request_Sent": "Request Sent",
+	"Request_Received": "Request Received",
+	"Remove_Friend": "Remove Friend",
+	"Unblock_Player": "Unblock Player"
 }
