@@ -114,10 +114,10 @@ export default function initRegister() {
 	function validateEmailField(input: HTMLInputElement) {
         const errorElement = document.getElementById('email-error');
         if (!errorElement) return;
-
+		console.log(input.validity);
         const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
         
-        if (!isValid && input.value.length >= 1) {
+        if ((!isValid && input.value.length >= 1) || input.validity.typeMismatch) {
             errorElement.classList.remove('hidden');
             input.classList.add('border-red-500');
         } else {
@@ -128,6 +128,7 @@ export default function initRegister() {
 
     const emailInput = document.getElementById('sign-up-email') as HTMLInputElement;
     if (emailInput) {
+		console.log(emailInput.validity);
         emailInput.addEventListener('input', () => validateEmailField(emailInput));
         emailInput.addEventListener('invalid', (e) => {
             e.preventDefault();

@@ -36,7 +36,7 @@ export default async function initHome() {
 	initChooseGame();
 	initChat();
 	await initFriendChat();
-	await initSwitchChat();
+	initSwitchChat();
 	await initsearch();
 	
 	const res = await fetch('/api/tournament/is_in', {
