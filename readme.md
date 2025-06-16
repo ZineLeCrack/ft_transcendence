@@ -1,11 +1,7 @@
 
 ------------LOGIN----------------
 
-ebroudic - _ pas accepter dans les emails
-
 ------------MDP------------------
-
-ebroudic - Caractères spéciaux non acceptés
 
 ------------CHAT-----------------
 
@@ -25,14 +21,6 @@ cle-berr - On peut demander en ami quelqu'un qui nous a bloqué !!! (Ça part en
 -------------TOURNOI-------------
 
 lelanglo - Meilleur classement non traduit dans les stats
-
--------------MULTI---------------
-
-rlebaill - Nom du 2e joueur manquant pour le joueur 1 s'il ne refresh pas
-
--------------PONG----------------
-
-rlebaill - Message venant du backend non traduit
 
 -----------PARTOUT---------------
 
