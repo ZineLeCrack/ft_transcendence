@@ -26,12 +26,18 @@ export default async function initAddFriend(target?: string) {
                 friendbtn.textContent = "Add Friend";
             }
         };
-
+        
         await checkFriendStatus();
 
         friendbtn.addEventListener("click", async () => {
+            const res = await fetch("/api/isfriend", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ tokenID, target })
+            });
+            const friend = await res.json();
             const ws = getWebSocket();
-            if (friendbtn.textContent === "Add Friend")
+            if (friend.status === 0)
             {
                 const res = await fetch("/api/requestfriend", {
                     method: "POST",
@@ -46,7 +52,7 @@ export default async function initAddFriend(target?: string) {
                 chatdata = { type: 'add_friend', token: tokenID, targetUsername : target};
                 ws?.send(JSON.stringify(chatdata));
             }
-            else if (friendbtn.textContent === "Remove Friend")
+            else if (friend.status === 1)
             {
                 const res = await fetch("/api/removefriend", {
                     method: "POST",
@@ -56,18 +62,6 @@ export default async function initAddFriend(target?: string) {
                 const data = await res.json();
                 if (data.success) {
                     friendbtn.textContent = "Add Friend";
-                }
-            }
-            else if (friendbtn.textContent === "Request Received")
-            {
-                const res = await fetch("/api/replyrequest", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ tokenID, target , answer: 1})
-                });
-                const data = await res.json();
-                if (data.success) {
-                    friendbtn.textContent = "Remove Friend";
                 }
             }
             window.location.reload();

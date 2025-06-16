@@ -97,9 +97,17 @@ export default async function initFriendChat() {
 			friendslist.innerHTML = `<p class="text-[#FF2E9F]">${noFriendsText}</p>`;
 			return ;
 		}
-		Friend.forEach(Friend => {
+		Friend.forEach(async Friend => {
 			const friendElement = document.createElement('div');
 			friendElement.className = 'flex gap-8';
+			const tokenID = sessionStorage.getItem("token");
+
+			const blockCheck = await fetch("/api/isblock", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ tokenID, target: Friend.username })
+			});
+			const block = await blockCheck.json();
 
 			if (Friend.status === 1) {
 				friendElement.innerHTML = `
@@ -117,7 +125,7 @@ export default async function initFriendChat() {
 						</a>
 					</div>`;
 					loadProfilePicture(`profile-pic-friend-online-${Friend.username}`, Friend.username);
-			} else { 
+			} else if (block.status === 0) { 
 				friendElement.innerHTML = `<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
 						<div class="relative">
 							<button id="Friend-button-${Friend.username}" class="group w-12 h-12 rounded-full border-2 border-[#FF2E9F] hover:shadow-[0_0_10px_#FF2E9F] transition-shadow">

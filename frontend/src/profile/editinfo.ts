@@ -141,7 +141,7 @@ export default async function initEditProfile() {
 				method: 'POST',
 				body: formData,
 				headers: {
-	    			'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
 	  			},
 			});
 			if (!response.ok)
@@ -189,12 +189,11 @@ export default async function initEditProfile() {
 	}
 
 	function validateEmailField(input: HTMLInputElement) {
-		const errorElement = document.getElementById('edit-email-error');
+		const errorElement = document.getElementById('email-error');
 		if (!errorElement) return;
-
 		const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
-
-		if (!isValid && input.value.length >= 1) {
+		
+		if ((!isValid && input.value.length >= 1) || input.validity.typeMismatch) {
 			errorElement.classList.remove('hidden');
 			input.classList.add('border-red-500');
 		} else {

@@ -82,6 +82,8 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 		{
 			if (block.status !== 1)
 				initAddFriend(username);
+			else
+				friendbtn.classList.add('hidden');
 			initBlockPlayer(username);
 			initSearch();
 		}
