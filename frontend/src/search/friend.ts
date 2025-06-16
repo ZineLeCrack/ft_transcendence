@@ -1,3 +1,4 @@
+import { translate } from "../i18n";
 import { getWebSocket } from "../websocket";
 
 export default async function initAddFriend(target?: string) {
@@ -17,13 +18,13 @@ export default async function initAddFriend(target?: string) {
             const data = await res.json();
             // status 1 = amis, 2 = demande envoyée, 3 = demande reçue, 0 = rien
             if (data.status === 1) {
-                friendbtn.textContent = "Remove Friend";
+                friendbtn.textContent = translate("Remove_Friend");
             } else if (data.status === 2) {
-                friendbtn.textContent = "Request Sent";
+                friendbtn.textContent = translate("Request_Sent");
             } else if (data.status === 3) {
-                friendbtn.textContent = "Request Received";
+                friendbtn.textContent = translate("Request_Received");
             } else {
-                friendbtn.textContent = "Add Friend";
+                friendbtn.textContent = translate("add_friend_trad");
             }
         };
         
@@ -46,7 +47,7 @@ export default async function initAddFriend(target?: string) {
                 });
                 const data = await res.json();
                 if (data.success) {
-                    friendbtn.textContent = "Request Sent";
+                    friendbtn.textContent = translate("Request_Sent");
                 }
                 let chatdata;
                 chatdata = { type: 'add_friend', token: tokenID, targetUsername : target};
@@ -61,7 +62,7 @@ export default async function initAddFriend(target?: string) {
                 });
                 const data = await res.json();
                 if (data.success) {
-                    friendbtn.textContent = "Add Friend";
+                    friendbtn.textContent = translate("add_friend_trad");
                 }
             }
             window.location.reload();
