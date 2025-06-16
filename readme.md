@@ -9,10 +9,5 @@ ebroudic - WebSocket quand demande d'ami + demande d'ami acceptée + ami bloqué
 
 cle-berr - On peut demander en ami quelqu'un qui nous a bloqué !!! (Ça part en couille après)
 
-<-------------TOURNOI------------->
-
-<-----------PARTOUT--------------->
-
-lelanglo - Tous les pop-ups ne sont pas traduits
 
 👍🏻👍🏻
