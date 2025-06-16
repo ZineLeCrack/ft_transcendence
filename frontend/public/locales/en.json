@@ -149,5 +149,9 @@
 	"bad_user_pass": "Invalid username or password",
 	"points_trad": "Points",
 	"win_trad": "Wins",
-	"lose_trad": "Loses"
+	"lose_trad": "Loses",
+	"quarter-finalist": "Quater-finalist",
+	"semi-finalist": "Semi-Finalist",
+	"finalist": "Finalist",
+	"winner": "Winner"
 }
