@@ -164,11 +164,11 @@ export function initWebSocket(original: string) {
 	};
 
 	window.addEventListener('beforeunload', () => {
-        if (ws) {
-            ws.close();
-            ws = null;
-        }
-    });
+		if (ws) {
+			ws.close();
+			ws = null;
+		}
+	});
 }
 
 export function getWebSocket(): WebSocket | null {
