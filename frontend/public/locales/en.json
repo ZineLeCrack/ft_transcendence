@@ -145,5 +145,8 @@
 	"bad_code": "Wrong code",
 	"invalid_info": "invalid username or email, This user already exists",
 	"bad_mail_pass": "Invalid email or password",
-	"bad_user_pass": "Invalid username or password"
+	"bad_user_pass": "Invalid username or password",
+	"points_trad": "Points",
+	"win_trad": "Wins",
+	"lose_trad": "Loses"
 }

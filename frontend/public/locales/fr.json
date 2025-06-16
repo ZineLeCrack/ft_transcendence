@@ -145,5 +145,8 @@
 	"bad_code" : "Mauvais code",
 	"invalid_info" : "invalid username or email, Cet utilisateur existe déjà",
 	"bad_mail_pass" : "Email ou mot de passe invalide",
-	"bad_user_pass" : "Nom d’utilisateur ou mot de passe invalide"
+	"bad_user_pass" : "Nom d’utilisateur ou mot de passe invalide",
+	"points_trad" : "Points",
+	"win_trad" : "Victoires",
+	"lose_trad" : "Défaites"
 }
