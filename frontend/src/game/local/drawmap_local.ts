@@ -1,3 +1,4 @@
+import { translate } from "../../i18n.js";
 import { ballX, ballY, rightPaddleY, rightScore, leftPaddleY, leftScore, message, paddleHeight, paddleWidth } from "./local.js";
 
 /* ------------------------------- GAME PART ---------------------------------------- */
@@ -17,7 +18,13 @@ export function draw() {
 	game.fillStyle = "#FFFFFF";
 	game.shadowColor = "#FFFFFF";
 	game.shadowBlur = 10;
-	game.fillText(message, 400 - (message.length * 14), 150);
+	let new_message;
+	if (message === "to_start" || message === "1_win" || message === "2_win") {
+		new_message = translate(message);
+	} else {
+		new_message = message;
+	}
+	game.fillText(new_message, 400 - (new_message.length * 14), 150);
 
 	for (let i = 0; i < 600; i += 18.9)
 		game.fillRect(399, i, 2, 15);

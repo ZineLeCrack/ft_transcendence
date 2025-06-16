@@ -7,7 +7,7 @@ export class GameInstance {
 	rightPaddleY = 250;
 	leftScore = 0;
 	rightScore = 0;
-	message = "Press space to start !";
+	message = "to_start";
 	gameStarted = false;
 	leftOldY = 250;
 	rightOldY = 250;
@@ -29,12 +29,12 @@ export class GameInstance {
 		if (this.gameStarted) {
 			if (this.leftScore === 5 || this.rightScore === 5) {
 				this.gameStarted = false;
-				this.message = this.leftScore === 5 ? "Player 1 win !" : "Player 2 win !";
+				this.message = this.leftScore === 5 ? "1_win" : "2_win";
 				setTimeout(() => {
 					if (!this.gameStarted) {
 						this.leftScore = 0;
 						this.rightScore = 0;
-						this.message = "Press space to start !";
+						this.message = "to_start";
 					}
 				}, 5000);
 			}
