@@ -74,7 +74,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
             ballDirection: { x: number; y: number }
         };
 
-        // Appel à l'IA
         const aiMove = getAIMove(
             body.paddlePosition,
             body.ballPosition,

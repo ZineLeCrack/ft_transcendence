@@ -28,7 +28,6 @@ export function draw() {
 
 	for (let i = 0; i < 600; i += 18.9)
 		game.fillRect(399, i, 2, 15);
-
 	
 	game.fillStyle = "#00FFFF";
 	game.shadowColor = "#00FFFF";

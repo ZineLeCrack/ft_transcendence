@@ -18,6 +18,7 @@ export function draw() {
 	game.fillStyle = "#FFFFFF";
 	game.shadowColor = "#FFFFFF";
 	game.shadowBlur = 10;
+
 	let new_message;
 	if (message === "to_start" || message === "1_win" || message === "2_win") {
 		new_message = translate(message);
