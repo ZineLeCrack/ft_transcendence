@@ -77,86 +77,85 @@ export default function initRegister() {
 			}
 			initSuccess(translate('register_success'));
 			setTimeout(async () => {
-			    history.pushState(null, '', '/login');
-			    await loadRoutes('/login');
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
 			}, 1000);
 		}
 		catch (err)
 		{
-            initError((err as string).toString().substring(7));
+			initError((err as string).toString().substring(7));
 		}
 	});
 
 	function validateUsernameField(input: HTMLInputElement) {
-        const errorElement = document.getElementById('username-error');
-        if (!errorElement) return;
+		const errorElement = document.getElementById('username-error');
+		if (!errorElement) return;
 
-        const isValid = /^[a-zA-Z0-9_]{3,14}$/.test(input.value);
-        
-        if (!isValid && input.value.length >= 1) {
-            errorElement.classList.remove('hidden');
-            input.classList.add('border-red-500');
-        } else {
-            errorElement.classList.add('hidden');
-            input.classList.remove('border-red-500');
-        }
-    }
+		const isValid = /^[a-zA-Z0-9_]{3,14}$/.test(input.value);
+		
+		if (!isValid && input.value.length >= 1) {
+			errorElement.classList.remove('hidden');
+			input.classList.add('border-red-500');
+		} else {
+			errorElement.classList.add('hidden');
+			input.classList.remove('border-red-500');
+		}
+	}
 
-    const usernameInput = document.getElementById('sign-up-username') as HTMLInputElement;
-    if (usernameInput) {
-        usernameInput.addEventListener('input', () => validateUsernameField(usernameInput));
-        usernameInput.addEventListener('invalid', (e) => {
-            e.preventDefault();
-            validateUsernameField(usernameInput);
-        });
-    }
+	const usernameInput = document.getElementById('sign-up-username') as HTMLInputElement;
+	if (usernameInput) {
+		usernameInput.addEventListener('input', () => validateUsernameField(usernameInput));
+		usernameInput.addEventListener('invalid', (e) => {
+			e.preventDefault();
+			validateUsernameField(usernameInput);
+		});
+	}
 
 	function validateEmailField(input: HTMLInputElement) {
-        const errorElement = document.getElementById('email-error');
-        if (!errorElement) return;
-		console.log(input.validity);
-        const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
-        
-        if ((!isValid && input.value.length >= 1) || input.validity.typeMismatch) {
-            errorElement.classList.remove('hidden');
-            input.classList.add('border-red-500');
-        } else {
-            errorElement.classList.add('hidden');
-            input.classList.remove('border-red-500');
-        }
-    }
+		const errorElement = document.getElementById('email-error');
+		if (!errorElement) return;
+		const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
+		
+		if ((!isValid && input.value.length >= 1) || input.validity.typeMismatch) {
+			errorElement.classList.remove('hidden');
+			input.classList.add('border-red-500');
+		} else {
+			errorElement.classList.add('hidden');
+			input.classList.remove('border-red-500');
+		}
+	}
 
-    const emailInput = document.getElementById('sign-up-email') as HTMLInputElement;
-    if (emailInput) {
+	const emailInput = document.getElementById('sign-up-email') as HTMLInputElement;
+	if (emailInput) {
 		console.log(emailInput.validity);
-        emailInput.addEventListener('input', () => validateEmailField(emailInput));
-        emailInput.addEventListener('invalid', (e) => {
-            e.preventDefault();
-            validateEmailField(emailInput);
-        });
-    }
+		emailInput.addEventListener('input', () => validateEmailField(emailInput));
+		emailInput.addEventListener('invalid', (e) => {
+			e.preventDefault();
+			validateEmailField(emailInput);
+		});
+	}
 
 	function validatePasswordField(input: HTMLInputElement) {
-        const errorElement = document.getElementById('password-error');
-        if (!errorElement) return;
+		const errorElement = document.getElementById('password-error');
+		if (!errorElement) return;
 
-        const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/.test(input.value);
-        
-        if (!isValid && input.value.length >= 1) {
-            errorElement.classList.remove('hidden');
-            input.classList.add('border-red-500');
-        } else {
-            errorElement.classList.add('hidden');
-            input.classList.remove('border-red-500');
-        }
-    }
+		const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{6,}$/.test(input.value);
+		
+		if (!isValid && input.value.length >= 1) {
+			errorElement.classList.remove('hidden');
+			input.classList.add('border-red-500');
+		} else {
+			errorElement.classList.add('hidden');
+			input.classList.remove('border-red-500');
+		}
+	}
 
-    const PasswordInput = document.getElementById('sign-up-password-input') as HTMLInputElement;
-    if (PasswordInput) {
-        PasswordInput.addEventListener('input', () => validatePasswordField(PasswordInput));
-        PasswordInput.addEventListener('invalid', (e) => {
-            e.preventDefault();
-            validatePasswordField(PasswordInput);
-        });
-    }
+	const PasswordInput = document.getElementById('sign-up-password-input') as HTMLInputElement;
+	if (PasswordInput) {
+		PasswordInput.addEventListener('input', () => validatePasswordField(PasswordInput));
+		PasswordInput.addEventListener('invalid', (e) => {
+			e.preventDefault();
+			validatePasswordField(PasswordInput);
+		});
+	}
 }

@@ -1,7 +1,3 @@
-<------------MDP------------------>
-
-ebroudic - Caractères spéciaux non acceptés
-
 <------------CHAT----------------->
 
 ebroudic - Quand spam clique sur un ami, plusieurs boutons de parties privées + plusieurs fois le même message

@@ -30,7 +30,6 @@ export default async function authRoutes(fastify: FastifyInstance)
 			return;
 		}
 
-
 		try {
 			const db = await getDb_user();
 
