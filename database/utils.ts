@@ -10,5 +10,5 @@ export function validateEmail(email: string): boolean
 
 export function validatePassword(password: string): boolean
 {
-	return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/.test(password);
+	return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{6,}$/.test(password);
 }

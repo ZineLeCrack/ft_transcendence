@@ -139,7 +139,7 @@ export default function initRegister() {
 		const errorElement = document.getElementById('password-error');
 		if (!errorElement) return;
 
-		const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/.test(input.value);
+		const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{6,}$/.test(input.value);
 		
 		if (!isValid && input.value.length >= 1) {
 			errorElement.classList.remove('hidden');
