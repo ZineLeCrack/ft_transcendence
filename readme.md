@@ -10,6 +10,10 @@ cle-berr - On peut demander en ami quelqu'un qui nous a bloqué !!! (Ça part en
 
 <-----------PARTOUT--------------->
 
-lelanglo - Tous les pop-ups ne sont pas traduits
+lelanglo - Tous les pop-ups ne sont pas traduits + pop-up wtf quand mauvais login/mdp
+
+<-------------A2F----------------->
+
+lelanglo - Code A2F vide -> erreur dans la console
 
 👍🏻👍🏻
