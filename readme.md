@@ -24,14 +24,6 @@ cle-berr - On peut demander en ami quelqu'un qui nous a bloqué !!! (Ça part en
 
 lelanglo - Meilleur classement non traduit dans les stats
 
--------------MULTI---------------
-
-rlebaill - Nom du 2e joueur manquant pour le joueur 1 s'il ne refresh pas
-
--------------PONG----------------
-
-rlebaill - Message venant du backend non traduit
-
 -----------PARTOUT---------------
 
 lelanglo - Tous les pop-ups ne sont pas traduits
