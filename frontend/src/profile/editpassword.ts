@@ -8,7 +8,7 @@ import { translate } from '../i18n.js';
 import { validatePassword } from '../utils.js';
 
 export default async function initEditPassword() {
-	initLanguageSelector();
+	await initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 		const response = await fetch('/api/verifuser', {
 			method: 'POST',

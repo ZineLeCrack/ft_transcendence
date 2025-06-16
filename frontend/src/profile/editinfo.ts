@@ -36,7 +36,7 @@ export async function loadProfilePicture(div: string, name: string) {
 
 export default async function initEditProfile() {
 
-	initLanguageSelector();
+	await initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',
