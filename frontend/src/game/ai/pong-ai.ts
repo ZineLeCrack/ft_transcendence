@@ -118,12 +118,12 @@ export default async function initPong() {
 		}
 	}
 
-	document.addEventListener("keydown", (e) => {
+	document.addEventListener("keydown", async (e) => {
 		if (e.key === "w" || e.key === "s") return;
 		if (e.key === "ArrowUp") keys["w"] = true;
 		if (e.key === "ArrowDown") keys["s"] = true;
 		if (e.key === " ") {
-			fetch(`${SERVER_URL}/start`, { method: "POST" });
+			await fetch(`${SERVER_URL}/start`, { method: "POST" });
 			gameStarted = true;
 		}
 	});
@@ -134,8 +134,8 @@ export default async function initPong() {
 		if (e.key === "ArrowDown") keys["s"] = false;
 	});
 
-	const interval1 = setInterval(() => {
-		fetch(`${SERVER_URL}/move`, {
+	const interval1 = setInterval(async () => {
+		await fetch(`${SERVER_URL}/move`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ keys })

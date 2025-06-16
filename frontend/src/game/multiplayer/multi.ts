@@ -164,9 +164,9 @@ export default async function initMultiplayer() {
 		if (e.key in keys) keys[e.key] = false;
 	});
 
-	const interval1 = setInterval(() => {
+	const interval1 = setInterval(async () => {
 		if (gameOver) return ;
-		fetch(`${SERVER_URL}/${player}move`, {
+		await fetch(`${SERVER_URL}/${player}move`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ keys })
