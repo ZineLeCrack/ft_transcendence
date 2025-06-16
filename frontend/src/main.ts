@@ -24,7 +24,7 @@ import { initLanguageSelector } from './language.ts';
 
 const notFoundPageContent = `
 	<div class="text-center p-8 bg-transparent rounded-lg shadow-lg">
-		<a href="/home" data-link class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] px-6 py-2 rounded-xl  hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]">Return Home</a>
+		<a href="/home" data-link class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] px-6 py-2 rounded-xl  hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]" data-i18n="return_home">Return Home</a>
 	</div>
 `;
 
@@ -186,6 +186,7 @@ export const loadRoutes = async (path: string) => {
 						body.style.backgroundSize = "1920px 920px"; 
 						body.style.backgroundImage = "url('/images/404notfound.jpg')";
 						body.innerHTML = notFoundPageContent;
+						await initLanguageSelector();
 						return;
 					}
 					
@@ -203,6 +204,7 @@ export const loadRoutes = async (path: string) => {
 					body.style.backgroundSize = "1920px 920px"; 
 					body.style.backgroundImage = "url('/images/404notfound.jpg')";
 					body.innerHTML = notFoundPageContent;
+					await initLanguageSelector();
 					return;
 				}
 			}
@@ -228,6 +230,7 @@ export const loadRoutes = async (path: string) => {
 		body.style.backgroundSize = "1920px 920px"; 
 		body.style.backgroundImage = "url('/images/404notfound.jpg')";
 		body.innerHTML = notFoundPageContent;
+		await initLanguageSelector()
 	}
 }
 

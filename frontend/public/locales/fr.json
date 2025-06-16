@@ -161,5 +161,6 @@
 	"Remove_Friend" : "Supprimer un ami",
 	"Unblock_Player" : "Débloquer ce joueur",
 	"touch_html": "Pouvez-vous respecter la politique imposée s'il vous plait",
-	"tournament_full": "Le tournoi est complet"
+	"tournament_full": "Le tournoi est complet",
+	"return_home": "Retour au menu"
 }
