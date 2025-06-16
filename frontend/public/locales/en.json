@@ -160,5 +160,6 @@
 	"Request_Received": "Request Received",
 	"Remove_Friend": "Remove Friend",
 	"Unblock_Player": "Unblock Player",
-	"touch_html": "Please, Can you respect the imposed policy"
+	"touch_html": "Please, Can you respect the imposed policy",
+	"tournament_full": "The tournament is full"
 }

@@ -179,8 +179,16 @@ export default async function initJoinTournament() {
 						if (!response.ok) {
 							throw new Error(response.statusText);
 						}
-
-						const data = await response.json();
+						const text = await response.text();
+						if (text === "This tournament is full !")
+						{
+							throw new Error(translate("tournament_full"));
+						}
+						else if (text === "Wrong password !")
+						{
+							throw new Error(translate("no_pass"));
+						}
+						const data = JSON.parse(text);
 						const ws = getWebSocket();
 						ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
 

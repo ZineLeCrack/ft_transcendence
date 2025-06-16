@@ -152,13 +152,13 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 
 			if (tournament.players === tournament.players_max)
 			{
-				reply.status(401).send('This tournament is full !');
+				reply.status(200).send('This tournament is full !');
 				return ;
 			}
 
 			if (tournament.type === 'private' && !is_pass_valid)
 			{
-				reply.status(401).send('Wrong password !');
+				reply.status(200).send('Wrong password !');
 				return ;
 			}
 
