@@ -86,7 +86,7 @@ export default function initCreateTournament() {
 			ws?.send(JSON.stringify({ type: 'tournament_created' }));
 			createView?.classList.add('hidden');
 			mainView?.classList.remove('hidden');
-			window.location.reload();
+			window.location.reload(); // surement a enlever 
 		} catch (error) {
 			initError(translate('torn_failed'));
 		}
