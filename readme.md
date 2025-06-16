@@ -19,3 +19,4 @@ lelanglo - Code A2F vide -> erreur dans la console
 👍🏻👍🏻
 
 Photos de profil parsées ? (apparement on peut y mettre des injections sql)
+Tous les formulaires ont-ils des vérif en cas de changement de code html dans la console ?
