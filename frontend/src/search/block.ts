@@ -23,7 +23,15 @@ export default async function initBlockPlayer(target?: string) {
 		await checkBlockStatus();
 
 		blockbtn.addEventListener("click", async () => {
-			if (blockbtn.textContent === "Block Player") {
+
+			const res = await fetch("/api/isblock", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ tokenID, target })
+			});
+			const block = await res.json();
+
+			if (block.status === 0) {
 				const res = await fetch("/api/blockplayer", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
@@ -32,7 +40,7 @@ export default async function initBlockPlayer(target?: string) {
 				const data = await res.json();
     	        if (data.success)
 					blockbtn.textContent = "Unblock Player";
-			} else if (blockbtn.textContent === "Unblock Player") {
+			} else if (block.status === 1) {
 				const res = await fetch("/api/unblockplayer", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
