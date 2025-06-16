@@ -93,7 +93,7 @@ export async function initGlobalGraph(originalUsername: string) {
 				labels: labels,
 				datasets: [
 					{
-						label: translate("points_trad"),
+						label: translate("point_trad"),
 						data: pointsData,
 						borderColor: '#FFD700',
 					},
