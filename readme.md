@@ -1,6 +1,5 @@
 <------------CHAT----------------->
 
-ebroudic - Quand spam clique sur un ami, plusieurs boutons de parties privées + plusieurs fois le même message
 ebroudic - Quand partie privée accepter, le message revient tout en bas, sauf refresh où il revient au bon endroit
 
 <------------AMI-BLOQUAGE--------->

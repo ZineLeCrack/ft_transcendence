@@ -158,7 +158,14 @@ export default async function initFriendChat() {
 
 	friendButtons.forEach(button => {
 		button.addEventListener('click', async () => {
+			
 			const username = button.id.split('-').pop();
+			const alreadyInChat = document.getElementById(`chat-messages-${username}`);
+			if (alreadyInChat) return;
+
+			const existingChat = document.querySelectorAll(`[id^="chat-messages-"]`);
+			if (existingChat)
+				existingChat.forEach(chat => {chat.remove()});
 
 			const tokenID = sessionStorage.getItem("token");
 			const target = username;
@@ -167,6 +174,7 @@ export default async function initFriendChat() {
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ tokenID, target })
 			});
+
 			const friendStatus = await friendCheck.json();
 			if (friendStatus.status === 0) {
 				initError(translate("not_friend"));
@@ -175,6 +183,7 @@ export default async function initFriendChat() {
 				}, 1000);
 				return ;
 			}
+
 			if (friendStatus.status === 2) {
 				initError(translate("already_send"));
 				setTimeout(async () => {

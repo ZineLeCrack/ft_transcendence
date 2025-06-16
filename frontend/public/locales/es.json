@@ -147,7 +147,7 @@
 	"invalid_info": "nombre de usuario o correo electrónico no válidos, este usuario ya existe",
 	"bad_mail_pass": "correo electrónico o contraseña inválidos",
 	"bad_user_pass": "nombre de usuario o contraseña inválidos",
-	"points_trad": "Puntos",
+	"point_trad": "Puntos",
 	"win_trad": "Victorias",
 	"lose_trad": "Derrotas",
 	"quarter-finalist": "Quater-finalista",
@@ -159,5 +159,6 @@
 	"Request_Sent" : "Solicitud enviada",
 	"Request_Received" : "Solicitud recibida",
 	"Remove_Friend": "Eliminar un amigo",
-	"Unblock_Player": "Desbloquear este jugador"
+	"Unblock_Player": "Desbloquear este jugador",
+	"touch_html": "¿Puede cumplir con la política impuesta, por favor?"
 }

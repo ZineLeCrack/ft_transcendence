@@ -147,7 +147,7 @@
 	"invalid_info": "invalid username or email, This user already exists",
 	"bad_mail_pass": "Invalid email or password",
 	"bad_user_pass": "Invalid username or password",
-	"points_trad": "Points",
+	"point_trad": "Points",
 	"win_trad": "Wins",
 	"lose_trad": "Loses",
 	"quarter-finalist": "Quater-finalist",
@@ -159,5 +159,6 @@
 	"Request_Sent": "Request Sent",
 	"Request_Received": "Request Received",
 	"Remove_Friend": "Remove Friend",
-	"Unblock_Player": "Unblock Player"
+	"Unblock_Player": "Unblock Player",
+	"touch_html": "Please, Can you respect the imposed policy"
 }

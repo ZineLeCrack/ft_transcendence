@@ -57,7 +57,6 @@ export default function initLogin() {
 			login: signInEmailInput.required ? signInEmailInput.value: signInUsernameInput.value,
 			password: signInPasswordInput.value
 		};
-
 		try
 		{
 			const response = await fetch(`/api/login`,
@@ -73,16 +72,16 @@ export default function initLogin() {
 				initError(error);
 				return;
 			}
-			const data = await response.json();
-			if (data.toString() === "Invalid email or password")
+			const text = await response.text();
+			if (text === "Invalid email or password")
 			{
 				throw new Error(translate("bad_mail_pass"));
 			}
-			else if (data.toString() === "Invalid username or password")
+			else if (text === "Invalid username or password")
 			{
 				throw new Error(translate("bad_user_pass"))
 			}
-
+			const data = JSON.parse(text);
 			sessionStorage.setItem('userId', data.id);
 
 			initSuccess(translate('login_success'));

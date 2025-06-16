@@ -4,6 +4,7 @@ import initError from '../error.js';
 import initSuccess from '../success.js';
 import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
+import { validateEmail, validatePassword, validateUsername } from '../utils.js';
 
 
 export default function initRegister() {
@@ -56,7 +57,11 @@ export default function initRegister() {
 			email: emailInput.value,
 			password: signUpPasswordInput.value,
 		};
-
+		if (!validateEmail(userData.email) || !validateUsername(userData.username) || !validatePassword(userData.password))
+		{
+			initError(translate("touch_html"));
+			return;
+		}
 		try {
 			const response = await fetch(`/api/submit`, {
 				method: 'POST',
@@ -67,7 +72,7 @@ export default function initRegister() {
 			if (!response.ok)
 			{
 				const error = await response.text();
-				initError(error);
+				initError(translate("touch_html"));
 				return;
 			}
 			const err = await response.text();
