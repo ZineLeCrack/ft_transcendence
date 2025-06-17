@@ -187,7 +187,7 @@ export default async function initEditProfile() {
 				{
 					throw new Error(translate("bad_picture"));
 				}
-				loadProfilePicture("profil-pic", "l");
+				await loadProfilePicture("profil-pic", "l");
 				pictureInput.value = '';
 				window.location.reload();
 				console.log("Your profile has been updated successfully");
