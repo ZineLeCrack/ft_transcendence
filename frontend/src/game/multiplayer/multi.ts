@@ -148,14 +148,8 @@ export default async function initMultiplayer() {
 			initError(translate('failed_id'));
 			return ;
 		}
-		if (player === 'player1')
-		{
-			h1player1.textContent = `${info.original}`;
-			h1player2.textContent = `${name.player2.name}`;
-		} else {
-			h1player1.textContent = `${name.player1.name}`;
-			h1player2.textContent = `${info.original}`;	
-		}
+		h1player1.textContent = name.player1.name && name.player1.name !== '' ? `${name.player1.name}` : translate('player_1_trad');
+		h1player2.textContent = name.player2.name && name.player2.name !== '' ? `${name.player2.name}` : translate('player_2_trad');
 		pseudo1 = name.player1.name;
 		pseudo2 = name.player2.name;
 	} catch (err) {

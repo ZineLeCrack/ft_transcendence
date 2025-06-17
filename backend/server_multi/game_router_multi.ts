@@ -60,7 +60,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(500).send(`Game not found`);
+			reply.status(404).send(`Game not found`);
 			return ;
 		}
 

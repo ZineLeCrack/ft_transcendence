@@ -50,8 +50,22 @@ export function initWebSocket(original: string) {
 		}
 		if (data.type === 'multi_player_join') {
 			if (sessionStorage.getItem('gameId') === data.gameId) {
-				const module = await import('./game/multiplayer/multi.js');
-				module.default();
+				const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
+				const h1player2 = document.getElementById('name-player2') as HTMLHeadingElement;
+
+				try {
+					const getname = await fetch(`/api/multi/game/${data.gameId}/getname`, { method: 'POST'});
+					const name = await getname.json();
+					if (!name.player2 || !name.player1) {
+						initError(translate('failed_id'));
+						return ;
+					}
+					h1player1.textContent = name.player1.name && name.player1.name !== '' ? `${name.player1.name}` : translate('player_1_trad');
+					h1player2.textContent = name.player2.name && name.player2.name !== '' ? `${name.player2.name}` : translate('player_2_trad');
+				} catch (err) {
+					initError(translate('failed_id'));
+					return ;
+				}
 			}
 		}
 		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users') 
