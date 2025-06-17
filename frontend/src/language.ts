@@ -5,6 +5,7 @@ import initFriendChat from './chat/friendchat';
 import initHistory from './profile/history';
 import { initGlobalGraph } from './profile/global';
 import { initTournamentGraph } from './profile/tournament';
+import { loadHistoryContent } from './search/users';
 
 export async function initLanguageSelector(username?:string) {
 	const languageSelector = document.getElementById('language-selector');
@@ -43,6 +44,9 @@ async function changeLanguage(lang: string, username?:string): Promise<void> {
 	await loadTranslations(lang);
 	applyTranslations();
 
+	const path = window.location.pathname;
+	const userHistroryPathRegex = /^\/users\/[^\/]+\/history$/;
+
 	if (window.location.pathname === '/home')
 	{		
 		refreshGameModeDisplay();
@@ -61,6 +65,11 @@ async function changeLanguage(lang: string, username?:string): Promise<void> {
 	{
 		initTournamentGraph(username!);
 	}
+	if (userHistroryPathRegex.test(path))
+	{
+		loadHistoryContent(username!);
+	}
+
 }
 
 function updateFlag(lang: string): void {

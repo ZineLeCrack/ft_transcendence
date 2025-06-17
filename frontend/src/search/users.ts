@@ -11,6 +11,28 @@ import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
 import initGlobalstats from './globalstat.js';
 
+export async function loadHistoryContent(username: string) {
+	const historyDiv = document.getElementById('history-div-search');
+	if (historyDiv) {
+		try
+		{
+			const token = sessionStorage.getItem('token');
+			const response = await fetch(`/api/history`,
+			{
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({token, username}),
+			});
+
+			const data = await response.json();
+			generateCardsHistory('history-div-search', data, username);
+		}
+		catch (err)
+		{
+			console.error('Erreur lors de la récupération de l\'historique :', err);
+		}
+	}
+}
 
 export default async function initUsers(username?: string, isHistory: boolean = false) {
 	await initLanguageSelector();
@@ -133,29 +155,6 @@ function updateView(isHistory: boolean) {
 		const username = document.getElementById('username-h2')?.textContent;
 		if (username) {
 			loadOverallContent(username);
-		}
-	}
-}
-
-async function loadHistoryContent(username: string) {
-	const historyDiv = document.getElementById('history-div-search');
-	if (historyDiv) {
-		try
-		{
-			const token = sessionStorage.getItem('token');
-			const response = await fetch(`/api/history`,
-			{
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({token, username}),
-			});
-
-			const data = await response.json();
-			generateCardsHistory('history-div-search', data, username);
-		}
-		catch (err)
-		{
-			console.error('Erreur lors de la récupération de l\'historique :', err);
 		}
 	}
 }
