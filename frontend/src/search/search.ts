@@ -7,12 +7,12 @@ export default async function initSearch()
 {
 
 	const searchBar = document.getElementById("search-bar") as HTMLInputElement;
-	
+
 	searchBar?.addEventListener("keydown", async (event) => {
 		if (event.key === "Enter") {
 			const username = searchBar.value.trim();
 			if (!username) return;
-	
+
 			try {
 				const res = await fetch(`/api/search`,
 				{
@@ -20,9 +20,9 @@ export default async function initSearch()
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({username: username}),
 				});
-	
+
 				const data = await res.json();
-				
+
 				if (data.exists) {
 					history.pushState(null, '', '/users/' + username);
 					await loadRoutes('/users/' + username);

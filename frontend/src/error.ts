@@ -15,7 +15,7 @@ export default function initError(content?: string)
 		</div>
 	</div>
 </div>`;
-	
+
 	const oldPopup = document.getElementById('error-popup');
 	if (oldPopup)
 		oldPopup.remove();

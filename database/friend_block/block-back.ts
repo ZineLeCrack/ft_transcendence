@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function blockRoutes(fastify: FastifyInstance) {
-	
+
 	fastify.post('/isblock', async (request, reply) => {
 	const { tokenID, target } = request.body as { tokenID: string, target: string };
 
@@ -12,7 +12,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 		reply.status(400).send({ exists: false, error: "Missing username or target" });
 		return;
 	}
-		
+
 	try {
 		const db = await getDb_user();
 		const decoded = jwt.verify(tokenID, JWT_SECRET);
@@ -35,12 +35,12 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/blockplayer', async (request, reply) => {
 		const { tokenID, target } = request.body as { tokenID: string, target: string };
-	
+
 		if (!tokenID || !target) {
 		reply.status(400).send({ exists: false, error: "Missing username or target" });
 		return;
 		}
-	
+
 		try {
 		const db = await getDb_user();
 		const decoded = jwt.verify(tokenID, JWT_SECRET);
@@ -65,7 +65,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 		reply.status(500).send({ exists: false, error: "Internal server error" });
 		}
 	});
-	
+
 	fastify.post('/unblockplayer', async (request, reply) => {
 	const { tokenID, target } = request.body as { tokenID: string, target: string };
 

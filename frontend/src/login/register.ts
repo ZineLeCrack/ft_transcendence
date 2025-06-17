@@ -6,7 +6,6 @@ import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
 import { validateEmail, validatePassword, validateUsername } from '../utils.js';
 
-
 export default function initRegister() {
 	initLanguageSelector();
 
@@ -97,7 +96,7 @@ export default function initRegister() {
 		if (!errorElement) return;
 
 		const isValid = /^[a-zA-Z0-9_]{3,14}$/.test(input.value);
-		
+
 		if (!isValid && input.value.length >= 1) {
 			errorElement.classList.remove('hidden');
 			input.classList.add('border-red-500');
@@ -120,7 +119,7 @@ export default function initRegister() {
 		const errorElement = document.getElementById('email-error');
 		if (!errorElement) return;
 		const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
-		
+
 		if ((!isValid && input.value.length >= 1) || input.validity.typeMismatch) {
 			errorElement.classList.remove('hidden');
 			input.classList.add('border-red-500');
@@ -144,7 +143,7 @@ export default function initRegister() {
 		if (!errorElement) return;
 
 		const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{6,}$/.test(input.value);
-		
+
 		if (!isValid && input.value.length >= 1) {
 			errorElement.classList.remove('hidden');
 			input.classList.add('border-red-500');

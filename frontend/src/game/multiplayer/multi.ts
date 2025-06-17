@@ -41,9 +41,9 @@ export default async function initMultiplayer() {
 		ArrowUp: false,
 		ArrowDown: false
 	};
-	
+
 	let gameOver = false;
-	
+
 	const gameId = sessionStorage.getItem("gameId");
 	if (!gameId) {
 		initError(translate('Error_co'));
@@ -53,7 +53,7 @@ export default async function initMultiplayer() {
 		}, 1000);
 		return ;
 	}
-	
+
 	const response2 = await fetch('/api/multi/game/which_player', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -108,7 +108,7 @@ export default async function initMultiplayer() {
 
 		for (let i = 0; i < 600; i += 18.9)
 			game.fillRect(399, i, 2, 15);
-		
+
 		game.fillStyle = "#00FFFF";
 		game.shadowColor = "#00FFFF";
 		game.shadowBlur = 10;
@@ -130,19 +130,18 @@ export default async function initMultiplayer() {
 		score.shadowColor = "#00FFFF";
 		score.shadowBlur = 10;
 		score.fillText(leftScore.toString(), 20, 50);
-		
+
 		score.fillStyle = "#FF007A";
 		score.shadowColor = "#FF007A";
 		score.shadowBlur = 10;
 		score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
 	}
 
-	
 	const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
 	const h1player2 = document.getElementById('name-player2') as HTMLHeadingElement;
 
 	try {
-		const getname = await fetch(`${SERVER_URL}/getname`, { method: 'POST'});	
+		const getname = await fetch(`${SERVER_URL}/getname`, { method: 'POST'});
 		const name = await getname.json();
 		if (!name.player2 || !name.player1) {
 			initError(translate('failed_id'));

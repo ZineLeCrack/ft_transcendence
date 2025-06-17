@@ -19,7 +19,7 @@ async function main() {
 			cert: certificate,
 		},
 	});
-	
+
 	await app.register(cors, { origin: true });
 	await app.register(tournamentRoutes, { prefix: '/tournament'});
 	await app.register(gameRoutes, { prefix: '/game' });

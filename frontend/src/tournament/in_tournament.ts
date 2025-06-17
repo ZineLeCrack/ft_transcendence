@@ -33,7 +33,7 @@ interface TournamentData_Players {
 }
 
 function getcolor(player1: string, player2: string, winner: string, loser: string) {
-	
+
 	if (player1 === '?' || player2 === '?') {
 		return "border-[#00FFFF] shadow-[0_0_10px_#00FFFF]";
 	}
@@ -45,11 +45,11 @@ function getcolor(player1: string, player2: string, winner: string, loser: strin
 	if (player1 === winner) {
 		return "border-[#00FF00] shadow-[0_0_10px_#00FF00]";
 	}
-	
+
 	if (player1 === loser) {
 		return "border-[#FF0000] shadow-[0_0_10px_#FF0000]";
 	}
-	
+
 	else {
 		return "border-[#00FFFF] shadow-[0_0_10px_#00FFFF]";
 	}
@@ -65,7 +65,7 @@ export async function generateTournamentView(TournamentData_Players: TournamentD
 	});
 
 	const TournamentData = await res.json();
-	
+
 	if (container) {
 		container.innerHTML = '';
 		const bracketTournament = document.createElement('div');

@@ -113,13 +113,12 @@ export default async function initPong() {
 		score.shadowColor = "#00FFFF";
 		score.shadowBlur = 10;
 		score.fillText(leftScore.toString(), 20, 50);
-		
+
 		score.fillStyle = "#FF007A";
 		score.shadowColor = "#FF007A";
 		score.shadowBlur = 10;
 		score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
 	}
-
 
 	async function fetchState() {
 		try {

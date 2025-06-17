@@ -84,7 +84,7 @@ export default function initChooseGame() {
 						history.pushState(null, '', '/game/multi');
 						await loadRoutes('/game/multi');
 					}, 100);
-					
+
 				} catch (err) {
 					initError(translate("local_can't_start"));
 				}

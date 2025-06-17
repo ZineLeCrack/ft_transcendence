@@ -5,7 +5,6 @@ export default async function addhistoryRoutes(fastify: FastifyInstance) {
 	fastify.post('/addhistory', async (request, reply) => {
 		const { Id1, Id2, score1, score2, tournament, tournamentId} = request.body as { Id1: string, Id2: string, score1: number, score2: number, tournament: boolean, tournamentId: number };
 
-
 		try {
 
 			let tournament_bool;

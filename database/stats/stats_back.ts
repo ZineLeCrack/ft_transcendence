@@ -26,7 +26,7 @@ export default async function StatsRoutes(fastify: FastifyInstance) {
 				ID = (decoded as { userId: string }).userId;
 			}
 			const stats = await db.get(`SELECT * FROM stats WHERE id_player = ?;`,[ID]);
-			
+
 			reply.send(stats);
 		} catch (err) {
 			console.error(err);

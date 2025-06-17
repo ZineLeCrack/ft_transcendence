@@ -81,17 +81,17 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 						<div id="profile-lose1-${id}" class="w-[120px] h-[120px] overflow-hidden rounded-full"></div>
 						<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#00FFFF] mt-1">${CardHistory.usernameplayer2}</div>
 					</div>
-					
+
 					<div class="text-8xl font-bold text-[#00FFFF] drop-shadow-[0_0_10px_#00FFFF] text-center">${CardHistory.pointplayer2}</div>
-					
+
 					<img src="/images/VS.png" class="w-[160px] h-[160px] mx-auto" alt="VS">
 					<div class="text-8xl font-bold text-[#FF007A] drop-shadow-[0_0_10px_#FF007A] text-center">${CardHistory.pointplayer1}</div>
-					
+
 					<div class="flex flex-col items-center">
 						<div id="profile-lose2-${id}" class="w-[120px] h-[120px] overflow-hidden rounded-full"></div>
 						<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer1}</div>
 					</div>
-					
+
 					<div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">${CardHistory.date}</div>
 				`;
 

@@ -57,7 +57,7 @@ export default async function initEditProfile() {
 	const email = res.email;
 	const usernamediv = document.getElementById("username");
 	const emaildiv = document.getElementById("mail");
-	
+
 	initWebSocket(username);
 	if (usernamediv)
 	{
@@ -147,7 +147,6 @@ export default async function initEditProfile() {
 		usernameInput.classList.remove('border-red-500');
 	});
 
-
 	picturebutton.addEventListener('click', async (event) =>{
 		event.preventDefault();
 
@@ -218,7 +217,7 @@ export default async function initEditProfile() {
 		const errorElement = document.getElementById('edit-email-error');
 		if (!errorElement) return;
 		const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
-		
+
 		if ((!isValid && input.value.length >= 1) || input.validity.typeMismatch) {
 			errorElement.classList.remove('hidden');
 			input.classList.add('border-red-500');

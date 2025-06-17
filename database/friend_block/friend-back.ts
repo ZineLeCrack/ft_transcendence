@@ -12,7 +12,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			reply.status(400).send({ exists: false, error: "Missing username or target" });
 			return;
 		}
-			
+
 		try {
 			const db = await getDb_user();
 			const decoded = jwt.verify(tokenID, JWT_SECRET);
@@ -32,7 +32,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			reply.status(500).send({ exists: false, err });
 		}
 	});
-	
+
 	fastify.post('/requestfriend', async (request, reply) => {
 		const { tokenID, target } = request.body as { tokenID: string, target: string };
 
@@ -156,7 +156,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 				profilPic: f.profilPic,
 				status: f.status
 			}));
-			
+
 			reply.send({ friends: friendsWithStatus });
 		} catch (err) {
 			console.error("DB error:", err);
@@ -165,7 +165,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 	});
 	fastify.post('/setstatus', async (request, reply) => {
 		const { tokenID, status } = request.body as { tokenID: string, status: string }
-		
+
 		if (!tokenID || !status) {
 			reply.status(400).send({ success: false, error: "Missing token or status" });
 			return;

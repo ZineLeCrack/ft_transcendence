@@ -10,23 +10,23 @@ export default function initCreateTournament() {
 	const createTournamentSubmitBtn = document.getElementById('create-tournament-submit');
 	const mainView = document.getElementById('tournament-main-view');
 	const createView = document.getElementById('tournament-create-view');
-	
+
 	createTournamentBtn?.addEventListener('click', () => {
 		mainView?.classList.add('hidden');
 		createView?.classList.remove('hidden');
 	});
-	
+
 	backToTournamentBtn?.addEventListener('click', () => {
 		createView?.classList.add('hidden');
 		mainView?.classList.remove('hidden');
 	});
-	
+
 	const typeRadios = document.querySelectorAll('input[name="type"]');
 
 	const tournamentPasswordInput = document.getElementById('tournament-password') as HTMLInputElement;
 	const tournamentPasswordBtn = document.getElementById('tournament-password-btn') as HTMLButtonElement;
 	const tournamentPasswordIcon = document.getElementById('tournament-password-icon') as HTMLImageElement;
-	
+
 	typeRadios.forEach(radio => {
 		radio.addEventListener('change', (e) => {
 			const target = e.target as HTMLInputElement;
@@ -48,7 +48,6 @@ export default function initCreateTournament() {
 		});
 	});
 
-
 	togglePassword(tournamentPasswordInput, tournamentPasswordBtn, tournamentPasswordIcon);
 
 	function validateTournamentNameField(input: HTMLInputElement) {
@@ -56,7 +55,7 @@ export default function initCreateTournament() {
 		if (!errorElement) return;
 
 		const isValid = /^[a-zA-Z0-9_]{3,14}$/.test(input.value);
-		
+
 		if (!isValid && input.value.length >= 1) {
 			errorElement.classList.remove('hidden');
 			input.classList.add('border-red-500');

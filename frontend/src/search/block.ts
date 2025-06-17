@@ -25,7 +25,7 @@ export default async function initBlockPlayer(target?: string) {
 		await checkBlockStatus();
 
 		blockbtn.onclick = null;
-		
+
 		blockbtn.onclick = async () => {
 
 			const res = await fetch("/api/isblock", {
@@ -36,7 +36,7 @@ export default async function initBlockPlayer(target?: string) {
 			const block = await res.json();
 			const ws = getWebSocket();
 
-			if (block.status === 0)	
+			if (block.status === 0)
 			{
 				const res = await fetch("/api/blockplayer", {
 					method: "POST",

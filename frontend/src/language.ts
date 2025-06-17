@@ -48,7 +48,7 @@ async function changeLanguage(lang: string, username?:string): Promise<void> {
 	const userHistroryPathRegex = /^\/users\/[^\/]+\/history$/;
 
 	if (window.location.pathname === '/home')
-	{		
+	{
 		refreshGameModeDisplay();
 		initJoinTournament();
 		initFriendChat();

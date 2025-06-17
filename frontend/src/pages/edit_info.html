@@ -51,19 +51,18 @@
 					</div>
 					<input type="file" id="pictureInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"/>
 				</div>
-			
+
 				<div id="username" class="text-center mb-3">
 				</div>
-			
+
 				<div id="mail" class="text-center mb-4">
 				</div>
-			
+
 				<button type="button" id="button-edit-profile" 
 					class="px-6 py-3 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl hover:bg-[#00FFFF]/20 transition shadow-[0_0_10px_#00FFFF]" data-i18n="edit_picture_trad">
 					Edit Profile Picture
 				</button>
 			</div>
-
 
 			<div class="md:w-2/3 mt-20 space-y-5">
 				<div id="edit-username-div" class="flex flex-col">
@@ -73,7 +72,7 @@
 						class="w-full md:w-2/3 px-4 py-3 rounded-xl border-2 bg-black/30 border-[#00FFFF] text-[#00FFFF] placeholder-[#00FFFF]/50 focus:outline-none focus:border-[#ad39f0] transition"/>
 					<span id="edit-username-error" class="text-red-500 text-sm hidden" data-i18n="username_error">Username must be 3-14 characters long and contain only letters, numbers, underscore or hyphen</span>
 				</div>
-				
+
 				<div id="edit-email-div" class="flex flex-col">
 					<label class="block text-sm font-bold mb-1 text-[#FF2E9F]" data-i18n="mail_trad" >EDIT EMAIL</label>
 					<input id="edit-email-input" type="email" title="Enter a valid address" 
@@ -81,14 +80,13 @@
 						class="w-full md:w-2/3 px-4 py-3 rounded-xl border-2 bg-black/30 border-[#00FFFF] text-[#00FFFF] placeholder-[#00FFFF]/50 focus:outline-none focus:border-[#ad39f0] transition"/>
 					<span id="edit-email-error" class="text-red-500 text-sm hidden" data-i18n="email_error" >The email address entered is not valid. Please ensure it follows a standard format (user@domain.com).</span>
 				</div>
-				
+
 				<div class="flex items-center md:w-2/3">
 					<a id="edit-password-btn" href="/profile/edit/password" data-link 
 						class="px-6 py-3 bg-transparent border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl hover:bg-[#00FFFF]/20 transition shadow-[0_0_10px_#00FFFF]" data-i18n="Edit_pass_trad">
 						Edit Password
 					</a>
 				</div>
-
 
 				<div class="flex justify-start gap-6 pt-8">
 					<button type="button" id="unsave-btn" 

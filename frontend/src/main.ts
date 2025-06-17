@@ -37,7 +37,7 @@ interface Route {
 }
 
 const routes: { [path: string]: Route } = {
-	
+
 	'/login': 
 	{
 		view: loginHtml,
@@ -159,7 +159,7 @@ const routes: { [path: string]: Route } = {
 		bodyStyleImage: "url('/images/statscyberpunk.png')",
 		bodyClass: "bg-cover bg-center bg-no-repeat h-screen flex",
 	},
-	
+
 };
 
 export const loadRoutes = async (path: string) => {
@@ -180,7 +180,7 @@ export const loadRoutes = async (path: string) => {
 						body: JSON.stringify({ username })
 					});
 					const data = await res.json();
-					
+
 					if (!data.exists) {
 						body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
 						body.style.backgroundSize = "cover"; 
@@ -189,11 +189,11 @@ export const loadRoutes = async (path: string) => {
 						await initLanguageSelector();
 						return;
 					}
-					
+
 					body.innerHTML = route.view;
 					body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
 					body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
-					
+
 					if (route.script) {
 						await route.script(username);
 					}
@@ -215,7 +215,7 @@ export const loadRoutes = async (path: string) => {
 
 	if (route) {
 		body.innerHTML = route.view;
-		
+
 		body.style.backgroundImage = route?.bodyStyleImage || "url('/images/logincyberpunk.png')";
 		body.className = route?.bodyClass || "bg-center bg-no-repeat min-h-screen flex items-center justify-center";
 		if (route.script) {

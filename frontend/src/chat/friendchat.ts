@@ -39,7 +39,7 @@ export function initSwitchChat()
 				<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
 			friendslist.classList.remove("hidden");
 			friendslist.classList.add("flex");
-			
+
 		} else {
 			const chatContainers = document.getElementById('chat-containers') as HTMLDivElement;
 			const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
@@ -102,7 +102,7 @@ export default async function initFriendChat()
 		<span class="mr-2 text-[#FF2E9F]">⚡</span>
 	   	<span data-i18n="chat_friends">${ChatInfoTitle}</span>
 		<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
-	
+
 	interface Friend {
 		username: string;
 		profilPic: string;
@@ -177,7 +177,7 @@ export default async function initFriendChat()
 
 	friendButtons.forEach(button => {
 		button.addEventListener('click', async () => {
-			
+
 			const username = button.id.split('-').pop();
 			const alreadyInChat = document.getElementById(`chat-messages-${username}`);
 			if (alreadyInChat) return;

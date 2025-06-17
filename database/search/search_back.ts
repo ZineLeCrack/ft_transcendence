@@ -13,8 +13,7 @@ export default async function searchRoutes(fastify: FastifyInstance) {
 		try {
 			const db = await getDb_user();
 			const user = await db.get(`SELECT * FROM users WHERE name = ?`, [username]);
-			
-			// const exists = user;
+
 			if (!user) {
 				reply.status(200).send({ exists: false });
 			}

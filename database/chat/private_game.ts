@@ -9,10 +9,10 @@ export default async function privateGameRoutes(fastify: FastifyInstance) {
 		try {
 			const dbChat = await getDb_chat();
 			const dbUser = await getDb_user();
-			
+
 			const decoded = jwt.verify(token, JWT_SECRET);
 			let id_user = (decoded as { userId: string }).userId;
-		
+
 			const user = await dbUser.get("SELECT name FROM users WHERE id = ?", [id_user]);
 
 			if (answer === 1) {
@@ -24,7 +24,7 @@ export default async function privateGameRoutes(fastify: FastifyInstance) {
 					[target, user.name]);
 			}
 		return reply.send({ status: "ok" });
-		
+
 		} catch (err) {
 			console.error(err);
 			reply.status(500).send('Server error');

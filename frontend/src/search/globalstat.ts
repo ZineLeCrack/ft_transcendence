@@ -25,7 +25,7 @@ export default async function initGlobalstats(username: string) {
 	const tournamentl = document.getElementById('tournament_lost') as HTMLParagraphElement;
 	const totalpoints = document.getElementById('total_points') as HTMLParagraphElement;
 	const averagepoint = document.getElementById('average_points') as HTMLParagraphElement;
-	
+
 	totalgame.textContent = `${stats.games_played}`;
 	winsgame.textContent = `${stats.wins}`;
 	lostgame.textContent = `${stats.loses}`;

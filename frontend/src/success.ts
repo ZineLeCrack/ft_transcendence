@@ -14,7 +14,7 @@ export default function initSuccess(content?: string)
         </div>
     </div>
 </div>`;
-	
+
 	const oldPopup = document.getElementById('success-popup');
     if (oldPopup)
 		oldPopup.remove();

@@ -4,11 +4,10 @@ import initSuccess from '../success.js';
 import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
 
-
 export default function initA2f() {
 
 	initLanguageSelector();
-	
+
 	const form = document.getElementById("a2f") as HTMLFormElement;
 	const sendBtn = document.getElementById('to-send-a2f') as HTMLButtonElement;
 	const codeInput = document.getElementById("code-input") as HTMLInputElement;

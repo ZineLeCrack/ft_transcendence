@@ -22,7 +22,7 @@ export default async function initPong() {
 			body: JSON.stringify({ token }),
 		});
 		const info = await response.json();
-					
+
 	initWebSocket(info.original);
 	await initLanguageSelector();
 
@@ -58,11 +58,11 @@ export default async function initPong() {
 	function draw() {
 		game.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 		score.clearRect(0, 0, topCanvas.width, topCanvas.height);
-	
+
 		game.fillStyle = "#FFFFFF";
 		game.shadowColor = "#FFFFFF";
 		game.shadowBlur = 10;
-	
+
 		let new_message;
 		if (message === "to_start" || message === "1_win" || message === "2_win") {
 			new_message = translate(message);
@@ -70,32 +70,32 @@ export default async function initPong() {
 			new_message = message;
 		}
 		game.fillText(new_message, 400 - (new_message.length * 14), 150);
-	
+
 		for (let i = 0; i < 600; i += 18.9)
 			game.fillRect(399, i, 2, 15);
-		
+
 		game.fillStyle = "#00FFFF";
 		game.shadowColor = "#00FFFF";
 		game.shadowBlur = 10;
 		game.fillRect(5, leftPaddleY, paddleWidth, paddleHeight);
-		
+
 		game.fillStyle = "#FF007A";
 		game.shadowColor = "#FF007A";
 		game.shadowBlur = 10;
 		game.fillRect(gameCanvas.width - paddleWidth - 5, rightPaddleY, paddleWidth, paddleHeight);
-	
+
 		game.beginPath();
 		game.arc(ballX + 5, ballY + 5, 5, 0, Math.PI * 2);
 		game.fillStyle = "#FFFFFF";
 		game.shadowColor = "#FFFFFF";
 		game.shadowBlur = 10;
 		game.fill();
-		
+
 		score.fillStyle = "#00FFFF";
 		score.shadowColor = "#00FFFF";
 		score.shadowBlur = 10;
 		score.fillText(leftScore.toString(), 20, 50);
-		
+
 		score.fillStyle = "#FF007A";
 		score.shadowColor = "#FF007A";
 		score.shadowBlur = 10;

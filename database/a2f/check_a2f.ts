@@ -9,7 +9,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 const verificationCodes = new Map();
 
-
 export default async function a2fRoutes(fastify: FastifyInstance) {
 	fastify.register(fastifyJwt, {
 		secret: JWT_SECRET,

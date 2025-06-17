@@ -21,11 +21,11 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		container.className = "flex flex-col items-center space-y-2 my-4";
 
 		const msg = document.createElement("div");
-		
+
 		msg.id = "your-turn";
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
 		const requestText = translate('your_turn');
-		
+
 		msg.textContent = `${requestText}`;
 		container.appendChild(msg);
 		messageWrapper.appendChild(container);
@@ -63,7 +63,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		const msg = document.createElement("div");
 		msg.id = "pong-game-join";
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
-		
+
 		if (username === original_name) {
 			const invitationText = translate('pong_game_accepted_you');
 			msg.textContent = `${targetUser} ${invitationText}`;
@@ -74,7 +74,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 
 		const buttonsDiv = document.createElement("div");
 		buttonsDiv.className = "flex gap-4 mt-2";
-		
+
 		const JoinBtn = document.createElement("button");
 		JoinBtn.id = 'join-button-pong';
 		JoinBtn.className = "bg-transparent border-2 border-[#00FFFF] px-6 py-2 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]";
@@ -114,7 +114,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 	}
 
 	if (pong === true) {
-		
+
 		const oldContainer = document.getElementById('container-pong-request');
 
 		if (oldContainer) {
@@ -245,7 +245,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		acceptBtn.className = "bg-transparent border-2 border-[#00FFFF] px-6 py-2 rounded-xl text-[#00FFFF] font-bold hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]";
 		const acceptText = translate('accept_button');
 		acceptBtn.textContent = `${acceptText}`;
-		
+
 		const declineBtn = document.createElement("button");
 		declineBtn.className = "bg-transparent border-2 border-[#FF007A] px-6 py-2 rounded-xl text-[#FF007A] font-bold hover:bg-[#FF007A]/20 transition duration-200 shadow-[0_0_10px_#FF007A]";
 		const declineText = translate('decline_button');

@@ -60,7 +60,7 @@ export default async function initJoinTournament() {
 				TournamentItem.forEach(tournament => {
 					const tournamentElement = document.createElement('div');
 					tournamentElement.className = 'flex items-center justify-between p-2 mb-2 bg-black/40 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_5px_#00FFFF]';
-					
+
 					const playersLabel = translate("players_label");
 					const typeLabel = translate("type");
 					const enterPasswordPlaceholder = translate("enter_password_placeholder");
@@ -124,7 +124,7 @@ export default async function initJoinTournament() {
 	}
 
 	const JoinBtnTournament = document.querySelectorAll('[id^="join-tournament-btn-"]');
-	
+
 	const chooseTournamentAliasTitle = translate("choose_tournament_alias_title");
 	const enterYourAliasPlaceholder = translate("enter_your_alias_placeholder");
 	const cancelButton = translate("cancel_button");

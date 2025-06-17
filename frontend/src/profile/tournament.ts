@@ -146,7 +146,6 @@ export async function initTournamentGraph(originalUsername: string) {
 		});
 	}
 
-
 	const canvas = document.getElementById('graph-win-lose') as HTMLCanvasElement | null;
 	if (canvas) {
 		const ctx = canvas.getContext('2d');
