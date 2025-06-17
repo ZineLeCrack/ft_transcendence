@@ -49,7 +49,31 @@ export default function initCreateTournament() {
 	});
 
 
-	togglePassword(tournamentPasswordInput, tournamentPasswordBtn, tournamentPasswordIcon);	
+	togglePassword(tournamentPasswordInput, tournamentPasswordBtn, tournamentPasswordIcon);
+
+	function validateTournamentNameField(input: HTMLInputElement) {
+		const errorElement = document.getElementById('tournament-name-error');
+		if (!errorElement) return;
+
+		const isValid = /^[a-zA-Z0-9_]{3,14}$/.test(input.value);
+		
+		if (!isValid && input.value.length >= 1) {
+			errorElement.classList.remove('hidden');
+			input.classList.add('border-red-500');
+		} else {
+			errorElement.classList.add('hidden');
+			input.classList.remove('border-red-500');
+		}
+	}
+
+	const tournamentName = document.getElementById('tournament-name') as HTMLInputElement;
+	if (tournamentName) {
+		tournamentName.addEventListener('input', () => validateTournamentNameField(tournamentName));
+		tournamentName.addEventListener('invalid', (e) => {
+			e.preventDefault();
+			validateTournamentNameField(tournamentName);
+		});
+	}
 
 	createTournamentSubmitBtn?.addEventListener('click', async () => {
 		const tournamentName = (document.getElementById('tournament-name') as HTMLInputElement)?.value;

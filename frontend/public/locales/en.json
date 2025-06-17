@@ -127,6 +127,7 @@
 	"picture_no": "Please select a picture",
 	"alias_too_long": "Alias too long !",
 	"torn_faield": "Failed to create tournament",
+	"torn_invalid_name" : "Invalid tournament name",
 	"torn_name": "Please enter a tournament name",
 	"torn_pass": "Please enter a password for private tournament",
 	"user_NOT_FOUND": "User not found !",
