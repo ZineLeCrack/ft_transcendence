@@ -97,7 +97,7 @@ export default async function initMultiplayer() {
 		{
 			new_message = `${pseudo1} ${translate(message)}`
 		}
-		else if ( message === "2_win")
+		else if (message === "2_win")
 		{
 			new_message = `${pseudo2} ${translate("1_win")}`
 		}
