@@ -132,7 +132,6 @@ export default function initRegister() {
 
 	const emailInput = document.getElementById('sign-up-email') as HTMLInputElement;
 	if (emailInput) {
-		console.log(emailInput.validity);
 		emailInput.addEventListener('input', () => validateEmailField(emailInput));
 		emailInput.addEventListener('invalid', (e) => {
 			e.preventDefault();
