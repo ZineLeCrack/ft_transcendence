@@ -45,8 +45,8 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 			await transporter.sendMail({
 				from: EMAIL,
 				to: user.email,
-				subject: 'Votre code de vérification',
-				text: `Voici votre code de vérification : ${code}`,
+				subject: 'Your 2FA code',
+				text: `This is your 2FA code : ${code}`,
 			});
 
 			reply.status(200).send('Code sent');
