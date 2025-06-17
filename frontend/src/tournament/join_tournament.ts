@@ -162,6 +162,12 @@ export default async function initJoinTournament() {
 							initError(translate('alias_too_long'));
 							return ;
 						}
+
+						if (!(/^[a-zA-Z0-9_]{1,10}$/.test(inputAlias.value.trim()))) {
+							initError(translate('invalid_alias'));
+							return ;
+						}
+
 						const token = sessionStorage.getItem('token');
 						const response = await fetch('/api/tournament/join', {
 							method: 'POST',
@@ -178,14 +184,13 @@ export default async function initJoinTournament() {
 							throw new Error(response.statusText);
 						}
 						const text = await response.text();
-						if (text === "This tournament is full !")
-						{
+						if (text === "This tournament is full !") {
 							throw new Error(translate("tournament_full"));
 						}
-						else if (text === "Wrong password !")
-						{
+						else if (text === "Wrong password !") {
 							throw new Error(translate("no_pass"));
 						}
+
 						const data = JSON.parse(text);
 						const ws = getWebSocket();
 						ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
