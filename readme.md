@@ -13,6 +13,7 @@ ebroudic - WebSocket quand demande d'ami + demande d'ami acceptée + ami bloqué
 <-------------TOURNOI------------->
 
 rlebaill - attaque xss dans le nom du tournoi, le nom de l'alias.
+
 👍🏻👍🏻
 
 Photos de profil parsées ? (apparement on peut y mettre des injections sql)
