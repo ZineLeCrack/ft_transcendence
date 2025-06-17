@@ -21,7 +21,7 @@ export default function initChooseGame() {
 	const gameModeDiv = document.getElementById("game-mode") as HTMLDivElement;
 	const descriptionmode = document.getElementById("description-game-mode") as HTMLDivElement;
 
-	 const modeTranslationKeys: Record<string, string> = {
+	const modeTranslationKeys: Record<string, string> = {
 		"LOCAL": "game_mode_local",
 		"MULTI": "game_mode_multi",
 		"AI": "game_mode_ai"

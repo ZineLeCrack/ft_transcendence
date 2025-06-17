@@ -175,7 +175,7 @@ export default async function initEditProfile() {
 				body: formData,
 				headers: {
 					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-	  			},
+				},
 			});
 			if (!response.ok)
 			{

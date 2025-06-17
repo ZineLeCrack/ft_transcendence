@@ -86,7 +86,7 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 
 		historyBtn.onclick = null;
 
-		historyBtn.onclick =  async (e) => {
+		historyBtn.onclick = async (e) => {
 			e.preventDefault();
 			const currentPath = window.location.pathname;
 			const currentTargetPath = `/users/${username}/history`;

@@ -12,7 +12,7 @@ export default async function addhistoryRoutes(fastify: FastifyInstance) {
 			if (!tournament)
 			{
 				tournament_bool = 0;
-			} else  {
+			} else {
 				tournament_bool = 1;
 			}
 

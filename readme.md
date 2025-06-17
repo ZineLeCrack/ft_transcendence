@@ -2,8 +2,6 @@ ebroudic - date de tournoi a la place de l'id du tournoi sur le graphique du pro
 
 lelanglo - Nom des joueurs, quand on gagne en AI
 
-rlebaill - try catch sur fetch et requete sql
-
 cle-berr - verifuser si token pas bon ca met erreur 500, ce n'est pas un bon status d'erreur
 
 tous le monde - lire le sujet, connaitre son code, trouver erreur et regler erreur

@@ -35,7 +35,7 @@ export function initSwitchChat()
 			const ChatInfoTitle = translate('chat_friends');
 			chatInfo.innerHTML = `
 				<span class="mr-2 text-[#FF2E9F]">⚡</span>
-			   	<span data-i18n="chat_friends">${ChatInfoTitle}</span>
+				<span data-i18n="chat_friends">${ChatInfoTitle}</span>
 				<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
 			friendslist.classList.remove("hidden");
 			friendslist.classList.add("flex");
@@ -104,7 +104,7 @@ export default async function initFriendChat()
 	const ChatInfoTitle = translate('chat_friends');
 	chatInfo.innerHTML = `
 		<span class="mr-2 text-[#FF2E9F]">⚡</span>
-	   	<span data-i18n="chat_friends">${ChatInfoTitle}</span>
+		<span data-i18n="chat_friends">${ChatInfoTitle}</span>
 		<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
 
 	interface Friend {

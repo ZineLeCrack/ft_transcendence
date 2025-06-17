@@ -73,7 +73,7 @@ export default async function initEditPassword() {
 	if (editNewPasswordInput && editConfirmNewPasswordInput)
 	{
 		editNewPasswordInput.addEventListener('input', ()=> { checkPasswordMatch(editNewPasswordInput, editConfirmNewPasswordInput, profileBadPasswordIcon, profileBadConfirmPasswordIcon, profileGoodPasswordIcon, profileGoodConfirmPasswordIcon) });
-		editConfirmNewPasswordInput.addEventListener('input',  ()=> { checkPasswordMatch(editNewPasswordInput, editConfirmNewPasswordInput, profileBadPasswordIcon, profileBadConfirmPasswordIcon, profileGoodPasswordIcon, profileGoodConfirmPasswordIcon) });
+		editConfirmNewPasswordInput.addEventListener('input', ()=> { checkPasswordMatch(editNewPasswordInput, editConfirmNewPasswordInput, profileBadPasswordIcon, profileBadConfirmPasswordIcon, profileGoodPasswordIcon, profileGoodConfirmPasswordIcon) });
 	}
 
 	if (editNewPasswordInput && editNewPasswordBtn && editNewPasswordIcon) {
@@ -103,28 +103,28 @@ export default async function initEditPassword() {
 				return ;
 			}
 			try {
-                const EditData =
-                {
-                    current: editCurrentPasswordInput.value,
-                    newpass: editConfirmNewPasswordInput.value,
-                    token: sessionStorage.getItem('token'),
-                }
+				const EditData =
+				{
+					current: editCurrentPasswordInput.value,
+					newpass: editConfirmNewPasswordInput.value,
+					token: sessionStorage.getItem('token'),
+				}
 				if (!validatePassword(EditData.newpass))
 				{
 					initError(translate("touch_html"));
 					return ;
 				}
-                const response = await fetch(`/api/edit`,
-                {
-			        method: 'POST',
-			        headers: { 'Content-Type': 'application/json' },
-			        body: JSON.stringify(EditData),
-                });
-                if (!response.ok)
-                {
-                    const err = await response.text();
-                    throw new Error(translate("touch_html"));
-                }
+				const response = await fetch(`/api/edit`,
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(EditData),
+				});
+				if (!response.ok)
+				{
+					const err = await response.text();
+					throw new Error(translate("touch_html"));
+				}
 				const err = await response.text();
 				if (err === "invalid mdp")
 				{
@@ -133,11 +133,11 @@ export default async function initEditPassword() {
 				initSuccess(translate("password_edit_success"));
 				history.pushState(null, '', '/profile/edit');
 				await loadRoutes('/profile/edit');
-            }
-            catch (error) 
-            {
-                initError((error as string).toString().substring(7));
-            }
+			}
+			catch (error) 
+			{
+				initError((error as string).toString().substring(7));
+			}
 		});
 	}
 

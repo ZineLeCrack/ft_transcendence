@@ -16,7 +16,7 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 		}
 	});
 
- 	fastify.post('/getPrivateMessages', async (_request, reply) => {
+	fastify.post('/getPrivateMessages', async (_request, reply) => {
 		try {
 			const { token, username2 } = _request.body as { token: string, username2: string };
 

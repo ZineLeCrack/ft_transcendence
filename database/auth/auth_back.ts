@@ -71,7 +71,7 @@ export default async function authRoutes(fastify: FastifyInstance)
 		if (!login || !password || (required !== 'email' && required !== 'name'))
 		{
 			reply.status(400).send('Incomplete or invalid data');
-	 		return ;
+			return ;
 		}
 
 		try {
