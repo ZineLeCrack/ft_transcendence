@@ -233,8 +233,6 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		const container = document.createElement("div");
 		container.className = "flex flex-col items-center space-y-2 my-4";
 
-		messageWrapper.className = "flex flex-col items-center space-y-2 my-4";
-
 		const msg = document.createElement("div");
 		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
 		const friendText = translate('friend_request_message');
@@ -253,28 +251,31 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		const declineText = translate('decline_button');
 		declineBtn.textContent = `${declineText}`;
 
+		const ws = getWebSocket();
 		acceptBtn.addEventListener('click', async () => {
 			const tokenID = sessionStorage.getItem('token');
 			const target = targetUser; 
-			const res = await fetch("/api/replyrequest", {
+			await fetch("/api/replyrequest", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ tokenID, target , answer: 1 })
 				});
-			const data = await res.json();
-			window.location.reload();
+			let chatdata;
+			chatdata = { type: 'accept_friend', token: tokenID, targetUsername : target};
+			ws?.send(JSON.stringify(chatdata));
 		});
 
 		declineBtn.addEventListener('click', async () => {
 			const tokenID = sessionStorage.getItem('token');
 			const target = targetUser; 
-			const res = await fetch("/api/replyrequest", {
+			await fetch("/api/replyrequest", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ tokenID, target , answer: 0 })
 				});
-			const data = await res.json();
-			window.location.reload();
+			let chatdata;
+			chatdata = { type: 'decline_friend', token: tokenID, targetUsername : target};
+			ws?.send(JSON.stringify(chatdata));
 		});
 
 		container.appendChild(msg);
