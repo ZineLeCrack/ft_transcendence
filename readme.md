@@ -1,7 +1,4 @@
-ebroudic - date de tournoi a la place de l'id du tournoi sur le graphique du profil 
-
-lelanglo - Nom des joueurs, quand on gagne en AI
-lelanglo - editinfo.ts ligne 35 -> Le console.error s'active quand on change de pdp
+ebroudic - date de tournoi a la place de l'id du tournoi sur le graphique du profil
 
 cle-berr - verifuser si token pas bon ca met erreur 500, ce n'est pas un bon status d'erreur
 cle-berr - status hors-ligne au moment où l'autre accepte la demande d'ami
