@@ -12,7 +12,6 @@ import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
 
 export default async function initHome() {
-	
 	await initLanguageSelector();
 
 	const token = sessionStorage.getItem('token');
@@ -21,6 +20,7 @@ export default async function initHome() {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ token }),
 	});
+
 	if (!response.ok)
 	{
 		initError(translate('Error_co'))
@@ -38,7 +38,7 @@ export default async function initHome() {
 	await initFriendChat();
 	initSwitchChat();
 	await initsearch();
-	
+
 	const res = await fetch('/api/tournament/is_in', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },

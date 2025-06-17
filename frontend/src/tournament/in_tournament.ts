@@ -174,14 +174,19 @@ export default async function initInTournament(id: string) {
 		tournamentDefaultView.classList.add('hidden');
 	}
 
-	const createTournamentBtn = document.getElementById('create-tournament') as HTMLButtonElement;
 	const joinTournamentBtn = document.getElementById('join-tournament') as HTMLButtonElement;
 
-	joinTournamentBtn.textContent = translate('game_button');
-	joinTournamentBtn.classList.remove("border-[#FFD700]", "text-[#FFD700]", "hover:bg-[#FFD700]/20", "shadow-[0_0_10px_#FFD700]");
-	joinTournamentBtn.classList.add("border-[#00FFFF]", "text-[#00FFFF]", "hover:bg-[#00FFFF]/20", "shadow-[0_0_10px_#00FFFF]");
+	if (joinTournamentBtn) {
+		joinTournamentBtn.classList.add("hidden");
+	}
 
-	joinTournamentBtn?.addEventListener('click', async () => {
+	const createTournamentBtn = document.getElementById('create-tournament') as HTMLButtonElement;
+	const playTournamentBtn = document.getElementById('play-tournament') as HTMLButtonElement;
+
+	playTournamentBtn.textContent = translate('game_button');
+	playTournamentBtn.classList.remove("hidden");
+
+	playTournamentBtn?.addEventListener('click', async () => {
 		try {
 			const response = await fetch('/api/multi/tournament/join', {
 				method: 'POST',
