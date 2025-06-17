@@ -119,7 +119,7 @@ export function setupWebSocket(server: any) {
 						}
 					}
 				}
-				else if (type === 'add_friend')
+				else if (type === 'add_friend' || type === 'remove_friend' || type === 'decline_friend' || type === 'accept_friend' || type === 'block_users' || type === 'unblock_users')
 				{
 					let id_user;
 					try {

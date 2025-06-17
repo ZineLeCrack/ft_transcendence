@@ -4,6 +4,7 @@ import { generateTournamentView } from "./tournament/in_tournament.js";
 import { translate } from "./i18n.js";
 import initFriendChat from "./chat/friendchat.js";
 import initJoinTournament from "./tournament/join_tournament.js";
+import initUsers from "./search/users.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -39,7 +40,6 @@ export function initWebSocket(original: string) {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
 		});
-		// console.warn("WebSocket déconnecté :");
 	};
 
 	ws.onmessage = async (event) => {
@@ -54,10 +54,37 @@ export function initWebSocket(original: string) {
 				module.default();
 			}
 		}
-		if (data.type === "add_friend") 
+		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users') 
 		{
-			initFriendChat();
+			if (window.location.pathname === '/home')
+			{
+				initFriendChat();
+			}
+			else if (window.location.pathname === `/users/${data.username}` || window.location.pathname === `/users/${data.username}/history`)
+			{
+				initUsers(data.username);
+			}
+			else if (window.location.pathname === `/users/${data.targetUsername}` || window.location.pathname === `/users/${data.targetUsername}/history`)
+			{
+				initUsers(data.targetUsername);
+			}
 		}
+		if (data.type === 'accept_friend' || data.type === 'decline_friend')
+		{
+			if (window.location.pathname === '/home')
+			{
+				initFriendChat();
+			}
+			else if (window.location.pathname === `/users/${data.username}` || window.location.pathname === `/users/${data.username}/history`)
+			{
+				initUsers(data.username);
+			}
+			else if (window.location.pathname === `/users/${data.targetUsername}` || window.location.pathname === `/users/${data.targetUsername}/history`)
+			{
+				initUsers(data.targetUsername);
+			}
+		}
+
 		if ((data.type === 'new_message' || data.type === 'new_private_message') && !data.isHistoryMessage) {
 			if (data.type === 'new_message') {
 				sendMessage(data.username, data.content);
@@ -82,6 +109,7 @@ export function initWebSocket(original: string) {
 					}
 					return ;
 				}
+
 				const isSender = data.username === original_name;
 				const otherUser = isSender ? data.targetUsername : data.username;
 				if (data.pongRequest === 2) {

@@ -1,9 +1,10 @@
 import { translate } from "../i18n";
+import { getWebSocket } from "../websocket";
 
 export default async function initBlockPlayer(target?: string) {
 	if (target) {
 		const blockbtn = document.getElementById("block-btn") as HTMLButtonElement;
-    	const tokenID = sessionStorage.getItem("token");
+		const tokenID = sessionStorage.getItem("token");
 
 		if (!blockbtn || !target || !tokenID) return;
 		const checkBlockStatus = async () => {
@@ -15,7 +16,7 @@ export default async function initBlockPlayer(target?: string) {
 			const data = await res.json();
 			// status 1 = bloqué, 0 = pas bloqué
 			if (data.status === 1) {
-				blockbtn.textContent = translate("Unblock_Player"); //faire en sorte qu'on puisse plus ajouter en ami !!!!!!!!!!!!!!!
+				blockbtn.textContent = translate("Unblock_Player");
 			} else {
 				blockbtn.textContent = translate("block_friend_trad");
 			}
@@ -23,7 +24,9 @@ export default async function initBlockPlayer(target?: string) {
 
 		await checkBlockStatus();
 
-		blockbtn.addEventListener("click", async () => {
+		blockbtn.onclick = null;
+		
+		blockbtn.onclick = async () => {
 
 			const res = await fetch("/api/isblock", {
 				method: "POST",
@@ -31,17 +34,24 @@ export default async function initBlockPlayer(target?: string) {
 				body: JSON.stringify({ tokenID, target })
 			});
 			const block = await res.json();
+			const ws = getWebSocket();
 
-			if (block.status === 0) {
+			if (block.status === 0)	
+			{
 				const res = await fetch("/api/blockplayer", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ tokenID, target })
 				})
 				const data = await res.json();
-    	        if (data.success)
+				if (data.success)
 					blockbtn.textContent = translate("Unblock_Player");
-			} else if (block.status === 1) {
+				let chatdata;
+				chatdata = { type: 'block_users', token: tokenID, targetUsername : target};
+				ws?.send(JSON.stringify(chatdata));
+			}
+			else if (block.status === 1)
+			{
 				const res = await fetch("/api/unblockplayer", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
@@ -50,8 +60,10 @@ export default async function initBlockPlayer(target?: string) {
 				const data = await res.json();
 				if (data.success) 
 					blockbtn.textContent = translate("block_friend_trad");
+				let chatdata;
+				chatdata = { type: 'unblock_users', token: tokenID, targetUsername : target};
+				ws?.send(JSON.stringify(chatdata));
 			}
-			window.location.reload();
-		});
+		};
 	}
 }

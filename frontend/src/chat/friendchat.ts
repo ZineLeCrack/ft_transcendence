@@ -19,6 +19,7 @@ export function initSwitchChat()
 				globalChat.remove();
 			}
 
+			initFriendChat();
 			const tooltipSwitchGlobal = translate('switch_to_global');
 			const ChatTitle = translate('chat_global')
 			switchChatBtn.innerHTML =`
@@ -80,10 +81,28 @@ export function initSwitchChat()
 	});
 }
 
-export default async function initFriendChat() {
+export default async function initFriendChat()
+{
 	const chatInfo = document.getElementById('chat-info') as HTMLDivElement;
 	const friendslist = document.getElementById('friends-list') as HTMLDivElement;
 
+	if (document.getElementById('chat-messages-global'))
+	{
+		return;
+	}
+
+	const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
+	privateChats.forEach(chat => chat.remove());
+	const globalChat = document.getElementById('chat-messages-global') as HTMLDivElement;
+	if (globalChat) {
+		globalChat.remove();
+	}
+	const ChatInfoTitle = translate('chat_friends');
+	chatInfo.innerHTML = `
+		<span class="mr-2 text-[#FF2E9F]">⚡</span>
+	   	<span data-i18n="chat_friends">${ChatInfoTitle}</span>
+		<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
+	
 	interface Friend {
 		username: string;
 		profilPic: string;

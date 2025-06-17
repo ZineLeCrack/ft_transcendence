@@ -17,7 +17,7 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 	const tokenID = sessionStorage.getItem("token");
 	const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
 	const blockbtn = document.getElementById("block-btn") as HTMLButtonElement;
-	
+
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',
@@ -34,9 +34,15 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 		return;
 	}
 	const data = await response.json();
-		
+
 	initWebSocket(data.original);
 	if (username) {
+
+		const profile_pic_search = document.getElementById('profile-pic-search') as HTMLDivElement;
+		profile_pic_search.innerHTML = ``;
+		const profileBtn = document.getElementById('profileBtn') as HTMLAnchorElement;
+		profileBtn.innerHTML = ``;
+
 		loadProfilePicture("profile-pic-search", username);
 		loadProfilePicture("profileBtn", "l");
 		const usernameh2 = document.getElementById('username-h2');
@@ -44,12 +50,14 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 			usernameh2.textContent = username;
 		}
 
-		const globalBtn = document.getElementById('global-btn-search');
-		const historyBtn = document.getElementById('history-btn-search');
+		const globalBtn = document.getElementById('global-btn-search') as HTMLButtonElement;
+		const historyBtn = document.getElementById('history-btn-search') as HTMLButtonElement;
 
 		updateView(isHistory);
 
-		historyBtn?.addEventListener('click', async (e) => {
+		historyBtn.onclick = null;
+
+		historyBtn.onclick =  async (e) => {
 			e.preventDefault();
 			const currentPath = window.location.pathname;
 			const currentTargetPath = `/users/${username}/history`;
@@ -57,13 +65,15 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 				history.pushState(null, `${username}`, `/users/${username}/history`);
 				updateView(true);
 			}
-		});
+		};
 
-		globalBtn?.addEventListener('click', async (e) => {
+		globalBtn.onclick = null;
+
+		globalBtn.onclick = async (e) => {
 			e.preventDefault();
 			history.pushState(null, `${username}`, `/users/${username}`);
 			updateView(false);
-		});
+		};
 
 		const target = username;
 		const blockCheck = await fetch("/api/isblock", {
@@ -75,13 +85,16 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 		if (data.original === username)
 		{
 			blockbtn.classList.add('hidden');
-			friendbtn.classList.add('hidden');   
+			friendbtn.classList.add('hidden');
 			initSearch();
 		}
 		else
 		{
 			if (block.status !== 1)
+			{
 				initAddFriend(username);
+				friendbtn.classList.remove('hidden');
+			}
 			else
 				friendbtn.classList.add('hidden');
 			initBlockPlayer(username);
