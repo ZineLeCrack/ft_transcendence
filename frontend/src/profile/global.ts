@@ -27,7 +27,6 @@ export default async function initOverallStats() {
 	initGlobalGraph(info.original);
 }
 
-// Ajouter ces variables globalement (en dehors de ta fonction, dans le même fichier)
 let lineChartInstance: Chart | null = null;
 let pieChartInstance: Chart | null = null;
 

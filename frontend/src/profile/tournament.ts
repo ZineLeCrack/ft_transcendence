@@ -8,7 +8,6 @@ import { translate } from '../i18n';
 
 export default async function initTournamentStats() {
 
-	initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',
@@ -24,11 +23,14 @@ export default async function initTournamentStats() {
 		return;
 	}
 	const info = await response.json();
+	await initLanguageSelector(info.original);
 	initTournamentGraph(info.original);
 }
 
-export async function initTournamentGraph(originalUsername: string) {
+let chartHistory: Chart | undefined;
+let chartPie: Chart | undefined;
 
+export async function initTournamentGraph(originalUsername: string) {
 	const token = sessionStorage.getItem('token');
 
 	Chart.register(
@@ -37,6 +39,7 @@ export async function initTournamentGraph(originalUsername: string) {
 		LinearScale, CategoryScale, Filler,
 		ChartDataLabels, BarController, BarElement
 	);
+
 	const statsRes = await fetch('/api/stats', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -53,8 +56,8 @@ export async function initTournamentGraph(originalUsername: string) {
 
 	const tournaments_played = document.getElementById('tournaments_played') as HTMLDivElement;
 	tournaments_played.textContent = `${stats.tournaments_played}`;
-	const last_ranking = document.getElementById('last_ranking') as HTMLDivElement;
 
+	const last_ranking = document.getElementById('last_ranking') as HTMLDivElement;
 	if (stats.last_ranking.length === 6)
 		last_ranking.textContent = translate('quarter-finalist');
 	else if (stats.last_ranking.length === 17)
@@ -71,13 +74,6 @@ export async function initTournamentGraph(originalUsername: string) {
 		const isWin = match.usernameplayer1 === originalUsername
 			? match.pointplayer1 > match.pointplayer2
 			: match.pointplayer2 > match.pointplayer1;
-
-		const rawDate = new Date(match.date);
-		const formattedDate = rawDate.getFullYear() + "/" +
-			String(rawDate.getMonth() + 1).padStart(2, '0') + "/" +
-			String(rawDate.getDate()).padStart(2, '0') + " " +
-			String(rawDate.getHours()).padStart(2, '0') + ":" +
-			String(rawDate.getMinutes()).padStart(2, '0');
 
 		const rawId = match.tournamentId;
 		if (!historyMap.has(rawId)) {
@@ -96,12 +92,13 @@ export async function initTournamentGraph(originalUsername: string) {
 	const losesData = labels.map(date => historyMap.get(date)!.loses);
 
 	const canvasHistory = document.getElementById('graph-history-trend') as HTMLCanvasElement | null;
-
 	if (canvasHistory) {
 		const ctx = canvasHistory.getContext('2d');
 		if (!ctx) throw new Error("Canvas context not found");
 
-		new Chart(ctx, {
+		if (chartHistory) chartHistory.destroy(); 
+
+		chartHistory = new Chart(ctx, {
 			type: 'bar',
 			data: {
 				labels: labels,
@@ -125,7 +122,6 @@ export async function initTournamentGraph(originalUsername: string) {
 						backgroundColor: '#FF007A',
 					}
 				]
-
 			},
 			options: {
 				responsive: true,
@@ -146,20 +142,20 @@ export async function initTournamentGraph(originalUsername: string) {
 						labels: { color: '#FFD700' }
 					}
 				}
-
 			}
 		});
 	}
 
-	const canvas = document.getElementById('graph-win-lose') as HTMLCanvasElement | null;
 
+	const canvas = document.getElementById('graph-win-lose') as HTMLCanvasElement | null;
 	if (canvas) {
 		const ctx = canvas.getContext('2d');
 		if (!ctx) throw new Error("Canvas context not found");
-	
+
+		if (chartPie) chartPie.destroy();
 		const wins = stats.tournaments_win;
 		const loses = stats.tournaments_lose;
-	
+
 		const config: ChartConfiguration<'pie'> = {
 			type: 'pie',
 			data: {
@@ -186,7 +182,6 @@ export async function initTournamentGraph(originalUsername: string) {
 					legend: {
 						display: false
 					},
-					
 					datalabels: {
 						color: '#fff',
 						font: {
@@ -204,7 +199,8 @@ export async function initTournamentGraph(originalUsername: string) {
 			},
 			plugins: [ChartDataLabels]
 		};
-	
-		new Chart(ctx, config);
+
+		chartPie = new Chart(ctx, config);
 	}
 }
+

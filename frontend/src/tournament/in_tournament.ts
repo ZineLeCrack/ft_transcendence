@@ -197,7 +197,7 @@ export default async function initInTournament(id: string) {
 			const data = await response.json();
 
 			if (data.err) {
-				initError(data.message);
+				initError(translate("tour_error_trad"));
 			} else {
 				const ws = getWebSocket();
 				ws?.send(JSON.stringify({ type: 'multi_player_join', gameId: data.gameId }));
