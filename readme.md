@@ -6,9 +6,7 @@ rlebaill - try catch sur fetch et requete sql
 
 cle-berr - verifuser si token pas bon ca met erreur 500, ce n'est pas un bon status d'erreur
 
-
 tous le monde - lire le sujet, connaitre son code, trouver erreur et regler erreur
-
 
 quand y'a un 405 dans l'a2f, je crois c'est quand on rentre le code trop rapidement :
 
