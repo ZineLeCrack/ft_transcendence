@@ -12,9 +12,8 @@ ebroudic - WebSocket quand demande d'ami + demande d'ami acceptée + ami bloqué
 
 <-------------TOURNOI------------->
 
-rlebaill - attaque xss dans le nom du tournoi, le nom de l'alias.
+rlebaill - attaque xss dans l'alias.
 
 👍🏻👍🏻
 
-Photos de profil parsées ? (apparement on peut y mettre des injections sql)
 Tous les formulaires ont-ils des vérif en cas de changement de code html dans la console ?
