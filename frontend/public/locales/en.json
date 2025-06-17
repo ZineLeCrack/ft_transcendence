@@ -162,5 +162,7 @@
 	"Unblock_Player": "Unblock Player",
 	"touch_html": "Please, Can you respect the imposed policy",
 	"tournament_full": "The tournament is full",
-	"return_home": "Return home"
+	"return_home": "Return home",
+	"Error_trad": "⚡ ERROR ⚡",
+	"Success_trad": "✅ SUCCESS ✅"
 }
