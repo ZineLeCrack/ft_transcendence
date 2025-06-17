@@ -3,14 +3,15 @@ import { refreshGameModeDisplay } from './game/choosegame';
 import initJoinTournament from './tournament/join_tournament';
 import initFriendChat from './chat/friendchat';
 import initHistory from './profile/history';
+import { initGlobalGraph } from './profile/global';
 
-export async function initLanguageSelector() {
+export async function initLanguageSelector(username?:string) {
 	const languageSelector = document.getElementById('language-selector');
 	const languageDropdown = document.getElementById('language-dropdown');
 	const languageOptions = document.querySelectorAll('.language-option');
 
 	const storedLang = getStoredLanguage();
-	await changeLanguage(storedLang);
+	await changeLanguage(storedLang, username);
 
 	updateFlag(storedLang);
 
@@ -28,7 +29,7 @@ export async function initLanguageSelector() {
 		option.addEventListener('click', async () => {
 			const lang = option.getAttribute('data-lang');
 			if (lang && lang !== getStoredLanguage()) { 
-				await changeLanguage(lang);
+				await changeLanguage(lang, username);
 				setStoredLanguage(lang);
 				updateFlag(lang);
 			}
@@ -37,7 +38,7 @@ export async function initLanguageSelector() {
 	});
 }
 
-async function changeLanguage(lang: string): Promise<void> {
+async function changeLanguage(lang: string, username?:string): Promise<void> {
 	await loadTranslations(lang);
 	applyTranslations();
 
@@ -50,6 +51,10 @@ async function changeLanguage(lang: string): Promise<void> {
 	if (window.location.pathname === "/profile/statistics/history")
 	{
 		initHistory();
+	}
+	if (window.location.pathname === '/profile/statistics')
+	{
+		initGlobalGraph(username!);
 	}
 }
 
