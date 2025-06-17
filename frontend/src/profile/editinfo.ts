@@ -77,6 +77,7 @@ export default async function initEditProfile() {
 	const usernameInput = document.getElementById("edit-username-input") as HTMLInputElement;
 	const emailInput = document.getElementById("edit-email-input") as HTMLInputElement;
 	const picturebutton = document.getElementById("button-edit-profile") as HTMLInputElement;
+	const unsavebutton = document.getElementById("unsave-btn") as HTMLInputElement;
 	const pictureInput = document.getElementById("pictureInput") as HTMLInputElement;
 	const editProfileForm = document.getElementById("edit-profil-form") as HTMLFormElement;
 
@@ -134,6 +135,17 @@ export default async function initEditProfile() {
 			}
 		});
 	}
+
+	unsavebutton.addEventListener('click', (event) =>{
+		const errorElement = document.getElementById('edit-username-error')!;
+		const emailElement = document.getElementById('edit-email-error');
+		event.preventDefault();
+		editProfileForm.reset();
+		errorElement.classList.add('hidden');
+		emailElement?.classList.add('hidden');
+		emailInput.classList.remove('border-red-500');
+		usernameInput.classList.remove('border-red-500');
+	});
 
 
 	picturebutton.addEventListener('click', async (event) =>{
