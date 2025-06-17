@@ -1,4 +1,3 @@
-// import { draw_ai } from "./drawmap-ai.js";
 import initError from "../../error.js";
 import { loadRoutes} from "../../main.js";
 import { initWebSocket } from '../../websocket';
@@ -48,7 +47,7 @@ export default async function initPong() {
 	const AIText = translate('game_mode_ai');
 	h1player2.textContent = `${AIText}`;
 
-	let keys: { [key: string]: boolean } =  {
+	let keys: { [key: string]: boolean } = {
 		w: false,
 		s: false,
 		ArrowUp: false,

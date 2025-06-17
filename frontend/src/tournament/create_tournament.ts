@@ -49,7 +49,31 @@ export default function initCreateTournament() {
 	});
 
 
-	togglePassword(tournamentPasswordInput, tournamentPasswordBtn, tournamentPasswordIcon);	
+	togglePassword(tournamentPasswordInput, tournamentPasswordBtn, tournamentPasswordIcon);
+
+	function validateTournamentNameField(input: HTMLInputElement) {
+		const errorElement = document.getElementById('tournament-name-error');
+		if (!errorElement) return;
+
+		const isValid = /^[a-zA-Z0-9_]{3,14}$/.test(input.value);
+		
+		if (!isValid && input.value.length >= 1) {
+			errorElement.classList.remove('hidden');
+			input.classList.add('border-red-500');
+		} else {
+			errorElement.classList.add('hidden');
+			input.classList.remove('border-red-500');
+		}
+	}
+
+	const tournamentName = document.getElementById('tournament-name') as HTMLInputElement;
+	if (tournamentName) {
+		tournamentName.addEventListener('input', () => validateTournamentNameField(tournamentName));
+		tournamentName.addEventListener('invalid', (e) => {
+			e.preventDefault();
+			validateTournamentNameField(tournamentName);
+		});
+	}
 
 	createTournamentSubmitBtn?.addEventListener('click', async () => {
 		const tournamentName = (document.getElementById('tournament-name') as HTMLInputElement)?.value;
@@ -58,12 +82,17 @@ export default function initCreateTournament() {
 
 		if (!tournamentName) {
 			initError(translate('torn_name'));
-			return;
+			return ;
+		}
+
+		if (!(/^[a-zA-Z0-9_]{3,14}$/.test(tournamentName))) {
+			initError(translate('torn_invalid_name'));
+			return ;
 		}
 
 		if (type.value === 'private' && !password) {
 			initError(translate('torn_name'));
-			return;
+			return ;
 		}
 
 		try {
@@ -86,7 +115,6 @@ export default function initCreateTournament() {
 			ws?.send(JSON.stringify({ type: 'tournament_created' }));
 			createView?.classList.add('hidden');
 			mainView?.classList.remove('hidden');
-			window.location.reload(); // surement a enlever 
 		} catch (error) {
 			initError(translate('torn_failed'));
 		}

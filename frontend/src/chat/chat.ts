@@ -9,7 +9,7 @@ let original_id:string;
 
 export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean, pongGame? : boolean, requestDecline?: boolean, yourparty?: boolean) {
 
-	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
+	const messageWrapper = targetUser === "global" ? document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
 
 	if (!messageWrapper) return ;
@@ -87,11 +87,17 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ token: tokenID })
 			});
+
 			const data = await response.json();
-			sessionStorage.setItem("gameId", data.gameId);
-			history.pushState(null, '', '/game/multi');
-			await loadRoutes('/game/multi');
-			window.location.reload();
+
+			const ws = getWebSocket();
+			ws?.send(JSON.stringify({ type: 'multi_player_join', gameId: data.gameId }));
+
+			setTimeout(async () => {
+				sessionStorage.setItem("gameId", data.gameId);
+				history.pushState(null, '', '/game/multi');
+				await loadRoutes('/game/multi');
+			}, 100);
 		});
 
 		container.appendChild(msg);

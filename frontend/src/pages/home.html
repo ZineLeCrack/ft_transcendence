@@ -125,8 +125,8 @@
 					<button id="back-to-tournament"
 						class="bg-transparent rounded-xl ml-20 border-2 border-[#00FFFF] text-[#00FFFF] text-2xl font-bold py-5 px-10 hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_10px_#00FFFF]" data-i18n="back">BACK</button>
 					<div class="flex flex-col items-center gap-4">
-						<input type="text" id="tournament-name" data-i18n-placeholder="tournament_name" placeholder="Tournament Name" maxlength="14"
-							class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-64 focus:outline-none focus:border-[#FFD700]" />
+						<input type="text" id="tournament-name" data-i18n-placeholder="tournament_name" placeholder="Tournament Name" minlength="3" maxlength="14" pattern="[a-zA-Z0-9_]{3,14}" class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-64 focus:outline-none focus:border-[#FFD700]" />
+						<span id="tournament-name-error" class="text-red-500 text-sm hidden" data-i18n="tournament-name-error">Tournament name must be 3-14 characters long and contain only letters, numbers, underscore</span>
 						<div class="flex items-center gap-8">
 							<div class="flex items-center gap-4">
 								<span class="text-[#00FFFF]">Type:</span>

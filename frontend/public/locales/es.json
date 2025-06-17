@@ -127,6 +127,7 @@
 	"picture_no": "Seleccione una imagen",
 	"alias_too_long": "¡ Alias muy largo !",
 	"torn_faield": "No se pudo crear el torneo",
+	"torn_invalid_name" : "Nombre de torneo no valido",
 	"torn_name": "Por favor, introduzca el nombre del torneo",
 	"torn_pass": "Introduzca una contraseña para el torneo privado",
 	"user_NOT_FOUND": "No se encontró el usuario !",

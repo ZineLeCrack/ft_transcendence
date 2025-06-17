@@ -1,4 +1,3 @@
-// import { draw } from "./drawmap_local.js";
 import { initWebSocket } from '../../websocket';
 import { initLanguageSelector } from "../../language.js";
 import { loadRoutes } from "../../main.js";
