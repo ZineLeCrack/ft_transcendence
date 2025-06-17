@@ -58,12 +58,17 @@ export default function initCreateTournament() {
 
 		if (!tournamentName) {
 			initError(translate('torn_name'));
-			return;
+			return ;
+		}
+
+		if (!(/^[a-zA-Z0-9_]{3,14}$/.test(tournamentName))) {
+			initError(translate('torn_invalid_name'));
+			return ;
 		}
 
 		if (type.value === 'private' && !password) {
 			initError(translate('torn_name'));
-			return;
+			return ;
 		}
 
 		try {
