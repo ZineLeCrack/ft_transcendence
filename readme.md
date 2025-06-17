@@ -6,7 +6,7 @@ ebroudic - Quand partie privée accepter, le message revient tout en bas, sauf r
 
 ebroudic - WebSocket quand demande d'ami + demande d'ami acceptée + ami bloqué + ami plus ami
 
-<-------------TOURNOI-------------->
+<-------------TOURNOI------------->
 rlebaill - attaque xss dans le nom du tournoi, le nom de l'alias.
 👍🏻👍🏻
 
