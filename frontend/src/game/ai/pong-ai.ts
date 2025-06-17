@@ -47,7 +47,7 @@ export default async function initPong() {
 	const AIText = translate('game_mode_ai');
 	h1player2.textContent = `${AIText}`;
 
-	let keys: { [key: string]: boolean } =  {
+	let keys: { [key: string]: boolean } = {
 		w: false,
 		s: false,
 		ArrowUp: false,

@@ -9,7 +9,7 @@ let original_id:string;
 
 export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean, pongGame? : boolean, requestDecline?: boolean, yourparty?: boolean) {
 
-	const messageWrapper = targetUser === "global" ?  document.getElementById('chat-messages-global')
+	const messageWrapper = targetUser === "global" ? document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
 
 	if (!messageWrapper) return ;
