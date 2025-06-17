@@ -12,16 +12,15 @@ export default async function addhistoryRoutes(fastify: FastifyInstance) {
 			if (!tournament)
 			{
 				tournament_bool = 0;
-			}
-			else 
-			{
+			} else  {
 				tournament_bool = 1;
 			}
-			if (!tournamentId)
-				tournamentId_temp = 0;
-			else
-				tournamentId_temp = tournamentId;
+
+			if (!tournamentId) tournamentId_temp = 0;
+			else tournamentId_temp = tournamentId;
+
 			const db = await getDb_user();
+
 			await db.run(
 				`
 				INSERT INTO history (id_player1, id_player2, point_player1, point_player2, tournament, tournamentId) values (?, ?, ?, ?, ?, ?);

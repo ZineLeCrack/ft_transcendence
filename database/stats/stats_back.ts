@@ -10,9 +10,9 @@ export default async function StatsRoutes(fastify: FastifyInstance) {
 		try {
 			const db = await getDb_user();
 			const decoded = jwt.verify(token, JWT_SECRET);
-			let ID
-			if (username)
-			{
+			let ID;
+
+			if (username) {
 				const name = await db.get(`SELECT * FROM users WHERE name = ?`, [username])
 				if (!name)
 				{
@@ -21,8 +21,8 @@ export default async function StatsRoutes(fastify: FastifyInstance) {
 				}
 				ID = name.id;
 			}
-			if (!ID)
-			{
+
+			if (!ID) {
 				ID = (decoded as { userId: string }).userId;
 			}
 			const stats = await db.get(`SELECT * FROM stats WHERE id_player = ?;`,[ID]);

@@ -44,17 +44,20 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/verifuser', async (request, reply) => {
 		const {token} = request.body as {token: string};
+		let id_user;
+
 		try {
-			let id_user;
-			const db = await getDb_user();
-			try {
-				const decoded = jwt.verify(token, JWT_SECRET);
-				id_user = (decoded as { userId: string }).userId;
-			}
-			catch (err) {
-				reply.status(401).send('Invalid token');
+			const decoded = jwt.verify(token, JWT_SECRET);
+			id_user = (decoded as { userId: string }).userId;
+		} catch (err) {
+			reply.status(401).send('Invalid token');
 			return ;
-			}
+		}
+
+		try {
+			
+			const db = await getDb_user();
+			
 			const response = await db.get(`SELECT * FROM users WHERE id = ?`, [id_user]);
 			const original = response.name;
 			const profile_pic = response.profile_pic;

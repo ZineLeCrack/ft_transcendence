@@ -12,19 +12,23 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		try {
 			let hashed;
 			const db = await getDb_tournaments();
-			if (password)
-			{
+
+			if (password) {
 				hashed = await bcrypt.hash(password, 10);
 			}
+
 			const result = await db.run(
 				`INSERT INTO tournaments (name, type, password) VALUES (?, ?, ?)`,
 				[name, type, hashed]
 			);
+
 			const tournamentId = result.lastID;
+
 			await db.run(
 				`INSERT INTO result (id) VALUES (?)`,
 				[tournamentId]
 			);
+
 			reply.send({ success: true });
 		} catch (err) {
 			console.error(err);
@@ -43,14 +47,10 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				[tournamentId]
 			);
 
-			if (!players)
-			{
+			if (!players) {
 				reply.status(500);
 				return ;
-			}
-
-			else
-			{
+			} else {
 				reply.status(200).send(players);
 				return ;
 			}
@@ -72,14 +72,10 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				[tournamentId]
 			);
 
-			if (!players)
-			{
+			if (!players) {
 				reply.status(500);
 				return ;
-			}
-
-			else
-			{
+			} else {
 				reply.status(200).send(players);
 				return ;
 			}
@@ -97,8 +93,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
-		}
-		catch (err) {
+		} catch (err) {
 			reply.status(401).send(`Invalid token: ${err}`);
 			return ;
 		}
@@ -110,14 +105,10 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				[userId, userId, userId, userId, userId, userId, userId, userId]
 			);
 
-			if (!tournament)
-			{
+			if (!tournament) {
 				reply.status(200).send({ tournamentId: '0', userId: userId });
 				return ;
-			}
-
-			else
-			{
+			} else {
 				reply.status(200).send({ tournamentId: tournament.id, userId: userId });
 				return ;
 			}
@@ -128,36 +119,36 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/join', async (request, reply) => {
 		const { id_tournament, token, password, alias } = request.body as { id_tournament: string, token: string, password: string | null, alias: string };
+		let userId;
+
+		try {
+			const decoded = jwt.verify(token, JWT_SECRET);
+			userId = (decoded as { userId: string }).userId;
+		} catch (err) {
+			reply.status(401).send(`Invalid token: ${err}`);
+			return ;
+		}
 
 		try {
 			let is_pass_valid;
 			const dbUsers = await getDb_user();
 			const db = await getDb_tournaments();
-			const tournament = await db.get(`SELECT * FROM tournaments WHERE id = ?`,
-			[id_tournament]
+
+			const tournament = await db.get(
+				`SELECT * FROM tournaments WHERE id = ?`,
+				[id_tournament]
 			);
-			if (password)
-			{
+
+			if (password) {
 				is_pass_valid = await bcrypt.compare(password, tournament.password);
 			}
-			let userId;
-			try {
-				const decoded = jwt.verify(token, JWT_SECRET);
-				userId = (decoded as { userId: string }).userId;
-			}
-			catch (err) {
-				reply.status(401).send(`Invalid token: ${err}`);
-				return ;
-			}
 
-			if (tournament.players === tournament.players_max)
-			{
+			if (tournament.players === tournament.players_max) {
 				reply.status(200).send('This tournament is full !');
 				return ;
 			}
 
-			if (tournament.type === 'private' && !is_pass_valid)
-			{
+			if (tournament.type === 'private' && !is_pass_valid) {
 				reply.status(200).send('Wrong password !');
 				return ;
 			}
@@ -203,10 +194,10 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			);
 
 			let full;
+
 			if (players.players_max === players.players) {
 				full = true;
-			}
-			else {
+			} else {
 				full = false;
 			}
 
@@ -225,6 +216,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			maxPlayers: number;
 			type: 'public' | 'private';
 		}
+
 		try {
 			const db = await getDb_tournaments();
 			const rows = await db.all(`SELECT * FROM tournaments;`);

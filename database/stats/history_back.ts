@@ -10,7 +10,8 @@ export default async function historyRoutes(fastify: FastifyInstance) {
 		try {
 			const db = await getDb_user();
 			const decoded = jwt.verify(token, JWT_SECRET);
-			let ID
+			let ID;
+
 			if (username)
 			{
 				const name = await db.get(`SELECT * FROM users WHERE name = ?`, [username])
@@ -21,8 +22,8 @@ export default async function historyRoutes(fastify: FastifyInstance) {
 				}
 				ID = name.id;
 			}
-			if (!ID)
-			{
+
+			if (!ID) {
 				ID = (decoded as { userId: string }).userId;
 			}
 			const rows = await db.all(

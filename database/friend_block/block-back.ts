@@ -42,27 +42,27 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 		}
 
 		try {
-		const db = await getDb_user();
-		const decoded = jwt.verify(tokenID, JWT_SECRET);
-		const userID = (decoded as { userId: string }).userId;
-		const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
-		if (!userID || !targetUserID) {
-			reply.send({ success: false, error: "User not found" });
-			return ;
-		}
-		await db.run(
-			`INSERT INTO block (id_player1, id_player2, blocked) VALUES (?, ?, 1)
-			 ON CONFLICT(id_player1, id_player2) DO UPDATE SET blocked=1`,
-			[userID, targetUserID.id]
-		);
-		await db.run(
-		`UPDATE friend SET friend=0 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
-		[userID, targetUserID.id, targetUserID.id, userID]
-		);
-		reply.send({ success: true });
+			const db = await getDb_user();
+			const decoded = jwt.verify(tokenID, JWT_SECRET);
+			const userID = (decoded as { userId: string }).userId;
+			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
+			if (!userID || !targetUserID) {
+				reply.send({ success: false, error: "User not found" });
+				return ;
+			}
+			await db.run(
+				`INSERT INTO block (id_player1, id_player2, blocked) VALUES (?, ?, 1)
+				ON CONFLICT(id_player1, id_player2) DO UPDATE SET blocked=1`,
+				[userID, targetUserID.id]
+			);
+			await db.run(
+			`UPDATE friend SET friend=0 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
+			[userID, targetUserID.id, targetUserID.id, userID]
+			);
+			reply.send({ success: true });
 		} catch (err) {
-		console.error("DB error:", err);
-		reply.status(500).send({ exists: false, error: "Internal server error" });
+			console.error("DB error:", err);
+			reply.status(500).send({ exists: false, error: "Internal server error" });
 		}
 	});
 
@@ -72,30 +72,30 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 	if (!tokenID || !target) {
 		reply.status(400).send({ exists: false, error: "Missing username or target" });
 		return ;
-	}
-
-	try {
-		const db = await getDb_user();
-		const decoded = jwt.verify(tokenID, JWT_SECRET);
-		const userID = (decoded as { userId: string }).userId;
-		const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
-		if (!userID || !targetUserID) {
-		reply.send({ success: false, error: "User not found" });
-		return ;
 		}
-		await db.run(
-		`INSERT INTO block (id_player1, id_player2, blocked) VALUES (?, ?, 0)
-		 ON CONFLICT(id_player1, id_player2) DO UPDATE SET blocked=0`,
-		[userID, targetUserID.id]
-		);
-		await db.run(
-		`UPDATE friend SET friend=0 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
-		[userID, targetUserID.id, targetUserID.id, userID]
-		);
-		reply.send({ success: true });
-	} catch (err) {
-		console.error("DB error:", err);
-		reply.status(500).send({ exists: false, error: "Internal server error" });
-	}
+
+		try {
+			const db = await getDb_user();
+			const decoded = jwt.verify(tokenID, JWT_SECRET);
+			const userID = (decoded as { userId: string }).userId;
+			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
+			if (!userID || !targetUserID) {
+			reply.send({ success: false, error: "User not found" });
+			return ;
+			}
+			await db.run(
+			`INSERT INTO block (id_player1, id_player2, blocked) VALUES (?, ?, 0)
+			ON CONFLICT(id_player1, id_player2) DO UPDATE SET blocked=0`,
+			[userID, targetUserID.id]
+			);
+			await db.run(
+			`UPDATE friend SET friend=0 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
+			[userID, targetUserID.id, targetUserID.id, userID]
+			);
+			reply.send({ success: true });
+		} catch (err) {
+			console.error("DB error:", err);
+			reply.status(500).send({ exists: false, error: "Internal server error" });
+		}
 	});
 }

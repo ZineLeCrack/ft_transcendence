@@ -115,10 +115,12 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			const decoded = jwt.verify(tokenID, JWT_SECRET);
 			userID = (decoded as { userId: string }).userId;
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
+
 			if (!userID || !targetUserID) {
 				reply.send({ success: false, error: "User not found" });
 				return ;
 			}
+
 			await db.run(
 				`UPDATE friend SET friend=0 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
 				[userID, targetUserID.id, targetUserID.id, userID]
@@ -137,6 +139,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			reply.status(400).send({ success: false, error: "Missing token" });
 			return ;
 		}
+
 		try {
 			const db = await getDb_user();
 			const decoded = jwt.verify(tokenID, JWT_SECRET);
