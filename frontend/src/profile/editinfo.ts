@@ -32,7 +32,7 @@ export async function loadProfilePicture(div: string, name: string) {
 			profilPicDiv.appendChild(Img);
 		}
 	} catch (err) {
-		console.log('Error loading profile picture:', err);
+		console.error('Error loading profile picture:', err);
 	}
 }
 
