@@ -98,7 +98,6 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				history.pushState(null, '', '/game/multi');
 				await loadRoutes('/game/multi');
 			}, 100);
-			
 		});
 
 		container.appendChild(msg);
