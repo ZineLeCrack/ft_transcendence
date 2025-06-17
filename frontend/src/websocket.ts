@@ -17,29 +17,41 @@ export function initWebSocket(original: string) {
 	ws = new WebSocket(`wss://${window.location.host}/ws/`);
 
 	ws.onopen = () => {
-		fetch('/api/setstatus', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '1' })
-		})
+		try {
+			fetch('/api/setstatus', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '1' })
+			});
+		} catch (err) {
+			console.error('Error setting connected status:', err);
+		}
 		console.log("WebSocket connecté !");
 	};
 
 	ws.onerror = (err) => {
-		fetch('/api/setstatus', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
-		})
-		console.error("WebSocket erreur:", err);
+		try {
+			fetch('/api/setstatus', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
+			});
+		} catch (err) {
+			console.error('Error setting disconnected status:', err);
+		}
+		console.error("WebSocket error:", err);
 	};
 
 	ws.onclose = () => {
-		fetch('/api/setstatus', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
-		});
+		try {
+			fetch('/api/setstatus', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
+			});
+		} catch (err) {
+			console.error('Error setting disconnected status:', err);
+		}
 	};
 
 	ws.onmessage = async (event) => {

@@ -39,14 +39,18 @@ export async function sendMessage(username: string, content: string, pong?: bool
 
 	const target = username;
 	const tokenID = sessionStorage.getItem('token');
-	const res = await fetch("/api/isblock", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({ tokenID, target })
-	});
-	const data = await res.json();
-
-	if (data.status === 1) return ;
+	try {
+		const res = await fetch("/api/isblock", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ tokenID, target })
+		});
+		const data = await res.json();
+		if (data.status === 1) return ;
+	} catch (err) {
+		console.error('Error getting player status:', err);
+		return ;
+	}
 
 	if (pongGame === true) {
 
