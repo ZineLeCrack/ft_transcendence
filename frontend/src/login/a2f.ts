@@ -30,7 +30,7 @@ export default function initA2f() {
 				history.pushState(null, '', '/login');
 				await loadRoutes('/login');
 			}, 1000);
-			return;
+			return ;
 		}
 	    initSuccess(translate('a2f_send'));
 	});
@@ -45,7 +45,7 @@ export default function initA2f() {
 	    }
 		if (!Data.code)
 		{
-			return;
+			return ;
 		}
 	    const response = await fetch(`/api/a2f/verify`, {
 			method: 'POST',
@@ -56,13 +56,13 @@ export default function initA2f() {
 		{
 			const error = await response.text();
 			console.error(error)
-			return;
+			return ;
 		}
 		const err = await response.text();
 		if (err === "bad code")
 		{
 			initError(translate("bad_code"));
-			return;
+			return ;
 		}
 		const result = JSON.parse(err);
 		const jwtToken = result.token;

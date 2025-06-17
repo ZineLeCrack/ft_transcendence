@@ -12,22 +12,22 @@ export default async function authRoutes(fastify: FastifyInstance)
 		const { username, email, password } = request.body as { username: string, email: string, password: string };
 		if (!username || !email || !password) {
 			reply.status(400).send('Incomplete data');
-			return;
+			return ;
 		}
 
 		if (!validateUsername(username)) {
 			reply.status(400).send('Invalid username');
-			return;
+			return ;
 		}
 
 		if (!validateEmail(email)) {
 			reply.status(400).send('Invalid email');
-			return;
+			return ;
 		}
 
 		if (!validatePassword(password)) {
 			reply.status(400).send('Invalid password');
-			return;
+			return ;
 		}
 
 		try {
@@ -36,7 +36,7 @@ export default async function authRoutes(fastify: FastifyInstance)
 			const existingUser = await db.get('SELECT * FROM users WHERE name = ? OR email = ?', [username, email]);
 			if (existingUser) {
 				reply.status(200).send('invalid username or email, This user already exists');
-				return;
+				return ;
 			}
 
 			const hashedPassword = await bcrypt.hash(password, 10);
@@ -71,7 +71,7 @@ export default async function authRoutes(fastify: FastifyInstance)
 		if (!login || !password || (required !== 'email' && required !== 'name'))
 		{
 			reply.status(400).send('Incomplete or invalid data');
-	 		return;
+	 		return ;
 		}
 
 		try {
@@ -85,7 +85,7 @@ export default async function authRoutes(fastify: FastifyInstance)
 				else {
 					reply.status(200).send('Invalid username or password');
 				}
-				return;
+				return ;
 			}
 
 			reply.status(200).send({ id: user.id, name: user.name, profile_pic: user.profile_pic });

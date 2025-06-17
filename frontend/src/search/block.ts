@@ -6,7 +6,7 @@ export default async function initBlockPlayer(target?: string) {
 		const blockbtn = document.getElementById("block-btn") as HTMLButtonElement;
 		const tokenID = sessionStorage.getItem("token");
 
-		if (!blockbtn || !target || !tokenID) return;
+		if (!blockbtn || !target || !tokenID) return ;
 		const checkBlockStatus = async () => {
 			const res = await fetch("/api/isblock", {
 				method: "POST",
@@ -14,7 +14,6 @@ export default async function initBlockPlayer(target?: string) {
 				body: JSON.stringify({ tokenID, target })
 			});
 			const data = await res.json();
-			// status 1 = bloqué, 0 = pas bloqué
 			if (data.status === 1) {
 				blockbtn.textContent = translate("Unblock_Player");
 			} else {

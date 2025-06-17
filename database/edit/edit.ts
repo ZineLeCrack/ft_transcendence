@@ -14,12 +14,12 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		const { current, newpass, token } = request.body as { current: string, newpass: string, token: string };
 		if (!newpass || !current) {
 			reply.status(400).send('incomplete data');
-			return;
+			return ;
 		}
 
 		if (!validatePassword(newpass)) {
 			reply.status(400).send('Invalid password');
-			return;
+			return ;
 		}
 		let IdUser;
 		try {
@@ -27,7 +27,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			IdUser = (decoded as { userId: string }).userId;
 		} catch (err) {
 			reply.status(401).send('Invalid token');
-			return;
+			return ;
 		}
 
 		try {
@@ -52,17 +52,17 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		const { username, email, token } = request.body as { username: string, email: string, token: string };
 		if (!username && !email) {
 			reply.status(400).send('incomplete data');
-			return;
+			return ;
 		}
 
 		if (username && !validateUsername(username)) {
 			reply.status(400).send('Invalid username');
-			return;
+			return ;
 		}
 
 		if (email && !validateEmail(email)) {
 			reply.status(400).send('Invalid email');
-			return;
+			return ;
 		}
 
 		try {
@@ -74,7 +74,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 				IdUser = (decoded as { userId: string }).userId;
 			} catch (err) {
 				reply.status(401).send('Invalid token');
-				return;
+				return ;
 			}
 
 			const original = await db.get('SELECT name FROM users WHERE id = ?', [IdUser]);
@@ -84,7 +84,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 				const existingUser = await db.get('SELECT * FROM users WHERE name = ? OR email = ?', [username, email]);
 				if (existingUser) {
 					reply.status(200).send('User already exists');
-					return;
+					return ;
 				}
 				await db.run('UPDATE users SET name = ?, email = ? WHERE id = ?', [username, email, IdUser]);
 				await dbchat.run('UPDATE chat SET username = ? WHERE username = ?', [username, original_name]);
@@ -94,7 +94,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 				const existingUser = await db.get('SELECT * FROM users WHERE name = ?', [username]);
 				if (existingUser) {
 					reply.status(200).send('User already exists');
-					return;
+					return ;
 				}
 				await db.run('UPDATE users SET name = ? WHERE id = ?', [username, IdUser]);
 				await dbchat.run('UPDATE chat SET username = ? WHERE username = ?', [username, original_name]);
@@ -104,7 +104,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 				const existingUser = await db.get('SELECT * FROM users WHERE email = ?', [email]);
 				if (existingUser) {
 					reply.status(200).send('User already exists');
-					return;
+					return ;
 				}
 				await db.run('UPDATE users SET email = ? WHERE id = ?', [email, IdUser]);
 				console.log("email edit success");
@@ -124,7 +124,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		console.log(`All parts processed in ${Date.now() - start} ms`);
 		if (!fileData) {
 			reply.status(200).send('Please select a picture');
-			return;
+			return ;
 		}
 		let IdUser;
 		try {
@@ -132,7 +132,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			IdUser = (decoded as { userId: string }).userId;
 		} catch (err) {
 			reply.status(401).send('Invalid token');
-			return;
+			return ;
 		}
 
 		const chunks: Buffer[] = [];
@@ -148,7 +148,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		catch (err) {
 			console.error('Image conversion failed:', err);
 			reply.status(200).send('Please a valid image (PNG, JPG, WEBP, ...)');
-			return;
+			return ;
 		}
 
 		try {

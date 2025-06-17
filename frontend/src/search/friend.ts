@@ -7,7 +7,7 @@ export default async function initAddFriend(target?: string) {
 		const target = document.getElementById("username-h2")?.textContent;
 		const tokenID = sessionStorage.getItem("token");
 
-		if (!friendbtn || !target || !tokenID) return;
+		if (!friendbtn || !target || !tokenID) return ;
 
 		const checkFriendStatus = async () => {
 			const res = await fetch("/api/isfriend", {
@@ -16,7 +16,6 @@ export default async function initAddFriend(target?: string) {
 				body: JSON.stringify({ tokenID, target })
 			});
 			const data = await res.json();
-			// status 1 = amis, 2 = demande envoyée, 3 = demande reçue, 0 = rien
 			if (data.status === 1) {
 				friendbtn.textContent = translate("Remove_Friend");
 			} else if (data.status === 2) {

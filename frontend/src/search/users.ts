@@ -53,7 +53,7 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
 		}, 1000);
-		return;
+		return ;
 	}
 	const data = await response.json();
 

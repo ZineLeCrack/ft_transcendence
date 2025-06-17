@@ -19,7 +19,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 
 		if (!IdUser) {
 			reply.status(400).send('Missing IdUser');
-			return;
+			return ;
 		}
 
 		try {
@@ -27,7 +27,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 			const user = await db.get(`SELECT email FROM users WHERE id = ?`, [IdUser]);
 			if (!user?.email) {
 				reply.status(404).send('User not connected please connect first');
-				return;
+				return ;
 			}
 
 			const code = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
@@ -51,7 +51,6 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 			reply.status(200).send('Code sent');
 		} 
 		catch (err) {
-			// console.error(err);
 			reply.status(500).send('An error occurred while sending the code retry later');
 		}
 	});
@@ -61,7 +60,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 
 		if (!IdUser || !code) {
 			reply.status(400).send('Incomplete data');
-			return;
+			return ;
 		}
 
 		const expectedCode = verificationCodes.get(IdUser);

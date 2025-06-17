@@ -22,7 +22,7 @@ export default async function initEditPassword() {
 				history.pushState(null, '', '/login');
 				await loadRoutes('/login');
 			}, 1000);
-			return;
+			return ;
 		}
 		const res = await response.json();
 		const username = res.original;
@@ -106,7 +106,7 @@ export default async function initEditPassword() {
 				if (!validatePassword(EditData.newpass))
 				{
 					initError(translate("touch_html"));
-					return;
+					return ;
 				}
                 const response = await fetch(`/api/edit`,
                 {
@@ -137,7 +137,7 @@ export default async function initEditPassword() {
 
 	function validatePasswordField(input: HTMLInputElement) {
 		const errorElement = document.getElementById('edit-password-error');
-		if (!errorElement) return;
+		if (!errorElement) return ;
 
 		const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{6,}$/.test(input.value);
 

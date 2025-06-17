@@ -28,7 +28,7 @@ export default async function initHome() {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
 		}, 1000);
-		return;
+		return ;
 	}
 	const info = await response.json();
 

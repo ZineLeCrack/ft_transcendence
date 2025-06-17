@@ -167,7 +167,6 @@ export const loadRoutes = async (path: string) => {
 
 	body.style.backgroundSize = "cover";
 
-	// Check dynamic routes first
 	for (const [_, route] of Object.entries(routes)) {
 		if (route.pattern) {
 			const match = path.match(route.pattern);
@@ -187,7 +186,7 @@ export const loadRoutes = async (path: string) => {
 						body.style.backgroundImage = "url('/images/404notfound.jpg')";
 						body.innerHTML = notFoundPageContent;
 						await initLanguageSelector();
-						return;
+						return ;
 					}
 
 					body.innerHTML = route.view;
@@ -197,7 +196,7 @@ export const loadRoutes = async (path: string) => {
 					if (route.script) {
 						await route.script(username);
 					}
-					return;
+					return ;
 				} catch (error) {
 					initError (translate("Error_verif_user"));
 					body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
@@ -205,7 +204,7 @@ export const loadRoutes = async (path: string) => {
 					body.style.backgroundImage = "url('/images/404notfound.jpg')";
 					body.innerHTML = notFoundPageContent;
 					await initLanguageSelector();
-					return;
+					return ;
 				}
 			}
 		}
@@ -239,7 +238,7 @@ const router = async () => {
 };
 
 const navigate = (url: string) => {
-	if (window.location.pathname === url) return;
+	if (window.location.pathname === url) return ;
 	history.pushState(null, '', url); 
 	loadRoutes(url);
 };

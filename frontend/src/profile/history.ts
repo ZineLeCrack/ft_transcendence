@@ -26,7 +26,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 			const mess = translate("history_mess")
 			message.textContent = mess;
 			container.appendChild(message);
-			return;
+			return ;
 		}
 		cardsHistory.forEach(CardHistory => {
 			const cardElement = document.createElement('div');
@@ -118,7 +118,7 @@ export default async function initHistory()
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
 		}, 1000);
-		return;
+		return ;
 	}
 	const name = await response.json();
 	try

@@ -20,7 +20,7 @@ export default async function initTournamentStats() {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
 		}, 1000);
-		return;
+		return ;
 	}
 	const info = await response.json();
 	await initLanguageSelector(info.original);
@@ -69,7 +69,7 @@ export async function initTournamentGraph(originalUsername: string) {
 
 	const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
 	history.forEach((match: any) => {
-		if (match.tournament === 0) return;
+		if (match.tournament === 0) return ;
 
 		const isWin = match.usernameplayer1 === originalUsername
 			? match.pointplayer1 > match.pointplayer2

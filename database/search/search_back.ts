@@ -7,7 +7,7 @@ export default async function searchRoutes(fastify: FastifyInstance) {
 
 		if (!username) {
 			reply.status(400).send({ exists: false, error: "No username provided" });
-			return;
+			return ;
 		}
 
 		try {

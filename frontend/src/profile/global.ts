@@ -20,7 +20,7 @@ export default async function initOverallStats() {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
 		}, 1000);
-		return;
+		return ;
 	}
 	const info = await response.json();
 	await initLanguageSelector(info.original);

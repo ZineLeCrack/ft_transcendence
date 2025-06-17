@@ -11,7 +11,7 @@ export default async function initSearch()
 	searchBar?.addEventListener("keydown", async (event) => {
 		if (event.key === "Enter") {
 			const username = searchBar.value.trim();
-			if (!username) return;
+			if (!username) return ;
 
 			try {
 				const res = await fetch(`/api/search`,

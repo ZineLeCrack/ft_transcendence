@@ -17,7 +17,7 @@ export default async function historyRoutes(fastify: FastifyInstance) {
 				if (!name)
 				{
 					reply.status(404).send('This user doesn\'t exist');
-					return;
+					return ;
 				}
 				ID = name.id;
 			}

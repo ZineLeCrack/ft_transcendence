@@ -34,7 +34,7 @@ export default async function initPong() {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
 		}, 1000);
-		return;
+		return ;
 	}
 
 	const info = await response.json();
@@ -180,7 +180,7 @@ export default async function initPong() {
 	}
 
 	async function onKeyDown(e: KeyboardEvent) {
-		if (e.key === "w" || e.key === "s") return;
+		if (e.key === "w" || e.key === "s") return ;
 		if (e.key === "ArrowUp") keys["w"] = true;
 		if (e.key === "ArrowDown") keys["s"] = true;
 		if (e.key === " ") {
@@ -190,7 +190,7 @@ export default async function initPong() {
 	}
 
 	async function onKeyUp(e: KeyboardEvent) {
-		if (e.key === "w" || e.key === "s") return;
+		if (e.key === "w" || e.key === "s") return ;
 		if (e.key === "ArrowUp") keys["w"] = false;
 		if (e.key === "ArrowDown") keys["s"] = false;
 	}

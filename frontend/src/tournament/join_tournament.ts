@@ -54,7 +54,7 @@ export default async function initJoinTournament() {
 					message.className = 'text-center text-white font-bold text-2xl mt-10';
 					message.textContent = translate("no_tournaments_available");
 					tournamentContainer.appendChild(message);
-					return;
+					return ;
 				}
 
 				TournamentItem.forEach(tournament => {
@@ -231,7 +231,6 @@ export default async function initJoinTournament() {
 
 						joinView?.classList.add('hidden');
 						mainView?.classList.remove('hidden');
-						// window.location.reload();
 					} catch (err) {
 						initError((err as string).toString().substring(7));
 					}
@@ -320,7 +319,6 @@ export default async function initJoinTournament() {
 				cancelAlias.addEventListener('click', async () => {
 					const PopPup = document.getElementById('alias-popup') as HTMLDivElement;
 					PopPup.remove();
-					// window.location.reload();
 				});
 			});
 		});

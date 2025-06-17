@@ -52,7 +52,7 @@ export default function initCreateTournament() {
 
 	function validateTournamentNameField(input: HTMLInputElement) {
 		const errorElement = document.getElementById('tournament-name-error');
-		if (!errorElement) return;
+		if (!errorElement) return ;
 
 		const isValid = /^[a-zA-Z0-9_]{3,14}$/.test(input.value);
 

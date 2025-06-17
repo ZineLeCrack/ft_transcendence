@@ -30,7 +30,7 @@ export function setupWebSocket(server: any) {
 					}
 				}
 				if (type === 'new_message') {
-					if (!token || !content) return;
+					if (!token || !content) return ;
 					let id_user;
 					try {
 						const decoded = jwt.verify(token, JWT_SECRET);
@@ -77,11 +77,11 @@ export function setupWebSocket(server: any) {
 				} else if (type === 'new_private_message') {
 					if (pongRequest === 1 || pongRequest === 2 || pongRequest === 3)
 					{
-						if (!token || !targetUsername) return;
+						if (!token || !targetUsername) return ;
 					}
 					else
 					{
-						if (!token || !content || !targetUsername) return;
+						if (!token || !content || !targetUsername) return ;
 					}
 					let id_user;
 					try {
@@ -90,7 +90,7 @@ export function setupWebSocket(server: any) {
 					}
 					catch (err) {
 						console.error(err);
-						return;
+						return ;
 					}
 					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`,[id_user]);
 					const username = response.name;
@@ -102,7 +102,7 @@ export function setupWebSocket(server: any) {
 						`, [username, targetUsername, targetUsername, username]);
 					if (pongRequest === 1 && lastInvite) {
 						ws.send(JSON.stringify({type: 'error', message: 'A request has already been created, invitation canceled.'}));
-						return;
+						return ;
 					}
 
 					if (pongRequest !== 2 && pongRequest !== 3)
@@ -128,7 +128,7 @@ export function setupWebSocket(server: any) {
 					}
 					catch (err) {
 						console.error(err);
-						return;
+						return ;
 					}
 					const response = await dbusers.get(`SELECT name FROM users WHERE id = ?`,[id_user]);
 					const username = response.name;

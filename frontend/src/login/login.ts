@@ -70,7 +70,7 @@ export default function initLogin() {
 			{
 				const error = await response.text();
 				initError(error);
-				return;
+				return ;
 			}
 			const text = await response.text();
 			if (text === "Invalid email or password")
@@ -101,7 +101,6 @@ export default function initLogin() {
 	const registerTestBtn = document.getElementById('register-test-user');
 	registerTestBtn?.addEventListener('click', async (event) => {
 		event.preventDefault();
-		// Récupère le dernier id utilisé ou commence à 1
 		let testId = increment;
 		const username = `Test${testId}`;
 		const password = `Test1${testId}`;
@@ -118,7 +117,7 @@ export default function initLogin() {
 				const error = await response.text();
 				initError(error);
 				increment++;
-				return;
+				return ;
 			}
 
 			signInUsernameInput.value = username;

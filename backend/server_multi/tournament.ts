@@ -93,7 +93,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		} 
 		catch (err) {
 			reply.status(401).send('Invalid token');
-			return;
+			return ;
 		}
 
 		const game = tournamentsInstances.get(tournamentId.toString())?.instance;

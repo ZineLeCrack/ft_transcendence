@@ -10,7 +10,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 
 	if (!tokenID || !target) {
 		reply.status(400).send({ exists: false, error: "Missing username or target" });
-		return;
+		return ;
 	}
 
 	try {
@@ -20,7 +20,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 		const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 		if (!userID || !targetUserID) {
 			reply.send({ status: 0 });
-			return;
+			return ;
 		}
 		const block = await db.get(
 		'SELECT blocked FROM block WHERE id_player1 = ? AND id_player2 = ?',
@@ -38,7 +38,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 
 		if (!tokenID || !target) {
 		reply.status(400).send({ exists: false, error: "Missing username or target" });
-		return;
+		return ;
 		}
 
 		try {
@@ -48,7 +48,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 		const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 		if (!userID || !targetUserID) {
 			reply.send({ success: false, error: "User not found" });
-			return;
+			return ;
 		}
 		await db.run(
 			`INSERT INTO block (id_player1, id_player2, blocked) VALUES (?, ?, 1)
@@ -71,7 +71,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 
 	if (!tokenID || !target) {
 		reply.status(400).send({ exists: false, error: "Missing username or target" });
-		return;
+		return ;
 	}
 
 	try {
@@ -81,7 +81,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 		const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 		if (!userID || !targetUserID) {
 		reply.send({ success: false, error: "User not found" });
-		return;
+		return ;
 		}
 		await db.run(
 		`INSERT INTO block (id_player1, id_player2, blocked) VALUES (?, ?, 0)

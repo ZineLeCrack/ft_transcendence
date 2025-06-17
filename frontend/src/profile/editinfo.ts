@@ -8,7 +8,7 @@ import { validateEmail, validateUsername } from '../utils';
 
 export async function loadProfilePicture(div: string, name: string) {
 	const token = sessionStorage.getItem("token");
-	if (!token) return;
+	if (!token) return ;
 
 	const response = await fetch('/api/picture', {
 		headers: {
@@ -18,7 +18,7 @@ export async function loadProfilePicture(div: string, name: string) {
 
 	if (!response.ok) {
 		console.error("Failed to load profile picture");
-		return;
+		return ;
 	}
 
 	const blob = await response.blob();
@@ -50,7 +50,7 @@ export default async function initEditProfile() {
 			history.pushState(null, '', '/login');
 			await loadRoutes('/login');
 		}, 1000);
-		return;
+		return ;
 	}
 	const res = await response.json();
 	const username = res.original;
@@ -95,12 +95,12 @@ export default async function initEditProfile() {
 				}
 				if(!EditData.email && !EditData.username)
 				{
-					return;
+					return ;
 				}
 				if ((EditData.email && !validateEmail(EditData.email)) || (EditData.username && !validateUsername(EditData.username)))
 				{
 					initError(translate("touch_html"));
-					return;
+					return ;
 				}
 				const response = await fetch(`/api/info`,
 				{
@@ -155,7 +155,7 @@ export default async function initEditProfile() {
 		{
 			initError(translate("picture_no"));
 			pictureInput.value = '';
-			return;
+			return ;
 		}
 		try {
 
@@ -192,7 +192,7 @@ export default async function initEditProfile() {
 
 	function validateUsernameField(input: HTMLInputElement) {
 		const errorElement = document.getElementById('edit-username-error');
-		if (!errorElement) return;
+		if (!errorElement) return ;
 
 		const isValid = /^[a-zA-Z0-9_]{3,14}$/.test(input.value);
 
@@ -215,7 +215,7 @@ export default async function initEditProfile() {
 
 	function validateEmailField(input: HTMLInputElement) {
 		const errorElement = document.getElementById('edit-email-error');
-		if (!errorElement) return;
+		if (!errorElement) return ;
 		const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
 
 		if ((!isValid && input.value.length >= 1) || input.validity.typeMismatch) {

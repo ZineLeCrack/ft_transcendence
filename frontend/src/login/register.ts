@@ -59,7 +59,7 @@ export default function initRegister() {
 		if (!validateEmail(userData.email) || !validateUsername(userData.username) || !validatePassword(userData.password))
 		{
 			initError(translate("touch_html"));
-			return;
+			return ;
 		}
 		try {
 			const response = await fetch(`/api/submit`, {
@@ -72,7 +72,7 @@ export default function initRegister() {
 			{
 				const error = await response.text();
 				initError(translate("touch_html"));
-				return;
+				return ;
 			}
 			const err = await response.text();
 			if (err === "invalid username or email, This user already exists")
@@ -93,7 +93,7 @@ export default function initRegister() {
 
 	function validateUsernameField(input: HTMLInputElement) {
 		const errorElement = document.getElementById('username-error');
-		if (!errorElement) return;
+		if (!errorElement) return ;
 
 		const isValid = /^[a-zA-Z0-9_]{3,14}$/.test(input.value);
 
@@ -117,7 +117,7 @@ export default function initRegister() {
 
 	function validateEmailField(input: HTMLInputElement) {
 		const errorElement = document.getElementById('email-error');
-		if (!errorElement) return;
+		if (!errorElement) return ;
 		const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
 
 		if ((!isValid && input.value.length >= 1) || input.validity.typeMismatch) {
@@ -140,7 +140,7 @@ export default function initRegister() {
 
 	function validatePasswordField(input: HTMLInputElement) {
 		const errorElement = document.getElementById('password-error');
-		if (!errorElement) return;
+		if (!errorElement) return ;
 
 		const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W_]{6,}$/.test(input.value);
 

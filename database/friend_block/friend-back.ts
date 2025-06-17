@@ -10,7 +10,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 
 		if (!tokenID || !target) {
 			reply.status(400).send({ exists: false, error: "Missing username or target" });
-			return;
+			return ;
 		}
 
 		try {
@@ -20,7 +20,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 			if (!userID || !targetUserID) {
 				reply.send({ status: 0 });
-				return;
+				return ;
 			}
 			const friend = await db.get(
 				'SELECT friend FROM friend WHERE id_player1 = ? AND id_player2 = ?',
@@ -38,7 +38,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 
 		if (!tokenID || !target) {
 			reply.status(400).send({ exists: false, error: "Missing username or target" });
-			return;
+			return ;
 		}
 
 		try {
@@ -48,7 +48,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 			if (!userID || !targetUserID) {
 				reply.send({ success: false, error: "User not found" });
-				return;
+				return ;
 			}
 			await db.run(
 				`INSERT INTO friend (id_player1, id_player2, friend) VALUES (?, ?, 2)
@@ -72,7 +72,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 
 		if (!tokenID || !target || typeof answer !== 'number') {
 			reply.status(400).send({ exists: false, error: "Missing username, target or answer" });
-			return;
+			return ;
 		}
 
 		try {
@@ -82,7 +82,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 			if (!userID || !targetUserID) {
 				reply.send({ success: false, error: "User not found" });
-				return;
+				return ;
 			}
 			if (answer === 1) {
 				await db.run(
@@ -107,7 +107,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 
 		if (!tokenID || !target) {
 			reply.status(400).send({ success: false, error: "Missing username or target" });
-			return;
+			return ;
 		}
 
 		try {
@@ -117,7 +117,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 			if (!userID || !targetUserID) {
 				reply.send({ success: false, error: "User not found" });
-				return;
+				return ;
 			}
 			await db.run(
 				`UPDATE friend SET friend=0 WHERE (id_player1=? AND id_player2=?) OR (id_player1=? AND id_player2=?)`,
@@ -135,7 +135,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 
 		if (!tokenID) {
 			reply.status(400).send({ success: false, error: "Missing token" });
-			return;
+			return ;
 		}
 		try {
 			const db = await getDb_user();
@@ -168,7 +168,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 
 		if (!tokenID || !status) {
 			reply.status(400).send({ success: false, error: "Missing token or status" });
-			return;
+			return ;
 		}
 		try {
 			const db = await getDb_user();
@@ -176,7 +176,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 			const userID = (decoded as { userId: string }).userId;
 			if (!userID) {
 				reply.status(400).send({ success: false, error: "Invalid token" });
-				return;
+				return ;
 			}
 			await db.run(
 				`UPDATE users SET status = ? WHERE id = ?`,

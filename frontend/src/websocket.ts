@@ -11,7 +11,7 @@ let original_name: string;
 let userId = '';
 
 export function initWebSocket(original: string) {
-	if (ws) return;
+	if (ws) return ;
 	original_name = original;
 
 	ws = new WebSocket(`wss://${window.location.host}/ws/`);
@@ -46,7 +46,7 @@ export function initWebSocket(original: string) {
 		const data = JSON.parse(event.data);
 		if (data.type === 'error') {
 			initError(data.message);
-			return;
+			return ;
 		}
 		if (data.type === 'multi_player_join') {
 			if (sessionStorage.getItem('gameId') === data.gameId) {

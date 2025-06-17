@@ -88,7 +88,7 @@ export default async function initFriendChat()
 
 	if (document.getElementById('chat-messages-global'))
 	{
-		return;
+		return ;
 	}
 
 	const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
@@ -180,7 +180,7 @@ export default async function initFriendChat()
 
 			const username = button.id.split('-').pop();
 			const alreadyInChat = document.getElementById(`chat-messages-${username}`);
-			if (alreadyInChat) return;
+			if (alreadyInChat) return ;
 
 			const existingChat = document.querySelectorAll(`[id^="chat-messages-"]`);
 			if (existingChat)
