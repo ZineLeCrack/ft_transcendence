@@ -13,65 +13,65 @@ export default function initA2f() {
 	const codeInput = document.getElementById("code-input") as HTMLInputElement;
 
 	sendBtn.addEventListener("click", async () => {
-	    const Data =
-	    {
-	        IdUser : sessionStorage.getItem('userId'),
-	    }
-	    const response = await fetch(`/api/a2f/send`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(Data),
-		});
-		if (!response.ok)
-		{
-			const error = await response.text();
-			initError(error);
-			setTimeout(async () => {
-				history.pushState(null, '', '/login');
-				await loadRoutes('/login');
-			}, 1000);
-			return ;
+		try {
+			const Data = { IdUser: sessionStorage.getItem('userId') };
+			const response = await fetch(`/api/a2f/send`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(Data),
+			});
+			if (!response.ok)
+			{
+				const error = await response.text();
+				initError(error);
+				setTimeout(async () => {
+					history.pushState(null, '', '/login');
+					await loadRoutes('/login');
+				}, 1000);
+				return ;
+			}
+			initSuccess(translate('a2f_send'));
+		} catch (err) {
+			console.log('Error sending A2F code:', err);
 		}
-	    initSuccess(translate('a2f_send'));
 	});
 
 	form.addEventListener("submit", async (event) => {
-	    event.preventDefault();
+		try {
+			event.preventDefault();
 
-	    const Data =
-	    {
-	        code : codeInput.value,
-	        IdUser : sessionStorage.getItem('userId'),
-	    }
-		if (!Data.code)
-		{
-			return ;
+			const Data = { code: codeInput.value, IdUser: sessionStorage.getItem('userId') };
+			if (!Data.code) {
+				return ;
+			}
+			const response = await fetch(`/api/a2f/verify`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(Data),
+			});
+			if (!response.ok)
+			{
+				const error = await response.text();
+				console.error(error)
+				return ;
+			}
+			const err = await response.text();
+			if (err === "bad code")
+			{
+				initError(translate("bad_code"));
+				return ;
+			}
+			const result = JSON.parse(err);
+			const jwtToken = result.token;
+			sessionStorage.setItem('token', jwtToken);
+			sessionStorage.removeItem("userId");
+			initSuccess(translate('a2f_good_mess'));
+			setTimeout(async () => {
+				history.pushState(null, '', '/home');
+				await loadRoutes('/home');
+			}, 1000);
+		} catch (err) {
+			console.log('Error verifying A2F code:', err);
 		}
-	    const response = await fetch(`/api/a2f/verify`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(Data),
-		});
-		if (!response.ok)
-		{
-			const error = await response.text();
-			console.error(error)
-			return ;
-		}
-		const err = await response.text();
-		if (err === "bad code")
-		{
-			initError(translate("bad_code"));
-			return ;
-		}
-		const result = JSON.parse(err);
-		const jwtToken = result.token;
-		sessionStorage.setItem('token', jwtToken);
-		sessionStorage.removeItem("userId");
-		initSuccess(translate('a2f_good_mess'));
-	    setTimeout(async () => {
-			history.pushState(null, '', '/home');
-			await loadRoutes('/home');
-		}, 1000);
 	});
 }

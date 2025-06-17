@@ -14,50 +14,54 @@ import { translate } from '../i18n.js';
 export default async function initHome() {
 	await initLanguageSelector();
 
-	const token = sessionStorage.getItem('token');
-	const response = await fetch('/api/verifuser', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token }),
-	});
+	try {
+		const token = sessionStorage.getItem('token');
+		const response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
 
-	if (!response.ok)
-	{
-		initError(translate('Error_co'))
-		setTimeout(async () => {
-			history.pushState(null, '', '/login');
-			await loadRoutes('/login');
-		}, 1000);
-		return ;
+		if (!response.ok)
+		{
+			initError(translate('Error_co'))
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return ;
+		}
+		const info = await response.json();
+
+		initWebSocket(info.original);
+		initChooseGame();
+		initChat();
+		await initFriendChat();
+		initSwitchChat();
+		await initsearch();
+
+		const res = await fetch('/api/tournament/is_in', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token: sessionStorage.getItem('token') })
+		});
+
+		if (!res.ok)
+		{
+			console.error(`Failed to load tournament`);
+			return ;
+		}
+
+		const data = await res.json();
+
+		if (data.tournamentId === '0')
+		{
+			initCreateTournament();
+			initJoinTournament();
+		}
+		else
+			initInTournament(data.tournamentId);
+	} catch (err) {
+		console.log('Error initializing home:', err);
 	}
-	const info = await response.json();
-
-	initWebSocket(info.original);
-	initChooseGame();
-	initChat();
-	await initFriendChat();
-	initSwitchChat();
-	await initsearch();
-
-	const res = await fetch('/api/tournament/is_in', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token: sessionStorage.getItem('token') })
-	});
-
-	if (!res.ok)
-	{
-		console.error(`Failed to load tournament`);
-		return ;
-	}
-
-	const data = await res.json();
-
-	if (data.tournamentId === '0')
-	{
-		initCreateTournament();
-		initJoinTournament();
-	}
-	else
-		initInTournament(data.tournamentId);
 }

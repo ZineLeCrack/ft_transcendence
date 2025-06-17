@@ -86,22 +86,26 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		JoinBtn.textContent = `${joinText}`;
 
 		JoinBtn.addEventListener('click', async () => {
-			const response = await fetch('/api/multi/game/private/join', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ token: tokenID })
-			});
+			try {
+				const response = await fetch('/api/multi/game/private/join', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ token: tokenID })
+				});
 
-			const data = await response.json();
+				const data = await response.json();
 
-			const ws = getWebSocket();
-			ws?.send(JSON.stringify({ type: 'multi_player_join', gameId: data.gameId }));
+				const ws = getWebSocket();
+				ws?.send(JSON.stringify({ type: 'multi_player_join', gameId: data.gameId }));
 
-			setTimeout(async () => {
-				sessionStorage.setItem("gameId", data.gameId);
-				history.pushState(null, '', '/game/multi');
-				await loadRoutes('/game/multi');
-			}, 100);
+				setTimeout(async () => {
+					sessionStorage.setItem("gameId", data.gameId);
+					history.pushState(null, '', '/game/multi');
+					await loadRoutes('/game/multi');
+				}, 100);
+			} catch (err) {
+				console.error('Error joining private game:', err);
+			}
 		});
 
 		container.appendChild(msg);
@@ -152,47 +156,55 @@ export async function sendMessage(username: string, content: string, pong?: bool
 
 		acceptBtn.addEventListener('click', async () => {
 			const token = sessionStorage.getItem('token');
-			await fetch("/api/private_game/reply-pong", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ token, target: targetUser, answer: 1 })
-			});
-			msg.remove();
-			acceptBtn.remove();
-			declineBtn.remove();
-			container.remove();
-			const response = await fetch ('/api/search', {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ username: targetUser })
-			});
-			const userData = await response.json();
-			await fetch('/api/multi/game/private/create', {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ token, target: userData.id })
-			});
-			const ws = getWebSocket();
-			const targetUsername = targetUser;
-			let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 2};
-			ws?.send(JSON.stringify(chatdata));
+			try {
+				await fetch("/api/private_game/reply-pong", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ token, target: targetUser, answer: 1 })
+				});
+				msg.remove();
+				acceptBtn.remove();
+				declineBtn.remove();
+				container.remove();
+				const response = await fetch ('/api/search', {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ username: targetUser })
+				});
+				const userData = await response.json();
+				await fetch('/api/multi/game/private/create', {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ token, target: userData.id })
+				});
+				const ws = getWebSocket();
+				const targetUsername = targetUser;
+				let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 2};
+				ws?.send(JSON.stringify(chatdata));
+			} catch (err) {
+				console.error('Error sending reply:', err);
+			}
 		});
 
 		declineBtn.addEventListener('click', async () => {
-			const token = sessionStorage.getItem('token');
-			await fetch("/api/private_game/reply-pong", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ token, target: targetUser, answer: 0 })
-			});
-			msg.remove();
-			acceptBtn.remove();
-			declineBtn.remove();
-			container.remove();
-			const ws = getWebSocket();
-			const targetUsername = targetUser;
-			let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 3 };
-			ws?.send(JSON.stringify(chatdata));
+			try {
+				const token = sessionStorage.getItem('token');
+				await fetch("/api/private_game/reply-pong", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ token, target: targetUser, answer: 0 })
+				});
+				msg.remove();
+				acceptBtn.remove();
+				declineBtn.remove();
+				container.remove();
+				const ws = getWebSocket();
+				const targetUsername = targetUser;
+				let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 3 };
+				ws?.send(JSON.stringify(chatdata));
+			} catch (err) {
+				console.error('Error sending reply:', err);
+			}
 		});
 
 		container.appendChild(msg);
@@ -257,29 +269,37 @@ export async function sendMessage(username: string, content: string, pong?: bool
 
 		const ws = getWebSocket();
 		acceptBtn.addEventListener('click', async () => {
-			const tokenID = sessionStorage.getItem('token');
-			const target = targetUser; 
-			await fetch("/api/replyrequest", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target , answer: 1 })
-				});
-			let chatdata;
-			chatdata = { type: 'accept_friend', token: tokenID, targetUsername : target};
-			ws?.send(JSON.stringify(chatdata));
+			try {
+				const tokenID = sessionStorage.getItem('token');
+				const target = targetUser; 
+				await fetch("/api/replyrequest", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ tokenID, target , answer: 1 })
+					});
+				let chatdata;
+				chatdata = { type: 'accept_friend', token: tokenID, targetUsername : target};
+				ws?.send(JSON.stringify(chatdata));
+			} catch (err) {
+				console.error('Error responding to the request:', err);
+			}
 		});
 
 		declineBtn.addEventListener('click', async () => {
-			const tokenID = sessionStorage.getItem('token');
-			const target = targetUser; 
-			await fetch("/api/replyrequest", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target , answer: 0 })
-				});
-			let chatdata;
-			chatdata = { type: 'decline_friend', token: tokenID, targetUsername : target};
-			ws?.send(JSON.stringify(chatdata));
+			try {
+				const tokenID = sessionStorage.getItem('token');
+				const target = targetUser;
+				await fetch("/api/replyrequest", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ tokenID, target , answer: 0 })
+					});
+				let chatdata;
+				chatdata = { type: 'decline_friend', token: tokenID, targetUsername : target};
+				ws?.send(JSON.stringify(chatdata));
+			} catch (err) {
+				console.error('Error responding to the request:', err);
+			}
 		});
 
 		container.appendChild(msg);
@@ -336,23 +356,27 @@ export default function initChat() {
 	const ws = getWebSocket();
 
 	(async () => {
-		const token = sessionStorage.getItem('token');
-		const response = await fetch('/api/verifuser', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
-		});
+		try {
+			const token = sessionStorage.getItem('token');
+			const response = await fetch('/api/verifuser', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token }),
+			});
 
-		if (!response.ok) {
-			setTimeout(async () => {
-				history.pushState(null, '', '/login');
-				await loadRoutes('/login');
-			}, 1000);
+			if (!response.ok) {
+				setTimeout(async () => {
+					history.pushState(null, '', '/login');
+					await loadRoutes('/login');
+				}, 1000);
+			}
+
+			const data = await response.json();
+			original_name = data.original;
+			original_id = data.id_user;
+		} catch (err) {
+			console.error('Error verifying user:', err);
 		}
-
-		const data = await response.json();
-		original_name = data.original;
-		original_id = data.id_user;
 
 		async function displayAllMessages() {
 			try {
@@ -377,7 +401,7 @@ export default function initChat() {
 					}
 				}
 			} catch (err) {
-				console.error("Erreur lors de la récupération des messages :", err);
+				console.error("Error getting messages:", err);
 			}
 		}
 

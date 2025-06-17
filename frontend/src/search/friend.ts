@@ -10,20 +10,24 @@ export default async function initAddFriend(target?: string) {
 		if (!friendbtn || !target || !tokenID) return ;
 
 		const checkFriendStatus = async () => {
-			const res = await fetch("/api/isfriend", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ tokenID, target })
-			});
-			const data = await res.json();
-			if (data.status === 1) {
-				friendbtn.textContent = translate("Remove_Friend");
-			} else if (data.status === 2) {
-				friendbtn.textContent = translate("Request_Sent");
-			} else if (data.status === 3) {
-				friendbtn.textContent = translate("Request_Received");
-			} else {
-				friendbtn.textContent = translate("add_friend_trad");
+			try {
+				const res = await fetch("/api/isfriend", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ tokenID, target })
+				});
+				const data = await res.json();
+				if (data.status === 1) {
+					friendbtn.textContent = translate("Remove_Friend");
+				} else if (data.status === 2) {
+					friendbtn.textContent = translate("Request_Sent");
+				} else if (data.status === 3) {
+					friendbtn.textContent = translate("Request_Received");
+				} else {
+					friendbtn.textContent = translate("add_friend_trad");
+				}
+			} catch (err) {
+				console.log('Error getting friendship:', err);
 			}
 		};
 
@@ -32,42 +36,46 @@ export default async function initAddFriend(target?: string) {
 		friendbtn.onclick = null;
 
 		friendbtn.onclick = async () => {
-			const res = await fetch("/api/isfriend", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ tokenID, target })
-			});
-			const friend = await res.json();
-			const ws = getWebSocket();
-			if (friend.status === 0)
-			{
-				const res = await fetch("/api/requestfriend", {
+			try {
+				const res = await fetch("/api/isfriend", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ tokenID, target })
 				});
-				const data = await res.json();
-				if (data.success) {
-					friendbtn.textContent = translate("Request_Sent");
+				const friend = await res.json();
+				const ws = getWebSocket();
+				if (friend.status === 0)
+				{
+					const res = await fetch("/api/requestfriend", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ tokenID, target })
+					});
+					const data = await res.json();
+					if (data.success) {
+						friendbtn.textContent = translate("Request_Sent");
+					}
+					let chatdata;
+					chatdata = { type: 'add_friend', token: tokenID, targetUsername : target};
+					ws?.send(JSON.stringify(chatdata));
 				}
-				let chatdata;
-				chatdata = { type: 'add_friend', token: tokenID, targetUsername : target};
-				ws?.send(JSON.stringify(chatdata));
-			}
-			else if (friend.status === 1)
-			{
-				const res = await fetch("/api/removefriend", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target })
-				});
-				const data = await res.json();
-				if (data.success) {
-					friendbtn.textContent = translate("add_friend_trad");
+				else if (friend.status === 1)
+				{
+					const res = await fetch("/api/removefriend", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ tokenID, target })
+					});
+					const data = await res.json();
+					if (data.success) {
+						friendbtn.textContent = translate("add_friend_trad");
+					}
+					let chatdata;
+					chatdata = { type: 'remove_friend', token: tokenID, targetUsername : target};
+					ws?.send(JSON.stringify(chatdata));
 				}
-				let chatdata;
-				chatdata = { type: 'remove_friend', token: tokenID, targetUsername : target};
-				ws?.send(JSON.stringify(chatdata));
+			} catch (err) {
+				console.log('Error changing frienship:', err);
 			}
 		};
 	}

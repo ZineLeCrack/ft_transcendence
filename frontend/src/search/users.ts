@@ -41,20 +41,27 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 	const blockbtn = document.getElementById("block-btn") as HTMLButtonElement;
 
 	const token = sessionStorage.getItem('token');
-	const response = await fetch('/api/verifuser', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token }),
-	});
-	if (!response.ok)
-	{
-		initError(translate('Error_co'));
-		setTimeout(async () => {
-			history.pushState(null, '', '/login');
-			await loadRoutes('/login');
-		}, 1000);
+	let response;
+	try {
+		response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
+		if (!response.ok)
+		{
+			initError(translate('Error_co'));
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return ;
+		}
+	} catch (err) {
+		console.log('Error verifying user:', err);
 		return ;
 	}
+
 	const data = await response.json();
 
 	initWebSocket(data.original);
@@ -98,31 +105,34 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 		};
 
 		const target = username;
-		const blockCheck = await fetch("/api/isblock", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ tokenID, target })
-		});
-		const block = await blockCheck.json();
-		if (data.original === username)
-		{
-			blockbtn.classList.add('hidden');
-			friendbtn.classList.add('hidden');
-			initSearch();
-		}
-		else
-		{
-			if (block.status !== 1)
+		try {
+			const blockCheck = await fetch("/api/isblock", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ tokenID, target })
+			});
+			const block = await blockCheck.json();
+			if (data.original === username)
 			{
-				initAddFriend(username);
-				friendbtn.classList.remove('hidden');
+				blockbtn.classList.add('hidden');
+				friendbtn.classList.add('hidden');
+				initSearch();
 			}
 			else
-				friendbtn.classList.add('hidden');
-			initBlockPlayer(username);
-			initSearch();
+			{
+				if (block.status !== 1)
+				{
+					initAddFriend(username);
+					friendbtn.classList.remove('hidden');
+				}
+				else
+					friendbtn.classList.add('hidden');
+				initBlockPlayer(username);
+				initSearch();
+			}
+		} catch (err) {
+			console.log('Error getting user block status:', err);
 		}
-
 	}
 }
 

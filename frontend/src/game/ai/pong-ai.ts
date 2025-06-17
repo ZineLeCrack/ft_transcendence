@@ -19,24 +19,30 @@ export const paddleHeight = 100;
 export let message = "";
 
 export default async function initPong() {
-	const token = sessionStorage.getItem('token');
+	let response;
+	try {
+		const token = sessionStorage.getItem('token');
 
-	const response = await fetch('/api/verifuser', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token }),
-	});
+		response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
 
-	if (!response.ok)
-	{
-		initError(translate('Error_co'));
-		setTimeout(async () => {
-			history.pushState(null, '', '/login');
-			await loadRoutes('/login');
-		}, 1000);
+		if (!response.ok)
+		{
+			initError(translate('Error_co'));
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return ;
+		}
+
+	} catch (err) {
+		console.log('Error verifying user:', err);
 		return ;
 	}
-
 	const info = await response.json();
 	initWebSocket(info.original);
 	await initLanguageSelector();
@@ -184,7 +190,11 @@ export default async function initPong() {
 		if (e.key === "ArrowUp") keys["w"] = true;
 		if (e.key === "ArrowDown") keys["s"] = true;
 		if (e.key === " ") {
-			await fetch(`${SERVER_URL}/start`, { method: "POST" });
+			try {
+				await fetch(`${SERVER_URL}/start`, { method: "POST" });
+			} catch (err) {
+				console.log('Error starting ai game:', err);
+			}
 			gameStarted = true;
 		}
 	}
@@ -200,11 +210,15 @@ export default async function initPong() {
 	document.addEventListener("keyup", onKeyUp);
 
 	const interval1 = setInterval(async () => {
-		await fetch(`${SERVER_URL}/move`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ keys })
-		}).catch(err => console.error("Erreur POST /move:", err));
+		try {
+			await fetch(`${SERVER_URL}/move`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ keys })
+			});
+		} catch (err) {
+			console.log('Error sending moves:', err);
+		}
 	}, 16);
 
 	const interval2 = setInterval(callAI, 1000);
@@ -217,11 +231,15 @@ export default async function initPong() {
 		if (interval3) clearInterval(interval3);
 		document.removeEventListener("keydown", onKeyDown);
 		document.removeEventListener("keyup", onKeyUp);
-		await fetch(`/api/main/game/end`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ gameId: gameId })
-		});
+		try {
+			await fetch(`/api/main/game/end`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ gameId: gameId })
+			});
+		} catch (err) {
+			console.log('Error ending ai game:', err);
+		}
 		window.removeEventListener("popstate", cleanUp);
 	}
 

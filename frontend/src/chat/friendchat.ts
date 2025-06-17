@@ -70,12 +70,16 @@ export function initSwitchChat()
 			friendslist.classList.remove("flex");
 			friendslist.classList.add("hidden");
 
-			const response = await fetch(`/api/getmessages`, {method: 'POST',});
-			const data = await response.json();
-			const tab = data.tab;
-			for (let i = 0; i < tab.length; i++) {
-				const message = { ...tab[i], isHistoryMessage: true };
-				await sendMessage(message.username, message.content);
+			try {
+				const response = await fetch(`/api/getmessages`, {method: 'POST',});
+				const data = await response.json();
+				const tab = data.tab;
+				for (let i = 0; i < tab.length; i++) {
+					const message = { ...tab[i], isHistoryMessage: true };
+					await sendMessage(message.username, message.content);
+				}
+			} catch (err) {
+				console.error('Error getting messages:', err);
 			}
 		}
 	});
@@ -158,15 +162,20 @@ export default async function initFriendChat()
 	}
 
 	async function fetchFriends(): Promise<Friend[]> {
-		const tokenID = sessionStorage.getItem("token");
-		if (!tokenID) return [];
-		const res = await fetch("/api/getfriends", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ tokenID })
-		});
-		const data = await res.json();
-		return data.friends || [];
+		try {
+			const tokenID = sessionStorage.getItem("token");
+			if (!tokenID) return [];
+			const res = await fetch("/api/getfriends", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ tokenID })
+			});
+			const data = await res.json();
+			return data.friends || [];
+		} catch (err) {
+			console.error('Error getting friends:', err);
+			return [];
+		}
 	}
 
 	const friends: Friend[] = await fetchFriends();
@@ -188,112 +197,116 @@ export default async function initFriendChat()
 
 			const tokenID = sessionStorage.getItem("token");
 			const target = username;
-			const friendCheck = await fetch("/api/isfriend", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ tokenID, target })
-			});
+			try {
+				const friendCheck = await fetch("/api/isfriend", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ tokenID, target })
+				});
 
-			const friendStatus = await friendCheck.json();
-			if (friendStatus.status === 0) {
-				initError(translate("not_friend"));
-				setTimeout(async () => {
-					window.location.reload();
-				}, 1000);
-				return ;
-			}
+				const friendStatus = await friendCheck.json();
+				if (friendStatus.status === 0) {
+					initError(translate("not_friend"));
+					setTimeout(async () => {
+						window.location.reload();
+					}, 1000);
+					return ;
+				}
 
-			if (friendStatus.status === 2) {
-				initError(translate("already_send"));
-				setTimeout(async () => {
-					window.location.reload();
-				}, 1000);
-				return ;
-			}
-
-			const existingChatArea = document.getElementById(`chat-messages-${username}`);
-			if (existingChatArea)
+				if (friendStatus.status === 2) {
+					initError(translate("already_send"));
+					setTimeout(async () => {
+						window.location.reload();
+					}, 1000);
+					return ;
+				}
+				
+				const existingChatArea = document.getElementById(`chat-messages-${username}`);
+				if (existingChatArea)
 				existingChatArea.remove();
 
-			const chatArea = document.createElement('div');
-			chatArea.id = `chat-messages-${username}`;
-			chatArea.className = 'flex-1 flex flex-col space-y-4';
-			chatContainers.appendChild(chatArea);
-			const chatTranslate = translate('chat');
-			chatInfo.innerHTML = `
-				<span class="mr-2 text-[#FF2E9F]">⚡</span>
-				${chatTranslate}://${username}
-				<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
+				const chatArea = document.createElement('div');
+				chatArea.id = `chat-messages-${username}`;
+				chatArea.className = 'flex-1 flex flex-col space-y-4';
+				chatContainers.appendChild(chatArea);
+				const chatTranslate = translate('chat');
+				chatInfo.innerHTML = `
+					<span class="mr-2 text-[#FF2E9F]">⚡</span>
+					${chatTranslate}://${username}
+					<span class="ml-2 animate-pulse text-[#FF2E9F]">_</span>`;
 
-			const checkUser = await fetch(`/api/verifuser`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ token: sessionStorage.getItem('token')})});
-			const info = await checkUser.json();
+				const checkUser = await fetch(`/api/verifuser`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ token: sessionStorage.getItem('token')})});
+				const info = await checkUser.json();
 
-			const original_name = info.original;
+				const original_name = info.original;
 
-			const response = await fetch(`/api/getPrivateMessages`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ token: sessionStorage.getItem('token'), username2: username })});
-			const data = await response.json();
-			const tab = data.tab;
-			for (let i = 0; i < tab.length; i++) {
-				const message = { ...tab[i], isHistoryMessage: true };
-				const isSender = message.username1 === original_name;
-				const otherUser = isSender ? message.username2 : message.username1;
-				if (message.pongRequest === 1) {
-					if (message.username2 === original_name)
-						await sendMessage(message.username2 , "", true, message.username1);
-					else {
-						const messageWrapper = document.getElementById(`chat-messages-${message.username2}`);
-						if (messageWrapper) {
-							const oldmsg = document.getElementById('pong-request-send');
-							if (oldmsg)
-								oldmsg.remove();
-							const msg = document.createElement("div");
-							msg.id = 'pong-request-send';
-							msg.className = "font-mono text-[#00FFFF] px-4 py-2 my-2 border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
-							const InvitationText = translate('invitation_to_pong');
-							msg.textContent = `${InvitationText} ${message.username2}`;
-							messageWrapper.appendChild(msg);
+				const response = await fetch(`/api/getPrivateMessages`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ token: sessionStorage.getItem('token'), username2: username })});
+				const data = await response.json();
+				const tab = data.tab;
+				for (let i = 0; i < tab.length; i++) {
+					const message = { ...tab[i], isHistoryMessage: true };
+					const isSender = message.username1 === original_name;
+					const otherUser = isSender ? message.username2 : message.username1;
+					if (message.pongRequest === 1) {
+						if (message.username2 === original_name)
+							await sendMessage(message.username2 , "", true, message.username1);
+						else {
+							const messageWrapper = document.getElementById(`chat-messages-${message.username2}`);
+							if (messageWrapper) {
+								const oldmsg = document.getElementById('pong-request-send');
+								if (oldmsg)
+									oldmsg.remove();
+								const msg = document.createElement("div");
+								msg.id = 'pong-request-send';
+								msg.className = "font-mono text-[#00FFFF] px-4 py-2 my-2 border border-[#0f9292] bg-black/40 rounded-md shadow-[0_0_5px_#0f9292]";
+								const InvitationText = translate('invitation_to_pong');
+								msg.textContent = `${InvitationText} ${message.username2}`;
+								messageWrapper.appendChild(msg);
+							}
 						}
+					} else if (message.pongRequest === 2) {
+						await sendMessage(message.username1 , "", false, otherUser, false, true);
+					} else if (message.pongRequest === 3) {
+						const oldmsg = document.getElementById('pong-request-send');
+						if (oldmsg)
+							oldmsg.remove();
+						await sendMessage(message.username1 , "", false, otherUser, false, false, true);
+					} else {
+						await sendMessage(message.username1, message.content, false, otherUser);
 					}
-				} else if (message.pongRequest === 2) {
-					await sendMessage(message.username1 , "", false, otherUser, false, true);
-				} else if (message.pongRequest === 3) {
-					const oldmsg = document.getElementById('pong-request-send');
-					if (oldmsg)
-						oldmsg.remove();
-					await sendMessage(message.username1 , "", false, otherUser, false, false, true);
-				} else {
-					await sendMessage(message.username1, message.content, false, otherUser);
 				}
+				if (friendStatus.status === 3) {
+					sendMessage(original_name, "", false, username, true);
+				}
+				const inputArea = document.getElementById('input-Area') as HTMLDivElement;
+				const oldPongBtn = document.getElementById('pong-send');
+				if (oldPongBtn)
+					oldPongBtn.remove();
+				const pongBtn = document.createElement('div');
+				pongBtn.id = 'pong-send';
+				pongBtn.className = 'w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10';
+				pongBtn.innerHTML = '<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">';
+				inputArea.appendChild(pongBtn);
+				
+				const ws = getWebSocket();
+				pongBtn.addEventListener("click", async () => {
+					let chatdata;
+					const BoxTarget = document.querySelector('[id^="chat-messages-"]');
+					const targetUsername = BoxTarget?.id.split('-').pop();
+					const token = sessionStorage.getItem('token');
+					
+					chatdata = { type: 'new_private_message', token, content: "" , targetUsername, pongRequest: 1};
+					ws?.send(JSON.stringify(chatdata));
+				});
+			} catch (err) {
+				console.log('Error initializing friendchat:', err);
 			}
-			if (friendStatus.status === 3) {
-				sendMessage(original_name, "", false, username, true);
-			}
-			const inputArea = document.getElementById('input-Area') as HTMLDivElement;
-			const oldPongBtn = document.getElementById('pong-send');
-			if (oldPongBtn)
-				oldPongBtn.remove();
-			const pongBtn = document.createElement('div');
-			pongBtn.id = 'pong-send';
-			pongBtn.className = 'w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10';
-			pongBtn.innerHTML = '<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">';
-			inputArea.appendChild(pongBtn);
-
-			const ws = getWebSocket();
-			pongBtn.addEventListener("click", async () => {
-				let chatdata;
-				const BoxTarget = document.querySelector('[id^="chat-messages-"]');
-				const targetUsername = BoxTarget?.id.split('-').pop();
-				const token = sessionStorage.getItem('token');
-
-				chatdata = { type: 'new_private_message', token, content: "" , targetUsername, pongRequest: 1};
-				ws?.send(JSON.stringify(chatdata));
-			});
 		});
 	});
 }

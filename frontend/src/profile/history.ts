@@ -105,19 +105,25 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 
 export default async function initHistory() 
 {
+	let response;
 	const token = sessionStorage.getItem('token');
-	const response = await fetch('/api/verifuser', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token }),
-	});
-	if (!response.ok)
-	{
-		initError(translate('Error_co'));
-		setTimeout(async () => {
-			history.pushState(null, '', '/login');
-			await loadRoutes('/login');
-		}, 1000);
+	try {
+		response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
+		if (!response.ok)
+		{
+			initError(translate('Error_co'));
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return ;
+		}
+	} catch (err) {
+		console.log('Error verifying user:', err);
 		return ;
 	}
 	const name = await response.json();

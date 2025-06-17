@@ -10,7 +10,9 @@ import { validatePassword } from '../utils.js';
 export default async function initEditPassword() {
 	await initLanguageSelector();
 	const token = sessionStorage.getItem('token');
-		const response = await fetch('/api/verifuser', {
+	let response;
+	try {
+		response = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
@@ -22,6 +24,10 @@ export default async function initEditPassword() {
 				history.pushState(null, '', '/login');
 				await loadRoutes('/login');
 			}, 1000);
+			return ;
+		}
+		} catch (err) {
+			console.log('Error verifying user:', err);
 			return ;
 		}
 		const res = await response.json();

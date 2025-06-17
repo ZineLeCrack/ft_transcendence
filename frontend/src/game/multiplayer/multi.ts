@@ -17,21 +17,28 @@ let pseudo1 : string;
 let pseudo2 : string;
 
 export default async function initMultiplayer() {
-
+	let response1;
 	const token = sessionStorage.getItem('token');
-	const response1 = await fetch('/api/verifuser', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token })
-	});
-	if (!response1.ok) {
-		initError(translate('Error_co'));
-		setTimeout(async () => {
-			history.pushState(null, '', '/login');
-			await loadRoutes('/login');
-		}, 1000);
+	try {
+		response1 = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token })
+		});
+
+		if (!response1.ok) {
+			initError(translate('Error_co'));
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return ;
+		}
+	} catch (err) {
+		console.log('Error verifying user:', err);
 		return ;
 	}
+
 	const info = await response1.json();
 
 	initWebSocket(info.original);
@@ -54,11 +61,17 @@ export default async function initMultiplayer() {
 		return ;
 	}
 
-	const response2 = await fetch('/api/multi/game/which_player', {
+	let response2;
+	try {
+	response2 = await fetch('/api/multi/game/which_player', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ token: token, gameId: gameId })
 	})
+	} catch (err) {
+		console.log('Error getting player:', err);
+		return ;
+	}
 
 	const data = await response2.json();
 	const player = data.player;
@@ -230,11 +243,15 @@ export default async function initMultiplayer() {
 
 	const interval1 = setInterval(async () => {
 		if (gameOver) return ;
-		await fetch(`${SERVER_URL}/${player}move`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ keys })
-		}).catch(err => console.error("Erreur POST /move:", err));
+		try {
+			await fetch(`${SERVER_URL}/${player}move`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ keys })
+			});
+		} catch (err) {
+			console.log('Error sending moves:', err);
+		}
 	}, 16);
 
 	const interval2 = setInterval(fetchState, 16);
@@ -245,11 +262,15 @@ export default async function initMultiplayer() {
 		if (interval2) clearInterval(interval2);
 		document.removeEventListener("keydown", onKeyDown);
 		document.removeEventListener("keyup", onKeyUp);
-		await fetch(`/api/multi/game/disconnection`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ gameId: gameId })
-		});
+		try {
+			await fetch(`/api/multi/game/disconnection`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ gameId: gameId })
+			});
+		} catch (err) {
+			console.log('Error disconnecting player:', err);
+		}
 		window.removeEventListener("popstate", cleanUp);
 	}
 

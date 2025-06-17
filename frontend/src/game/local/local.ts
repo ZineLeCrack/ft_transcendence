@@ -15,14 +15,19 @@ export const paddleHeight = 100;
 export let message = "";
 
 export default async function initPong() {
-	const token = sessionStorage.getItem('token');
-		const response = await fetch('/api/verifuser', {
+	let response;
+	try {
+		const token = sessionStorage.getItem('token');
+		response = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
 		});
-		const info = await response.json();
-
+	} catch (err) {
+		console.log('Error verifying user:', err);
+		return ;
+	}
+	const info = await response.json();
 	initWebSocket(info.original);
 	await initLanguageSelector();
 
@@ -122,8 +127,12 @@ export default async function initPong() {
 	async function onKeyDown(e: KeyboardEvent) {
 		if (e.key in keys) keys[e.key] = true;
 		if (e.key === " ") {
-			await fetch(`${SERVER_URL}/start`, { method: "POST" });
-			gameStarted = true;
+			try {
+				await fetch(`${SERVER_URL}/start`, { method: "POST" });
+				gameStarted = true;
+			} catch (err) {
+				console.log('Error starting local game:', err);
+			}
 		}
 	}
 
@@ -136,11 +145,15 @@ export default async function initPong() {
 	document.addEventListener("keyup", onKeyUp);
 
 	const interval1 = setInterval(async () => {
-		await fetch(`${SERVER_URL}/move`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ keys })
-		}).catch(err => console.error("Erreur POST /move:", err));
+		try {
+			await fetch(`${SERVER_URL}/move`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ keys })
+			});
+		} catch (err) {
+			console.log('Error sending moves:', err);
+		}
 	}, 16);
 
 	const interval2 = setInterval(fetchState, 16);
@@ -151,11 +164,15 @@ export default async function initPong() {
 		if (interval2) clearInterval(interval2);
 		document.removeEventListener("keydown", onKeyDown);
 		document.removeEventListener("keyup", onKeyUp);
-		await fetch(`/api/main/game/end`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ gameId: gameId })
-		});
+		try {
+			await fetch(`/api/main/game/end`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ gameId: gameId })
+			});
+		} catch (err) {
+			console.log('Error ending local game:', err);
+		}
 		window.removeEventListener("popstate", cleanUp);
 	}
 

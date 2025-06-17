@@ -7,49 +7,57 @@ import { translate } from '../i18n';
 import { validateEmail, validateUsername } from '../utils';
 
 export async function loadProfilePicture(div: string, name: string) {
-	const token = sessionStorage.getItem("token");
-	if (!token) return ;
+	try {
+		const token = sessionStorage.getItem("token");
+		if (!token) return ;
 
-	const response = await fetch('/api/picture', {
-		headers: {
-			'Authorization': `Bearer ${token} ${name}`,
+		const response = await fetch('/api/picture', {
+			headers: { 'Authorization': `Bearer ${token} ${name}` }
+		});
+
+		if (!response.ok) {
+			console.error("Failed to load profile picture");
+			return ;
 		}
-	});
 
-	if (!response.ok) {
-		console.error("Failed to load profile picture");
-		return ;
-	}
+		const blob = await response.blob();
+		const imageUrl = URL.createObjectURL(blob);
 
-	const blob = await response.blob();
-	const imageUrl = URL.createObjectURL(blob);
-
-	const profilPicDiv = document.getElementById(div);
-	if (profilPicDiv) {
-		const Img = document.createElement('img');
-		Img.src = `${imageUrl}`;
-		Img.classList = `w-full h-full object-cover rounded-full`;
-		Img.alt = 'Profile Pic';
-		profilPicDiv.appendChild(Img);
+		const profilPicDiv = document.getElementById(div);
+		if (profilPicDiv) {
+			const Img = document.createElement('img');
+			Img.src = `${imageUrl}`;
+			Img.classList = `w-full h-full object-cover rounded-full`;
+			Img.alt = 'Profile Pic';
+			profilPicDiv.appendChild(Img);
+		}
+	} catch (err) {
+		console.log('Error loading profile picture:', err);
 	}
 }
 
 export default async function initEditProfile() {
 
 	await initLanguageSelector();
-	const token = sessionStorage.getItem('token');
-	const response = await fetch('/api/verifuser', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token }),
-	});
-	if (!response.ok)
-	{
-		initError(translate("Error_co"));
-		setTimeout(async () => {
-			history.pushState(null, '', '/login');
-			await loadRoutes('/login');
-		}, 1000);
+	let response;
+	try {
+		const token = sessionStorage.getItem('token');
+		response = await fetch('/api/verifuser', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token }),
+		});
+		if (!response.ok)
+		{
+			initError(translate("Error_co"));
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return ;
+		}
+	} catch (err) {
+		console.log('Error verifying user:', err);
 		return ;
 	}
 	const res = await response.json();
