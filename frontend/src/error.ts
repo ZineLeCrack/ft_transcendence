@@ -24,7 +24,7 @@ export default function initError(content?: string)
 
 	const messageElement = document.getElementById('error-popup-message');
 	if (messageElement && content)
-		{
+	{
 		messageElement.textContent = content;
 	}
 	else if (messageElement) 

@@ -23,7 +23,7 @@ export default function initSuccess(content?: string)
 
 	const messageElement = document.getElementById('success-popup-message');
 	if (messageElement && content)
-		{
+	{
 		messageElement.textContent = content;
 	}
 	else if (messageElement) 
