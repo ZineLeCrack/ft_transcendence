@@ -164,5 +164,6 @@
 	"Unblock_Player" : "Débloquer ce joueur",
 	"touch_html": "Pouvez-vous respecter la politique imposée s'il vous plait",
 	"tournament_full": "Le tournoi est complet",
-	"return_home": "Retour au menu"
+	"return_home": "Retour au menu",
+	"tour_error_trad": "Veuillez attendre que ce soit a votre tour de jouer (un message vous sera envoyé dans le tchat global)"
 }
