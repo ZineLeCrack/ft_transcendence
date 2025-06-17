@@ -13,6 +13,8 @@ export let rightScore = 0;
 export const paddleWidth = 8;
 export const paddleHeight = 100;
 export let message = "";
+let pseudo1 : string;
+let pseudo2 : string;
 
 export default async function initMultiplayer() {
 
@@ -88,9 +90,18 @@ export default async function initMultiplayer() {
 		game.shadowColor = "#FFFFFF";
 		game.shadowBlur = 10;
 		let new_message;
-		if (message === 'waiting' || message === '1_win' || message === '2_win') {
+		if (message === 'waiting') {
 			new_message = translate(message);
-		} else {
+		}
+		else if (message === "1_win")
+		{
+			new_message = `${pseudo1} ${translate(message)}`
+		}
+		else if (message === "2_win")
+		{
+			new_message = `${pseudo2} ${translate("1_win")}`
+		}
+		else {
 			new_message = message;
 		}
 		game.fillText(new_message, 400 - (new_message.length * 14), 150);
@@ -145,6 +156,8 @@ export default async function initMultiplayer() {
 			h1player1.textContent = `${name.player1.name}`;
 			h1player2.textContent = `${info.original}`;	
 		}
+		pseudo1 = name.player1.name;
+		pseudo2 = name.player2.name;
 	} catch (err) {
 		initError(translate('failed_id'));
 		return ;
