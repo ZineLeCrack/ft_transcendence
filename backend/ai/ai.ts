@@ -31,7 +31,15 @@ export function getAIMove(
 				simY = Math.max(0, Math.min(GAME_HEIGHT - BALL_SIZE, simY));
 			}
 		}
-		const target = simY - PADDLE_HEIGHT / 2 + BALL_SIZE / 2;
+
+		let impactPoint = 0.5;
+		if (simY > GAME_HEIGHT / 2) {
+			impactPoint = 0.1;
+		} else {
+			impactPoint = 0.9;
+		}
+
+		const target = simY - PADDLE_HEIGHT * impactPoint + BALL_SIZE * impactPoint;
 		const delta = target - paddlePosition;
 
 		if (Math.abs(delta) > 8) {
