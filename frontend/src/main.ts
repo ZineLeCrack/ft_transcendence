@@ -24,7 +24,7 @@ import { initLanguageSelector } from './language.ts';
 
 const notFoundPageContent = `
 	<div class="text-center p-8 bg-transparent rounded-lg shadow-lg">
-		<a href="/home" data-link class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-transparent border-4 border-[#00FFFF] text-[#00FFFF] text-xl px-10 py-4 rounded-2xl hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_20px_#00FFFF]">Return Home</a>
+		<a href="/home" data-link class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-transparent border-4 border-[#00FFFF] text-[#00FFFF] text-xl px-10 py-4 rounded-2xl hover:bg-[#00FFFF]/20 transition duration-200 shadow-[0_0_20px_#00FFFF]" data-i18n="return_home" >Return Home</a>
 	</div>
 `;
 
