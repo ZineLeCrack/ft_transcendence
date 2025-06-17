@@ -213,9 +213,6 @@ export default async function initFriendChat() {
 			const info = await checkUser.json();
 
 			const original_name = info.original;
-			if (friendStatus.status === 3) {
-				sendMessage(original_name, "", false, username, true);
-			}
 
 			const response = await fetch(`/api/getPrivateMessages`, {
 				method: 'POST',
@@ -255,7 +252,9 @@ export default async function initFriendChat() {
 					await sendMessage(message.username1, message.content, false, otherUser);
 				}
 			}
-
+			if (friendStatus.status === 3) {
+				sendMessage(original_name, "", false, username, true);
+			}
 			const inputArea = document.getElementById('input-Area') as HTMLDivElement;
 			const oldPongBtn = document.getElementById('pong-send');
 			if (oldPongBtn)
