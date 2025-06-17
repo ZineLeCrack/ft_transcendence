@@ -5,7 +5,7 @@ export default function initError(content?: string)
 	const errorPopUpHTML = `<div id="error-popup" class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-4 z-50 font-mono">
 	<div class="bg-black/70 backdrop-blur-lg border-2 border-[#FF2E9F] rounded-xl shadow-[0_0_15px_#FF2E9F]">
 		<div class="flex items-center justify-between px-6 py-3 border-b border-[#FF2E9F]/50">
-			<h3 class="text-xl font-bold text-[#FF2E9F]" data-i18n="Error_trad" >❌</h3>
+			<h3 class="text-xl font-bold text-[#FF2E9F]" >❌</h3>
 			<button id="close-error-popup" class="text-[#FF2E9F] hover:text-white text-3xl font-bold leading-none hover:opacity-75 transition-opacity duration-200">&times;</button>
 		</div>
 		<div class="p-6">
