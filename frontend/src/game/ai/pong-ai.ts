@@ -1,4 +1,4 @@
-import { draw_ai } from "./drawmap-ai.js";
+// import { draw_ai } from "./drawmap-ai.js";
 import initError from "../../error.js";
 import { loadRoutes} from "../../main.js";
 import { initWebSocket } from '../../websocket';
@@ -59,6 +59,64 @@ export default async function initPong() {
 	const gameId = sessionStorage.getItem("gameId");
 	const SERVER_URL = `/api/main/game/${gameId}`;
 
+	const gameCanvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
+	const topCanvas = document.getElementById("topCanvas") as HTMLCanvasElement;
+	const game = gameCanvas.getContext("2d")!;
+	const score = topCanvas.getContext("2d")!;
+
+	score.font = "40px 'Caveat'";
+	game.font = "80px 'Caveat'";
+
+	function draw_ai() {
+		game.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+		score.clearRect(0, 0, topCanvas.width, topCanvas.height);
+
+		game.fillStyle = "#FFFFFF";
+		game.shadowColor = "#FFFFFF";
+		game.shadowBlur = 10;
+
+		let new_message;
+		if (message === "to_start" || message === "1_win") {
+			new_message = translate(message);
+		} else if (message === "2_win") {
+			new_message = translate("ai_win");
+		} else {
+			new_message = message;
+		}
+		game.fillText(new_message, 400 - (new_message.length * 14), 150);
+
+		for (let i = 0; i < 600; i += 18.9)
+			game.fillRect(399, i, 2, 15);
+
+		game.fillStyle = "#00FFFF";
+		game.shadowColor = "#00FFFF";
+		game.shadowBlur = 10;
+		game.fillRect(5, leftPaddleY, paddleWidth, paddleHeight);
+
+		game.fillStyle = "#FF007A";
+		game.shadowColor = "#FF007A";
+		game.shadowBlur = 10;
+		game.fillRect(gameCanvas.width - paddleWidth - 5, rightPaddleY, paddleWidth, paddleHeight);
+
+		game.beginPath();
+		game.arc(ballX + 5, ballY + 5, 5, 0, Math.PI * 2);
+		game.fillStyle = "#FFFFFF";
+		game.shadowColor = "#FFFFFF";
+		game.shadowBlur = 10;
+		game.fill();
+
+		score.fillStyle = "#00FFFF";
+		score.shadowColor = "#00FFFF";
+		score.shadowBlur = 10;
+		score.fillText(leftScore.toString(), 20, 50);
+		
+		score.fillStyle = "#FF007A";
+		score.shadowColor = "#FF007A";
+		score.shadowBlur = 10;
+		score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
+	}
+
+
 	async function fetchState() {
 		try {
 			const res = await fetch(`${SERVER_URL}/state`);
@@ -118,24 +176,28 @@ export default async function initPong() {
 		}
 	}
 
-	document.addEventListener("keydown", (e) => {
+	async function onKeyDown(e: KeyboardEvent) {
 		if (e.key === "w" || e.key === "s") return;
 		if (e.key === "ArrowUp") keys["w"] = true;
 		if (e.key === "ArrowDown") keys["s"] = true;
 		if (e.key === " ") {
-			fetch(`${SERVER_URL}/start`, { method: "POST" });
+			await fetch(`${SERVER_URL}/start`, { method: "POST" });
 			gameStarted = true;
 		}
-	});
+	}
 
-	document.addEventListener("keyup", (e) => {
+	async function onKeyUp(e: KeyboardEvent) {
 		if (e.key === "w" || e.key === "s") return;
 		if (e.key === "ArrowUp") keys["w"] = false;
 		if (e.key === "ArrowDown") keys["s"] = false;
-	});
+	}
 
-	const interval1 = setInterval(() => {
-		fetch(`${SERVER_URL}/move`, {
+	document.addEventListener("keydown", onKeyDown);
+
+	document.addEventListener("keyup", onKeyUp);
+
+	const interval1 = setInterval(async () => {
+		await fetch(`${SERVER_URL}/move`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ keys })
@@ -145,14 +207,20 @@ export default async function initPong() {
 	const interval2 = setInterval(callAI, 1000);
 	const interval3 = setInterval(fetchState, 16);
 
-	window.addEventListener('popstate', async () => {
+	async function cleanUp() {
+		sessionStorage.removeItem("gameId");
 		if (interval1) clearInterval(interval1);
 		if (interval2) clearInterval(interval2);
 		if (interval3) clearInterval(interval3);
+		document.removeEventListener("keydown", onKeyDown);
+		document.removeEventListener("keyup", onKeyUp);
 		await fetch(`/api/main/game/end`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ gameId: gameId })
 		});
-	});
+		window.removeEventListener("popstate", cleanUp);
+	}
+
+	window.addEventListener('popstate', cleanUp);
 }

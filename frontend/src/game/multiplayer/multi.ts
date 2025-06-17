@@ -1,4 +1,4 @@
-import { draw } from "./drawmap_multi.js";
+// import { draw } from "./drawmap_multi.js";
 import { loadRoutes } from "../../main.js";
 import initError from "../../error.js";
 import { getWebSocket, initWebSocket } from "../../websocket.js";
@@ -72,6 +72,62 @@ export default async function initMultiplayer() {
 	}
 
 	const SERVER_URL = `/api/multi/game/${gameId}`;
+
+	const gameCanvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
+	const topCanvas = document.getElementById("topCanvas") as HTMLCanvasElement;
+	const game = gameCanvas.getContext("2d")!;
+	const score = topCanvas.getContext("2d")!;
+
+	score.font = "40px 'Caveat'";
+	game.font = "80px 'Caveat'";
+
+	function draw() {
+		game.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+		score.clearRect(0, 0, topCanvas.width, topCanvas.height);
+
+		game.fillStyle = "#FFFFFF";
+		game.shadowColor = "#FFFFFF";
+		game.shadowBlur = 10;
+		let new_message;
+		if (message === 'waiting' || message === '1_win' || message === '2_win') {
+			new_message = translate(message);
+		} else {
+			new_message = message;
+		}
+		game.fillText(new_message, 400 - (new_message.length * 14), 150);
+
+		for (let i = 0; i < 600; i += 18.9)
+			game.fillRect(399, i, 2, 15);
+		
+		game.fillStyle = "#00FFFF";
+		game.shadowColor = "#00FFFF";
+		game.shadowBlur = 10;
+		game.fillRect(5, leftPaddleY, paddleWidth, paddleHeight);
+
+
+		game.fillStyle = "#FF007A";
+		game.shadowColor = "#FF007A";
+		game.shadowBlur = 10;
+		game.fillRect(gameCanvas.width - paddleWidth - 5, rightPaddleY, paddleWidth, paddleHeight);
+
+		game.beginPath();
+		game.arc(ballX + 5, ballY + 5, 5, 0, Math.PI * 2);
+		game.fillStyle = "#FFFFFF";
+		game.shadowColor = "#FFFFFF";
+		game.shadowBlur = 10;
+		game.fill();
+
+		score.fillStyle = "#00FFFF";
+		score.shadowColor = "#00FFFF";
+		score.shadowBlur = 10;
+		score.fillText(leftScore.toString(), 20, 50);
+		
+		score.fillStyle = "#FF007A";
+		score.shadowColor = "#FF007A";
+		score.shadowBlur = 10;
+		score.fillText(rightScore.toString(), topCanvas.width - 50, 50);
+	}
+
 	
 	const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
 	const h1player2 = document.getElementById('name-player2') as HTMLHeadingElement;
@@ -156,17 +212,21 @@ export default async function initMultiplayer() {
 		}
 	}
 
-	document.addEventListener("keydown", (e) => {
+	async function onKeyDown(e: KeyboardEvent) {
 		if (e.key in keys) keys[e.key] = true;
-	});
+	}
 
-	document.addEventListener("keyup", (e) => {
+	async function onKeyUp(e: KeyboardEvent) {
 		if (e.key in keys) keys[e.key] = false;
-	});
+	}
 
-	const interval1 = setInterval(() => {
+	document.addEventListener("keydown", onKeyDown);
+
+	document.addEventListener("keyup", onKeyUp);
+
+	const interval1 = setInterval(async () => {
 		if (gameOver) return ;
-		fetch(`${SERVER_URL}/${player}move`, {
+		await fetch(`${SERVER_URL}/${player}move`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ keys })
@@ -175,13 +235,19 @@ export default async function initMultiplayer() {
 
 	const interval2 = setInterval(fetchState, 16);
 
-	window.addEventListener('popstate', async () => {
+	async function cleanUp() {
+		sessionStorage.removeItem("gameId");
 		if (interval1) clearInterval(interval1);
 		if (interval2) clearInterval(interval2);
+		document.removeEventListener("keydown", onKeyDown);
+		document.removeEventListener("keyup", onKeyUp);
 		await fetch(`/api/multi/game/disconnection`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ gameId: gameId })
 		});
-	});
+		window.removeEventListener("popstate", cleanUp);
+	}
+
+	window.addEventListener('popstate', cleanUp);
 }
