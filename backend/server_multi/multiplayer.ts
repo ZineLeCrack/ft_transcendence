@@ -119,8 +119,8 @@ export class GameInstance {
 	move_left(keys: any) {
 		this.leftOldY = this.leftPaddleY;
 
-		if (keys.ArrowUp) this.leftPaddleY -= 5;
-		if (keys.ArrowDown) this.leftPaddleY += 5;
+		if (keys.ArrowUp) this.leftPaddleY -= 10;
+		if (keys.ArrowDown) this.leftPaddleY += 10;
 
 		this.leftPaddleY = Math.max(0, Math.min(500, this.leftPaddleY));
 	}
@@ -128,8 +128,8 @@ export class GameInstance {
 	move_right(keys: any) {
 		this.rightOldY = this.rightPaddleY;
 
-		if (keys.ArrowUp) this.rightPaddleY -= 5;
-		if (keys.ArrowDown) this.rightPaddleY += 5;
+		if (keys.ArrowUp) this.rightPaddleY -= 10;
+		if (keys.ArrowDown) this.rightPaddleY += 10;
 
 		this.rightPaddleY = Math.max(0, Math.min(500, this.rightPaddleY));
 	}
