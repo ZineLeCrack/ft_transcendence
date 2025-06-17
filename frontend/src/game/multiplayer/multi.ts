@@ -1,4 +1,3 @@
-// import { draw } from "./drawmap_multi.js";
 import { loadRoutes } from "../../main.js";
 import initError from "../../error.js";
 import { getWebSocket, initWebSocket } from "../../websocket.js";
@@ -103,7 +102,6 @@ export default async function initMultiplayer() {
 		game.shadowColor = "#00FFFF";
 		game.shadowBlur = 10;
 		game.fillRect(5, leftPaddleY, paddleWidth, paddleHeight);
-
 
 		game.fillStyle = "#FF007A";
 		game.shadowColor = "#FF007A";

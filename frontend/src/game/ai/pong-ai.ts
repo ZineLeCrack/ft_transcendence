@@ -1,4 +1,3 @@
-// import { draw_ai } from "./drawmap-ai.js";
 import initError from "../../error.js";
 import { loadRoutes} from "../../main.js";
 import { initWebSocket } from '../../websocket';
