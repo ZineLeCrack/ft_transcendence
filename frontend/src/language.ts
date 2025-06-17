@@ -4,6 +4,7 @@ import initJoinTournament from './tournament/join_tournament';
 import initFriendChat from './chat/friendchat';
 import initHistory from './profile/history';
 import { initGlobalGraph } from './profile/global';
+import { initTournamentGraph } from './profile/tournament';
 
 export async function initLanguageSelector(username?:string) {
 	const languageSelector = document.getElementById('language-selector');
@@ -55,6 +56,10 @@ async function changeLanguage(lang: string, username?:string): Promise<void> {
 	if (window.location.pathname === '/profile/statistics')
 	{
 		initGlobalGraph(username!);
+	}
+	if (window.location.pathname === '/profile/statistics/tournaments')
+	{
+		initTournamentGraph(username!);
 	}
 }
 

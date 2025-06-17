@@ -8,7 +8,6 @@ import { translate } from '../i18n';
 
 export default async function initTournamentStats() {
 
-	initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',
@@ -24,11 +23,11 @@ export default async function initTournamentStats() {
 		return;
 	}
 	const info = await response.json();
+	await initLanguageSelector(info.original);
 	initTournamentGraph(info.original);
 }
 
 export async function initTournamentGraph(originalUsername: string) {
-
 	const token = sessionStorage.getItem('token');
 
 	Chart.register(
@@ -37,31 +36,36 @@ export async function initTournamentGraph(originalUsername: string) {
 		LinearScale, CategoryScale, Filler,
 		ChartDataLabels, BarController, BarElement
 	);
-	const statsRes = await fetch('/api/stats', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token })
-	});
-	const stats = await statsRes.json();
 
-	const historyRes = await fetch('/api/history', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token })
-	});
+	const [statsRes, historyRes] = await Promise.all([
+		fetch('/api/stats', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token })
+		}),
+		fetch('/api/history', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ token })
+		})
+	]);
+
+	const stats = await statsRes.json();
 	const history = await historyRes.json();
 
 	const tournaments_played = document.getElementById('tournaments_played') as HTMLDivElement;
 	tournaments_played.textContent = `${stats.tournaments_played}`;
-	const last_ranking = document.getElementById('last_ranking') as HTMLDivElement;
 
-	if (stats.last_ranking.length === 6)
+	const last_ranking = document.getElementById('last_ranking') as HTMLDivElement;
+	const rankLength = stats.last_ranking.length;
+
+	if (rankLength === 6)
 		last_ranking.textContent = translate('quarter-finalist');
-	else if (stats.last_ranking.length === 17)
+	else if (rankLength === 17)
 		last_ranking.textContent = translate('semi-finalist');
-	else if (stats.last_ranking.length === 11)
+	else if (rankLength === 11)
 		last_ranking.textContent = translate('finalist');
-	else if (stats.last_ranking.length === 12)
+	else if (rankLength === 12)
 		last_ranking.textContent = translate('winner');
 
 	const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
@@ -71,13 +75,6 @@ export async function initTournamentGraph(originalUsername: string) {
 		const isWin = match.usernameplayer1 === originalUsername
 			? match.pointplayer1 > match.pointplayer2
 			: match.pointplayer2 > match.pointplayer1;
-
-		const rawDate = new Date(match.date);
-		const formattedDate = rawDate.getFullYear() + "/" +
-			String(rawDate.getMonth() + 1).padStart(2, '0') + "/" +
-			String(rawDate.getDate()).padStart(2, '0') + " " +
-			String(rawDate.getHours()).padStart(2, '0') + ":" +
-			String(rawDate.getMinutes()).padStart(2, '0');
 
 		const rawId = match.tournamentId;
 		if (!historyMap.has(rawId)) {
@@ -91,15 +88,17 @@ export async function initTournamentGraph(originalUsername: string) {
 	});
 
 	const labels = Array.from(historyMap.keys()).sort();
-	const pointsData = labels.map(date => historyMap.get(date)!.points);
-	const winsData = labels.map(date => historyMap.get(date)!.wins);
-	const losesData = labels.map(date => historyMap.get(date)!.loses);
+	const pointsData = labels.map(id => historyMap.get(id)!.points);
+	const winsData = labels.map(id => historyMap.get(id)!.wins);
+	const losesData = labels.map(id => historyMap.get(id)!.loses);
 
 	const canvasHistory = document.getElementById('graph-history-trend') as HTMLCanvasElement | null;
-
 	if (canvasHistory) {
 		const ctx = canvasHistory.getContext('2d');
 		if (!ctx) throw new Error("Canvas context not found");
+
+		const existingChart = Chart.getChart(canvasHistory);
+		if (existingChart) existingChart.destroy();
 
 		new Chart(ctx, {
 			type: 'bar',
@@ -125,7 +124,6 @@ export async function initTournamentGraph(originalUsername: string) {
 						backgroundColor: '#FF007A',
 					}
 				]
-
 			},
 			options: {
 				responsive: true,
@@ -146,24 +144,25 @@ export async function initTournamentGraph(originalUsername: string) {
 						labels: { color: '#FFD700' }
 					}
 				}
-
 			}
 		});
 	}
 
 	const canvas = document.getElementById('graph-win-lose') as HTMLCanvasElement | null;
-
 	if (canvas) {
 		const ctx = canvas.getContext('2d');
 		if (!ctx) throw new Error("Canvas context not found");
-	
+
+		const existingChart = Chart.getChart(canvas);
+		if (existingChart) existingChart.destroy();
+
 		const wins = stats.tournaments_win;
 		const loses = stats.tournaments_lose;
-	
+
 		const config: ChartConfiguration<'pie'> = {
 			type: 'pie',
 			data: {
-				labels: ['Wins', 'Loses'],
+				labels: [translate('win_trad'), translate('lose_trad')],
 				datasets: [{
 					data: [wins, loses],
 					backgroundColor: ['#00FF00', '#FF007A'],
@@ -186,7 +185,6 @@ export async function initTournamentGraph(originalUsername: string) {
 					legend: {
 						display: false
 					},
-					
 					datalabels: {
 						color: '#fff',
 						font: {
@@ -204,7 +202,7 @@ export async function initTournamentGraph(originalUsername: string) {
 			},
 			plugins: [ChartDataLabels]
 		};
-	
+
 		new Chart(ctx, config);
 	}
 }
