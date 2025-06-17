@@ -2,8 +2,6 @@ import { togglePassword } from "../profile/utils";
 import { getWebSocket } from '../websocket';
 import { translate } from '../i18n'
 
-let currentGenerateTournamentList: (() => void) | null = null;
-
 import initError from '../error.js';
 
 export default async function initJoinTournament() {
