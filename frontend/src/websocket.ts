@@ -4,6 +4,7 @@ import { generateTournamentView } from "./tournament/in_tournament.js";
 import { translate } from "./i18n.js";
 import initFriendChat from "./chat/friendchat.js";
 import initJoinTournament from "./tournament/join_tournament.js";
+import initHome from "./home/home.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;

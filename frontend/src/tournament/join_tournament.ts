@@ -3,6 +3,7 @@ import { getWebSocket } from '../websocket';
 import { translate } from '../i18n'
 
 import initError from '../error.js';
+import initInTournament from "./in_tournament.js";
 
 export default async function initJoinTournament() {
 
@@ -11,15 +12,19 @@ export default async function initJoinTournament() {
 	const mainView = document.getElementById('tournament-main-view');
 	const joinView = document.getElementById('tournament-join-view');
 
-	joinTournamentBtn?.addEventListener('click', () => {
+	function joinOnClick() {
 		mainView?.classList.add('hidden');
 		joinView?.classList.remove('hidden');
-	});
+	}
 
-	backToTournamentBtn?.addEventListener('click', () => {
+	function backOnClick() {
 		joinView?.classList.add('hidden');
 		mainView?.classList.remove('hidden');
-	});
+	}
+
+	joinTournamentBtn?.addEventListener('click', joinOnClick);
+
+	backToTournamentBtn?.addEventListener('click', backOnClick);
 
 	interface TournamentItem {
 		id: string;
@@ -163,7 +168,7 @@ export default async function initJoinTournament() {
 							return ;
 						}
 
-						if (!(/^[a-zA-Z0-9_]{1,10}$/.test(inputAlias.value.trim()))) {
+						if (!(/^[a-zA-Z0-9_]{0,10}$/.test(inputAlias.value.trim()))) {
 							initError(translate('invalid_alias'));
 							return ;
 						}
@@ -180,18 +185,21 @@ export default async function initJoinTournament() {
 							})
 						});
 
-						if (!response.ok) {
-							throw new Error(response.statusText);
-						}
 						const text = await response.text();
+
 						if (text === "This tournament is full !") {
 							throw new Error(translate("tournament_full"));
-						}
-						else if (text === "Wrong password !") {
+						} else if (text === "Wrong password !") {
 							throw new Error(translate("no_pass"));
 						}
 
+						const PopPup = document.getElementById('alias-popup') as HTMLDivElement;
+						PopPup.remove();
+						joinTournamentBtn?.classList.add("hidden");
+						const createTournamentBtn = document.getElementById('create-tournament');
+						createTournamentBtn?.classList.add("hidden");
 						const data = JSON.parse(text);
+						initInTournament(data.id);
 						const ws = getWebSocket();
 						ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
 
@@ -223,80 +231,96 @@ export default async function initJoinTournament() {
 
 						joinView?.classList.add('hidden');
 						mainView?.classList.remove('hidden');
-						window.location.reload();
+						// window.location.reload();
 					} catch (err) {
 						initError((err as string).toString().substring(7));
 					}
 				});
 
-				inputAlias.addEventListener('keydown', async (e) => {
-					if (e.key === "Enter") {
-						e.preventDefault();
-						try {
-							if (inputAlias.value.trim().length > 10) {
-								initError('alias_too_long');
-								return ;
-							}
-							const token = sessionStorage.getItem('token');
-							const response = await fetch('/api/tournament/join', {
-								method: 'POST',
-								headers: { 'Content-Type': 'application/json' },
-								body: JSON.stringify({
-									id_tournament: tournamentId,
-									token: token,
-									password: passwordInput ? passwordInput.value : '',
-									alias: inputAlias.value.trim()
-								})
-							});
+				// inputAlias.addEventListener('keydown', async (e) => {
+				// 	if (e.key === "Enter") {
+				// 		e.preventDefault();
+				// 		try {
+				// 			if (inputAlias.value.trim().length > 10) {
+				// 				initError('alias_too_long');
+				// 				return ;
+				// 			}
 
-							if (!response.ok) {
-								const error = await response.text(); 
-								initError(error);
-								return ;
-							}
+				// 			if (!(/^[a-zA-Z0-9_]{0,10}$/.test(inputAlias.value.trim()))) {
+				// 				initError(translate('invalid_alias'));
+				// 				return ;
+				// 			}
 
-							const data = await response.json();
-							const ws = getWebSocket();
-							ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
+				// 			const token = sessionStorage.getItem('token');
+				// 			const response = await fetch('/api/tournament/join', {
+				// 				method: 'POST',
+				// 				headers: { 'Content-Type': 'application/json' },
+				// 				body: JSON.stringify({
+				// 					id_tournament: tournamentId,
+				// 					token: token,
+				// 					password: passwordInput ? passwordInput.value : '',
+				// 					alias: inputAlias.value.trim()
+				// 				})
+				// 			});
 
-							if (data.full) {
-								try {
-									const response1 = await fetch('/api/tournament/get_players', {
-										method: 'POST',
-										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ tournamentId: data.id })
-									});
-									const players = await response1.json();
-									const response2 = await fetch('/api/tournament/get_winners', {
-										method: 'POST',
-										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ tournamentId: data.id })
-									});
-									const results = await response2.json();
-									await fetch('/api/multi/tournament/start', {
-										method: 'POST',
-										headers: { 'Content-Type': 'application/json' },
-										body: JSON.stringify({ id: data.id, ...players, ...results })
-									});
-								} catch (err) {
-									console.error(`Error starting tournament: `, err);
-									return ;
-								}
-							}
+				// 			if (!response.ok) {
+				// 				const error = await response.text(); 
+				// 				initError(error);
+				// 				return ;
+				// 			}
 
-							joinView?.classList.add('hidden');
-							mainView?.classList.remove('hidden');
-							window.location.reload();
-						} catch (err) {
-							initError(err as string);
-						}
-					}
-				});
+				// 			const text = await response.text();
+
+				// 			if (text === "This tournament is full !") {
+				// 				throw new Error(translate("tournament_full"));
+				// 			} else if (text === "Wrong password !") {
+				// 				throw new Error(translate("no_pass"));
+				// 			}
+
+				// 			const data = await response.json();
+				// 			joinTournamentBtn?.removeEventListener("click", joinOnClick);
+				// 			backToTournamentBtn?.removeEventListener("click", backOnClick);
+				// 			const ws = getWebSocket();
+				// 			ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
+
+				// 			if (data.full) {
+				// 				try {
+				// 					const response1 = await fetch('/api/tournament/get_players', {
+				// 						method: 'POST',
+				// 						headers: { 'Content-Type': 'application/json' },
+				// 						body: JSON.stringify({ tournamentId: data.id })
+				// 					});
+				// 					const players = await response1.json();
+				// 					const response2 = await fetch('/api/tournament/get_winners', {
+				// 						method: 'POST',
+				// 						headers: { 'Content-Type': 'application/json' },
+				// 						body: JSON.stringify({ tournamentId: data.id })
+				// 					});
+				// 					const results = await response2.json();
+				// 					await fetch('/api/multi/tournament/start', {
+				// 						method: 'POST',
+				// 						headers: { 'Content-Type': 'application/json' },
+				// 						body: JSON.stringify({ id: data.id, ...players, ...results })
+				// 					});
+				// 				} catch (err) {
+				// 					console.error(`Error starting tournament: `, err);
+				// 					return ;
+				// 				}
+				// 			}
+
+				// 			joinView?.classList.add('hidden');
+				// 			mainView?.classList.remove('hidden');
+				// 			window.location.reload();
+				// 		} catch (err) {
+				// 			initError(err as string);
+				// 		}
+				// 	}
+				// });
 
 				cancelAlias.addEventListener('click', async () => {
 					const PopPup = document.getElementById('alias-popup') as HTMLDivElement;
 					PopPup.remove();
-					window.location.reload();
+					// window.location.reload();
 				});
 			});
 		});
