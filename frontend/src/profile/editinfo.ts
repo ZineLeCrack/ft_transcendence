@@ -92,6 +92,10 @@ export default async function initEditProfile() {
 					email: emailInput.value,
 					token: sessionStorage.getItem('token'),
 				}
+				if(!EditData.email && !EditData.username)
+				{
+					return;
+				}
 				if ((EditData.email && !validateEmail(EditData.email)) || (EditData.username && !validateUsername(EditData.username)))
 				{
 					initError(translate("touch_html"));

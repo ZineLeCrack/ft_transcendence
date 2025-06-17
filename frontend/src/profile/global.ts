@@ -8,7 +8,6 @@ import { translate } from '../i18n';
 
 export default async function initOverallStats() {
 
-	initLanguageSelector();
 	const token = sessionStorage.getItem('token');
 	const response = await fetch('/api/verifuser', {
 		method: 'POST',
@@ -24,19 +23,23 @@ export default async function initOverallStats() {
 		return;
 	}
 	const info = await response.json();
+	await initLanguageSelector(info.original);
 	initGlobalGraph(info.original);
 }
 
+// Ajouter ces variables globalement (en dehors de ta fonction, dans le même fichier)
+let lineChartInstance: Chart | null = null;
+let pieChartInstance: Chart | null = null;
+
 export async function initGlobalGraph(originalUsername: string) {
-
 	const token = sessionStorage.getItem('token');
-
 	Chart.register(
 		PieController, ArcElement, Tooltip, Legend,
 		LineController, LineElement, PointElement,
 		LinearScale, CategoryScale, Filler,
 		ChartDataLabels, BarController, BarElement
 	);
+
 	const statsRes = await fetch('/api/stats', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -87,7 +90,10 @@ export async function initGlobalGraph(originalUsername: string) {
 		const ctx = canvasHistory.getContext('2d');
 		if (!ctx) throw new Error("Canvas context not found");
 
-		new Chart(ctx, {
+		if (lineChartInstance) {
+			lineChartInstance.destroy();
+		}
+		lineChartInstance = new Chart(ctx, {
 			type: 'line',
 			data: {
 				labels: labels,
@@ -108,7 +114,6 @@ export async function initGlobalGraph(originalUsername: string) {
 						borderColor: '#FF007A',
 					}
 				]
-
 			},
 			options: {
 				responsive: true,
@@ -129,20 +134,21 @@ export async function initGlobalGraph(originalUsername: string) {
 						labels: { color: '#FFD700' }
 					}
 				}
-
 			}
 		});
 	}
-
 	const canvas = document.getElementById('graph-win-lose') as HTMLCanvasElement | null;
 
 	if (canvas) {
 		const ctx = canvas.getContext('2d');
 		if (!ctx) throw new Error("Canvas context not found");
-	
+
+		if (pieChartInstance) {
+			pieChartInstance.destroy();
+		}
 		const wins = stats.wins;
 		const loses = stats.loses;
-	
+
 		const config: ChartConfiguration<'pie'> = {
 			type: 'pie',
 			data: {
@@ -169,7 +175,6 @@ export async function initGlobalGraph(originalUsername: string) {
 					legend: {
 						display: false
 					},
-					
 					datalabels: {
 						color: '#fff',
 						font: {
@@ -187,7 +192,7 @@ export async function initGlobalGraph(originalUsername: string) {
 			},
 			plugins: [ChartDataLabels]
 		};
-	
-		new Chart(ctx, config);
+
+		pieChartInstance = new Chart(ctx, config);
 	}
 }
