@@ -251,6 +251,28 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			tournamentId: string
 		};
 
+		const allowedColumns =
+			['winner1',
+			 'loser1',
+			 'winner2',
+			 'loser2',
+			 'winner3',
+			 'loser3',
+			 'winner4',
+			 'loser4',
+			 'winner1_semifinals',
+			 'loser1_semifinals',
+			 'winner2_semifinals',
+			 'loser2_semifinals',
+			 'winner_final',
+			 'loser_final'
+			];
+
+		if (!allowedColumns.includes(pos1) || !allowedColumns.includes(pos2)) {
+			reply.status(400).send('Invalid position keys');
+			return ;
+		}
+
 		try {
 			const db = await getDb_tournaments();
 			const query = `UPDATE result SET ${pos1} = ?, ${pos2} = ? WHERE id = ?`;
