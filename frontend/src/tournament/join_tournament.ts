@@ -10,12 +10,12 @@ export default async function initJoinTournament() {
 	const backToTournamentBtn = document.getElementById('back-to-tournament-join');
 	const mainView = document.getElementById('tournament-main-view');
 	const joinView = document.getElementById('tournament-join-view');
-	
+
 	joinTournamentBtn?.addEventListener('click', () => {
 		mainView?.classList.add('hidden');
 		joinView?.classList.remove('hidden');
 	});
-	
+
 	backToTournamentBtn?.addEventListener('click', () => {
 		joinView?.classList.add('hidden');
 		mainView?.classList.remove('hidden');
@@ -51,7 +51,7 @@ export default async function initJoinTournament() {
 					tournamentContainer.appendChild(message);
 					return;
 				}
-				
+
 				TournamentItem.forEach(tournament => {
 					const tournamentElement = document.createElement('div');
 					tournamentElement.className = 'flex items-center justify-between p-2 mb-2 bg-black/40 rounded-xl border-2 border-[#00FFFF] shadow-[0_0_5px_#00FFFF]';
@@ -155,7 +155,7 @@ export default async function initJoinTournament() {
 				const confirmAlias = document.getElementById('confirm-alias') as HTMLButtonElement;
 				const cancelAlias = document.getElementById('cancel-alias') as HTMLButtonElement;
 				const inputAlias = document.getElementById('tournament-alias') as HTMLInputElement;
-				
+
 				confirmAlias.addEventListener('click', async () => {
 					try {
 						if (inputAlias.value.trim().length > 10) {
@@ -243,17 +243,17 @@ export default async function initJoinTournament() {
 									alias: inputAlias.value.trim()
 								})
 							});
-						
+
 							if (!response.ok) {
 								const error = await response.text(); 
 								initError(error);
 								return ;
 							}
-						
+
 							const data = await response.json();
 							const ws = getWebSocket();
 							ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
-						
+
 							if (data.full) {
 								try {
 									const response1 = await fetch('/api/tournament/get_players', {
@@ -278,7 +278,7 @@ export default async function initJoinTournament() {
 									return ;
 								}
 							}
-						
+
 							joinView?.classList.add('hidden');
 							mainView?.classList.remove('hidden');
 							window.location.reload();

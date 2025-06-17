@@ -2,6 +2,7 @@ import { translate } from '../i18n.js';
 import { loadRoutes } from '../main.js';
 
 import initError from '../error.js';
+import { getWebSocket } from '../websocket.js';
 
 interface TournamentDataLose_Win {
 	winner1: string,
@@ -33,18 +34,15 @@ interface TournamentData_Players {
 
 function getcolor(player1: string, player2: string, winner: string, loser: string) {
 	
-	if (player1 === '?' || player2 === '?')
-	{
+	if (player1 === '?' || player2 === '?') {
 		return "border-[#00FFFF] shadow-[0_0_10px_#00FFFF]";
 	}
 
-	if (winner === '?' && loser === '?')
-	{
+	if (winner === '?' && loser === '?') {
 		return "border-[#FFD700] shadow-[0_0_10px_#FFD700]";
 	}
 
-	if (player1 === winner)
-	{
+	if (player1 === winner) {
 		return "border-[#00FF00] shadow-[0_0_10px_#00FF00]";
 	}
 	
@@ -52,8 +50,7 @@ function getcolor(player1: string, player2: string, winner: string, loser: strin
 		return "border-[#FF0000] shadow-[0_0_10px_#FF0000]";
 	}
 	
-	else
-	{
+	else {
 		return "border-[#00FFFF] shadow-[0_0_10px_#00FFFF]";
 	}
 }
@@ -69,8 +66,7 @@ export async function generateTournamentView(TournamentData_Players: TournamentD
 
 	const TournamentData = await res.json();
 	
-	if (container)
-	{
+	if (container) {
 		container.innerHTML = '';
 		const bracketTournament = document.createElement('div');
 		bracketTournament.className = 'text-[#00FFFF] mb-2 font-mono text-xs';
@@ -154,7 +150,7 @@ export async function generateTournamentView(TournamentData_Players: TournamentD
 	}
 }
 
-export default async function  initInTournament(id: string) {
+export default async function initInTournament(id: string) {
 
 	const response1 = await fetch('/api/tournament/get_players', {
 		method: 'POST',
@@ -174,8 +170,7 @@ export default async function  initInTournament(id: string) {
 
 	const tournamentDefaultView = document.getElementById('default-tournament-view') as HTMLDivElement;
 
-	if (tournamentDefaultView)
-	{
+	if (tournamentDefaultView) {
 		tournamentDefaultView.classList.add('hidden');
 	}
 
@@ -183,8 +178,8 @@ export default async function  initInTournament(id: string) {
 	const joinTournamentBtn = document.getElementById('join-tournament') as HTMLButtonElement;
 
 	joinTournamentBtn.textContent = translate('game_button');
-	joinTournamentBtn.classList.remove("border-[#FFD700]", "text-[#FFD700]", "hover:bg-[#FFD700]/20",  "shadow-[0_0_10px_#FFD700]");
-	joinTournamentBtn.classList.add("border-[#00FFFF]", "text-[#00FFFF]", "hover:bg-[#00FFFF]/20",  "shadow-[0_0_10px_#00FFFF]");
+	joinTournamentBtn.classList.remove("border-[#FFD700]", "text-[#FFD700]", "hover:bg-[#FFD700]/20", "shadow-[0_0_10px_#FFD700]");
+	joinTournamentBtn.classList.add("border-[#00FFFF]", "text-[#00FFFF]", "hover:bg-[#00FFFF]/20", "shadow-[0_0_10px_#00FFFF]");
 
 	joinTournamentBtn?.addEventListener('click', async () => {
 		try {
@@ -198,12 +193,15 @@ export default async function  initInTournament(id: string) {
 
 			if (data.err) {
 				initError(data.message);
-			}
-			else {
-				sessionStorage.setItem("gameId", data.gameId);
-				history.pushState(null, '', '/game/multi');
-				await loadRoutes('/game/multi');
-				window.location.reload();
+			} else {
+				const ws = getWebSocket();
+				ws?.send(JSON.stringify({ type: 'multi_player_join', gameId: data.gameId }));
+
+				setTimeout(async () => {
+					sessionStorage.setItem("gameId", data.gameId);
+					history.pushState(null, '', '/game/multi');
+					await loadRoutes('/game/multi');
+				}, 100);
 			}
 		} catch (err) {
 			console.error(err);
