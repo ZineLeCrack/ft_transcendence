@@ -134,7 +134,7 @@ export default async function initEditPassword() {
 				history.pushState(null, '', '/profile/edit');
 				await loadRoutes('/profile/edit');
 			}
-			catch (error) 
+			catch (error)
 			{
 				initError((error as string).toString().substring(7));
 			}

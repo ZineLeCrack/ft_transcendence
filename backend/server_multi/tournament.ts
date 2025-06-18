@@ -90,7 +90,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			userId = (decoded as { userId: string }).userId;
 			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
 			userName = result.name;
-		} 
+		}
 		catch (err) {
 			reply.status(401).send('Invalid token');
 			return ;

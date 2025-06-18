@@ -111,7 +111,7 @@ export async function initTournamentGraph(originalUsername: string) {
 			const ctx = canvasHistory.getContext('2d');
 			if (!ctx) throw new Error("Canvas context not found");
 
-			if (chartHistory) chartHistory.destroy(); 
+			if (chartHistory) chartHistory.destroy();
 
 			chartHistory = new Chart(ctx, {
 				type: 'bar',
@@ -220,4 +220,3 @@ export async function initTournamentGraph(originalUsername: string) {
 		console.error('Error loading graph:', err);
 	}
 }
-

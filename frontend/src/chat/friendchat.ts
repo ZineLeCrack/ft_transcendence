@@ -24,8 +24,8 @@ export function initSwitchChat()
 			const ChatTitle = translate('chat_global')
 			switchChatBtn.innerHTML =`
 			<span data-i18n="chat_global">${ChatTitle}</span>
-			<div id="tooltip-switch-chat" data-i18n="switch_to_global" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
-				opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap 
+			<div id="tooltip-switch-chat" data-i18n="switch_to_global" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded
+				opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap
 				border border-[#FF2E9F] pointer-events-none">
 				${tooltipSwitchGlobal}
 			</div>`;
@@ -54,8 +54,8 @@ export function initSwitchChat()
 			const ChatTitle = translate('chat_friends')
 			switchChatBtn.innerHTML =`
 				<span data-i18n="chat_friends">${ChatTitle}</span>
-				<div id="tooltip-switch-chat" data-i18n="switch_to_friends" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
-					opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap 
+				<div id="tooltip-switch-chat" data-i18n="switch_to_friends" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded
+					opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap
 					border border-[#FF2E9F] pointer-events-none">
 					${tooltipSwitchFriends}
 				</div>`;
@@ -140,7 +140,7 @@ export default async function initFriendChat()
 						</a>
 					</div>`;
 					loadProfilePicture(`profile-pic-friend-online-${Friend.username}`, Friend.username);
-			} else { 
+			} else {
 				friendElement.innerHTML = `<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
 						<div class="relative">
 							<button id="Friend-button-${Friend.username}" class="group w-12 h-12 rounded-full border-2 border-[#FF2E9F] hover:shadow-[0_0_10px_#FF2E9F] transition-shadow">
@@ -214,7 +214,7 @@ export default async function initFriendChat()
 					initError(translate("already_send"));
 					return ;
 				}
-				
+
 				const existingChatArea = document.getElementById(`chat-messages-${username}`);
 				if (existingChatArea)
 				existingChatArea.remove();
@@ -287,14 +287,14 @@ export default async function initFriendChat()
 				pongBtn.className = 'w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10';
 				pongBtn.innerHTML = '<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">';
 				inputArea.appendChild(pongBtn);
-				
+
 				const ws = getWebSocket();
 				pongBtn.addEventListener("click", async () => {
 					let chatdata;
 					const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 					const targetUsername = BoxTarget?.id.split('-').pop();
 					const token = sessionStorage.getItem('token');
-					
+
 					chatdata = { type: 'new_private_message', token, content: "" , targetUsername, pongRequest: 1};
 					ws?.send(JSON.stringify(chatdata));
 				});

@@ -4,7 +4,7 @@ export class GameInstance {
 	private = false;
 	tournamentId = '';
 	gameId = "";
-	player1 = { id: "", name: "" }; 
+	player1 = { id: "", name: "" };
 	player2 = { id: "", name: "" };
 	full = false;
 	end = false;

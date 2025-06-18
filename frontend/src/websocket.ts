@@ -112,7 +112,7 @@ export function initWebSocket(original: string) {
 				}
 			}
 		}
-		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users') 
+		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users')
 		{
 			if (window.location.pathname === '/home')
 			{

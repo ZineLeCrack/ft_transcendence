@@ -139,8 +139,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		let jpegBuffer: Buffer;
 		try {
 			jpegBuffer = await sharp(originalBuffer).png().toBuffer();
-		} 
-		catch (err) {
+		} catch (err) {
 			console.error('Image conversion failed:', err);
 			reply.status(200).send('Please a valid image (PNG, JPG, WEBP, ...)');
 			return ;
@@ -169,8 +168,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		try {
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
-		} 
-		catch {
+		} catch {
 			return reply.status(401).send('Invalid token');
 		}
 		try {
@@ -188,8 +186,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			return reply.status(404).send('Image not found');
 		}
 			reply.header('Content-Type', 'image/png').send(result.profile_pic);
-		} 
-		catch (err) {
+		} catch (err) {
 			console.error(err);
 			reply.status(500).send('Database error');
 	}

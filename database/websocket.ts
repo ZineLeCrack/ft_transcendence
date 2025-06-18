@@ -103,7 +103,7 @@ export function setupWebSocket(server: any) {
 					const username = response.name;
 
 					const lastInvite = await dbchat.get(`
-						SELECT created_at FROM privatechat 
+						SELECT created_at FROM privatechat
 						  WHERE pongRequest IN (1, 2) AND ((username1 = ? AND username2 = ?) OR (username1 = ? AND username2 = ?))
 						  ORDER BY created_at DESC LIMIT 1
 						`, [username, targetUsername, targetUsername, username]);

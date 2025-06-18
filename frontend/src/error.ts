@@ -23,12 +23,9 @@ export default function initError(content?: string)
 	document.body.insertAdjacentHTML('beforeend', errorPopUpHTML);
 
 	const messageElement = document.getElementById('error-popup-message');
-	if (messageElement && content)
-	{
+	if (messageElement && content) {
 		messageElement.textContent = content;
-	}
-	else if (messageElement) 
-	{
+	} else if (messageElement) {
 		messageElement.textContent = 'Sorry, you encountered an error.';
 	}
 

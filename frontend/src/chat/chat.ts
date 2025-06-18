@@ -270,7 +270,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		acceptBtn.addEventListener('click', async () => {
 			try {
 				const tokenID = sessionStorage.getItem('token');
-				const target = targetUser; 
+				const target = targetUser;
 				await fetch("/api/replyrequest", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
@@ -319,7 +319,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 
 	const messageContainer = document.createElement("div");
 	messageContainer.className = original_name === username ?
-		"flex flex-col items-end gap-1" : 
+		"flex flex-col items-end gap-1" :
 		"flex flex-col items-start gap-1";
 
 	const usernameDiv = document.createElement("a");

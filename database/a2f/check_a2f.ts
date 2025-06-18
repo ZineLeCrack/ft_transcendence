@@ -49,7 +49,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 			});
 
 			reply.status(200).send('Code sent');
-		} 
+		}
 		catch (err) {
 			reply.status(500).send('An error occurred while sending the code retry later');
 		}

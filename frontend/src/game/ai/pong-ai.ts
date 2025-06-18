@@ -87,7 +87,7 @@ export default async function initPong() {
 		else if (message === "1_win")
 		{
 			new_message = `${info.original} ${translate("1_win")}`;
-		} 
+		}
 		else if (message === "2_win") {
 			new_message = translate("ai_win");
 		} else {

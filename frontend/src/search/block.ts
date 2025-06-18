@@ -72,7 +72,7 @@ export default async function initBlockPlayer(target?: string) {
 						body: JSON.stringify({ tokenID, target })
 					});
 					const data = await res.json();
-					if (data.success) 
+					if (data.success)
 						blockbtn.textContent = translate("block_friend_trad");
 					let chatdata;
 					chatdata = { type: 'unblock_users', token: tokenID, targetUsername : target};

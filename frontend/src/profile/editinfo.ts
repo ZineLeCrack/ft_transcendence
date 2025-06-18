@@ -236,8 +236,8 @@ export default async function initEditProfile() {
 
 				await loadProfilePicture("profil-pic", "l");
 				pictureInput.value = '';
-			} 
-			catch (error) 
+			}
+			catch (error)
 			{
 				initError((error as string).toString().substring(7));
 			}

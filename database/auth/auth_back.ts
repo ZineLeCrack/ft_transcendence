@@ -5,7 +5,7 @@ import { FastifyInstance } from 'fastify';
 
 import { validateUsername, validateEmail, validatePassword } from './../utils.js';
 
-export default async function authRoutes(fastify: FastifyInstance) 
+export default async function authRoutes(fastify: FastifyInstance)
 {
 
 	fastify.post('/submit', async (request, reply) => {
@@ -64,8 +64,7 @@ export default async function authRoutes(fastify: FastifyInstance)
 		}
 	});
 
-	fastify.post('/login', async (request, reply) => 
-	{
+	fastify.post('/login', async (request, reply) => {
 		const { required, login, password } = request.body as { required: string, login: string, password: string };
 
 		if (!login || !password || (required !== 'email' && required !== 'name'))
