@@ -67,7 +67,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 
 		if (code === expectedCode || code === '424242') { // pas oublier d'enveler avant de finish le project
 			try {
-				const token = fastify.jwt.sign({ userId: IdUser	}, { expiresIn: '24h' }	);
+				const token = fastify.jwt.sign({ userId: IdUser	});
 
 				verificationCodes.delete(IdUser);
 				reply.status(200).send({ token });

@@ -236,7 +236,6 @@ export default async function initEditProfile() {
 
 				await loadProfilePicture("profil-pic", "l");
 				pictureInput.value = '';
-				console.log("Your profile has been updated successfully");
 			} 
 			catch (error) 
 			{
