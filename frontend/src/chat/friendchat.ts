@@ -299,7 +299,7 @@ export default async function initFriendChat()
 					ws?.send(JSON.stringify(chatdata));
 				});
 			} catch (err) {
-				console.log('Error initializing friendchat:', err);
+				console.error('Error initializing friendchat:', err);
 			}
 		});
 	});

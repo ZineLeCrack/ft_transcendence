@@ -37,6 +37,6 @@ export default async function initGlobalstats(username: string) {
 			averagepoint.textContent = `${(stats.total_points / stats.games_played).toFixed(2)}`;
 		}
 	} catch (err) {
-		console.log('Error initializing global statistics:', err);
+		console.error('Error initializing global statistics:', err);
 	}
 }

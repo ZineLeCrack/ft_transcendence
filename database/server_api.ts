@@ -62,7 +62,7 @@ async function main() {
 
 	const server = app.server;
 	setupWebSocket(server);
-	console.log(`HTTPS server running at https://${IP_NAME}:3451`);
+	console.info(`HTTPS server running at https://${IP_NAME}:3451`);
 }
 
 main();

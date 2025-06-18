@@ -26,7 +26,6 @@ export function initWebSocket(original: string) {
 		} catch (err) {
 			console.error('Error setting connected status:', err);
 		}
-		console.log("WebSocket connecté !");
 	};
 
 	ws.onerror = (err) => {

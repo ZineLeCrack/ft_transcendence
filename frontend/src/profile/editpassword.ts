@@ -27,7 +27,7 @@ export default async function initEditPassword() {
 			return ;
 		}
 		} catch (err) {
-			console.log('Error verifying user:', err);
+			console.error('Error verifying user:', err);
 			return ;
 		}
 		const res = await response.json();

@@ -24,7 +24,7 @@ export default async function initOverallStats() {
 			return ;
 		}
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 	const info = await response.json();
@@ -201,6 +201,6 @@ export async function initGlobalGraph(originalUsername: string) {
 			pieChartInstance = new Chart(ctx, config);
 		}
 	} catch (err) {
-		console.log('Error loading graph:', err);
+		console.error('Error loading graph:', err);
 	}
 }
