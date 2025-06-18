@@ -22,7 +22,7 @@ export default async function initBlockPlayer(target?: string) {
 					blockbtn.textContent = translate("block_friend_trad");
 				}
 			} catch (err) {
-				console.error('Error getting user status:', err);
+				console.log('Error getting user status:', err);
 			}
 		};
 
@@ -40,7 +40,7 @@ export default async function initBlockPlayer(target?: string) {
 					credentials: 'include'
 				});
 			} catch (err) {
-				console.error('Error getting user status:', err);
+				console.log('Error getting user status:', err);
 				return ;
 			}
 			const block = await res.json();
@@ -62,7 +62,7 @@ export default async function initBlockPlayer(target?: string) {
 					chatdata = { type: 'block_users', token: tokenID, targetUsername : target};
 					ws?.send(JSON.stringify(chatdata));
 				} catch (err) {
-					console.error('Error blocking user:', err);
+					console.log('Error blocking user:', err);
 					return ;
 				}
 			}
@@ -82,7 +82,7 @@ export default async function initBlockPlayer(target?: string) {
 					chatdata = { type: 'unblock_users', token: tokenID, targetUsername : target};
 					ws?.send(JSON.stringify(chatdata));
 				} catch (err) {
-					console.error('Error unblocking user:', err);
+					console.log('Error unblocking user:', err);
 				}
 			}
 		};

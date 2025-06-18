@@ -27,7 +27,7 @@ export default async function initTournamentStats() {
 		await initLanguageSelector(info.original);
 		initTournamentGraph(info.original);
 	} catch (err) {
-		console.error('Error verifying user:', err);
+		console.log('Error verifying user:', err);
 	}
 }
 
@@ -74,40 +74,29 @@ export async function initTournamentGraph(originalUsername: string) {
 		else if (stats.last_ranking.length === 12)
 			last_ranking.textContent = translate('winner');
 
-		const tournamentMap = new Map<number, { date: string, points: number, wins: number, loses: number }>();
-
+		const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
 		history.forEach((match: any) => {
-			if (match.tournament === 0) return;
-
-			const tournamentId = match.tournamentId;
+			if (match.tournament === 0) return ;
 
 			const isWin = match.usernameplayer1 === originalUsername
 				? match.pointplayer1 > match.pointplayer2
 				: match.pointplayer2 > match.pointplayer1;
 
-			const matchDate = new Date(match.date).toISOString().slice(0, 16).replace('T', ' ');
-			if (!tournamentMap.has(tournamentId)) {
-				tournamentMap.set(tournamentId, {
-					date: matchDate,
-					points: 0,
-					wins: 0,
-					loses: 0
-				});
+			const rawId = match.tournamentId;
+			if (!historyMap.has(rawId)) {
+				historyMap.set(rawId, { points: 0, wins: 0, loses: 0 });
 			}
 
-			const entry = tournamentMap.get(tournamentId)!;
+			const entry = historyMap.get(rawId)!;
 			entry.points += match.usernameplayer1 === originalUsername ? match.pointplayer1 : match.pointplayer2;
 			if (isWin) entry.wins += 1;
 			else entry.loses += 1;
 		});
 
-		const tournamentMapToArray = Array.from(tournamentMap.values());
-		tournamentMapToArray.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-		const labels = tournamentMapToArray.map(entry => entry.date);
-		const pointsData = tournamentMapToArray.map(entry => entry.points);
-		const winsData = tournamentMapToArray.map(entry => entry.wins);
-		const losesData = tournamentMapToArray.map(entry => entry.loses);
+		const labels = Array.from(historyMap.keys()).sort();
+		const pointsData = labels.map(date => historyMap.get(date)!.points);
+		const winsData = labels.map(date => historyMap.get(date)!.wins);
+		const losesData = labels.map(date => historyMap.get(date)!.loses);
 
 		const canvasHistory = document.getElementById('graph-history-trend') as HTMLCanvasElement | null;
 		if (canvasHistory) {
@@ -220,7 +209,7 @@ export async function initTournamentGraph(originalUsername: string) {
 			chartPie = new Chart(ctx, config);
 		}
 	} catch (err) {
-		console.error('Error loading graph:', err);
+		console.log('Error loading graph:', err);
 	}
 }
 

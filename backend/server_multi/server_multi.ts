@@ -26,7 +26,7 @@ async function main() {
 	await app.register(fastifyCookie);
 	await app.listen({ port: 4001, host: '0.0.0.0' });
 
-	console.info(`HTTPS Master Multi Game Server running at https://${IP_NAME}:4001`);
+	console.log(`HTTPS Master Multi Game Server running at https://${IP_NAME}:4001`);
 }
 
 main().catch(err => {

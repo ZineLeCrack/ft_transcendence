@@ -31,7 +31,7 @@ interface TournamentInstance {
 	winner_final: string,
 	loser_final: string,
 	gameId: string,
-	instance: GameInstance | null,
+	instance: GameInstance,
 	game: number
 }
 
@@ -64,7 +64,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			winner_final: string,
 			loser_final: string,
 			gameId: string,
-			instance: GameInstance | null,
+			instance: GameInstance,
 			game: number
 		};
 
@@ -258,7 +258,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				next_player1: '',
 				next_player2: ''
 			}
-			tournament.instance = null;
 		}
 		reply.status(200).send({ ...results, tournamentId: tournamentId });
 	});

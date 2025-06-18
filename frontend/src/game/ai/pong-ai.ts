@@ -41,7 +41,7 @@ export default async function initPong() {
 		}
 
 	} catch (err) {
-		console.error('Error verifying user:', err);
+		console.log('Error verifying user:', err);
 		return ;
 	}
 	const info = await response.json();
@@ -194,7 +194,7 @@ export default async function initPong() {
 			try {
 				await fetch(`${SERVER_URL}/start`, { method: "POST" });
 			} catch (err) {
-				console.error('Error starting ai game:', err);
+				console.log('Error starting ai game:', err);
 			}
 			gameStarted = true;
 		}
@@ -218,7 +218,7 @@ export default async function initPong() {
 				body: JSON.stringify({ keys })
 			});
 		} catch (err) {
-			console.error('Error sending moves:', err);
+			console.log('Error sending moves:', err);
 		}
 	}, 16);
 
@@ -239,7 +239,7 @@ export default async function initPong() {
 				body: JSON.stringify({ gameId: gameId })
 			});
 		} catch (err) {
-			console.error('Error ending ai game:', err);
+			console.log('Error ending ai game:', err);
 		}
 		window.removeEventListener("popstate", cleanUp);
 	}

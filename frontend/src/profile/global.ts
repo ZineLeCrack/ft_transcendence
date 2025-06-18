@@ -25,7 +25,7 @@ export default async function initOverallStats() {
 			return ;
 		}
 	} catch (err) {
-		console.error('Error verifying user:', err);
+		console.log('Error verifying user:', err);
 		return ;
 	}
 	const info = await response.json();
@@ -75,7 +75,7 @@ export async function initGlobalGraph(originalUsername: string) {
 				: match.pointplayer2 > match.pointplayer1;
 
 			const roundedDate = new Date(Math.floor(date.getTime() / (10 * 60 * 1000)) * (10 * 60 * 1000));
-			const roundedKey = roundedDate.toISOString().slice(0, 16).replace('T', ' ');
+			const roundedKey = roundedDate.toISOString();
 
 			if (!historyMap.has(roundedKey)) {
 				historyMap.set(roundedKey, { points: 0, wins: 0, loses: 0 });
@@ -204,6 +204,6 @@ export async function initGlobalGraph(originalUsername: string) {
 			pieChartInstance = new Chart(ctx, config);
 		}
 	} catch (err) {
-		console.error('Error loading graph:', err);
+		console.log('Error loading graph:', err);
 	}
 }

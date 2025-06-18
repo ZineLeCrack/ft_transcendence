@@ -236,6 +236,86 @@ export default async function initJoinTournament() {
 					}
 				});
 
+				// inputAlias.addEventListener('keydown', async (e) => {
+				// 	if (e.key === "Enter") {
+				// 		e.preventDefault();
+				// 		try {
+				// 			if (inputAlias.value.trim().length > 10) {
+				// 				initError('alias_too_long');
+				// 				return ;
+				// 			}
+
+				// 			if (!(/^[a-zA-Z0-9_]{0,10}$/.test(inputAlias.value.trim()))) {
+				// 				initError(translate('invalid_alias'));
+				// 				return ;
+				// 			}
+
+				// 			const token = sessionStorage.getItem('token');
+				// 			const response = await fetch('/api/tournament/join', {
+				// 				method: 'POST',
+				// 				headers: { 'Content-Type': 'application/json' },
+				// 				body: JSON.stringify({
+				// 					id_tournament: tournamentId,
+				// 					token: token,
+				// 					password: passwordInput ? passwordInput.value : '',
+				// 					alias: inputAlias.value.trim()
+				// 				})
+				// 			});
+
+				// 			if (!response.ok) {
+				// 				const error = await response.text(); 
+				// 				initError(error);
+				// 				return ;
+				// 			}
+
+				// 			const text = await response.text();
+
+				// 			if (text === "This tournament is full !") {
+				// 				throw new Error(translate("tournament_full"));
+				// 			} else if (text === "Wrong password !") {
+				// 				throw new Error(translate("no_pass"));
+				// 			}
+
+				// 			const data = await response.json();
+				// 			joinTournamentBtn?.removeEventListener("click", joinOnClick);
+				// 			backToTournamentBtn?.removeEventListener("click", backOnClick);
+				// 			const ws = getWebSocket();
+				// 			ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
+
+				// 			if (data.full) {
+				// 				try {
+				// 					const response1 = await fetch('/api/tournament/get_players', {
+				// 						method: 'POST',
+				// 						headers: { 'Content-Type': 'application/json' },
+				// 						body: JSON.stringify({ tournamentId: data.id })
+				// 					});
+				// 					const players = await response1.json();
+				// 					const response2 = await fetch('/api/tournament/get_winners', {
+				// 						method: 'POST',
+				// 						headers: { 'Content-Type': 'application/json' },
+				// 						body: JSON.stringify({ tournamentId: data.id })
+				// 					});
+				// 					const results = await response2.json();
+				// 					await fetch('/api/multi/tournament/start', {
+				// 						method: 'POST',
+				// 						headers: { 'Content-Type': 'application/json' },
+				// 						body: JSON.stringify({ id: data.id, ...players, ...results })
+				// 					});
+				// 				} catch (err) {
+				// 					console.error(`Error starting tournament: `, err);
+				// 					return ;
+				// 				}
+				// 			}
+
+				// 			joinView?.classList.add('hidden');
+				// 			mainView?.classList.remove('hidden');
+				// 			window.location.reload();
+				// 		} catch (err) {
+				// 			initError(err as string);
+				// 		}
+				// 	}
+				// });
+
 				cancelAlias.addEventListener('click', async () => {
 					const PopPup = document.getElementById('alias-popup') as HTMLDivElement;
 					PopPup.remove();

@@ -1,9 +1,7 @@
+ebroudic - date de tournoi a la place de l'id du tournoi sur le graphique du profil
+
 cle-berr - verifuser si token pas bon ca met erreur 500, ce n'est pas un bon status d'erreur
 cle-berr - status hors-ligne au moment où l'autre accepte la demande d'ami
-
-lelanglo - URGENT - Mettre token en memoire RAM
-
-rlebaill - websocket quand fin d'un tournoi
 
 tous le monde - lire le sujet, connaitre son code, trouver erreur et regler erreur
 

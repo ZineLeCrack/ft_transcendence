@@ -209,11 +209,17 @@ export default async function initFriendChat()
 				const friendStatus = await friendCheck.json();
 				if (friendStatus.status === 0) {
 					initError(translate("not_friend"));
+					setTimeout(async () => {
+						window.location.reload();
+					}, 1000);
 					return ;
 				}
 
 				if (friendStatus.status === 2) {
 					initError(translate("already_send"));
+					setTimeout(async () => {
+						window.location.reload();
+					}, 1000);
 					return ;
 				}
 				
@@ -303,7 +309,7 @@ export default async function initFriendChat()
 					ws?.send(JSON.stringify(chatdata));
 				});
 			} catch (err) {
-				console.error('Error initializing friendchat:', err);
+				console.log('Error initializing friendchat:', err);
 			}
 		});
 	});

@@ -36,7 +36,7 @@ export default async function initMultiplayer() {
 			return ;
 		}
 	} catch (err) {
-		console.error('Error verifying user:', err);
+		console.log('Error verifying user:', err);
 		return ;
 	}
 
@@ -71,7 +71,7 @@ export default async function initMultiplayer() {
 		credentials: 'include'
 	})
 	} catch (err) {
-		console.error('Error getting player:', err);
+		console.log('Error getting player:', err);
 		return ;
 	}
 
@@ -198,18 +198,12 @@ export default async function initMultiplayer() {
 								body: JSON.stringify({ tournamentId: gameStat.tournamentId })
 							});
 							const results = await res.json();
-							const last = await fetch(`/api/tournament/results`, {
+							await fetch(`/api/tournament/results`, {
 								method: 'POST',
 								headers: { 'Content-Type': 'application/json' },
 								body: JSON.stringify(results)
 							});
-							const is_last = await last.json();
 							const ws = getWebSocket();
-							if (is_last.last) {
-								setTimeout(() => {
-									ws?.send(JSON.stringify({ type: 'tournament_end', id: gameStat.tournamentId }));
-								}, 3000);
-							}
 							ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: results.next_player1, next_player2: results.next_player2, id: gameStat.tournamentId }));
 						} else if (gameStat.private) {
 							await fetch('/api/private_game/end', {
@@ -258,7 +252,7 @@ export default async function initMultiplayer() {
 				body: JSON.stringify({ keys })
 			});
 		} catch (err) {
-			console.error('Error sending moves:', err);
+			console.log('Error sending moves:', err);
 		}
 	}, 16);
 
@@ -277,7 +271,7 @@ export default async function initMultiplayer() {
 				body: JSON.stringify({ gameId: gameId })
 			});
 		} catch (err) {
-			console.error('Error disconnecting player:', err);
+			console.log('Error disconnecting player:', err);
 		}
 		window.removeEventListener("popstate", cleanUp);
 	}

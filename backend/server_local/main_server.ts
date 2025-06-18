@@ -21,7 +21,7 @@ async function main() {
 	await app.register(cors, { origin: true });
 	await app.register(gameRoutes, { prefix: '/game' });
 	await app.listen({ port: 4000, host: '0.0.0.0' });
-	console.info(`HTTPS Master Game Server running at https://${IP_NAME}:4000`);
+	console.log(`HTTPS Master Game Server running at https://${IP_NAME}:4000`);
 }
 
 main().catch(err => {

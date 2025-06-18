@@ -150,7 +150,7 @@ export async function generateTournamentView(TournamentData_Players: TournamentD
 			container.appendChild(bracketTournament);
 		}
 	} catch (err) {
-		console.error('Error getting tournament data:', err);
+		console.log('Error getting tournament data:', err);
 	}
 }
 

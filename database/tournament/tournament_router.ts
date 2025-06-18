@@ -285,11 +285,8 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 					await db.run(`DELETE FROM tournaments WHERE id = ?`, [tournamentId]);
 					await db.run(`DELETE FROM result WHERE id = ?`, [tournamentId]);
 				}, 5000);
-				reply.status(200).send({ last: true });
-				return ;
-			} else {
-				reply.status(200).send({ last: false });
 			}
+			reply.send({ success: true });
 		} catch (err) {
 			console.error(err);
 			reply.status(500).send('Error');
