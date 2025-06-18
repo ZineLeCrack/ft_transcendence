@@ -58,7 +58,7 @@ export default async function initEditProfile() {
 			return ;
 		}
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 	const res = await response.json();
@@ -158,7 +158,7 @@ export default async function initEditProfile() {
 							return ;
 						}
 					} catch (err) {
-						console.log('Error verifying user:', err);
+						console.error('Error verifying user:', err);
 						return ;
 					}
 					const data = await response1.json();

@@ -123,7 +123,7 @@ export default async function initHistory()
 			return ;
 		}
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 	const name = await response.json();

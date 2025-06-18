@@ -35,7 +35,7 @@ export default async function initMultiplayer() {
 			return ;
 		}
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 
@@ -69,7 +69,7 @@ export default async function initMultiplayer() {
 		body: JSON.stringify({ token: token, gameId: gameId })
 	})
 	} catch (err) {
-		console.log('Error getting player:', err);
+		console.error('Error getting player:', err);
 		return ;
 	}
 
@@ -250,7 +250,7 @@ export default async function initMultiplayer() {
 				body: JSON.stringify({ keys })
 			});
 		} catch (err) {
-			console.log('Error sending moves:', err);
+			console.error('Error sending moves:', err);
 		}
 	}, 16);
 
@@ -269,7 +269,7 @@ export default async function initMultiplayer() {
 				body: JSON.stringify({ gameId: gameId })
 			});
 		} catch (err) {
-			console.log('Error disconnecting player:', err);
+			console.error('Error disconnecting player:', err);
 		}
 		window.removeEventListener("popstate", cleanUp);
 	}

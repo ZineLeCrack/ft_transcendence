@@ -26,7 +26,7 @@ export default async function initTournamentStats() {
 		await initLanguageSelector(info.original);
 		initTournamentGraph(info.original);
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 	}
 }
 
@@ -206,7 +206,7 @@ export async function initTournamentGraph(originalUsername: string) {
 			chartPie = new Chart(ctx, config);
 		}
 	} catch (err) {
-		console.log('Error loading graph:', err);
+		console.error('Error loading graph:', err);
 	}
 }
 

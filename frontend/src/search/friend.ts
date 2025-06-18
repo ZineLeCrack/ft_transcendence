@@ -27,7 +27,7 @@ export default async function initAddFriend(target?: string) {
 					friendbtn.textContent = translate("add_friend_trad");
 				}
 			} catch (err) {
-				console.log('Error getting friendship:', err);
+				console.error('Error getting friendship:', err);
 			}
 		};
 
@@ -75,7 +75,7 @@ export default async function initAddFriend(target?: string) {
 					ws?.send(JSON.stringify(chatdata));
 				}
 			} catch (err) {
-				console.log('Error changing frienship:', err);
+				console.error('Error changing frienship:', err);
 			}
 		};
 	}

@@ -37,13 +37,12 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			if (match) {
 				const newhash = await bcrypt.hash(newpass.toString(), 10);
 				await db.run('UPDATE users SET password = ? WHERE id = ?', [newhash, IdUser]);
-				console.log("password edit success");
 				reply.status(200).send("nice");
 			} else {
 				reply.status(200).send("invalid mdp");
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			reply.status(500).send(error);
 		}
 	});
@@ -88,7 +87,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 				}
 				await db.run('UPDATE users SET name = ?, email = ? WHERE id = ?', [username, email, IdUser]);
 				await dbchat.run('UPDATE chat SET username = ? WHERE username = ?', [username, original_name]);
-				console.log("info edit success");
 				reply.status(200).send("nice");
 			} else if (username) {
 				const existingUser = await db.get('SELECT * FROM users WHERE name = ?', [username]);
@@ -98,7 +96,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 				}
 				await db.run('UPDATE users SET name = ? WHERE id = ?', [username, IdUser]);
 				await dbchat.run('UPDATE chat SET username = ? WHERE username = ?', [username, original_name]);
-				console.log("username edit success");
 				reply.status(200).send("nice");
 			} else if (email) {
 				const existingUser = await db.get('SELECT * FROM users WHERE email = ?', [email]);
@@ -107,11 +104,10 @@ export default async function editRoutes(fastify: FastifyInstance) {
 					return ;
 				}
 				await db.run('UPDATE users SET email = ? WHERE id = ?', [email, IdUser]);
-				console.log("email edit success");
 				reply.status(200).send("nice");
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			reply.status(500).send(error);
 		}
 	});
@@ -121,7 +117,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		const authHeader = request.headers['authorization'];
 		const token = authHeader?.split(' ')[1]!;
 		const start = Date.now();
-		console.log(`All parts processed in ${Date.now() - start} ms`);
 		if (!fileData) {
 			reply.status(200).send('Please select a picture');
 			return ;
@@ -154,7 +149,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		try {
 			const db = await getDb_user();
 			await db.run('UPDATE users SET profile_pic = ? WHERE id = ?', [jpegBuffer, IdUser]);
-			console.log("picture update success");
 
 			reply.status(200).header('Content-Type', 'image/png').send(jpegBuffer);
 		} catch (err) {
