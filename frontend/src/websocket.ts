@@ -69,7 +69,7 @@ export function initWebSocket(original: string) {
 			});
 			const is_in = await res.json();
 			if (is_in.tournamentId.toString() === data.id.toString()) {
-				
+				initHome();
 			}
 		}
 		if (data.type === 'multi_player_join') {
@@ -169,7 +169,7 @@ export function initWebSocket(original: string) {
 				sendMessage(data.username, data.content, false, otherUser);
 			}
 		}
-		if (data.type === 'tournament_created') {
+		if (data.type === 'tournament_created' || data.type === 'tournament_end') {
 			try {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
