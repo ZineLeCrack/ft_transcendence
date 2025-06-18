@@ -1,6 +1,5 @@
 import { getWebSocket } from '../websocket';
 import { loadRoutes } from '../main.ts';
-import initError from '../error.ts';
 import { translate } from '../i18n.ts';
 import { loadProfilePicture } from '../profile/editinfo.ts';
 

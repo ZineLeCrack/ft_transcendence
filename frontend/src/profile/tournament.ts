@@ -74,29 +74,40 @@ export async function initTournamentGraph(originalUsername: string) {
 		else if (stats.last_ranking.length === 12)
 			last_ranking.textContent = translate('winner');
 
-		const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
+		const tournamentMap = new Map<number, { date: string, points: number, wins: number, loses: number }>();
+
 		history.forEach((match: any) => {
-			if (match.tournament === 0) return ;
+			if (match.tournament === 0) return;
+
+			const tournamentId = match.tournamentId;
 
 			const isWin = match.usernameplayer1 === originalUsername
 				? match.pointplayer1 > match.pointplayer2
 				: match.pointplayer2 > match.pointplayer1;
 
-			const rawId = match.tournamentId;
-			if (!historyMap.has(rawId)) {
-				historyMap.set(rawId, { points: 0, wins: 0, loses: 0 });
+			const matchDate = new Date(match.date).toISOString().slice(0, 16).replace('T', ' ');
+			if (!tournamentMap.has(tournamentId)) {
+				tournamentMap.set(tournamentId, {
+					date: matchDate,
+					points: 0,
+					wins: 0,
+					loses: 0
+				});
 			}
 
-			const entry = historyMap.get(rawId)!;
+			const entry = tournamentMap.get(tournamentId)!;
 			entry.points += match.usernameplayer1 === originalUsername ? match.pointplayer1 : match.pointplayer2;
 			if (isWin) entry.wins += 1;
 			else entry.loses += 1;
 		});
 
-		const labels = Array.from(historyMap.keys()).sort();
-		const pointsData = labels.map(date => historyMap.get(date)!.points);
-		const winsData = labels.map(date => historyMap.get(date)!.wins);
-		const losesData = labels.map(date => historyMap.get(date)!.loses);
+		const tournamentMapToArray = Array.from(tournamentMap.values());
+		tournamentMapToArray.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+		const labels = tournamentMapToArray.map(entry => entry.date);
+		const pointsData = tournamentMapToArray.map(entry => entry.points);
+		const winsData = tournamentMapToArray.map(entry => entry.wins);
+		const losesData = tournamentMapToArray.map(entry => entry.loses);
 
 		const canvasHistory = document.getElementById('graph-history-trend') as HTMLCanvasElement | null;
 		if (canvasHistory) {
