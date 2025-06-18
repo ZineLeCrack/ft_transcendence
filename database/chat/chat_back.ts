@@ -18,12 +18,18 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/getPrivateMessages', async (_request, reply) => {
 		try {
-			const { token, username2 } = _request.body as { token: string, username2: string };
+			const {username2 } = _request.body as {username2: string };
 
 			let username1;
 			let id_user;
-			const decoded = jwt.verify(token, JWT_SECRET);
-			id_user = (decoded as { userId: string }).userId;
+			try {
+				const token = _request.cookies.accessToken!
+				const decoded = jwt.verify(token, JWT_SECRET);
+				id_user = (decoded as { userId: string }).userId;
+			} catch (err) {
+				reply.status(401).send('Invalid token');
+				return ;
+			}
 			const dbUser = await getDb_user();
 			username1 = await dbUser.get(`SELECT name FROM users WHERE id = ?`, [id_user]);
 			const dbChat = await getDb_chat();
@@ -43,10 +49,11 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/verifuser', async (request, reply) => {
-		const {token} = request.body as {token: string};
+		const token = request.cookies.accessToken!;
 		let id_user;
 
 		try {
+			const token = request.cookies.accessToken!
 			const decoded = jwt.verify(token, JWT_SECRET);
 			id_user = (decoded as { userId: string }).userId;
 		} catch (err) {
