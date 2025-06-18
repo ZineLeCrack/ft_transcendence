@@ -5,6 +5,7 @@ import { translate } from "./i18n.js";
 import initFriendChat from "./chat/friendchat.js";
 import initJoinTournament from "./tournament/join_tournament.js";
 import initUsers from "./search/users.js";
+import initCreateTournament from "./tournament/create_tournament.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -58,6 +59,30 @@ export function initWebSocket(original: string) {
 		if (data.type === 'error') {
 			initError(data.message);
 			return ;
+		}
+		if (data.type === 'tournament_end') {
+			try {
+				const res = await fetch('/api/tournament/is_in', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+				});
+				const is_in = await res.json();
+				if (is_in.tournamentId.toString() === data.id.toString()) {
+					const playBtn = document.getElementById('play-tournament');
+					const joinBtn = document.getElementById('join-tournament');
+					const createBtn = document.getElementById('create-tournament');
+
+					if (playBtn) playBtn.classList.add('hidden');
+					if (joinBtn) joinBtn.classList.remove('hidden');
+					if (createBtn) createBtn.classList.remove('hidden');
+
+					initCreateTournament();
+					initJoinTournament();
+				}
+			} catch (err) {
+				console.error('Error searching informations:', err);
+			}
 		}
 		if (data.type === 'multi_player_join') {
 			if (sessionStorage.getItem('gameId') === data.gameId) {

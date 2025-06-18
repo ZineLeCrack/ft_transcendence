@@ -29,6 +29,13 @@ export function setupWebSocket(server: any) {
 						}
 					}
 				}
+				if (type === 'tournament_end') {
+					for (const client of clients) {
+						if (client.readyState === ws.OPEN) {
+							client.send(JSON.stringify({ type, id }));
+						}
+					}
+				}
 				if (type === 'new_message') {
 					if (!token || !content) return ;
 					let id_user;
