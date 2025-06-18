@@ -26,6 +26,7 @@ export async function loadProfilePicture(div: string, name: string) {
 		const profilPicDiv = document.getElementById(div);
 		if (profilPicDiv) {
 			const Img = document.createElement('img');
+			Img.id = 'IMG-PROFILE'
 			Img.src = `${imageUrl}`;
 			Img.classList = `w-full h-full object-cover rounded-full`;
 			Img.alt = 'Profile Pic';
@@ -187,9 +188,11 @@ export default async function initEditProfile() {
 				{
 					throw new Error(translate("bad_picture"));
 				}
+				const oldPicture = document.getElementById('IMG-PROFILE');
+				if (oldPicture) oldPicture.remove();
+
 				await loadProfilePicture("profil-pic", "l");
 				pictureInput.value = '';
-				window.location.reload();
 				console.log("Your profile has been updated successfully");
 			} 
 			catch (error) 
