@@ -7,11 +7,12 @@ import sharp from 'sharp';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 import { validateUsername, validateEmail, validatePassword } from './../utils.js';
+import { access } from 'fs';
 
 export default async function editRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/edit', async (request, reply) => {
-		const { current, newpass, token } = request.body as { current: string, newpass: string, token: string };
+		const { current, newpass} = request.body as { current: string, newpass: string};
 		if (!newpass || !current) {
 			reply.status(400).send('incomplete data');
 			return ;
@@ -23,7 +24,8 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		}
 		let IdUser;
 		try {
-			const decoded = jwt.verify(token, JWT_SECRET);
+			const token_cookie = request.cookies.accessToken!;
+			const decoded = jwt.verify(token_cookie, JWT_SECRET);
 			IdUser = (decoded as { userId: string }).userId;
 		} catch (err) {
 			reply.status(401).send('Invalid token');
@@ -49,7 +51,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/info', async (request, reply) => {
-		const { username, email, token } = request.body as { username: string, email: string, token: string };
+		const { username, email} = request.body as { username: string, email: string};
 		if (!username && !email) {
 			reply.status(400).send('incomplete data');
 			return ;
@@ -70,6 +72,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			const dbchat = await getDb_chat();
 			let IdUser;
 			try {
+				const token = request.cookies.accessToken!;
 				const decoded = jwt.verify(token, JWT_SECRET);
 				IdUser = (decoded as { userId: string }).userId;
 			} catch (err) {

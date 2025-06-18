@@ -179,7 +179,8 @@ export default async function initInTournament(id: string) {
 			const response = await fetch('/api/multi/tournament/join', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ token: sessionStorage.getItem('token'), tournamentId: id })
+				body: JSON.stringify({ token: sessionStorage.getItem('token'), tournamentId: id }),
+				credentials: 'include'
 			});
 
 			const data = await response.json();

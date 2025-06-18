@@ -12,7 +12,8 @@ export default async function initBlockPlayer(target?: string) {
 				const res = await fetch("/api/isblock", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target })
+					body: JSON.stringify({ tokenID, target }),
+					credentials: 'include'
 				});
 				const data = await res.json();
 				if (data.status === 1) {
@@ -35,7 +36,8 @@ export default async function initBlockPlayer(target?: string) {
 				res = await fetch("/api/isblock", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target })
+					body: JSON.stringify({ tokenID, target }),
+					credentials: 'include'
 				});
 			} catch (err) {
 				console.log('Error getting user status:', err);
@@ -50,7 +52,8 @@ export default async function initBlockPlayer(target?: string) {
 					const res = await fetch("/api/blockplayer", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ tokenID, target })
+						body: JSON.stringify({ tokenID, target }),
+						credentials: 'include'
 					})
 					const data = await res.json();
 					if (data.success)
@@ -69,7 +72,8 @@ export default async function initBlockPlayer(target?: string) {
 					const res = await fetch("/api/unblockplayer", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ tokenID, target })
+						body: JSON.stringify({ tokenID, target }),
+						credentials: 'include'
 					});
 					const data = await res.json();
 					if (data.success) 

@@ -45,7 +45,6 @@ async function main() {
 	});
 
 	await app.register(cors, { origin: true });
-	await app.register(fastifyCookie);
 	await app.register(authRoutes);
 	await app.register(historyRoutes);
 	await app.register(chatRoutes);
@@ -58,7 +57,7 @@ async function main() {
 	await app.register(privateGameRoutes, { prefix: '/private_game'});
 	await app.register(StatsRoutes);
 	await app.register(tournamentRoutes, { prefix: '/tournament' });
-
+	await app.register(fastifyCookie);
 	await app.listen({ port: 3451, host: '0.0.0.0' });
 
 	const server = app.server;

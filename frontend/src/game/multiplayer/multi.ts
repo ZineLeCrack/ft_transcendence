@@ -23,7 +23,8 @@ export default async function initMultiplayer() {
 		response1 = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token })
+			body: JSON.stringify({ token }),
+			credentials: 'include'
 		});
 
 		if (!response1.ok) {
@@ -66,7 +67,8 @@ export default async function initMultiplayer() {
 	response2 = await fetch('/api/multi/game/which_player', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token: token, gameId: gameId })
+		body: JSON.stringify({ token: token, gameId: gameId }),
+		credentials: 'include'
 	})
 	} catch (err) {
 		console.log('Error getting player:', err);
