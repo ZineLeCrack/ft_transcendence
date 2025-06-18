@@ -30,6 +30,8 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 		}
 		cardsHistory.forEach(CardHistory => {
 			const cardElement = document.createElement('div');
+			const date = new Date(CardHistory.date).toISOString().slice(0, 16).replace('T', ' ');
+
 			if (username === CardHistory.usernameplayer1)
 			{
 				const id = Math.random() * 1000000000;
@@ -59,7 +61,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 						<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer2}</div>
 					</div>
 
-					<div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">${CardHistory.date}</div>
+					<div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">${date}</div>
 				`;
 
 				loadProfilePicture(`profile-pic-player1-${id}`, CardHistory.usernameplayer1);
@@ -92,7 +94,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 						<div class="text-lg font-bold text-white drop-shadow-[0_0_10px_#FF007A] mt-1">${CardHistory.usernameplayer1}</div>
 					</div>
 
-					<div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">${CardHistory.date}</div>
+					<div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-sm text-white font-semibold drop-shadow-[0_0_5px_#00FFFF]">${date}</div>
 				`;
 
 				loadProfilePicture(`profile-lose1-${id}`, CardHistory.usernameplayer2);
@@ -112,7 +114,6 @@ export default async function initHistory()
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
 		});
 		if (!response.ok)
 		{
@@ -124,7 +125,7 @@ export default async function initHistory()
 			return ;
 		}
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 	const name = await response.json();
@@ -135,7 +136,6 @@ export default async function initHistory()
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
 		});
 
 		const data = await response.json();

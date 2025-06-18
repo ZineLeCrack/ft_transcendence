@@ -19,7 +19,6 @@ export default async function initSearch()
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({username: username}),
-					credentials: 'include'
 				});
 
 				const data = await res.json();

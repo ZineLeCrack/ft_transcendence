@@ -6,16 +6,14 @@ export default async function initGlobalstats(username: string) {
 		const statsRes = await fetch('/api/stats', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token, username }),
-			credentials: 'include'
+			body: JSON.stringify({ token, username })
 		});
 		const stats = await statsRes.json();
 
 		const historyRes = await fetch('/api/history', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token, username }),
-			credentials: 'include'
+			body: JSON.stringify({ token, username })
 		});
 		const history = await historyRes.json();
 
@@ -39,6 +37,6 @@ export default async function initGlobalstats(username: string) {
 			averagepoint.textContent = `${(stats.total_points / stats.games_played).toFixed(2)}`;
 		}
 	} catch (err) {
-		console.log('Error initializing global statistics:', err);
+		console.error('Error initializing global statistics:', err);
 	}
 }

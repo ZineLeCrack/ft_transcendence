@@ -168,8 +168,7 @@ export default async function initFriendChat()
 			const res = await fetch("/api/getfriends", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ tokenID }),
-				credentials: 'include'
+				body: JSON.stringify({ tokenID })
 			});
 			const data = await res.json();
 			return data.friends || [];
@@ -202,24 +201,17 @@ export default async function initFriendChat()
 				const friendCheck = await fetch("/api/isfriend", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target }),
-					credentials: 'include'
+					body: JSON.stringify({ tokenID, target })
 				});
 
 				const friendStatus = await friendCheck.json();
 				if (friendStatus.status === 0) {
 					initError(translate("not_friend"));
-					setTimeout(async () => {
-						window.location.reload();
-					}, 1000);
 					return ;
 				}
 
 				if (friendStatus.status === 2) {
 					initError(translate("already_send"));
-					setTimeout(async () => {
-						window.location.reload();
-					}, 1000);
 					return ;
 				}
 				
@@ -240,7 +232,6 @@ export default async function initFriendChat()
 				const checkUser = await fetch(`/api/verifuser`, {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					credentials: 'include',
 					body: JSON.stringify({ token: sessionStorage.getItem('token')})});
 				const info = await checkUser.json();
 
@@ -248,7 +239,6 @@ export default async function initFriendChat()
 
 				const response = await fetch(`/api/getPrivateMessages`, {
 					method: 'POST',
-					credentials: 'include',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({ token: sessionStorage.getItem('token'), username2: username })});
 				const data = await response.json();
@@ -309,7 +299,7 @@ export default async function initFriendChat()
 					ws?.send(JSON.stringify(chatdata));
 				});
 			} catch (err) {
-				console.log('Error initializing friendchat:', err);
+				console.error('Error initializing friendchat:', err);
 			}
 		});
 	});

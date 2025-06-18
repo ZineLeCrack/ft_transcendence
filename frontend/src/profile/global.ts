@@ -14,7 +14,6 @@ export default async function initOverallStats() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
 		});
 		if (!response.ok) {
 			initError(translate('Error_co'));
@@ -25,7 +24,7 @@ export default async function initOverallStats() {
 			return ;
 		}
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 	const info = await response.json();
@@ -49,16 +48,14 @@ export async function initGlobalGraph(originalUsername: string) {
 		const statsRes = await fetch('/api/stats', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
-			credentials: 'include'
+			body: JSON.stringify({ token })
 		});
 		const stats = await statsRes.json();
 
 		const historyRes = await fetch('/api/history', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
-			credentials: 'include'
+			body: JSON.stringify({ token })
 		});
 		const history = await historyRes.json();
 
@@ -75,7 +72,7 @@ export async function initGlobalGraph(originalUsername: string) {
 				: match.pointplayer2 > match.pointplayer1;
 
 			const roundedDate = new Date(Math.floor(date.getTime() / (10 * 60 * 1000)) * (10 * 60 * 1000));
-			const roundedKey = roundedDate.toISOString();
+			const roundedKey = roundedDate.toISOString().slice(0, 16).replace('T', ' ');
 
 			if (!historyMap.has(roundedKey)) {
 				historyMap.set(roundedKey, { points: 0, wins: 0, loses: 0 });
@@ -204,6 +201,6 @@ export async function initGlobalGraph(originalUsername: string) {
 			pieChartInstance = new Chart(ctx, config);
 		}
 	} catch (err) {
-		console.log('Error loading graph:', err);
+		console.error('Error loading graph:', err);
 	}
 }

@@ -20,7 +20,6 @@ export default async function initHome() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
 		});
 
 		if (!response.ok)
@@ -44,8 +43,7 @@ export default async function initHome() {
 		const res = await fetch('/api/tournament/is_in', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token: sessionStorage.getItem('token') }),
-			credentials: 'include'
+			body: JSON.stringify({ token: sessionStorage.getItem('token') })
 		});
 
 		if (!res.ok)
@@ -64,6 +62,6 @@ export default async function initHome() {
 		else
 			initInTournament(data.tournamentId);
 	} catch (err) {
-		console.log('Error initializing home:', err);
+		console.error('Error initializing home:', err);
 	}
 }

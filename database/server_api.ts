@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import { setupWebSocket } from './websocket.js';
 import fastifyMultipart from '@fastify/multipart';
-import fastifyCookie from '@fastify/cookie';
 
 import authRoutes from './auth/auth_back.js';
 import historyRoutes from './stats/history_back.js';
@@ -45,6 +44,7 @@ async function main() {
 	});
 
 	await app.register(cors, { origin: true });
+
 	await app.register(authRoutes);
 	await app.register(historyRoutes);
 	await app.register(chatRoutes);
@@ -57,12 +57,12 @@ async function main() {
 	await app.register(privateGameRoutes, { prefix: '/private_game'});
 	await app.register(StatsRoutes);
 	await app.register(tournamentRoutes, { prefix: '/tournament' });
-	await app.register(fastifyCookie);
+
 	await app.listen({ port: 3451, host: '0.0.0.0' });
 
 	const server = app.server;
 	setupWebSocket(server);
-	console.log(`HTTPS server running at https://${IP_NAME}:3451`);
+	console.info(`HTTPS server running at https://${IP_NAME}:3451`);
 }
 
 main();

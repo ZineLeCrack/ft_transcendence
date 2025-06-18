@@ -12,8 +12,7 @@ export async function loadProfilePicture(div: string, name: string) {
 		if (!token) return ;
 
 		const response = await fetch('/api/picture', {
-			headers: { 'Authorization': `Bearer ${token} ${name}` },
-			credentials: 'include'
+			headers: { 'Authorization': `Bearer ${token} ${name}` }
 		});
 
 		if (!response.ok) {
@@ -48,7 +47,6 @@ export default async function initEditProfile() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
 		});
 		if (!response.ok)
 		{
@@ -60,7 +58,7 @@ export default async function initEditProfile() {
 			return ;
 		}
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 	const res = await response.json();
@@ -118,7 +116,6 @@ export default async function initEditProfile() {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(EditData),
-					credentials: 'include',
 				});
 				if (!response.ok)
 				{
@@ -139,7 +136,50 @@ export default async function initEditProfile() {
 					}
 					initSuccess(translate("edit_success"));
 					editProfileForm.reset();
-					setTimeout(() => window.location.reload(), 1000);
+
+					if (usernamediv) usernamediv.textContent = '';
+					if (emaildiv) emaildiv.textContent = '';
+
+					let response1;
+					try {
+						const token = sessionStorage.getItem('token');
+						response1 = await fetch('/api/verifuser', {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/json' },
+							body: JSON.stringify({ token }),
+						});
+						if (!response1.ok)
+						{
+							initError(translate("Error_co"));
+							setTimeout(async () => {
+								history.pushState(null, '', '/login');
+								await loadRoutes('/login');
+							}, 1000);
+							return ;
+						}
+					} catch (err) {
+						console.error('Error verifying user:', err);
+						return ;
+					}
+					const data = await response1.json();
+					const username = data.original;
+					const email = data.email;
+
+					initWebSocket(username);
+					if (usernamediv)
+					{
+						const for_username = document.createElement('span');
+						for_username.classList = `text-[#FFD700] text-2xl font-bold`;
+						for_username.textContent = `${username}`;
+						usernamediv.appendChild(for_username);
+					}
+					if (emaildiv)
+					{
+						const for_mail = document.createElement('span');
+						for_mail.classList= `text-[#FFD700] text-2xl font-bold`;
+						for_mail.textContent = `${email}`;
+						emaildiv?.appendChild(for_mail);
+					}
 			}
 			catch (error)
 			{
@@ -180,7 +220,6 @@ export default async function initEditProfile() {
 				headers: {
 					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
 				},
-				credentials: 'include',
 			});
 			if (!response.ok)
 			{

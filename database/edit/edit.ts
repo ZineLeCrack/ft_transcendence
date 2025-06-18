@@ -7,12 +7,11 @@ import sharp from 'sharp';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 import { validateUsername, validateEmail, validatePassword } from './../utils.js';
-import { access } from 'fs';
 
 export default async function editRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/edit', async (request, reply) => {
-		const { current, newpass} = request.body as { current: string, newpass: string};
+		const { current, newpass, token } = request.body as { current: string, newpass: string, token: string };
 		if (!newpass || !current) {
 			reply.status(400).send('incomplete data');
 			return ;
@@ -24,8 +23,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		}
 		let IdUser;
 		try {
-			const token_cookie = request.cookies.accessToken!;
-			const decoded = jwt.verify(token_cookie, JWT_SECRET);
+			const decoded = jwt.verify(token, JWT_SECRET);
 			IdUser = (decoded as { userId: string }).userId;
 		} catch (err) {
 			reply.status(401).send('Invalid token');
@@ -39,19 +37,18 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			if (match) {
 				const newhash = await bcrypt.hash(newpass.toString(), 10);
 				await db.run('UPDATE users SET password = ? WHERE id = ?', [newhash, IdUser]);
-				console.log("password edit success");
 				reply.status(200).send("nice");
 			} else {
 				reply.status(200).send("invalid mdp");
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			reply.status(500).send(error);
 		}
 	});
 
 	fastify.post('/info', async (request, reply) => {
-		const { username, email} = request.body as { username: string, email: string};
+		const { username, email, token } = request.body as { username: string, email: string, token: string };
 		if (!username && !email) {
 			reply.status(400).send('incomplete data');
 			return ;
@@ -72,7 +69,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			const dbchat = await getDb_chat();
 			let IdUser;
 			try {
-				const token = request.cookies.accessToken!;
 				const decoded = jwt.verify(token, JWT_SECRET);
 				IdUser = (decoded as { userId: string }).userId;
 			} catch (err) {
@@ -91,7 +87,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 				}
 				await db.run('UPDATE users SET name = ?, email = ? WHERE id = ?', [username, email, IdUser]);
 				await dbchat.run('UPDATE chat SET username = ? WHERE username = ?', [username, original_name]);
-				console.log("info edit success");
 				reply.status(200).send("nice");
 			} else if (username) {
 				const existingUser = await db.get('SELECT * FROM users WHERE name = ?', [username]);
@@ -101,7 +96,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 				}
 				await db.run('UPDATE users SET name = ? WHERE id = ?', [username, IdUser]);
 				await dbchat.run('UPDATE chat SET username = ? WHERE username = ?', [username, original_name]);
-				console.log("username edit success");
 				reply.status(200).send("nice");
 			} else if (email) {
 				const existingUser = await db.get('SELECT * FROM users WHERE email = ?', [email]);
@@ -110,11 +104,10 @@ export default async function editRoutes(fastify: FastifyInstance) {
 					return ;
 				}
 				await db.run('UPDATE users SET email = ? WHERE id = ?', [email, IdUser]);
-				console.log("email edit success");
 				reply.status(200).send("nice");
 			}
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			reply.status(500).send(error);
 		}
 	});
@@ -122,15 +115,14 @@ export default async function editRoutes(fastify: FastifyInstance) {
 	fastify.post('/picture', async (request, reply) => {
 		const fileData = await request.file();
 		const authHeader = request.headers['authorization'];
+		const token = authHeader?.split(' ')[1]!;
 		const start = Date.now();
-		console.log(`All parts processed in ${Date.now() - start} ms`);
 		if (!fileData) {
 			reply.status(200).send('Please select a picture');
 			return ;
 		}
 		let IdUser;
 		try {
-			const token = request.cookies.accessToken!
 			const decoded = jwt.verify(token, JWT_SECRET);
 			IdUser = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -157,7 +149,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		try {
 			const db = await getDb_user();
 			await db.run('UPDATE users SET profile_pic = ? WHERE id = ?', [jpegBuffer, IdUser]);
-			console.log("picture update success");
 
 			reply.status(200).header('Content-Type', 'image/png').send(jpegBuffer);
 		} catch (err) {
@@ -167,11 +158,15 @@ export default async function editRoutes(fastify: FastifyInstance) {
 	});
 	fastify.get('/picture', async (request, reply) => {
 		const authHeader = request.headers['authorization'] as any;
+		const token = authHeader?.split(' ')[1];
 		const name = authHeader?.split(' ')[2];
+
+		if (!token) {
+			return reply.status(401).send('Token missing');
+		}
 
 		let userId;
 		try {
-			const token = request.cookies.accessToken!
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 		} 

@@ -6,24 +6,17 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 export default async function blockRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/isblock', async (request, reply) => {
-	const {target } = request.body as {target: string };
+	const { tokenID, target } = request.body as { tokenID: string, target: string };
 
-	if (!target) {
+	if (!tokenID || !target) {
 		reply.status(400).send({ exists: false, error: "Missing username or target" });
 		return ;
 	}
 
 	try {
 		const db = await getDb_user();
-		let userID;
-		try {
-			const token = request.cookies.accessToken!;
-			const decoded = jwt.verify(token, JWT_SECRET);
-			userID = (decoded as { userId: string }).userId;
-		} catch (err) {
-			reply.status(401).send('invalid token');
-			return;
-		}
+		const decoded = jwt.verify(tokenID, JWT_SECRET);
+		const userID = (decoded as { userId: string }).userId;
 		const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 		if (!userID || !targetUserID) {
 			reply.send({ status: 0 });
@@ -41,25 +34,17 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/blockplayer', async (request, reply) => {
-		const {target } = request.body as {target: string };
+		const { tokenID, target } = request.body as { tokenID: string, target: string };
 
-		if (!target) {
+		if (!tokenID || !target) {
 		reply.status(400).send({ exists: false, error: "Missing username or target" });
 		return ;
 		}
 
 		try {
-			let userID;
 			const db = await getDb_user();
-			try {
-				const token = request.cookies.accessToken!;
-				const decoded = jwt.verify(token, JWT_SECRET);
-				userID = (decoded as { userId: string }).userId;
-			} catch (err)
-			{
-				reply.status(401).send('invalid token');
-				return;
-			}
+			const decoded = jwt.verify(tokenID, JWT_SECRET);
+			const userID = (decoded as { userId: string }).userId;
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 			if (!userID || !targetUserID) {
 				reply.send({ success: false, error: "User not found" });
@@ -82,23 +67,17 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/unblockplayer', async (request, reply) => {
-		const {target } = request.body as {target: string };
-		let userID
-		if (!target) {
-			reply.status(400).send({ exists: false, error: "Missing target" });
-			return ;
+	const { tokenID, target } = request.body as { tokenID: string, target: string };
+
+	if (!tokenID || !target) {
+		reply.status(400).send({ exists: false, error: "Missing username or target" });
+		return ;
 		}
+
 		try {
 			const db = await getDb_user();
-			try {
-				const token = request.cookies.accessToken!;
-				const decoded = jwt.verify(token, JWT_SECRET);
-				userID = (decoded as { userId: string }).userId;
-			} catch
-			{
-				reply.status(401).send('invalid token');
-				return;
-			}
+			const decoded = jwt.verify(tokenID, JWT_SECRET);
+			const userID = (decoded as { userId: string }).userId;
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 			if (!userID || !targetUserID) {
 			reply.send({ success: false, error: "User not found" });
