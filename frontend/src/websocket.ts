@@ -72,10 +72,18 @@ export function initWebSocket(original: string) {
 					const playBtn = document.getElementById('play-tournament');
 					const joinBtn = document.getElementById('join-tournament');
 					const createBtn = document.getElementById('create-tournament');
+					const container = document.getElementById('tournament-view');
 
 					if (playBtn) playBtn.classList.add('hidden');
 					if (joinBtn) joinBtn.classList.remove('hidden');
 					if (createBtn) createBtn.classList.remove('hidden');
+
+					if (container) container.innerHTML = `
+					<div id="default-tournament-view" class="flex flex-col items-center gap-4">
+						<img src="/images/pong_racquet.png" alt="pong racquet" class="w-16 h-16 mb-2" />
+						<p class="text-[#00FFFF]/90 text-xl font-bold text-center" data-i18n="no_tournament">No tournament in progress</p>
+						<p class="text-[#00FFFF]/80 text-sm" data-i18n="create_or_join">Create or join a tournament to start playing</p>
+					</div>`;
 
 					initCreateTournament();
 					initJoinTournament();
