@@ -3,7 +3,9 @@ cle-berr - status hors-ligne au moment où l'autre accepte la demande d'ami
 
 lelanglo - URGENT - Mettre token en memoire RAM
 
-rlebaill - websocket quand fin d'un tournoi
+rlebaill - websocket quand fin d'un tournoi à finir
+
+lelanglo - traduction quand quelqu'un a gagné en local/ai à réparer
 
 tous le monde - lire le sujet, connaitre son code, trouver erreur et regler erreur
 
