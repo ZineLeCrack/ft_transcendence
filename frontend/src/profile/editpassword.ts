@@ -16,6 +16,7 @@ export default async function initEditPassword() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
+			credentials: 'include'
 		});
 		if (!response.ok)
 		{
@@ -119,6 +120,7 @@ export default async function initEditPassword() {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(EditData),
+					credentials: 'include',
 				});
 				if (!response.ok)
 				{
