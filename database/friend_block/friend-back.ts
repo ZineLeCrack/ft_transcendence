@@ -6,16 +6,17 @@ let userID: string;
 
 export default async function friendRoutes(fastify: FastifyInstance) {
 	fastify.post('/isfriend', async (request, reply) => {
-		const { tokenID, target } = request.body as { tokenID: string, target: string };
+		const {target } = request.body as {target: string };
 
-		if (!tokenID || !target) {
+		if (!target) {
 			reply.status(400).send({ exists: false, error: "Missing username or target" });
 			return ;
 		}
 
 		try {
 			const db = await getDb_user();
-			const decoded = jwt.verify(tokenID, JWT_SECRET);
+			const token = request.cookies.accessToken!;
+			const decoded = jwt.verify(token, JWT_SECRET);
 			userID = (decoded as { userId: string }).userId;
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 			if (!userID || !targetUserID) {
@@ -34,15 +35,16 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/requestfriend', async (request, reply) => {
-		const { tokenID, target } = request.body as { tokenID: string, target: string };
+		const {target } = request.body as {target: string };
 
-		if (!tokenID || !target) {
+		if (!target) {
 			reply.status(400).send({ exists: false, error: "Missing username or target" });
 			return ;
 		}
 
 		try {
 			const db = await getDb_user();
+			const tokenID = request.cookies.accessToken!;
 			const decoded = jwt.verify(tokenID, JWT_SECRET);
 			userID = (decoded as { userId: string }).userId;
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
@@ -68,16 +70,17 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/replyrequest', async (request, reply) => {
-		const { tokenID, target, answer } = request.body as { tokenID: string, target: string, answer: number };
+		const {target, answer } = request.body as {target: string, answer: number };
 
-		if (!tokenID || !target || typeof answer !== 'number') {
+		if (!target || typeof answer !== 'number') {
 			reply.status(400).send({ exists: false, error: "Missing username, target or answer" });
 			return ;
 		}
 
 		try {
 			const db = await getDb_user();
-			const decoded = jwt.verify(tokenID, JWT_SECRET);
+			const token = request.cookies.accessToken!;
+			const decoded = jwt.verify(token, JWT_SECRET);
 			userID = (decoded as { userId: string }).userId;
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
 			if (!userID || !targetUserID) {
@@ -103,15 +106,16 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/removefriend', async (request, reply) => {
-		const { tokenID, target } = request.body as { tokenID: string, target: string };
+		const {target } = request.body as {target: string };
 
-		if (!tokenID || !target) {
+		if (!target) {
 			reply.status(400).send({ success: false, error: "Missing username or target" });
 			return ;
 		}
 
 		try {
 			const db = await getDb_user();
+			const tokenID = request.cookies.accessToken!;
 			const decoded = jwt.verify(tokenID, JWT_SECRET);
 			userID = (decoded as { userId: string }).userId;
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
@@ -133,15 +137,10 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/getfriends', async (request, reply) => {
-		const { tokenID } = request.body as { tokenID: string };
-
-		if (!tokenID) {
-			reply.status(400).send({ success: false, error: "Missing token" });
-			return ;
-		}
 
 		try {
 			const db = await getDb_user();
+			const tokenID = request.cookies.accessToken!;
 			const decoded = jwt.verify(tokenID, JWT_SECRET);
 			const userID = (decoded as { userId: string }).userId;
 
@@ -167,14 +166,15 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 		}
 	});
 	fastify.post('/setstatus', async (request, reply) => {
-		const { tokenID, status } = request.body as { tokenID: string, status: string }
+		const {status } = request.body as {status: string }
 
-		if (!tokenID || !status) {
+		if (!status) {
 			reply.status(400).send({ success: false, error: "Missing token or status" });
 			return ;
 		}
 		try {
 			const db = await getDb_user();
+			const tokenID = request.cookies.accessToken!;
 			const decoded = jwt.verify(tokenID, JWT_SECRET);
 			const userID = (decoded as { userId: string }).userId;
 			if (!userID) {

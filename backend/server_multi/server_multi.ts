@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import gameRoutes from './game_router_multi.js';
 import tournamentRoutes from './tournament.js';
+import fastifyCookie from '@fastify/cookie';
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ async function main() {
 			cert: certificate,
 		},
 	});
-
+	await app.register(fastifyCookie);
 	await app.register(cors, { origin: true });
 	await app.register(tournamentRoutes, { prefix: '/tournament'});
 	await app.register(gameRoutes, { prefix: '/game' });
