@@ -135,7 +135,7 @@
 	"no_pass" : "Mot de passe incorrect",
 	"same_pass" : "Ne change pas ton mot de passe avec le dernier",
 	"not_the_current" : "Votre mot de passe actuel incorrect",
-  	"controls": "Commmandes",
+  	"controls": "Commandes",
 	"waiting": "En attente de joueur...",
 	"to_start": "Appuyez sur espace",
 	"1_win": "a gagné !",
