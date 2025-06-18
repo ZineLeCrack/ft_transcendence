@@ -29,6 +29,13 @@ export function setupWebSocket(server: any) {
 						}
 					}
 				}
+				if (type === 'tournament_end') {
+					for (const client of clients) {
+						if (client.readyState === ws.OPEN) {
+							client.send(JSON.stringify({ type, id }));
+						}
+					}
+				}
 				if (type === 'new_message') {
 					if (!token || !content) return ;
 					let id_user;
@@ -65,7 +72,6 @@ export function setupWebSocket(server: any) {
 						}
 					}
 				} else if (type === 'tournament_next_game') {
-
 					await dbchat.run(
 						`INSERT INTO chat (username, content, announceTournament, announceTournament_id1, announceTournament_id2) VALUES (?, ?, ?, ?, ?)`,
 						["", "", 2, next_player1, next_player2]);

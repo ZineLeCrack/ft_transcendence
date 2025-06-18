@@ -196,12 +196,18 @@ export default async function initMultiplayer() {
 								body: JSON.stringify({ tournamentId: gameStat.tournamentId })
 							});
 							const results = await res.json();
-							await fetch(`/api/tournament/results`, {
+							const last = await fetch(`/api/tournament/results`, {
 								method: 'POST',
 								headers: { 'Content-Type': 'application/json' },
 								body: JSON.stringify(results)
 							});
+							const is_last = await last.json();
 							const ws = getWebSocket();
+							if (is_last.last) {
+								setTimeout(() => {
+									ws?.send(JSON.stringify({ type: 'tournament_end', id: gameStat.tournamentId }));
+								}, 3000);
+							}
 							ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: results.next_player1, next_player2: results.next_player2, id: gameStat.tournamentId }));
 						} else if (gameStat.private) {
 							await fetch('/api/private_game/end', {

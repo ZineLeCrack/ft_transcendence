@@ -5,6 +5,8 @@ import { translate } from "./i18n.js";
 import initFriendChat from "./chat/friendchat.js";
 import initJoinTournament from "./tournament/join_tournament.js";
 import initUsers from "./search/users.js";
+import initCreateTournament from "./tournament/create_tournament.js";
+import initHome from "./home/home.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -58,6 +60,17 @@ export function initWebSocket(original: string) {
 		if (data.type === 'error') {
 			initError(data.message);
 			return ;
+		}
+		if (data.type === 'tournament_end') {
+			const res = await fetch('/api/tournament/is_in', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token: sessionStorage.getItem('token') })
+			});
+			const is_in = await res.json();
+			if (is_in.tournamentId.toString() === data.id.toString()) {
+				
+			}
 		}
 		if (data.type === 'multi_player_join') {
 			if (sessionStorage.getItem('gameId') === data.gameId) {
