@@ -9,7 +9,7 @@ import fastifyCookie from '@fastify/cookie';
 import authRoutes from './auth/auth_back.js';
 import historyRoutes from './stats/history_back.js';
 import chatRoutes from './chat/chat_back.js';
-import a2fRoutes from './a2f/check_a2f.js';
+import twofaRoutes from './2fa/check_2fa.js';
 import addhistoryRoutes from './stats/add_history.js';
 import searchRoutes from './search/search_back.js';
 import editRoutes from './edit/edit.js';
@@ -49,7 +49,7 @@ async function main() {
 	await app.register(authRoutes);
 	await app.register(historyRoutes);
 	await app.register(chatRoutes);
-	await app.register(a2fRoutes);
+	await app.register(twofaRoutes);
 	await app.register(addhistoryRoutes);
 	await app.register(searchRoutes);
 	await app.register(editRoutes);
