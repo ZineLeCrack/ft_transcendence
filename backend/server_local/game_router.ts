@@ -20,7 +20,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const { id } = request.params as { id: string };
 		const game = games.get(id);
 		if (!game)
-			return reply.status(404).send({ error: "Game not found" });
+			return reply.status(200).send({ error: "Game not found" });
 
 		reply.send(game.getState());
 	});
@@ -29,7 +29,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const { id } = request.params as { id: string };
 		const game = games.get(id);
 		if (!game)
-			return reply.status(404).send({ error: "Game not found" });
+			return reply.status(200).send({ error: "Game not found" });
 
 		game.startGame();
 		reply.status(200).send({ status: "started" });
@@ -39,7 +39,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const { id } = request.params as { id: string };
 		const game = games.get(id);
 		if (!game)
-			return reply.status(404).send({ error: "Game not found" });
+			return reply.status(200).send({ error: "Game not found" });
 
 		const body = request.body as { keys: any };
 		game.move(body.keys);
@@ -52,7 +52,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(gameId.toString());
 
 		if (!game) {
-			reply.status(404).send('Game not found');
+			reply.status(200).send('Game not found');
 			return ;
 		}
 
@@ -66,7 +66,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const { id } = request.params as { id: string };
 		const game = games.get(id);
 		if (!game)
-			return reply.status(404).send({ error: "Game not found" });
+			return reply.status(200).send({ error: "Game not found" });
 
 		const body = request.body as {
 			paddlePosition: number,

@@ -57,7 +57,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send(`Game not found`);
+			reply.status(200).send(`Game not found but is okay`);
 			return ;
 		}
 
@@ -90,7 +90,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send({ error: "Game not found" });
+			reply.status(200).send({ error: "Game not found" });
 			return ;
 		}
 
@@ -103,7 +103,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send({ error: "Game not found" });
+			reply.status(200).send({ error: "Game not found" });
 			return ;
 		}
 
@@ -117,7 +117,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send({ error: "Game not found" });
+			reply.status(200).send({ error: "Game not found" });
 			return ;
 		}
 
@@ -132,7 +132,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send({ error: "Game not found" });
+			reply.status(200).send({ error: "Game not found" });
 			return ;
 		}
 
@@ -147,7 +147,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send({ error: "Game not found" });
+			reply.status(200).send({ error: "Game not found" });
 			return ;
 		}
 
@@ -209,7 +209,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 				return ;
 			}
 		}
-		reply.status(404).send('Game not found');
+		reply.status(200).send('Game not found');
 	});
 
 	fastify.post('/which_player', async (request, reply) => {
@@ -217,7 +217,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(gameId.toString());
 
 		if (!game) {
-			reply.status(404).send('Game not found');
+			reply.status(200).send('Game not found');
 			return ;
 		}
 
@@ -249,7 +249,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(gameId.toString());
 
 		if (!game) {
-			reply.status(404).send('Game not found');
+			reply.status(200).send('Game not found');
 			return ;
 		}
 
