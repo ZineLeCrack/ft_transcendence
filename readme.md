@@ -5,7 +5,6 @@ lelanglo - URGENT - Mettre token en memoire RAM
 lelanglo - traduction quand quelqu'un a gagné en local/ai à réparer
 
 rlebaill - websocket quand fin d'un tournoi à finir
-rlebaill - bug quand on appuie sur entrer quand on rentre l'alias
 
 <----------COMMENT--TESTER--LE--CLI--?------------>
 
