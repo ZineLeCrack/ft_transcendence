@@ -22,6 +22,7 @@ export default async function initPong() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
+			credentials: 'include',
 		});
 	} catch (err) {
 		console.error('Error verifying user:', err);

@@ -22,6 +22,7 @@ export async function loadHistoryContent(username: string) {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({token, username}),
+				credentials: 'include',
 			});
 
 			const data = await response.json();
@@ -47,6 +48,7 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
+			credentials: 'include',
 		});
 		if (!response.ok)
 		{
@@ -109,7 +111,8 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 			const blockCheck = await fetch("/api/isblock", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ tokenID, target })
+				body: JSON.stringify({ tokenID, target }),
+				credentials: 'include',
 			});
 			const block = await blockCheck.json();
 			if (data.original === username)

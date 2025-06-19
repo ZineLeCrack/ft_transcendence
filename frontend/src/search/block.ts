@@ -4,15 +4,15 @@ import { getWebSocket } from "../websocket";
 export default async function initBlockPlayer(target?: string) {
 	if (target) {
 		const blockbtn = document.getElementById("block-btn") as HTMLButtonElement;
-		const tokenID = sessionStorage.getItem("token");
 
-		if (!blockbtn || !target || !tokenID) return ;
+		if (!blockbtn || !target ) return ;
 		const checkBlockStatus = async () => {
 			try {
 				const res = await fetch("/api/isblock", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target })
+					body: JSON.stringify({ target }),
+					credentials: 'include',
 				});
 				const data = await res.json();
 				if (data.status === 1) {
@@ -35,7 +35,8 @@ export default async function initBlockPlayer(target?: string) {
 				res = await fetch("/api/isblock", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target })
+					body: JSON.stringify({ target }),
+					credentials: 'include',
 				});
 			} catch (err) {
 				console.error('Error getting user status:', err);
@@ -50,13 +51,14 @@ export default async function initBlockPlayer(target?: string) {
 					const res = await fetch("/api/blockplayer", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ tokenID, target })
+						body: JSON.stringify({ target }),
+						credentials: 'include',
 					})
 					const data = await res.json();
 					if (data.success)
 						blockbtn.textContent = translate("Unblock_Player");
 					let chatdata;
-					chatdata = { type: 'block_users', token: tokenID, targetUsername : target};
+					chatdata = { type: 'block_users', targetUsername : target};
 					ws?.send(JSON.stringify(chatdata));
 				} catch (err) {
 					console.error('Error blocking user:', err);
@@ -69,13 +71,14 @@ export default async function initBlockPlayer(target?: string) {
 					const res = await fetch("/api/unblockplayer", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ tokenID, target })
+						body: JSON.stringify({ target }),
+						credentials: 'include',
 					});
 					const data = await res.json();
 					if (data.success)
 						blockbtn.textContent = translate("block_friend_trad");
 					let chatdata;
-					chatdata = { type: 'unblock_users', token: tokenID, targetUsername : target};
+					chatdata = { type: 'unblock_users', targetUsername : target};
 					ws?.send(JSON.stringify(chatdata));
 				} catch (err) {
 					console.error('Error unblocking user:', err);

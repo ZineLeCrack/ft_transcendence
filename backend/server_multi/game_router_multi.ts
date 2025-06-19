@@ -2,8 +2,6 @@ import { FastifyInstance } from 'fastify';
 import { GameInstance } from './multiplayer.js';
 import jwt from 'jsonwebtoken';
 import { getDb_user} from "../database";
-import { request } from 'http';
-import { response } from 'express';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export const games = new Map<string, GameInstance>();
@@ -14,12 +12,12 @@ export function generateGameId(): string {
 
 export default async function gameRouter(fastify: FastifyInstance) {
 	fastify.post('/start', async (request, reply) => {
-		const { token } = request.body as { token: string};
 
 		let userId;
 		let userName;
 		const db = await getDb_user();
 		try {
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
@@ -47,7 +45,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 				return ;
 			}
 		}
-
 		const id = generateGameId();
 		const game = new GameInstance(id, userId, userName, false, '');
 		games.set(id, game);
@@ -60,7 +57,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send(`Game not found`);
+			reply.status(200).send(`Game not found but is okay`);
 			return ;
 		}
 
@@ -93,7 +90,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send({ error: "Game not found" });
+			reply.status(200).send({ error: "Game not found" });
 			return ;
 		}
 
@@ -106,7 +103,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send({ error: "Game not found" });
+			reply.status(200).send({ error: "Game not found" });
 			return ;
 		}
 
@@ -120,7 +117,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send({ error: "Game not found" });
+			reply.status(200).send({ error: "Game not found" });
 			return ;
 		}
 
@@ -135,7 +132,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send({ error: "Game not found" });
+			reply.status(200).send({ error: "Game not found" });
 			return ;
 		}
 
@@ -150,7 +147,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(id);
 
 		if (!game) {
-			reply.status(404).send({ error: "Game not found" });
+			reply.status(200).send({ error: "Game not found" });
 			return ;
 		}
 
@@ -159,11 +156,11 @@ export default async function gameRouter(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/private/create', async (request, reply) => {
-		const { token, target } = request.body as { token: string, target: string };
+		const { target } = request.body as { target: string };
 
 		let userId;
-
 		try {
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -180,10 +177,10 @@ export default async function gameRouter(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/private/join', async (request, reply) => {
-		const { token } = request.body as { token: string };
 		let userId, userName;
 		const db = await getDb_user();
 		try {
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
@@ -212,21 +209,22 @@ export default async function gameRouter(fastify: FastifyInstance) {
 				return ;
 			}
 		}
-		reply.status(404).send('Game not found');
+		reply.status(200).send('Game not found');
 	});
 
 	fastify.post('/which_player', async (request, reply) => {
-		const { token, gameId } = request.body as { token: string, gameId: string };
+		const { gameId } = request.body as { gameId: string };
 		const game = games.get(gameId.toString());
 
 		if (!game) {
-			reply.status(404).send('Game not found');
+			reply.status(200).send('Game not found');
 			return ;
 		}
 
 		let userId;
 
 		try {
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -251,7 +249,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		const game = games.get(gameId.toString());
 
 		if (!game) {
-			reply.status(404).send('Game not found');
+			reply.status(200).send('Game not found');
 			return ;
 		}
 

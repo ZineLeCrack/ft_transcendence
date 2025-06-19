@@ -205,7 +205,6 @@ export default async function initJoinTournament() {
 						initInTournament(data.id);
 						const ws = getWebSocket();
 						ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
-
 						if (data.full) {
 							try {
 								const response1 = await fetch('/api/tournament/get_players', {

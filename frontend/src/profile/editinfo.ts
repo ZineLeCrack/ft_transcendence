@@ -9,10 +9,10 @@ import { validateEmail, validateUsername } from '../utils';
 export async function loadProfilePicture(div: string, name: string) {
 	try {
 		const token = sessionStorage.getItem("token");
-		if (!token) return ;
 
 		const response = await fetch('/api/picture', {
-			headers: { 'Authorization': `Bearer ${token} ${name}` }
+			headers: { 'Authorization': `Bearer ${token} ${name}` },
+			credentials: 'include',
 		});
 
 		if (!response.ok) {
@@ -47,6 +47,7 @@ export default async function initEditProfile() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
+			credentials: 'include',
 		});
 		if (!response.ok)
 		{
@@ -116,6 +117,7 @@ export default async function initEditProfile() {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(EditData),
+					credentials: "include",
 				});
 				if (!response.ok)
 				{
@@ -147,6 +149,7 @@ export default async function initEditProfile() {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },
 							body: JSON.stringify({ token }),
+							credentials: "include",
 						});
 						if (!response1.ok)
 						{
@@ -220,6 +223,7 @@ export default async function initEditProfile() {
 				headers: {
 					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
 				},
+				credentials:"include",
 			});
 			if (!response.ok)
 			{

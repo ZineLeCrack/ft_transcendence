@@ -91,11 +91,10 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/is_in', async (request, reply) => {
-		const { token } = request.body as { token: string };
-
 		let userId: string;
 
 		try {
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -123,7 +122,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/join', async (request, reply) => {
-		const { id_tournament, token, password, alias } = request.body as { id_tournament: string, token: string, password: string | null, alias: string };
+		const { id_tournament, password, alias } = request.body as { id_tournament: string, password: string | null, alias: string };
 
 		if (!(/^[a-zA-Z0-9_]{0,10}$/.test(alias))) {
 			reply.status(200).send('Invalid alias !');
@@ -133,6 +132,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		let userId;
 
 		try {
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 		} catch (err) {

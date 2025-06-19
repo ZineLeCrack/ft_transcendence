@@ -11,7 +11,7 @@ import { validateUsername, validateEmail, validatePassword } from './../utils.js
 export default async function editRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/edit', async (request, reply) => {
-		const { current, newpass, token } = request.body as { current: string, newpass: string, token: string };
+		const { current, newpass} = request.body as { current: string, newpass: string };
 		if (!newpass || !current) {
 			reply.status(400).send('incomplete data');
 			return ;
@@ -23,6 +23,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		}
 		let IdUser;
 		try {
+			const token = request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			IdUser = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -48,7 +49,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/info', async (request, reply) => {
-		const { username, email, token } = request.body as { username: string, email: string, token: string };
+		const { username, email} = request.body as { username: string, email: string};
 		if (!username && !email) {
 			reply.status(400).send('incomplete data');
 			return ;
@@ -69,6 +70,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			const dbchat = await getDb_chat();
 			let IdUser;
 			try {
+				const token = request.cookies.accessToken!;  
 				const decoded = jwt.verify(token, JWT_SECRET);
 				IdUser = (decoded as { userId: string }).userId;
 			} catch (err) {
@@ -114,15 +116,13 @@ export default async function editRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/picture', async (request, reply) => {
 		const fileData = await request.file();
-		const authHeader = request.headers['authorization'];
-		const token = authHeader?.split(' ')[1]!;
-		const start = Date.now();
 		if (!fileData) {
 			reply.status(200).send('Please select a picture');
 			return ;
 		}
 		let IdUser;
 		try {
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			IdUser = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -157,15 +157,12 @@ export default async function editRoutes(fastify: FastifyInstance) {
 	});
 	fastify.get('/picture', async (request, reply) => {
 		const authHeader = request.headers['authorization'] as any;
-		const token = authHeader?.split(' ')[1];
 		const name = authHeader?.split(' ')[2];
 
-		if (!token) {
-			return reply.status(401).send('Token missing');
-		}
 
 		let userId;
 		try {
+			const token = request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 		} catch {

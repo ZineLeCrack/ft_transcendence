@@ -5,16 +5,16 @@ export default async function initAddFriend(target?: string) {
 	if (target) {
 		const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
 		const target = document.getElementById("username-h2")?.textContent;
-		const tokenID = sessionStorage.getItem("token");
 
-		if (!friendbtn || !target || !tokenID) return ;
+		if (!friendbtn || !target) return ;
 
 		const checkFriendStatus = async () => {
 			try {
 				const res = await fetch("/api/isfriend", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target })
+					body: JSON.stringify({ target }),
+					credentials: 'include',
 				});
 				const data = await res.json();
 				if (data.status === 1) {
@@ -40,7 +40,8 @@ export default async function initAddFriend(target?: string) {
 				const res = await fetch("/api/isfriend", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target })
+					body: JSON.stringify({ target }),
+					credentials: 'include',
 				});
 				const friend = await res.json();
 				const ws = getWebSocket();
@@ -49,14 +50,15 @@ export default async function initAddFriend(target?: string) {
 					const res = await fetch("/api/requestfriend", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ tokenID, target })
+						body: JSON.stringify({  target }),
+						credentials: 'include',
 					});
 					const data = await res.json();
 					if (data.success) {
 						friendbtn.textContent = translate("Request_Sent");
 					}
 					let chatdata;
-					chatdata = { type: 'add_friend', token: tokenID, targetUsername : target};
+					chatdata = { type: 'add_friend', targetUsername : target};
 					ws?.send(JSON.stringify(chatdata));
 				}
 				else if (friend.status === 1)
@@ -64,14 +66,15 @@ export default async function initAddFriend(target?: string) {
 					const res = await fetch("/api/removefriend", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ tokenID, target })
+						body: JSON.stringify({ target }),
+						credentials: 'include',
 					});
 					const data = await res.json();
 					if (data.success) {
 						friendbtn.textContent = translate("add_friend_trad");
 					}
 					let chatdata;
-					chatdata = { type: 'remove_friend', token: tokenID, targetUsername : target};
+					chatdata = { type: 'remove_friend', targetUsername : target};
 					ws?.send(JSON.stringify(chatdata));
 				}
 			} catch (err) {

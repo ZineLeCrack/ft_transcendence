@@ -10,6 +10,7 @@ import initError from '../error.js'
 import { loadRoutes } from '../main.js';
 import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
+import { loadProfilePicture } from '../profile/editinfo.js';
 
 export default async function initHome() {
 	await initLanguageSelector();
@@ -20,6 +21,7 @@ export default async function initHome() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
+			credentials: 'include',
 		});
 
 		if (!response.ok)
@@ -43,7 +45,8 @@ export default async function initHome() {
 		const res = await fetch('/api/tournament/is_in', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token: sessionStorage.getItem('token') })
+			body: JSON.stringify({ token: sessionStorage.getItem('token') }),
+			credentials: 'include',
 		});
 
 		if (!res.ok)
@@ -52,6 +55,7 @@ export default async function initHome() {
 			return ;
 		}
 
+		loadProfilePicture("profileBtn", "l");
 		const data = await res.json();
 
 		if (data.tournamentId === '0')

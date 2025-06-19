@@ -6,16 +6,17 @@ export default async function initGlobalstats(username: string) {
 		const statsRes = await fetch('/api/stats', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token, username })
+			body: JSON.stringify({ token, username }),
+			credentials: 'include',
 		});
 		const stats = await statsRes.json();
 
 		const historyRes = await fetch('/api/history', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token, username })
+			body: JSON.stringify({ token, username }),
+			credentials: 'include',
 		});
-		const history = await historyRes.json();
 
 		const totalgame = document.getElementById('total_games') as HTMLParagraphElement;
 		const winsgame = document.getElementById('wins_game') as HTMLParagraphElement;

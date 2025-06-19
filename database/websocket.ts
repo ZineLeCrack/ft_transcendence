@@ -6,10 +6,26 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 const clients = new Set<WebSocket>();
 
+function parseCookies(cookieHeader:any) {
+  const cookies:any = {};
+  if (!cookieHeader) return cookies;
+
+  const pairs = cookieHeader.split(';');
+  for (const pair of pairs) {
+    const [name, ...rest] = pair.trim().split('=');
+    const value = rest.join('=');
+    cookies[name] = decodeURIComponent(value);
+  }
+  return cookies;
+}
+
+
 export function setupWebSocket(server: any) {
 	const wss = new WebSocketServer({ server });
 
-	wss.on('connection', (ws) => {
+	wss.on('connection', (ws ,req) => {
+		const cookies = parseCookies(req.headers.cookie);
+		const token = cookies['accessToken'];
 		clients.add(ws);
 
 		ws.on('close', () => {
@@ -19,7 +35,7 @@ export function setupWebSocket(server: any) {
 		ws.on('message', async (message) => {
 			try {
 				const data = JSON.parse(message.toString());
-				const { type, token, content, targetUsername, id, pongRequest, next_player1, next_player2, gameId, winner } = data;
+				const { type, content, targetUsername, id, pongRequest, next_player1, next_player2, gameId, winner } = data;
 				const dbusers = await getDb_user();
 				const dbchat = await getDb_chat();
 				if (type === 'multi_player_join') {
