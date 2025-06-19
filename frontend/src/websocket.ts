@@ -56,6 +56,7 @@ export function initWebSocket(original: string) {
 
 	ws.onmessage = async (event) => {
 		const data = JSON.parse(event.data);
+		
 		if (data.type === 'error') {
 			initError(data.message);
 			return ;
