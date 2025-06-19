@@ -47,7 +47,6 @@ export default async function gameRouter(fastify: FastifyInstance) {
 				return ;
 			}
 		}
-
 		const id = generateGameId();
 		const game = new GameInstance(id, userId, userName, false, '');
 		games.set(id, game);

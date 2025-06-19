@@ -176,16 +176,17 @@ export default async function initInTournament(id: string) {
 
 	playTournamentBtn?.addEventListener('click', async () => {
 		try {
+			console.log(id);
 			const response = await fetch('/api/multi/tournament/join', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ token: sessionStorage.getItem('token'), tournamentId: id }),
+				body: JSON.stringify({tournamentId: id }),
 				credentials: 'include'
 			});
 
 			const data = await response.json();
-
-			if (data.err) {
+			console.log(data);
+			if (0) {
 				initError(translate("tour_error_trad"));
 			} else {
 				const ws = getWebSocket();

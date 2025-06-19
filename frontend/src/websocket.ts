@@ -47,7 +47,8 @@ export function initWebSocket(original: string) {
 			fetch('/api/setstatus', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
+				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' }),
+				credentials: 'include'
 			});
 		} catch (err) {
 			console.error('Error setting disconnected status:', err);
@@ -163,7 +164,8 @@ export function initWebSocket(original: string) {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+					body: JSON.stringify({ token: sessionStorage.getItem('token') }),
+					credentials: 'include'
 				});
 				const is_in = await res.json();
 				if (is_in.tournamentId.toString() === '0') {
@@ -182,8 +184,10 @@ export function initWebSocket(original: string) {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+					body: JSON.stringify({ token: sessionStorage.getItem('token') }),
+					credentials: 'include'
 				});
+				console.log("is_in_ok")
 				const is_in = await res.json();
 				if (is_in.tournamentId.toString() === data.id) {
 					const response1 = await fetch('/api/tournament/get_players', {
@@ -198,6 +202,7 @@ export function initWebSocket(original: string) {
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({ tournamentId: data.id })
 					});
+					console.log("get_winners")
 					const TournamentData_Lose_Win = await response2.json();
 					generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
 				} else if (is_in.tournamentId.toString() === '0') {
@@ -212,7 +217,9 @@ export function initWebSocket(original: string) {
 			}
 		}
 		if (data.type === 'tournament_next_game') {
+			console.log(userId, data)
 			if (userId === data.next_player1 || userId === data.next_player2) {
+				console.log("send_message_ok", data);
 				sendMessage('', '', false, 'global', false, false, false, true);
 			}
 		}

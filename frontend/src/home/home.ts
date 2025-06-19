@@ -54,6 +54,7 @@ export default async function initHome() {
 			console.error(`Failed to load tournament`);
 			return ;
 		}
+
 		loadProfilePicture("profileBtn", "l");
 		const data = await res.json();
 

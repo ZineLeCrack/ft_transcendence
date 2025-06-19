@@ -49,7 +49,6 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/verifuser', async (request, reply) => {
-		const token = request.cookies.accessToken!;
 		let id_user;
 
 		try {

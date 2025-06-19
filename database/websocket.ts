@@ -85,6 +85,7 @@ export function setupWebSocket(server: any) {
 					await dbchat.run(
 						`INSERT INTO chat (username, content, announceTournament, announceTournament_id1, announceTournament_id2) VALUES (?, ?, ?, ?, ?)`,
 						["", "", 2, next_player1, next_player2]);
+					console.log(next_player1, next_player2, id);
 					for (const client of clients) {
 						if (client.readyState === ws.OPEN) {
 							client.send(JSON.stringify({ type, next_player1, next_player2, id }));
