@@ -1,7 +1,27 @@
-ebroudic - date de tournoi a la place de l'id du tournoi sur le graphique du profil
+lelanglo - URGENT - Mettre token en memoire RAM
+lelanglo - traduction quand quelqu'un a gagné en local/ai à réparer
 
-cle-berr - verifuser si token pas bon ca met erreur 500, ce n'est pas un bon status d'erreur
-cle-berr - status hors-ligne au moment où l'autre accepte la demande d'ami
+<----------COMMENT--TESTER--LE--CLI--?------------>
+
+curl -X {POST ou GET} https://{IP}{chemin vers le POST ou GET} {-k: pour certificate auto-signé}  \
+	-H {header} "Content-Type: application/json" \
+	-d {body} '{"gameId": "abc123"}'
+
+EXEMPLE:
+
+curl -X POST https://10.12.200.81/api/main/game/start -k
+
+ET:
+
+curl -X POST https://10.12.200.81/api/main/game/end -k \
+	-H "Content-Type: application/json" \
+	-d '{"gameId": "??????"}'
+
+<------------------------------------------------->
+
+tous le monde - si on a le temps faire une doc sur nos programmes plus simple pour expliquer a Alexandru et au autre pas besoin d'expliquer en detail juste dire ce que les fonction resoult comme probleme ou module 
+
+ebroudic - enlever l'input du chat quand on est dans notre liste d'amis et qu'on a pas choisi de conversation 
 
 tous le monde - lire le sujet, connaitre son code, trouver erreur et regler erreur
 

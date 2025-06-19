@@ -25,7 +25,7 @@ export default async function initPong() {
 			credentials: 'include',
 		});
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 	const info = await response.json();
@@ -70,11 +70,18 @@ export default async function initPong() {
 		game.shadowBlur = 10;
 
 		let new_message;
-		if (message === "to_start" || message === "1_win" || message === "2_win") {
-			new_message = translate(message);
-		} else {
-			new_message = message;
-		}
+		if (message === "to_start") {
+				new_message = translate(message);
+			}
+			else if (message === "1_win")
+			{
+				new_message = `${translate("1_lwin")}`;
+			} 
+			else if (message === "2_win") {
+				new_message = translate("2_lwin");
+			} else {
+				new_message = message;
+			}
 		game.fillText(new_message, 400 - (new_message.length * 14), 150);
 
 		for (let i = 0; i < 600; i += 18.9)
@@ -132,7 +139,7 @@ export default async function initPong() {
 				await fetch(`${SERVER_URL}/start`, { method: "POST" });
 				gameStarted = true;
 			} catch (err) {
-				console.log('Error starting local game:', err);
+				console.error('Error starting local game:', err);
 			}
 		}
 	}
@@ -153,7 +160,7 @@ export default async function initPong() {
 				body: JSON.stringify({ keys })
 			});
 		} catch (err) {
-			console.log('Error sending moves:', err);
+			console.error('Error sending moves:', err);
 		}
 	}, 16);
 
@@ -172,10 +179,22 @@ export default async function initPong() {
 				body: JSON.stringify({ gameId: gameId })
 			});
 		} catch (err) {
-			console.log('Error ending local game:', err);
+			console.error('Error ending local game:', err);
 		}
+		const homeBtn = document.getElementById('home-button');
+		if (homeBtn) homeBtn.removeEventListener('click', cleanUpOnClick);
 		window.removeEventListener("popstate", cleanUp);
 	}
+
+	async function cleanUpOnClick() {
+		await cleanUp();
+		history.pushState(null, '', '/home');
+		await loadRoutes('/home');
+	}
+
+	const homeBtn = document.getElementById('home-button');
+
+	if (homeBtn) homeBtn.addEventListener('click', cleanUpOnClick);
 
 	window.addEventListener('popstate', cleanUp);
 }

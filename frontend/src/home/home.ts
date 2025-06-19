@@ -66,6 +66,6 @@ export default async function initHome() {
 		else
 			initInTournament(data.tournamentId);
 	} catch (err) {
-		console.log('Error initializing home:', err);
+		console.error('Error initializing home:', err);
 	}
 }

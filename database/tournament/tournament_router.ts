@@ -7,9 +7,14 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function tournamentRoutes(fastify: FastifyInstance) {
 	fastify.post('/create', async (request, reply) => {
-		const { name, players_max, type, password } = request.body as { name: string, players_max: number, type: string, password: string | null };
+		const { name, type, password } = request.body as { name: string, type: string, password: string | null };
 
 		try {
+			if (!(/^[a-zA-Z0-9_]{0,10}$/.test(name))) {
+				reply.status(200).send({ err: true, message: 'torn_invalid_name' });
+				return ;
+			}
+
 			let hashed;
 			const db = await getDb_tournaments();
 
@@ -29,10 +34,10 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				[tournamentId]
 			);
 
-			reply.send({ success: true });
+			reply.send({ success: true, err: false });
 		} catch (err) {
 			console.error(err);
-			reply.status(500).send('Error');
+			reply.status(500).send({ err: true, message: 'Internal server error' });
 		}
 	});
 
@@ -86,7 +91,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 	});
 
 	fastify.post('/is_in', async (request, reply) => {
-
 		let userId: string;
 
 		try {
@@ -119,6 +123,12 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/join', async (request, reply) => {
 		const { id_tournament, password, alias } = request.body as { id_tournament: string, password: string | null, alias: string };
+
+		if (!(/^[a-zA-Z0-9_]{0,10}$/.test(alias))) {
+			reply.status(200).send('Invalid alias !');
+			return ;
+		}
+
 		let userId;
 
 		try {
@@ -281,12 +291,12 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 					`UPDATE stats SET tournaments_played = tournaments_played + 1, tournaments_win = tournaments_win + 1,
 					last_ranking = ? WHERE id_player = ?`
 					, [pos1, winner]);
-				setTimeout(async () => {
-					await db.run(`DELETE FROM tournaments WHERE id = ?`, [tournamentId]);
-					await db.run(`DELETE FROM result WHERE id = ?`, [tournamentId]);
-				}, 5000);
+				await db.run(`DELETE FROM tournaments WHERE id = ?`, [tournamentId]);
+				await db.run(`DELETE FROM result WHERE id = ?`, [tournamentId]);
+				reply.status(200).send({ last: true });
+				return ;
 			}
-			reply.send({ success: true });
+			reply.status(200).send({ last: false });
 		} catch (err) {
 			console.error(err);
 			reply.status(500).send('Error');

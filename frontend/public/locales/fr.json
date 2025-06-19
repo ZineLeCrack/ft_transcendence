@@ -135,11 +135,13 @@
 	"no_pass" : "Mot de passe incorrect",
 	"same_pass" : "Ne change pas ton mot de passe avec le dernier",
 	"not_the_current" : "Votre mot de passe actuel incorrect",
-  	"controls": "Commmandes",
+  	"controls": "Commandes",
 	"waiting": "En attente de joueur...",
 	"to_start": "Appuyez sur espace",
-	"1_win": "a gagné",
-	"2_win": "a gagné",
+	"1_win": "a gagné !",
+	"2_win": "a gagné !",
+	"1_lwin": "Joueur1 a gagné !",
+	"2_lwin": "Joueur2 a gagné !",
 	"ai_win": "L'IA a gagné !",
 	"incomplete_data": "Veuillez remplir les au moins l'un des deux champs !",
   	"user_error": "Un utilisateur possede deja ces informations",
@@ -164,5 +166,8 @@
 	"touch_html": "Pouvez-vous respecter la politique imposée s'il vous plait",
 	"tournament_full": "Le tournoi est complet",
 	"return_home": "Retour au menu",
-	"tour_error_trad": "Veuillez attendre que ce soit a votre tour de jouer (un message vous sera envoyé dans le tchat global)"
+	"tour_error_trad": "Veuillez attendre que ce soit a votre tour de jouer (un message vous sera envoyé dans le tchat global)",
+	"tournament_announce1": "La partie qui oppose",
+	"tournament_announce2": "va commencer",
+	"and":"et"
 }

@@ -5,7 +5,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function privateGameRoutes(fastify: FastifyInstance) {
 	fastify.post('/reply-pong', async (_request, reply) => {
-		const {target, answer } = _request.body as {target: string, answer: number };
+		const { target, answer } = _request.body as { target: string, answer: number };
 		let id_user;
 		try {
 			const dbChat = await getDb_chat();

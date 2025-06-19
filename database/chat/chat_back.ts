@@ -18,18 +18,13 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/getPrivateMessages', async (_request, reply) => {
 		try {
-			const {username2 } = _request.body as {username2: string };
+			const { username2 } = _request.body as { username2: string };
 
 			let username1;
 			let id_user;
-			try {
-				const token = _request.cookies.accessToken!
-				const decoded = jwt.verify(token, JWT_SECRET);
-				id_user = (decoded as { userId: string }).userId;
-			} catch (err) {
-				reply.status(401).send('Invalid token');
-				return ;
-			}
+			const token = _request.cookies.accessToken!;  
+			const decoded = jwt.verify(token, JWT_SECRET);
+			id_user = (decoded as { userId: string }).userId;
 			const dbUser = await getDb_user();
 			username1 = await dbUser.get(`SELECT name FROM users WHERE id = ?`, [id_user]);
 			const dbChat = await getDb_chat();
@@ -52,7 +47,7 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 		let id_user;
 
 		try {
-			const token = request.cookies.accessToken!
+			const token = request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			id_user = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -61,9 +56,9 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 		}
 
 		try {
-			
+
 			const db = await getDb_user();
-			
+
 			const response = await db.get(`SELECT * FROM users WHERE id = ?`, [id_user]);
 			const original = response.name;
 			const profile_pic = response.profile_pic;

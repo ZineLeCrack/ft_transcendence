@@ -41,7 +41,7 @@ export default async function initPong() {
 		}
 
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 	const info = await response.json();
@@ -88,7 +88,7 @@ export default async function initPong() {
 		else if (message === "1_win")
 		{
 			new_message = `${info.original} ${translate("1_win")}`;
-		} 
+		}
 		else if (message === "2_win") {
 			new_message = translate("ai_win");
 		} else {
@@ -194,7 +194,7 @@ export default async function initPong() {
 			try {
 				await fetch(`${SERVER_URL}/start`, { method: "POST" });
 			} catch (err) {
-				console.log('Error starting ai game:', err);
+				console.error('Error starting ai game:', err);
 			}
 			gameStarted = true;
 		}
@@ -218,7 +218,7 @@ export default async function initPong() {
 				body: JSON.stringify({ keys })
 			});
 		} catch (err) {
-			console.log('Error sending moves:', err);
+			console.error('Error sending moves:', err);
 		}
 	}, 16);
 
@@ -239,10 +239,22 @@ export default async function initPong() {
 				body: JSON.stringify({ gameId: gameId })
 			});
 		} catch (err) {
-			console.log('Error ending ai game:', err);
+			console.error('Error ending ai game:', err);
 		}
+		const homeBtn = document.getElementById('home-button');
+		if (homeBtn) homeBtn.removeEventListener('click', cleanUpOnClick);
 		window.removeEventListener("popstate", cleanUp);
 	}
+
+	async function cleanUpOnClick() {
+		await cleanUp();
+		history.pushState(null, '', '/home');
+		await loadRoutes('/home');
+	}
+
+	const homeBtn = document.getElementById('home-button');
+
+	if (homeBtn) homeBtn.addEventListener('click', cleanUpOnClick);
 
 	window.addEventListener('popstate', cleanUp);
 }

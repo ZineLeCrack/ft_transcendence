@@ -76,12 +76,12 @@ export default async function initJoinTournament() {
 					</div>
 					<div class="flex items-center gap-4">
 						<div id="password-container" class="relative hidden">
-							<input type="password" 
-								class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-48 pr-12 focus:outline-none focus:border-[#FFD700]" 
+							<input type="password"
+								class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-48 pr-12 focus:outline-none focus:border-[#FFD700]"
 								placeholder="${enterPasswordPlaceholder}"/>
 							<button type="button" class="toggle-password absolute top-1/2 -translate-y-1/2 right-2">
-								<img src="/images/closerobot.png" 
-									class="size-8 drop-shadow-[0_0_10px_#FF007A]" 
+								<img src="/images/closerobot.png"
+									class="size-8 drop-shadow-[0_0_10px_#FF007A]"
 									alt="toggle password"/>
 							</button>
 						</div>
@@ -99,12 +99,12 @@ export default async function initJoinTournament() {
 					</div>
 					<div class="flex items-center gap-4">
 						<div id="password-container" class="relative">
-							<input id="password-input-${tournament.id}" type="password" 
-								class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-48 pr-12 focus:outline-none focus:border-[#FFD700]" 
+							<input id="password-input-${tournament.id}" type="password"
+								class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-48 pr-12 focus:outline-none focus:border-[#FFD700]"
 								placeholder="${enterPasswordPlaceholder}"/>
 							<button id="toggle-password-${tournament.id}" type="button" class="absolute top-1/2 -translate-y-1/2 right-2">
-								<img id=password-icon-${tournament.id} src="/images/closerobot.png" 
-									class="size-8 drop-shadow-[0_0_10px_#FF007A]" 
+								<img id=password-icon-${tournament.id} src="/images/closerobot.png"
+									class="size-8 drop-shadow-[0_0_10px_#FF007A]"
 									alt="toggle password"/>
 							</button>
 						</div>
@@ -138,11 +138,11 @@ export default async function initJoinTournament() {
 				class="w-full bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 mb-6 focus:outline-none focus:border-[#FFD700]"
 				placeholder="${enterYourAliasPlaceholder}"/>
 			<div class="flex justify-between gap-4">
-				<button id="cancel-alias" 
+				<button id="cancel-alias"
 					class="flex-1 bg-transparent border-2 border-[#FF2E9F] text-[#FF2E9F] font-bold py-2 px-6 rounded-xl hover:bg-[#FF2E9F]/20 transition duration-200">
 					${cancelButton}
 				</button>
-				<button id="confirm-alias" 
+				<button id="confirm-alias"
 					class="flex-1 bg-transparent border-2 border-[#FFD700] text-[#FFD700] font-bold py-2 px-6 rounded-xl hover:bg-[#FFD700]/20 transition duration-200">
 					${confirmJoinButton}
 				</button>
@@ -153,6 +153,7 @@ export default async function initJoinTournament() {
 	if (JoinBtnTournament.length > 0) {
 		JoinBtnTournament.forEach(button => {
 			button.addEventListener('click', async () => {
+				backOnClick();
 				const passwordInput = document.getElementById(`password-input-${button.id.split('-').pop()}`) as HTMLInputElement;
 				const tournamentId = button.id.split('-').pop();
 
@@ -168,7 +169,7 @@ export default async function initJoinTournament() {
 							return ;
 						}
 
-						if (!(/^[a-zA-Z0-9_]{0,10}$/.test(inputAlias.value.trim()))) {
+						if (!(/^[a-zA-Z0-9_]{0,10}$/.test(inputAlias.value))) {
 							initError(translate('invalid_alias'));
 							return ;
 						}
@@ -191,6 +192,8 @@ export default async function initJoinTournament() {
 							throw new Error(translate("tournament_full"));
 						} else if (text === "Wrong password !") {
 							throw new Error(translate("no_pass"));
+						} else if (text === "Invalid alias !") {
+							throw new Error(translate("invalid_alias"));
 						}
 
 						const PopPup = document.getElementById('alias-popup') as HTMLDivElement;
@@ -234,86 +237,6 @@ export default async function initJoinTournament() {
 						initError((err as string).toString().substring(7));
 					}
 				});
-
-				// inputAlias.addEventListener('keydown', async (e) => {
-				// 	if (e.key === "Enter") {
-				// 		e.preventDefault();
-				// 		try {
-				// 			if (inputAlias.value.trim().length > 10) {
-				// 				initError('alias_too_long');
-				// 				return ;
-				// 			}
-
-				// 			if (!(/^[a-zA-Z0-9_]{0,10}$/.test(inputAlias.value.trim()))) {
-				// 				initError(translate('invalid_alias'));
-				// 				return ;
-				// 			}
-
-				// 			const token = sessionStorage.getItem('token');
-				// 			const response = await fetch('/api/tournament/join', {
-				// 				method: 'POST',
-				// 				headers: { 'Content-Type': 'application/json' },
-				// 				body: JSON.stringify({
-				// 					id_tournament: tournamentId,
-				// 					token: token,
-				// 					password: passwordInput ? passwordInput.value : '',
-				// 					alias: inputAlias.value.trim()
-				// 				})
-				// 			});
-
-				// 			if (!response.ok) {
-				// 				const error = await response.text(); 
-				// 				initError(error);
-				// 				return ;
-				// 			}
-
-				// 			const text = await response.text();
-
-				// 			if (text === "This tournament is full !") {
-				// 				throw new Error(translate("tournament_full"));
-				// 			} else if (text === "Wrong password !") {
-				// 				throw new Error(translate("no_pass"));
-				// 			}
-
-				// 			const data = await response.json();
-				// 			joinTournamentBtn?.removeEventListener("click", joinOnClick);
-				// 			backToTournamentBtn?.removeEventListener("click", backOnClick);
-				// 			const ws = getWebSocket();
-				// 			ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
-
-				// 			if (data.full) {
-				// 				try {
-				// 					const response1 = await fetch('/api/tournament/get_players', {
-				// 						method: 'POST',
-				// 						headers: { 'Content-Type': 'application/json' },
-				// 						body: JSON.stringify({ tournamentId: data.id })
-				// 					});
-				// 					const players = await response1.json();
-				// 					const response2 = await fetch('/api/tournament/get_winners', {
-				// 						method: 'POST',
-				// 						headers: { 'Content-Type': 'application/json' },
-				// 						body: JSON.stringify({ tournamentId: data.id })
-				// 					});
-				// 					const results = await response2.json();
-				// 					await fetch('/api/multi/tournament/start', {
-				// 						method: 'POST',
-				// 						headers: { 'Content-Type': 'application/json' },
-				// 						body: JSON.stringify({ id: data.id, ...players, ...results })
-				// 					});
-				// 				} catch (err) {
-				// 					console.error(`Error starting tournament: `, err);
-				// 					return ;
-				// 				}
-				// 			}
-
-				// 			joinView?.classList.add('hidden');
-				// 			mainView?.classList.remove('hidden');
-				// 			window.location.reload();
-				// 		} catch (err) {
-				// 			initError(err as string);
-				// 		}
-				// 	}
-				// });
 
 				cancelAlias.addEventListener('click', async () => {
 					const PopPup = document.getElementById('alias-popup') as HTMLDivElement;

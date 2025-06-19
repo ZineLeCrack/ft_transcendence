@@ -30,7 +30,7 @@ export async function initLanguageSelector(username?:string) {
 	languageOptions.forEach(option => {
 		option.addEventListener('click', async () => {
 			const lang = option.getAttribute('data-lang');
-			if (lang && lang !== getStoredLanguage()) { 
+			if (lang && lang !== getStoredLanguage()) {
 				await changeLanguage(lang, username);
 				setStoredLanguage(lang);
 				updateFlag(lang);

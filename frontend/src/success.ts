@@ -26,7 +26,7 @@ export default function initSuccess(content?: string)
 	{
 		messageElement.textContent = content;
 	}
-	else if (messageElement) 
+	else if (messageElement)
 	{
 		messageElement.textContent = 'An unexpected success occurred.';
 	}

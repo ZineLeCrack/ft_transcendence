@@ -60,7 +60,7 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 			return ;
 		}
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 
@@ -134,7 +134,7 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 				initSearch();
 			}
 		} catch (err) {
-			console.log('Error getting user block status:', err);
+			console.error('Error getting user block status:', err);
 		}
 	}
 }

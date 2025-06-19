@@ -5,6 +5,8 @@ import { translate } from "./i18n.js";
 import initFriendChat from "./chat/friendchat.js";
 import initJoinTournament from "./tournament/join_tournament.js";
 import initUsers from "./search/users.js";
+import initCreateTournament from "./tournament/create_tournament.js";
+import initSuccess from "./success.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -26,7 +28,6 @@ export function initWebSocket(original: string) {
 		} catch (err) {
 			console.error('Error setting connected status:', err);
 		}
-		console.log("WebSocket connecté !");
 	};
 
 	ws.onerror = (err) => {
@@ -62,6 +63,50 @@ export function initWebSocket(original: string) {
 			initError(data.message);
 			return ;
 		}
+		if (data.type === 'tournament_end') {
+			try {
+				const res = await fetch('/api/tournament/is_in', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+				});
+				const is_in = await res.json();
+				if (is_in.tournamentId.toString() === '0') {
+					const playBtn = document.getElementById('play-tournament');
+					const joinBtn = document.getElementById('join-tournament');
+					const createBtn = document.getElementById('create-tournament');
+					const container = document.getElementById('tournament-view');
+					const tournamentdiv = document.getElementById('tournament-div');
+
+					if (tournamentdiv) {
+						tournamentdiv.classList.remove("justify-center", "gap-64");
+						tournamentdiv.classList.add("justify-between");
+					}
+					if (playBtn) playBtn.classList.add('hidden');
+					if (joinBtn) joinBtn.classList.remove('hidden');
+					if (createBtn) createBtn.classList.remove('hidden');
+
+					if (container) container.innerHTML = `
+					<div id="default-tournament-view" class="flex flex-col items-center gap-4">
+						<img src="/images/pong_racquet.png" alt="pong racquet" class="w-16 h-16 mb-2" />
+						<p class="text-[#00FFFF]/90 text-xl font-bold text-center" data-i18n="no_tournament">${translate('no_tournament')}</p>
+						<p class="text-[#00FFFF]/80 text-sm" data-i18n="create_or_join">${translate('create_or_join')}</p>
+					</div>`;
+
+					initCreateTournament();
+					initJoinTournament();
+
+					try {
+						await initJoinTournament();
+					} catch (err) {
+						console.error(`Error loading tournaments list:`, err);
+					}
+				}
+			} catch (err) {
+				console.error('Error searching informations:', err);
+			}
+		}
+
 		if (data.type === 'multi_player_join') {
 			if (sessionStorage.getItem('gameId') === data.gameId) {
 				const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
@@ -82,22 +127,8 @@ export function initWebSocket(original: string) {
 				}
 			}
 		}
-		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users') 
-		{
-			if (window.location.pathname === '/home')
-			{
-				initFriendChat();
-			}
-			else if (window.location.pathname === `/users/${data.username}` || window.location.pathname === `/users/${data.username}/history`)
-			{
-				initUsers(data.username);
-			}
-			else if (window.location.pathname === `/users/${data.targetUsername}` || window.location.pathname === `/users/${data.targetUsername}/history`)
-			{
-				initUsers(data.targetUsername);
-			}
-		}
-		if (data.type === 'accept_friend' || data.type === 'decline_friend')
+
+		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users' || data.type === 'accept_friend' || data.type === 'decline_friend')
 		{
 			if (window.location.pathname === '/home')
 			{
@@ -187,7 +218,6 @@ export function initWebSocket(original: string) {
 					body: JSON.stringify({ token: sessionStorage.getItem('token') }),
 					credentials: 'include',
 				});
-				console.log("is_in_ok")
 				const is_in = await res.json();
 				if (is_in.tournamentId.toString() === data.id) {
 					const response1 = await fetch('/api/tournament/get_players', {
@@ -202,7 +232,6 @@ export function initWebSocket(original: string) {
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({ tournamentId: data.id })
 					});
-					console.log("get_winners")
 					const TournamentData_Lose_Win = await response2.json();
 					generateTournamentView(TournamentData_Players, TournamentData_Lose_Win);
 				} else if (is_in.tournamentId.toString() === '0') {
@@ -217,9 +246,25 @@ export function initWebSocket(original: string) {
 			}
 		}
 		if (data.type === 'tournament_next_game') {
-			console.log(userId, data)
 			if (userId.toString() === data.next_player1.toString() || userId.toString() === data.next_player2.toString()) {
 				sendMessage('', '', false, 'global', false, false, false, true);
+			}
+			try {
+				const res = await fetch('/api/tournament/is_in', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+				});
+				const is_in = await res.json();
+				if (is_in.tournamentId.toString() === data.id) {
+					const text1 = translate('tournament_announce1');
+					const and = translate('and');
+					const text2 = translate('tournament_announce2');
+					const text = `${text1} ${data.next_player1} ${and} ${data.next_player2} ${text2}`;
+					initSuccess(text);
+				}
+			} catch (err) {
+				console.error('Error getting players:', err);
 			}
 		}
 	};

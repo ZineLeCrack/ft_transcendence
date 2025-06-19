@@ -25,7 +25,7 @@ export default async function initOverallStats() {
 			return ;
 		}
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 	const info = await response.json();
@@ -75,7 +75,7 @@ export async function initGlobalGraph(originalUsername: string) {
 				: match.pointplayer2 > match.pointplayer1;
 
 			const roundedDate = new Date(Math.floor(date.getTime() / (10 * 60 * 1000)) * (10 * 60 * 1000));
-			const roundedKey = roundedDate.toISOString();
+			const roundedKey = roundedDate.toISOString().slice(0, 16).replace('T', ' ');
 
 			if (!historyMap.has(roundedKey)) {
 				historyMap.set(roundedKey, { points: 0, wins: 0, loses: 0 });
@@ -176,6 +176,7 @@ export async function initGlobalGraph(originalUsername: string) {
 									const value = context.raw as number;
 									const total = context.dataset.data.reduce((a, b) => a + (typeof b === 'number' ? b : 0), 0);
 									const percentage = ((value / total) * 100).toFixed(1);
+									if (total === 0) return `${label}: ${value} 0%`;
 									return `${label}: ${value} (${percentage}%)`;
 								}
 							}
@@ -193,6 +194,7 @@ export async function initGlobalGraph(originalUsername: string) {
 								const data = context.chart.data.datasets[0].data as number[];
 								const total = data.reduce((a, b) => a + b, 0);
 								const percentage = ((value / total) * 100).toFixed(1);
+								if (total === 0) return `0%`;
 								return `${percentage}%`;
 							}
 						}
@@ -204,6 +206,6 @@ export async function initGlobalGraph(originalUsername: string) {
 			pieChartInstance = new Chart(ctx, config);
 		}
 	} catch (err) {
-		console.log('Error loading graph:', err);
+		console.error('Error loading graph:', err);
 	}
 }

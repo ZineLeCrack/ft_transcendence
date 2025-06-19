@@ -13,6 +13,10 @@ export function initSwitchChat()
 		if (document.getElementById('chat-messages-global')) {
 			const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
 			privateChats.forEach(chat => chat.remove());
+			const oldPongBtn = document.getElementById('pong-send');
+			if (oldPongBtn)
+				oldPongBtn.remove();
+			
 
 			const globalChat = document.getElementById('chat-messages-global') as HTMLDivElement;
 			if (globalChat) {
@@ -24,8 +28,8 @@ export function initSwitchChat()
 			const ChatTitle = translate('chat_global')
 			switchChatBtn.innerHTML =`
 			<span data-i18n="chat_global">${ChatTitle}</span>
-			<div id="tooltip-switch-chat" data-i18n="switch_to_global" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
-				opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap 
+			<div id="tooltip-switch-chat" data-i18n="switch_to_global" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded
+				opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap
 				border border-[#FF2E9F] pointer-events-none">
 				${tooltipSwitchGlobal}
 			</div>`;
@@ -45,6 +49,10 @@ export function initSwitchChat()
 			const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
 			privateChats.forEach(chat => chat.remove());
 
+			const oldPongBtn = document.getElementById('pong-send');
+			if (oldPongBtn)
+				oldPongBtn.remove();
+
 			const globalChat = document.createElement('div');
 			globalChat.id = 'chat-messages-global';
 			globalChat.className = 'flex flex-col space-y-4';
@@ -54,8 +62,8 @@ export function initSwitchChat()
 			const ChatTitle = translate('chat_friends')
 			switchChatBtn.innerHTML =`
 				<span data-i18n="chat_friends">${ChatTitle}</span>
-				<div id="tooltip-switch-chat" data-i18n="switch_to_friends" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded 
-					opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap 
+				<div id="tooltip-switch-chat" data-i18n="switch_to_friends" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-[#FF2E9F] text-xs px-2 py-1 rounded
+					opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap
 					border border-[#FF2E9F] pointer-events-none">
 					${tooltipSwitchFriends}
 				</div>`;
@@ -140,7 +148,7 @@ export default async function initFriendChat()
 						</a>
 					</div>`;
 					loadProfilePicture(`profile-pic-friend-online-${Friend.username}`, Friend.username);
-			} else { 
+			} else {
 				friendElement.innerHTML = `<div class="flex-shrink-0 h-[72px] w-20 flex flex-col items-center">
 						<div class="relative">
 							<button id="Friend-button-${Friend.username}" class="group w-12 h-12 rounded-full border-2 border-[#FF2E9F] hover:shadow-[0_0_10px_#FF2E9F] transition-shadow">
@@ -164,7 +172,6 @@ export default async function initFriendChat()
 	async function fetchFriends(): Promise<Friend[]> {
 		try {
 			const tokenID = sessionStorage.getItem("token");
-			if (!tokenID) return [];
 			const res = await fetch("/api/getfriends", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -178,7 +185,7 @@ export default async function initFriendChat()
 			return [];
 		}
 	}
-
+                                                                                  
 	const friends: Friend[] = await fetchFriends();
 	generateFriendList(friends);
 
@@ -209,20 +216,14 @@ export default async function initFriendChat()
 				const friendStatus = await friendCheck.json();
 				if (friendStatus.status === 0) {
 					initError(translate("not_friend"));
-					setTimeout(async () => {
-						window.location.reload();
-					}, 1000);
 					return ;
 				}
 
 				if (friendStatus.status === 2) {
 					initError(translate("already_send"));
-					setTimeout(async () => {
-						window.location.reload();
-					}, 1000);
 					return ;
 				}
-				
+
 				const existingChatArea = document.getElementById(`chat-messages-${username}`);
 				if (existingChatArea)
 				existingChatArea.remove();
@@ -248,9 +249,9 @@ export default async function initFriendChat()
 
 				const response = await fetch(`/api/getPrivateMessages`, {
 					method: 'POST',
-					credentials: 'include',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ token: sessionStorage.getItem('token'), username2: username })});
+					credentials: 'include',
+					body: JSON.stringify({ username2: username })})
 				const data = await response.json();
 				const tab = data.tab;
 				for (let i = 0; i < tab.length; i++) {
@@ -297,19 +298,19 @@ export default async function initFriendChat()
 				pongBtn.className = 'w-8 h-8 rounded flex items-center justify-center hover:bg-[#00FFFF]/10';
 				pongBtn.innerHTML = '<img src="/images/pong_racquet.png" alt="" class="w-6 h-6">';
 				inputArea.appendChild(pongBtn);
-				
+
 				const ws = getWebSocket();
 				pongBtn.addEventListener("click", async () => {
 					let chatdata;
 					const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 					const targetUsername = BoxTarget?.id.split('-').pop();
 					const token = sessionStorage.getItem('token');
-					
+
 					chatdata = { type: 'new_private_message', token, content: "" , targetUsername, pongRequest: 1};
 					ws?.send(JSON.stringify(chatdata));
 				});
 			} catch (err) {
-				console.log('Error initializing friendchat:', err);
+				console.error('Error initializing friendchat:', err);
 			}
 		});
 	});

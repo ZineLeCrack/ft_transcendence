@@ -139,9 +139,11 @@
 	"controls": "Pedidos",
 	"waiting": "Esperando a un nuevo jugador...",
 	"to_start": "Espacio de prensa",
-	"1_win": "gana",
-	"2_win": "gana",
-	"ai_win": "¡La IA gana!",
+	"1_win": "ha ganado !",
+	"2_win": "ha ganado !",
+	"1_lwin": "Jugador1 ha ganado !",
+	"2_lwin": "Jugador2 ha ganado !",
+	"ai_win": "¡La IA ha ganado !",
 	"incomplete_data": "¡Rellene al menos uno de los dos campos!",
 	"user_error": "Un usuario ya tiene esta información",
 	"bad_picture": "Seleccione una imagen válida (PNG, JPG, WEBP, ...)",
@@ -165,5 +167,8 @@
 	"touch_html": "¿Puede cumplir con la política impuesta, por favor?",
 	"tournament_full": "El torneo es completo",
 	"return_home": "Volver al inicio",
-	"tour_error_trad": "Por favor espere a que sea su turno de jugar (se le enviará un mensaje en el chat global)"
+	"tour_error_trad": "Por favor espere a que sea su turno de jugar (se le enviará un mensaje en el chat global)",
+	"tournament_announce1": "El juego contra",
+	"tournament_announce2": "comenzará",
+	"and":"y"
 }

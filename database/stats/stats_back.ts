@@ -5,7 +5,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function StatsRoutes(fastify: FastifyInstance) {
 	fastify.post('/stats', async (request, reply) => {
-		const {username } = request.body as {username: string };
+		const { username } = request.body as { username: string };
 
 		try {
 			const db = await getDb_user();

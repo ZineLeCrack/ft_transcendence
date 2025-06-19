@@ -31,7 +31,7 @@ interface TournamentInstance {
 	winner_final: string,
 	loser_final: string,
 	gameId: string,
-	instance: GameInstance,
+	instance: GameInstance | null,
 	game: number
 }
 
@@ -64,7 +64,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			winner_final: string,
 			loser_final: string,
 			gameId: string,
-			instance: GameInstance,
+			instance: GameInstance | null,
 			game: number
 		};
 
@@ -75,13 +75,11 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		tournamentData.instance.player2.id = tournamentData.player2;
 		games.set(tournamentData.gameId, tournamentData.instance);
 		tournamentsInstances.set(tournamentData.id, tournamentData);
-		console.log (tournamentData);
-		console.log (tournamentsInstances);
 		reply.status(200).send({ next_player1: tournamentData.player1, next_player2: tournamentData.player2 });
 	});
 
 	fastify.post('/join', async (request, reply) => {
-		const {tournamentId } = request.body as {tournamentId: string };
+		const { tournamentId } = request.body as { tournamentId: string };
 
 		let userId;
 		const db = await getDb_user();
@@ -92,7 +90,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			userId = (decoded as { userId: string }).userId;
 			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
 			userName = result.name;
-		} 
+		}
 		catch (err) {
 			reply.status(401).send('Invalid token');
 			return ;
@@ -103,8 +101,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			reply.status(200).send({ gameId: '0', err: true, message: 'The tournament is not started !' });
 			return ;
 		}
-		console.log(game);
-		console.log (userId);
 		if (game.player1.id.toString() === userId.toString()) {
 			if (game.player1.name === '') {
 				game.player1.name = userName;
@@ -260,6 +256,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				next_player1: '',
 				next_player2: ''
 			}
+			tournament.instance = null;
 		}
 		reply.status(200).send({ ...results, tournamentId: tournamentId });
 	});

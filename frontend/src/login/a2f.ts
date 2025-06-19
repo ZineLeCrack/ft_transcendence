@@ -32,7 +32,7 @@ export default function initA2f() {
 			}
 			initSuccess(translate('a2f_send'));
 		} catch (err) {
-			console.log('Error sending A2F code:', err);
+			console.error('Error sending A2F code:', err);
 		}
 	});
 
@@ -67,7 +67,7 @@ export default function initA2f() {
 				await loadRoutes('/home');
 			}, 1000);
 		} catch (err) {
-			console.log('Error verifying A2F code:', err);
+			console.error('Error verifying A2F code:', err);
 		}
 	});
 }

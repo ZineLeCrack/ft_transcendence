@@ -1,8 +1,6 @@
 import { getWebSocket } from '../websocket';
 import { loadRoutes } from '../main.ts';
-import initError from '../error.ts';
 import { translate } from '../i18n.ts';
-import { loadProfilePicture } from '../profile/editinfo.ts';
 
 let original_name:string;
 let original_id:string;
@@ -91,8 +89,8 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				const response = await fetch('/api/multi/game/private/join', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ token: tokenID }),
 					credentials: 'include',
+					body: JSON.stringify({ token: tokenID })
 				});
 
 				const data = await response.json();
@@ -162,8 +160,8 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				await fetch("/api/private_game/reply-pong", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ token, target: targetUser, answer: 1 }),
 					credentials: 'include',
+					body: JSON.stringify({ token, target: targetUser, answer: 1 })
 				});
 				msg.remove();
 				acceptBtn.remove();
@@ -196,8 +194,8 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				await fetch("/api/private_game/reply-pong", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ token, target: targetUser, answer: 0 }),
 					credentials: 'include',
+					body: JSON.stringify({ token, target: targetUser, answer: 0 })
 				});
 				msg.remove();
 				acceptBtn.remove();
@@ -276,7 +274,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		acceptBtn.addEventListener('click', async () => {
 			try {
 				const tokenID = sessionStorage.getItem('token');
-				const target = targetUser; 
+				const target = targetUser;
 				await fetch("/api/replyrequest", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
@@ -298,8 +296,8 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				await fetch("/api/replyrequest", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ tokenID, target , answer: 0 }),
 						credentials: 'include',
+						body: JSON.stringify({ tokenID, target , answer: 0 })
 					});
 				let chatdata;
 				chatdata = { type: 'decline_friend', token: tokenID, targetUsername : target};
@@ -327,7 +325,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 
 	const messageContainer = document.createElement("div");
 	messageContainer.className = original_name === username ?
-		"flex flex-col items-end gap-1" : 
+		"flex flex-col items-end gap-1" :
 		"flex flex-col items-start gap-1";
 
 	const usernameDiv = document.createElement("a");

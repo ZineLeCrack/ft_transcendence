@@ -17,7 +17,6 @@ export default async function initGlobalstats(username: string) {
 			body: JSON.stringify({ token, username }),
 			credentials: 'include',
 		});
-		const history = await historyRes.json();
 
 		const totalgame = document.getElementById('total_games') as HTMLParagraphElement;
 		const winsgame = document.getElementById('wins_game') as HTMLParagraphElement;
@@ -39,6 +38,6 @@ export default async function initGlobalstats(username: string) {
 			averagepoint.textContent = `${(stats.total_points / stats.games_played).toFixed(2)}`;
 		}
 	} catch (err) {
-		console.log('Error initializing global statistics:', err);
+		console.error('Error initializing global statistics:', err);
 	}
 }

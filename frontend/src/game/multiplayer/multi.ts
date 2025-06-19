@@ -36,7 +36,7 @@ export default async function initMultiplayer() {
 			return ;
 		}
 	} catch (err) {
-		console.log('Error verifying user:', err);
+		console.error('Error verifying user:', err);
 		return ;
 	}
 
@@ -67,11 +67,11 @@ export default async function initMultiplayer() {
 	response2 = await fetch('/api/multi/game/which_player', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ token: token, gameId: gameId }),
+		body: JSON.stringify({ gameId: gameId }),
 		credentials: 'include',
 	})
 	} catch (err) {
-		console.log('Error getting player:', err);
+		console.error('Error getting player:', err);
 		return ;
 	}
 
@@ -192,19 +192,24 @@ export default async function initMultiplayer() {
 							body: JSON.stringify(gameStat)
 						});
 						if (gameStat.tournament) {
-							const res = await fetch(`/api/multi/tournament/next_game`, {
+							const res1 = await fetch(`/api/multi/tournament/next_game`, {
 								method: 'POST',
 								headers: { 'Content-Type': 'application/json' },
 								body: JSON.stringify({ tournamentId: gameStat.tournamentId })
 							});
-							const results = await res.json();
-							await fetch(`/api/tournament/results`, {
+							const results = await res1.json();
+							const res2 = await fetch(`/api/tournament/results`, {
 								method: 'POST',
 								headers: { 'Content-Type': 'application/json' },
 								body: JSON.stringify(results)
 							});
+							const is_last = await res2.json();
 							const ws = getWebSocket();
-							ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: results.next_player1, next_player2: results.next_player2, id: gameStat.tournamentId }));
+							if (is_last.last) {
+								ws?.send(JSON.stringify({ type: 'tournament_end', id: gameStat.tournamentId }));
+							} else {
+								ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: results.next_player1, next_player2: results.next_player2, id: gameStat.tournamentId }));
+							}
 						} else if (gameStat.private) {
 							await fetch('/api/private_game/end', {
 								method: 'POST',
@@ -252,7 +257,7 @@ export default async function initMultiplayer() {
 				body: JSON.stringify({ keys })
 			});
 		} catch (err) {
-			console.log('Error sending moves:', err);
+			console.error('Error sending moves:', err);
 		}
 	}, 16);
 
@@ -271,7 +276,7 @@ export default async function initMultiplayer() {
 				body: JSON.stringify({ gameId: gameId })
 			});
 		} catch (err) {
-			console.log('Error disconnecting player:', err);
+			console.error('Error disconnecting player:', err);
 		}
 		window.removeEventListener("popstate", cleanUp);
 	}

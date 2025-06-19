@@ -45,6 +45,7 @@ async function main() {
 	});
 
 	await app.register(cors, { origin: true });
+
 	await app.register(authRoutes);
 	await app.register(historyRoutes);
 	await app.register(chatRoutes); 
@@ -62,7 +63,7 @@ async function main() {
 
 	const server = app.server;
 	setupWebSocket(server);
-	console.log(`HTTPS server running at https://${IP_NAME}:3451`);
+	console.info(`HTTPS server running at https://${IP_NAME}:3451`);
 }
 
 main();
