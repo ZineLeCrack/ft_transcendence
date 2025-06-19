@@ -7,8 +7,6 @@ export default async function initAddFriend(target?: string) {
 		const target = document.getElementById("username-h2")?.textContent;
 		const tokenID = sessionStorage.getItem("token");
 
-		if (!friendbtn || !target || !tokenID) return ;
-
 		const checkFriendStatus = async () => {
 			try {
 				const res = await fetch("/api/isfriend", {

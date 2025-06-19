@@ -75,7 +75,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 					secure: true,
 					sameSite: 'strict',
 					path: '/'
-				}).send({ token });
+				}).send("ok");
 			} catch (err) {
 				reply.status(500).send('JWT error');
 			}
