@@ -6,6 +6,7 @@ import initFriendChat from "./chat/friendchat.js";
 import initJoinTournament from "./tournament/join_tournament.js";
 import initUsers from "./search/users.js";
 import initCreateTournament from "./tournament/create_tournament.js";
+import initSuccess from "./success.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -103,6 +104,7 @@ export function initWebSocket(original: string) {
 				console.error('Error searching informations:', err);
 			}
 		}
+
 		if (data.type === 'multi_player_join') {
 			if (sessionStorage.getItem('gameId') === data.gameId) {
 				const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
@@ -123,22 +125,8 @@ export function initWebSocket(original: string) {
 				}
 			}
 		}
-		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users')
-		{
-			if (window.location.pathname === '/home')
-			{
-				initFriendChat();
-			}
-			else if (window.location.pathname === `/users/${data.username}` || window.location.pathname === `/users/${data.username}/history`)
-			{
-				initUsers(data.username);
-			}
-			else if (window.location.pathname === `/users/${data.targetUsername}` || window.location.pathname === `/users/${data.targetUsername}/history`)
-			{
-				initUsers(data.targetUsername);
-			}
-		}
-		if (data.type === 'accept_friend' || data.type === 'decline_friend')
+
+		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users' || data.type === 'accept_friend' || data.type === 'decline_friend')
 		{
 			if (window.location.pathname === '/home')
 			{
@@ -256,6 +244,23 @@ export function initWebSocket(original: string) {
 		if (data.type === 'tournament_next_game') {
 			if (userId === data.next_player1 || userId === data.next_player2) {
 				sendMessage('', '', false, 'global', false, false, false, true);
+			}
+			try {
+				const res = await fetch('/api/tournament/is_in', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+				});
+				const is_in = await res.json();
+				if (is_in.tournamentId.toString() === data.id) {
+					const text1 = translate('tournament_announce1');
+					const and = translate('and');
+					const text2 = translate('tournament_announce2');
+					const text = `${text1} ${data.next_player1} ${and} ${data.next_player2} ${text2}`;
+					initSuccess(text);
+				}
+			} catch (err) {
+				console.error('Error getting players:', err);
 			}
 		}
 	};
