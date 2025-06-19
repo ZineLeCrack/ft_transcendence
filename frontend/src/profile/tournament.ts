@@ -189,6 +189,7 @@ export async function initTournamentGraph(originalUsername: string) {
 									const value = context.raw as number;
 									const total = context.dataset.data.reduce((a, b) => a + (typeof b === 'number' ? b : 0), 0);
 									const percentage = ((value / total) * 100).toFixed(1);
+									if (total === 0) return `${label}: ${value} 0%`;
 									return `${label}: ${value} (${percentage}%)`;
 								}
 							}
@@ -206,6 +207,7 @@ export async function initTournamentGraph(originalUsername: string) {
 								const data = context.chart.data.datasets[0].data as number[];
 								const total = data.reduce((a, b) => a + b, 0);
 								const percentage = ((value / total) * 100).toFixed(1);
+								if (total === 0) return `0%`;
 								return `${percentage}%`;
 							}
 						}
