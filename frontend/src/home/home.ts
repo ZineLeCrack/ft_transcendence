@@ -21,7 +21,7 @@ export default async function initHome() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 
 		if (!response.ok)
@@ -46,7 +46,7 @@ export default async function initHome() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token: sessionStorage.getItem('token') }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 
 		if (!res.ok)

@@ -180,7 +180,7 @@ export default async function initInTournament(id: string) {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({tournamentId: id }),
-				credentials: 'include'
+				credentials: 'include',
 			});
 
 			const data = await response.json();

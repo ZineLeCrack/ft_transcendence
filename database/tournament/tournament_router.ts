@@ -90,7 +90,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		let userId: string;
 
 		try {
-			const token = request.cookies.accessToken!;
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -122,7 +122,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		let userId;
 
 		try {
-			const token = request.cookies.accessToken!;
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 		} catch (err) {

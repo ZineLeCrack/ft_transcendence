@@ -16,7 +16,7 @@ export default async function initEditPassword() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 		if (!response.ok)
 		{

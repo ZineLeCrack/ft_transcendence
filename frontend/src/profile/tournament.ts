@@ -13,7 +13,7 @@ export default async function initTournamentStats() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 		if (!response.ok) {
 			initError(translate('Error_co'));
@@ -49,7 +49,7 @@ export async function initTournamentGraph(originalUsername: string) {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 		const stats = await statsRes.json();
 
@@ -57,7 +57,7 @@ export async function initTournamentGraph(originalUsername: string) {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 		const history = await historyRes.json();
 

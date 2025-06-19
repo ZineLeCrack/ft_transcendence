@@ -24,7 +24,7 @@ export default async function initMultiplayer() {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 
 		if (!response1.ok) {
@@ -68,7 +68,7 @@ export default async function initMultiplayer() {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ token: token, gameId: gameId }),
-		credentials: 'include'
+		credentials: 'include',
 	})
 	} catch (err) {
 		console.log('Error getting player:', err);

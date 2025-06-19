@@ -179,7 +179,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ token, target: userData.id }),
-					credentials: 'include'
+					credentials: 'include',
 				});
 				const ws = getWebSocket();
 				const targetUsername = targetUser;
@@ -281,7 +281,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({ tokenID, target , answer: 1 }),
-						credentials: 'include'
+						credentials: 'include',
 					});
 				let chatdata;
 				chatdata = { type: 'accept_friend', token: tokenID, targetUsername : target};
@@ -369,7 +369,7 @@ export default function initChat() {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ token }),
-				credentials: 'include'
+				credentials: 'include',
 			});
 
 			if (!response.ok) {

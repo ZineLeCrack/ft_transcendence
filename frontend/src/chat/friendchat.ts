@@ -169,7 +169,7 @@ export default async function initFriendChat()
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ tokenID }),
-				credentials: 'include'
+				credentials: 'include',
 			});
 			const data = await res.json();
 			return data.friends || [];
@@ -203,7 +203,7 @@ export default async function initFriendChat()
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ tokenID, target }),
-					credentials: 'include'
+					credentials: 'include',
 				});
 
 				const friendStatus = await friendCheck.json();

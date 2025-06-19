@@ -72,7 +72,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			const dbchat = await getDb_chat();
 			let IdUser;
 			try {
-				const token = request.cookies.accessToken!;
+				const token = request.cookies.accessToken!;  
 				const decoded = jwt.verify(token, JWT_SECRET);
 				IdUser = (decoded as { userId: string }).userId;
 			} catch (err) {

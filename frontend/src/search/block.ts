@@ -13,7 +13,7 @@ export default async function initBlockPlayer(target?: string) {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ tokenID, target }),
-					credentials: 'include'
+					credentials: 'include',
 				});
 				const data = await res.json();
 				if (data.status === 1) {
@@ -37,7 +37,7 @@ export default async function initBlockPlayer(target?: string) {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ tokenID, target }),
-					credentials: 'include'
+					credentials: 'include',
 				});
 			} catch (err) {
 				console.log('Error getting user status:', err);
@@ -53,7 +53,7 @@ export default async function initBlockPlayer(target?: string) {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({ tokenID, target }),
-						credentials: 'include'
+						credentials: 'include',
 					})
 					const data = await res.json();
 					if (data.success)
@@ -73,7 +73,7 @@ export default async function initBlockPlayer(target?: string) {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({ tokenID, target }),
-						credentials: 'include'
+						credentials: 'include',
 					});
 					const data = await res.json();
 					if (data.success) 

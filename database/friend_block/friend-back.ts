@@ -15,7 +15,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 
 		try {
 			const db = await getDb_user();
-			const token = request.cookies.accessToken!;
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userID = (decoded as { userId: string }).userId;
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);
@@ -79,7 +79,7 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 
 		try {
 			const db = await getDb_user();
-			const token = request.cookies.accessToken!;
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userID = (decoded as { userId: string }).userId;
 			const targetUserID = await db.get('SELECT id FROM users WHERE name = ?', [target]);

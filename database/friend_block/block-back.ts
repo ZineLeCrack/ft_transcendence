@@ -17,7 +17,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 		const db = await getDb_user();
 		let userID;
 		try {
-			const token = request.cookies.accessToken!;
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userID = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -52,7 +52,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 			let userID;
 			const db = await getDb_user();
 			try {
-				const token = request.cookies.accessToken!;
+				const token = request.cookies.accessToken!;  
 				const decoded = jwt.verify(token, JWT_SECRET);
 				userID = (decoded as { userId: string }).userId;
 			} catch (err)
@@ -91,7 +91,7 @@ export default async function blockRoutes(fastify: FastifyInstance) {
 		try {
 			const db = await getDb_user();
 			try {
-				const token = request.cookies.accessToken!;
+				const token = request.cookies.accessToken!;  
 				const decoded = jwt.verify(token, JWT_SECRET);
 				userID = (decoded as { userId: string }).userId;
 			} catch

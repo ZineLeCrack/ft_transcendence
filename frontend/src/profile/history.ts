@@ -112,7 +112,7 @@ export default async function initHistory()
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 		if (!response.ok)
 		{
@@ -135,7 +135,7 @@ export default async function initHistory()
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 
 		const data = await response.json();

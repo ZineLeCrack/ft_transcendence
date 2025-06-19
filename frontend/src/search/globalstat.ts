@@ -7,7 +7,7 @@ export default async function initGlobalstats(username: string) {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token, username }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 		const stats = await statsRes.json();
 
@@ -15,7 +15,7 @@ export default async function initGlobalstats(username: string) {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ token, username }),
-			credentials: 'include'
+			credentials: 'include',
 		});
 		const history = await historyRes.json();
 

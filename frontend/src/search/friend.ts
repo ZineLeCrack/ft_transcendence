@@ -15,7 +15,7 @@ export default async function initAddFriend(target?: string) {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ tokenID, target }),
-					credentials: 'include'
+					credentials: 'include',
 				});
 				const data = await res.json();
 				if (data.status === 1) {
@@ -42,7 +42,7 @@ export default async function initAddFriend(target?: string) {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ tokenID, target }),
-					credentials: 'include'
+					credentials: 'include',
 				});
 				const friend = await res.json();
 				const ws = getWebSocket();
@@ -52,7 +52,7 @@ export default async function initAddFriend(target?: string) {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({ tokenID, target }),
-						credentials: 'include'
+						credentials: 'include',
 					});
 					const data = await res.json();
 					if (data.success) {
@@ -68,7 +68,7 @@ export default async function initAddFriend(target?: string) {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						body: JSON.stringify({ tokenID, target }),
-						credentials: 'include'
+						credentials: 'include',
 					});
 					const data = await res.json();
 					if (data.success) {
