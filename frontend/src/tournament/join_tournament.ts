@@ -153,6 +153,7 @@ export default async function initJoinTournament() {
 	if (JoinBtnTournament.length > 0) {
 		JoinBtnTournament.forEach(button => {
 			button.addEventListener('click', async () => {
+				backOnClick();
 				const passwordInput = document.getElementById(`password-input-${button.id.split('-').pop()}`) as HTMLInputElement;
 				const tournamentId = button.id.split('-').pop();
 
@@ -168,7 +169,7 @@ export default async function initJoinTournament() {
 							return ;
 						}
 
-						if (!(/^[a-zA-Z0-9_]{0,10}$/.test(inputAlias.value.trim()))) {
+						if (!(/^[a-zA-Z0-9_]{0,10}$/.test(inputAlias.value))) {
 							initError(translate('invalid_alias'));
 							return ;
 						}
@@ -191,6 +192,8 @@ export default async function initJoinTournament() {
 							throw new Error(translate("tournament_full"));
 						} else if (text === "Wrong password !") {
 							throw new Error(translate("no_pass"));
+						} else if (text === "Invalid alias !") {
+							throw new Error(translate("invalid_alias"));
 						}
 
 						const PopPup = document.getElementById('alias-popup') as HTMLDivElement;
