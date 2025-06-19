@@ -202,7 +202,6 @@ export default async function initJoinTournament() {
 						initInTournament(data.id);
 						const ws = getWebSocket();
 						ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
-						console.log("DATA:::", data);
 						if (data.full) {
 							try {
 								const response1 = await fetch('/api/tournament/get_players', {
@@ -217,13 +216,11 @@ export default async function initJoinTournament() {
 									body: JSON.stringify({ tournamentId: data.id })
 								});
 								const results = await response2.json();
-								console.log(players, results);
 								await fetch('/api/multi/tournament/start', {
 									method: 'POST',
 									headers: { 'Content-Type': 'application/json' },
 									body: JSON.stringify({ id: data.id, ...players, ...results })
 								});
-								console.log("fetch start fni",)
 								ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: players.player1, next_player2: players.player2, id: data.id }));
 							} catch (err) {
 								console.error(`Error starting tournament: `, err);

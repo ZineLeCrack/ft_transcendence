@@ -218,8 +218,7 @@ export function initWebSocket(original: string) {
 		}
 		if (data.type === 'tournament_next_game') {
 			console.log(userId, data)
-			if (userId === data.next_player1 || userId === data.next_player2) {
-				console.log("send_message_ok", data);
+			if (userId.toString() === data.next_player1.toString() || userId.toString() === data.next_player2.toString()) {
 				sendMessage('', '', false, 'global', false, false, false, true);
 			}
 		}
