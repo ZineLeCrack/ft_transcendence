@@ -171,11 +171,10 @@ export default async function initFriendChat()
 
 	async function fetchFriends(): Promise<Friend[]> {
 		try {
-			const tokenID = sessionStorage.getItem("token");
 			const res = await fetch("/api/getfriends", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ tokenID }),
+				body: JSON.stringify({ }),
 				credentials: 'include',
 			});
 			const data = await res.json();
@@ -203,13 +202,12 @@ export default async function initFriendChat()
 			if (existingChat)
 				existingChat.forEach(chat => {chat.remove()});
 
-			const tokenID = sessionStorage.getItem("token");
 			const target = username;
 			try {
 				const friendCheck = await fetch("/api/isfriend", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target }),
+					body: JSON.stringify({ target }),
 					credentials: 'include',
 				});
 
