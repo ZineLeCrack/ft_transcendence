@@ -29,3 +29,9 @@ tous le monde - lire le sujet, connaitre son code, trouver erreur et regler erre
 <------------------------------------------------->
 
 ebroudic - enlever l'input du chat quand on est dans notre liste d'amis et qu'on a pas choisi de conversation si on a le temps
+
+<------------------------------------------------->
+
+J'ai eu une erreur quand je suis allé dans modifié le mot de pass
+J'ai eu une erreur où la photo de profil n'apparaîssait pas dans le home en haut à droite et en allant dans mes stats c'est parti en couille dans la console
+J'ai eu une erreur quand je suis allé dans une partie multi et elle ne s'est pas lancée
