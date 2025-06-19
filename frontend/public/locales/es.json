@@ -141,8 +141,8 @@
 	"to_start": "Espacio de prensa",
 	"1_win": "ha ganado !",
 	"2_win": "ha ganado !",
-	"1_lwin": "Jugador1 ha ganado !",
-	"2_lwin": "Jugador2 ha ganado !",
+	"1_lwin": "Jugador 1 ha ganado !",
+	"2_lwin": "Jugador 2 ha ganado !",
 	"ai_win": "¡La IA ha ganado !",
 	"incomplete_data": "¡Rellene al menos uno de los dos campos!",
 	"user_error": "Un usuario ya tiene esta información",
@@ -170,5 +170,6 @@
 	"tour_error_trad": "Por favor espere a que sea su turno de jugar (se le enviará un mensaje en el chat global)",
 	"tournament_announce1": "El juego contra",
 	"tournament_announce2": "comenzará",
-	"and":"y"
+	"and": "y",
+	"has_won_the_tournament": "ha ganado el último torneo !"
 }

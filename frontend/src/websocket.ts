@@ -65,6 +65,10 @@ export function initWebSocket(original: string) {
 		}
 		if (data.type === 'tournament_end') {
 			try {
+				await sendMessage(data.winner, "", false, 'global', false, false, false, false, true);
+				const text1 = translate('has_won_the_tournament');
+				const text = `${data.winner} ${text1}`;
+				initSuccess(text);
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },

@@ -20,4 +20,6 @@ tous le monde - si on a le temps faire une doc sur nos programmes plus simple po
 
 tous le monde - lire le sujet, connaitre son code, trouver erreur et regler erreur
 
+<------------------------------------------------->
+
 ebroudic - enlever l'input du chat quand on est dans notre liste d'amis et qu'on a pas choisi de conversation si on a le temps

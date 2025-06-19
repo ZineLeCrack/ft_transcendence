@@ -140,8 +140,8 @@
 	"to_start": "Appuyez sur espace",
 	"1_win": "a gagné !",
 	"2_win": "a gagné !",
-	"1_lwin": "Joueur1 a gagné !",
-	"2_lwin": "Joueur2 a gagné !",
+	"1_lwin": "Joueur 1 a gagné !",
+	"2_lwin": "Joueur 2 a gagné !",
 	"ai_win": "L'IA a gagné !",
 	"incomplete_data": "Veuillez remplir les au moins l'un des deux champs !",
   	"user_error": "Un utilisateur possede deja ces informations",
@@ -169,5 +169,6 @@
 	"tour_error_trad": "Veuillez attendre que ce soit a votre tour de jouer (un message vous sera envoyé dans le tchat global)",
 	"tournament_announce1": "La partie qui oppose",
 	"tournament_announce2": "va commencer",
-	"and":"et"
+	"and": "et",
+	"has_won_the_tournament": "a gagné le derbier tournoi !"
 }
