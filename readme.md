@@ -1,20 +1,28 @@
-cle-berr - verifuser si token pas bon ca met erreur 500, ce n'est pas un bon status d'erreur
-cle-berr - status hors-ligne au moment où l'autre accepte la demande d'ami
-
 lelanglo - URGENT - Mettre token en memoire RAM
 lelanglo - traduction quand quelqu'un a gagné en local/ai à réparer
 
-rlebaill - websocket quand fin d'un tournoi à finir
-rlebaill - bug quand on appuie sur entrer quand on rentre l'alias
+<----------COMMENT--TESTER--LE--CLI--?------------>
 
-rlebaill | cleberr | ebroudic - tester avec curl l'api du jeu donc /start /state /moove, pour la partie CLI du module server-side du pong (alexandru testera ca normalement ). si on a le temps mettre une petit doc sur l'api
+curl -X {POST ou GET} https://{IP}{chemin vers le POST ou GET} {-k: pour certificate auto-signé}  \
+	-H {header} "Content-Type: application/json" \
+	-d {body} '{"gameId": "abc123"}'
+
+EXEMPLE:
+
+curl -X POST https://10.12.200.81/api/main/game/start -k
+
+ET:
+
+curl -X POST https://10.12.200.81/api/main/game/end -k \
+	-H "Content-Type: application/json" \
+	-d '{"gameId": "??????"}'
+
+<------------------------------------------------->
 
 tous le monde - si on a le temps faire une doc sur nos programmes plus simple pour expliquer a Alexandru et au autre pas besoin d'expliquer en detail juste dire ce que les fonction resoult comme probleme ou module 
 
 ebroudic - mettre annonce pop-up quand une partie de tournoi est pret a jouer 
 (possible de mettre popup quand on rejoin un tournoi pour dire l'ordre du tournoi juste eviter des remarques comme quoi l'affichage du tournoi n'est pas clair sur l'ordre des parties du moins les premieres)
-
-ebroudic - je crois le bouton pour demander une partie privée reste afficher meme quand on revient en chat global
 
 ebroudic - enlever l'input du chat quand on est dans notre liste d'amis et qu'on a pas choisi de conversation 
 

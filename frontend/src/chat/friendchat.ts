@@ -13,6 +13,10 @@ export function initSwitchChat()
 		if (document.getElementById('chat-messages-global')) {
 			const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
 			privateChats.forEach(chat => chat.remove());
+			const oldPongBtn = document.getElementById('pong-send');
+			if (oldPongBtn)
+				oldPongBtn.remove();
+			
 
 			const globalChat = document.getElementById('chat-messages-global') as HTMLDivElement;
 			if (globalChat) {
@@ -44,6 +48,10 @@ export function initSwitchChat()
 			const chatContainers = document.getElementById('chat-containers') as HTMLDivElement;
 			const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
 			privateChats.forEach(chat => chat.remove());
+
+			const oldPongBtn = document.getElementById('pong-send');
+			if (oldPongBtn)
+				oldPongBtn.remove();
 
 			const globalChat = document.createElement('div');
 			globalChat.id = 'chat-messages-global';

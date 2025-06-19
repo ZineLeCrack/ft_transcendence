@@ -73,7 +73,12 @@ export function initWebSocket(original: string) {
 					const joinBtn = document.getElementById('join-tournament');
 					const createBtn = document.getElementById('create-tournament');
 					const container = document.getElementById('tournament-view');
+					const tournamentdiv = document.getElementById('tournament-div');
 
+					if (tournamentdiv) {
+						tournamentdiv.classList.remove("justify-center", "gap-64");
+						tournamentdiv.classList.add("justify-between");
+					}
 					if (playBtn) playBtn.classList.add('hidden');
 					if (joinBtn) joinBtn.classList.remove('hidden');
 					if (createBtn) createBtn.classList.remove('hidden');
