@@ -204,11 +204,10 @@ export default async function initMultiplayer() {
 							const is_last = await res2.json();
 							const ws = getWebSocket();
 							if (is_last.last) {
-								setTimeout(() => {
-									ws?.send(JSON.stringify({ type: 'tournament_end', id: gameStat.tournamentId }));
-								}, 3000);
+								ws?.send(JSON.stringify({ type: 'tournament_end', id: gameStat.tournamentId }));
+							} else {
+								ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: results.next_player1, next_player2: results.next_player2, id: gameStat.tournamentId }));
 							}
-							ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: results.next_player1, next_player2: results.next_player2, id: gameStat.tournamentId }));
 						} else if (gameStat.private) {
 							await fetch('/api/private_game/end', {
 								method: 'POST',

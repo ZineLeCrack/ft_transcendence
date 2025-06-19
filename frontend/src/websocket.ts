@@ -68,7 +68,7 @@ export function initWebSocket(original: string) {
 					body: JSON.stringify({ token: sessionStorage.getItem('token') })
 				});
 				const is_in = await res.json();
-				if (is_in.tournamentId.toString() === data.id.toString()) {
+				if (is_in.tournamentId.toString() === '0') {
 					const playBtn = document.getElementById('play-tournament');
 					const joinBtn = document.getElementById('join-tournament');
 					const createBtn = document.getElementById('create-tournament');
@@ -86,12 +86,18 @@ export function initWebSocket(original: string) {
 					if (container) container.innerHTML = `
 					<div id="default-tournament-view" class="flex flex-col items-center gap-4">
 						<img src="/images/pong_racquet.png" alt="pong racquet" class="w-16 h-16 mb-2" />
-						<p class="text-[#00FFFF]/90 text-xl font-bold text-center" data-i18n="no_tournament">No tournament in progress</p>
-						<p class="text-[#00FFFF]/80 text-sm" data-i18n="create_or_join">Create or join a tournament to start playing</p>
+						<p class="text-[#00FFFF]/90 text-xl font-bold text-center" data-i18n="no_tournament">${translate('no_tournament')}</p>
+						<p class="text-[#00FFFF]/80 text-sm" data-i18n="create_or_join">${translate('create_or_join')}</p>
 					</div>`;
 
 					initCreateTournament();
 					initJoinTournament();
+
+					try {
+						await initJoinTournament();
+					} catch (err) {
+						console.error(`Error loading tournaments list:`, err);
+					}
 				}
 			} catch (err) {
 				console.error('Error searching informations:', err);
