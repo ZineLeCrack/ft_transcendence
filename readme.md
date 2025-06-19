@@ -9,7 +9,7 @@ rlebaill - bug quand on appuie sur entrer quand on rentre l'alias
 
 <----------COMMENT--TESTER--LE--CLI--?------------>
 
-curl -X {POST ou GET} https://10.12.200.81{chemin vers le POST ou GET} {-k: pour certificate auto-signé}  \
+curl -X {POST ou GET} https://{IP}{chemin vers le POST ou GET} {-k: pour certificate auto-signé}  \
 	-H {header} "Content-Type: application/json" \
 	-d {body} '{"gameId": "abc123"}'
 
