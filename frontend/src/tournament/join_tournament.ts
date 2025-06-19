@@ -76,12 +76,12 @@ export default async function initJoinTournament() {
 					</div>
 					<div class="flex items-center gap-4">
 						<div id="password-container" class="relative hidden">
-							<input type="password" 
-								class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-48 pr-12 focus:outline-none focus:border-[#FFD700]" 
+							<input type="password"
+								class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-48 pr-12 focus:outline-none focus:border-[#FFD700]"
 								placeholder="${enterPasswordPlaceholder}"/>
 							<button type="button" class="toggle-password absolute top-1/2 -translate-y-1/2 right-2">
-								<img src="/images/closerobot.png" 
-									class="size-8 drop-shadow-[0_0_10px_#FF007A]" 
+								<img src="/images/closerobot.png"
+									class="size-8 drop-shadow-[0_0_10px_#FF007A]"
 									alt="toggle password"/>
 							</button>
 						</div>
@@ -99,12 +99,12 @@ export default async function initJoinTournament() {
 					</div>
 					<div class="flex items-center gap-4">
 						<div id="password-container" class="relative">
-							<input id="password-input-${tournament.id}" type="password" 
-								class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-48 pr-12 focus:outline-none focus:border-[#FFD700]" 
+							<input id="password-input-${tournament.id}" type="password"
+								class="bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 w-48 pr-12 focus:outline-none focus:border-[#FFD700]"
 								placeholder="${enterPasswordPlaceholder}"/>
 							<button id="toggle-password-${tournament.id}" type="button" class="absolute top-1/2 -translate-y-1/2 right-2">
-								<img id=password-icon-${tournament.id} src="/images/closerobot.png" 
-									class="size-8 drop-shadow-[0_0_10px_#FF007A]" 
+								<img id=password-icon-${tournament.id} src="/images/closerobot.png"
+									class="size-8 drop-shadow-[0_0_10px_#FF007A]"
 									alt="toggle password"/>
 							</button>
 						</div>
@@ -138,11 +138,11 @@ export default async function initJoinTournament() {
 				class="w-full bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 mb-6 focus:outline-none focus:border-[#FFD700]"
 				placeholder="${enterYourAliasPlaceholder}"/>
 			<div class="flex justify-between gap-4">
-				<button id="cancel-alias" 
+				<button id="cancel-alias"
 					class="flex-1 bg-transparent border-2 border-[#FF2E9F] text-[#FF2E9F] font-bold py-2 px-6 rounded-xl hover:bg-[#FF2E9F]/20 transition duration-200">
 					${cancelButton}
 				</button>
-				<button id="confirm-alias" 
+				<button id="confirm-alias"
 					class="flex-1 bg-transparent border-2 border-[#FFD700] text-[#FFD700] font-bold py-2 px-6 rounded-xl hover:bg-[#FFD700]/20 transition duration-200">
 					${confirmJoinButton}
 				</button>

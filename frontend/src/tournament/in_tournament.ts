@@ -55,7 +55,7 @@ function getcolor(player1: string, player2: string, winner: string, loser: strin
 	}
 }
 
-export async function generateTournamentView(TournamentData_Players: TournamentData_Players, TournamentData_Lose_Win: TournamentDataLose_Win) 
+export async function generateTournamentView(TournamentData_Players: TournamentData_Players, TournamentData_Lose_Win: TournamentDataLose_Win)
 {
 	const container = document.getElementById('tournament-view') as HTMLDivElement;
 	try {

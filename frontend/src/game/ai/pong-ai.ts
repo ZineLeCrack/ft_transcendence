@@ -87,7 +87,7 @@ export default async function initPong() {
 		else if (message === "1_win")
 		{
 			new_message = `${info.original} ${translate("1_win")}`;
-		} 
+		}
 		else if (message === "2_win") {
 			new_message = translate("ai_win");
 		} else {
@@ -240,8 +240,20 @@ export default async function initPong() {
 		} catch (err) {
 			console.error('Error ending ai game:', err);
 		}
+		const homeBtn = document.getElementById('home-button');
+		if (homeBtn) homeBtn.removeEventListener('click', cleanUpOnClick);
 		window.removeEventListener("popstate", cleanUp);
 	}
+
+	async function cleanUpOnClick() {
+		await cleanUp();
+		history.pushState(null, '', '/home');
+		await loadRoutes('/home');
+	}
+
+	const homeBtn = document.getElementById('home-button');
+
+	if (homeBtn) homeBtn.addEventListener('click', cleanUpOnClick);
 
 	window.addEventListener('popstate', cleanUp);
 }

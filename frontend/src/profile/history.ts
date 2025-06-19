@@ -13,7 +13,7 @@ export interface CardHistory {
 	date: string;
 }
 
-export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], username: string): void 
+export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], username: string): void
 {
 	const container = document.getElementById(div);
 	if (container)
@@ -105,7 +105,7 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 	}
 }
 
-export default async function initHistory() 
+export default async function initHistory()
 {
 	let response;
 	const token = sessionStorage.getItem('token');
@@ -129,8 +129,7 @@ export default async function initHistory()
 		return ;
 	}
 	const name = await response.json();
-	try
-	{
+	try {
 		const response = await fetch(`/api/history`,
 		{
 			method: 'POST',
@@ -140,10 +139,7 @@ export default async function initHistory()
 
 		const data = await response.json();
 		generateCardsHistory('History-Div', data, name.original);
-	}
-	catch (err)
-	{
+	} catch (err) {
 		console.error('Erreur lors de la récupération de l\'historique :', err);
 	}
-
 }

@@ -38,7 +38,7 @@ interface Route {
 
 const routes: { [path: string]: Route } = {
 
-	'/login': 
+	'/login':
 	{
 		view: loginHtml,
 		script: async () => {
@@ -46,7 +46,7 @@ const routes: { [path: string]: Route } = {
 			initLogin();
 		}
 	},
-	'/register': 
+	'/register':
 	{
 		view: registerHtml,
 		script: async () => {
@@ -54,7 +54,7 @@ const routes: { [path: string]: Route } = {
 			initRegister();
 		}
 	},
-	'/login/a2f': 
+	'/login/a2f':
 	{
 		view: a2fHTML,
 		script: async () => {
@@ -101,7 +101,7 @@ const routes: { [path: string]: Route } = {
 		bodyClass: "m-0 justify-center backdrop-blur items-center h-screenbg-cover bg-center bg-no-repeat h-screen flex",
 		bodyStyleImage: "url('/images/pong.png')",
 	},
-	'/profile/statistics': 
+	'/profile/statistics':
 	{
 		view: overallStatHTML,
 		bodyStyleImage: "url('/images/statscyberpunk.png')",
@@ -110,7 +110,7 @@ const routes: { [path: string]: Route } = {
 			initOverallStats();
 		}
 	},
-	'/profile/statistics/history': 
+	'/profile/statistics/history':
 	{
 		view: historyStatHTML,
 		bodyStyleImage: "url('/images/statscyberpunk.png')",
@@ -129,7 +129,7 @@ const routes: { [path: string]: Route } = {
 			initTournamentStats();
 		}
 	},
-	'/profile/edit': 
+	'/profile/edit':
 	{
 		view: editprofileHTML,
 		bodyStyleImage: "url('/images/statscyberpunk.png')",
@@ -138,7 +138,7 @@ const routes: { [path: string]: Route } = {
 			initEditProfile();
 		}
 	},
-	'/profile/edit/password': 
+	'/profile/edit/password':
 	{
 		view: editpasswordHTML,
 		bodyStyleImage: "url('/images/statscyberpunk.png')",
@@ -147,7 +147,7 @@ const routes: { [path: string]: Route } = {
 			initEditPassword();
 		}
 	},
-	'/users': 
+	'/users':
 	{
 		view: SearchHTML,
 		pattern: /^\/users\/([^\/]+)(?:\/history)?$/,
@@ -182,7 +182,7 @@ export const loadRoutes = async (path: string) => {
 
 					if (!data.exists) {
 						body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
-						body.style.backgroundSize = "cover"; 
+						body.style.backgroundSize = "cover";
 						body.style.backgroundImage = "url('/images/404notfound.jpg')";
 						body.innerHTML = notFoundPageContent;
 						await initLanguageSelector();
@@ -226,7 +226,7 @@ export const loadRoutes = async (path: string) => {
 		}
 	} else {
 		body.className = "bg-black bg-center bg-no-repeat min-h-screen flex items-center justify-center";
-		body.style.backgroundSize = "cover"; 
+		body.style.backgroundSize = "cover";
 		body.style.backgroundImage = "url('/images/404notfound.jpg')";
 		body.innerHTML = notFoundPageContent;
 		await initLanguageSelector()
@@ -239,7 +239,7 @@ const router = async () => {
 
 const navigate = (url: string) => {
 	if (window.location.pathname === url) return ;
-	history.pushState(null, '', url); 
+	history.pushState(null, '', url);
 	loadRoutes(url);
 };
 

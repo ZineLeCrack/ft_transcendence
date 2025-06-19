@@ -3,7 +3,7 @@ import { loadRoutes } from "../main.js";
 import initError from '../error.js';
 import { translate } from "../i18n.js";
 
-export default async function initSearch() 
+export default async function initSearch()
 {
 
 	const searchBar = document.getElementById("search-bar") as HTMLInputElement;

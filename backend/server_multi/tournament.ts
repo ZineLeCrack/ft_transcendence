@@ -31,7 +31,7 @@ interface TournamentInstance {
 	winner_final: string,
 	loser_final: string,
 	gameId: string,
-	instance: GameInstance,
+	instance: GameInstance | null,
 	game: number
 }
 
@@ -64,7 +64,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			winner_final: string,
 			loser_final: string,
 			gameId: string,
-			instance: GameInstance,
+			instance: GameInstance | null,
 			game: number
 		};
 
@@ -90,7 +90,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			userId = (decoded as { userId: string }).userId;
 			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
 			userName = result.name;
-		} 
+		}
 		catch (err) {
 			reply.status(401).send('Invalid token');
 			return ;
@@ -257,6 +257,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				next_player1: '',
 				next_player2: ''
 			}
+			tournament.instance = null;
 		}
 		reply.status(200).send({ ...results, tournamentId: tournamentId });
 	});

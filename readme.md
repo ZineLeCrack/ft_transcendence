@@ -2,8 +2,10 @@ cle-berr - verifuser si token pas bon ca met erreur 500, ce n'est pas un bon sta
 cle-berr - status hors-ligne au moment où l'autre accepte la demande d'ami
 
 lelanglo - URGENT - Mettre token en memoire RAM
+lelanglo - traduction quand quelqu'un a gagné en local/ai à réparer
 
-rlebaill - websocket quand fin d'un tournoi
+rlebaill - websocket quand fin d'un tournoi à finir
+rlebaill - bug quand on appuie sur entrer quand on rentre l'alias
 
 rlebaill | cleberr | ebroudic - tester avec curl l'api du jeu donc /start /state /moove, pour la partie CLI du module server-side du pong (alexandru testera ca normalement ). si on a le temps mettre une petit doc sur l'api
 

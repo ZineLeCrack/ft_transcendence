@@ -5,6 +5,7 @@ import { translate } from "./i18n.js";
 import initFriendChat from "./chat/friendchat.js";
 import initJoinTournament from "./tournament/join_tournament.js";
 import initUsers from "./search/users.js";
+import initCreateTournament from "./tournament/create_tournament.js";
 
 let ws: WebSocket | null = null;
 let original_name: string;
@@ -59,6 +60,38 @@ export function initWebSocket(original: string) {
 			initError(data.message);
 			return ;
 		}
+		if (data.type === 'tournament_end') {
+			try {
+				const res = await fetch('/api/tournament/is_in', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+				});
+				const is_in = await res.json();
+				if (is_in.tournamentId.toString() === data.id.toString()) {
+					const playBtn = document.getElementById('play-tournament');
+					const joinBtn = document.getElementById('join-tournament');
+					const createBtn = document.getElementById('create-tournament');
+					const container = document.getElementById('tournament-view');
+
+					if (playBtn) playBtn.classList.add('hidden');
+					if (joinBtn) joinBtn.classList.remove('hidden');
+					if (createBtn) createBtn.classList.remove('hidden');
+
+					if (container) container.innerHTML = `
+					<div id="default-tournament-view" class="flex flex-col items-center gap-4">
+						<img src="/images/pong_racquet.png" alt="pong racquet" class="w-16 h-16 mb-2" />
+						<p class="text-[#00FFFF]/90 text-xl font-bold text-center" data-i18n="no_tournament">No tournament in progress</p>
+						<p class="text-[#00FFFF]/80 text-sm" data-i18n="create_or_join">Create or join a tournament to start playing</p>
+					</div>`;
+
+					initCreateTournament();
+					initJoinTournament();
+				}
+			} catch (err) {
+				console.error('Error searching informations:', err);
+			}
+		}
 		if (data.type === 'multi_player_join') {
 			if (sessionStorage.getItem('gameId') === data.gameId) {
 				const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
@@ -79,7 +112,7 @@ export function initWebSocket(original: string) {
 				}
 			}
 		}
-		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users') 
+		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users')
 		{
 			if (window.location.pathname === '/home')
 			{
