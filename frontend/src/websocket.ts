@@ -98,6 +98,7 @@ export function initWebSocket(original: string) {
 				console.error('Error searching informations:', err);
 			}
 		}
+
 		if (data.type === 'multi_player_join') {
 			if (sessionStorage.getItem('gameId') === data.gameId) {
 				const h1player1 = document.getElementById('name-player1') as HTMLHeadingElement;
@@ -118,22 +119,8 @@ export function initWebSocket(original: string) {
 				}
 			}
 		}
-		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users')
-		{
-			if (window.location.pathname === '/home')
-			{
-				initFriendChat();
-			}
-			else if (window.location.pathname === `/users/${data.username}` || window.location.pathname === `/users/${data.username}/history`)
-			{
-				initUsers(data.username);
-			}
-			else if (window.location.pathname === `/users/${data.targetUsername}` || window.location.pathname === `/users/${data.targetUsername}/history`)
-			{
-				initUsers(data.targetUsername);
-			}
-		}
-		if (data.type === 'accept_friend' || data.type === 'decline_friend')
+
+		if (data.type === "add_friend" || data.type === 'remove_friend' || data.type === 'block_users' || data.type === 'unblock_users' || data.type === 'accept_friend' || data.type === 'decline_friend')
 		{
 			if (window.location.pathname === '/home')
 			{
