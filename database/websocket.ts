@@ -59,6 +59,12 @@ export function setupWebSocket(server: any) {
 				}
 				if (type === 'new_message') {
 					if (!token || !content) return ;
+
+					if (content.length > 512) {
+						ws.send(JSON.stringify({type: 'error', message: 'message_too_long'}));
+						return ;
+					}
+
 					let id_user;
 					try {
 						const decoded = jwt.verify(token, JWT_SECRET);
@@ -110,6 +116,12 @@ export function setupWebSocket(server: any) {
 					{
 						if (!token || !content || !targetUsername) return ;
 					}
+
+					if (content.length > 512) {
+						ws.send(JSON.stringify({type: 'error', message: 'message_too_long'}));
+						return ;
+					}
+
 					let id_user;
 					try {
 						const decoded = jwt.verify(token, JWT_SECRET);
@@ -128,7 +140,7 @@ export function setupWebSocket(server: any) {
 						ORDER BY created_at DESC LIMIT 1
 						`, [username, targetUsername, targetUsername, username]);
 					if (pongRequest === 1 && lastInvite) {
-						ws.send(JSON.stringify({type: 'error', message: 'A request has already been created, invitation canceled.'}));
+						ws.send(JSON.stringify({type: 'error', message: 'cancel_request'}));
 						return ;
 					}
 
