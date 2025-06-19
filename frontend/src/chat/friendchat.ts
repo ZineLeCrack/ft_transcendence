@@ -242,7 +242,8 @@ export default async function initFriendChat()
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					credentials: 'include',
-					body: JSON.stringify({ token: sessionStorage.getItem('token')})});
+					body: JSON.stringify({ })
+				});
 				const info = await checkUser.json();
 
 				const original_name = info.original;
@@ -304,9 +305,8 @@ export default async function initFriendChat()
 					let chatdata;
 					const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 					const targetUsername = BoxTarget?.id.split('-').pop();
-					const token = sessionStorage.getItem('token');
 
-					chatdata = { type: 'new_private_message', token, content: "" , targetUsername, pongRequest: 1};
+					chatdata = { type: 'new_private_message', content: "" , targetUsername, pongRequest: 1};
 					ws?.send(JSON.stringify(chatdata));
 				});
 			} catch (err) {

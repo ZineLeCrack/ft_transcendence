@@ -108,12 +108,11 @@ export function generateCardsHistory(div: string ,cardsHistory: CardHistory[], u
 export default async function initHistory()
 {
 	let response;
-	const token = sessionStorage.getItem('token');
 	try {
 		response = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 		if (!response.ok)
@@ -135,7 +134,7 @@ export default async function initHistory()
 		{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 

@@ -4,7 +4,6 @@ export const userData = {
 	userId: sessionStorage.getItem('userId'),
 	userName: sessionStorage.getItem('userName'),
 	userPicture: sessionStorage.getItem('profile_pic'),
-	token: sessionStorage.getItem('token')
 };
 
 import { loadRoutes } from '../main.js';
@@ -64,11 +63,10 @@ export default function initChooseGame() {
 		else if (mode === "MULTI") {
 			playBtn.onclick = async () => {
 				try {
-					const token = sessionStorage.getItem('token');
 					const response = await fetch(`/api/multi/game/start`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({ token }),
+						body: JSON.stringify({ }),
 						credentials: 'include',
 					});
 					if (!response.ok)

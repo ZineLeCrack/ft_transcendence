@@ -1,12 +1,10 @@
 
 export default async function initGlobalstats(username: string) {
 	try {
-		const token = sessionStorage.getItem('token');
-
 		const statsRes = await fetch('/api/stats', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token, username }),
+			body: JSON.stringify({ username }),
 			credentials: 'include',
 		});
 		const stats = await statsRes.json();
@@ -14,7 +12,7 @@ export default async function initGlobalstats(username: string) {
 		const historyRes = await fetch('/api/history', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token, username }),
+			body: JSON.stringify({ username }),
 			credentials: 'include',
 		});
 

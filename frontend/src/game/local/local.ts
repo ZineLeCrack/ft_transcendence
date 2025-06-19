@@ -17,11 +17,10 @@ export let message = "";
 export default async function initPong() {
 	let response;
 	try {
-		const token = sessionStorage.getItem('token');
 		response = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 	} catch (err) {

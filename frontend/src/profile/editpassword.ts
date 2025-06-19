@@ -9,13 +9,12 @@ import { validatePassword } from '../utils.js';
 
 export default async function initEditPassword() {
 	await initLanguageSelector();
-	const token = sessionStorage.getItem('token');
 	let response;
 	try {
 		response = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 		if (!response.ok)
@@ -108,7 +107,6 @@ export default async function initEditPassword() {
 				{
 					current: editCurrentPasswordInput.value,
 					newpass: editConfirmNewPasswordInput.value,
-					token: sessionStorage.getItem('token'),
 				}
 				if (!validatePassword(EditData.newpass))
 				{

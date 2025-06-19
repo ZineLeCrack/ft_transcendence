@@ -42,11 +42,10 @@ export default async function initEditProfile() {
 	await initLanguageSelector();
 	let response;
 	try {
-		const token = sessionStorage.getItem('token');
 		response = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 		if (!response.ok)
@@ -101,7 +100,6 @@ export default async function initEditProfile() {
 				{
 					username: usernameInput.value,
 					email: emailInput.value,
-					token: sessionStorage.getItem('token'),
 				}
 				if(!EditData.email && !EditData.username)
 				{
@@ -144,11 +142,10 @@ export default async function initEditProfile() {
 
 					let response1;
 					try {
-						const token = sessionStorage.getItem('token');
 						response1 = await fetch('/api/verifuser', {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },
-							body: JSON.stringify({ token }),
+							body: JSON.stringify({ }),
 							credentials: "include",
 						});
 						if (!response1.ok)
