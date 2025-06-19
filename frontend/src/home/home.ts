@@ -10,6 +10,7 @@ import initError from '../error.js'
 import { loadRoutes } from '../main.js';
 import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
+import { loadProfilePicture } from '../profile/editinfo.js';
 
 export default async function initHome() {
 	await initLanguageSelector();
@@ -53,7 +54,7 @@ export default async function initHome() {
 			console.error(`Failed to load tournament`);
 			return ;
 		}
-
+		loadProfilePicture("profileBtn", "l");
 		const data = await res.json();
 
 		if (data.tournamentId === '0')

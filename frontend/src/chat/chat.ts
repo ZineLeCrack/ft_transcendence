@@ -454,5 +454,4 @@ export default function initChat() {
 
 		displayAllMessages();
 	})();
-	loadProfilePicture("profileBtn", "l");
 }

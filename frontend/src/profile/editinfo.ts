@@ -9,7 +9,6 @@ import { validateEmail, validateUsername } from '../utils';
 export async function loadProfilePicture(div: string, name: string) {
 	try {
 		const token = sessionStorage.getItem("token");
-		if (!token) return ;
 
 		const response = await fetch('/api/picture', {
 			headers: { 'Authorization': `Bearer ${token} ${name}` },
