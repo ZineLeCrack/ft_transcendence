@@ -70,17 +70,17 @@ export default async function initPong() {
 
 		let new_message;
 		if (message === "to_start") {
-				new_message = translate(message);
-			}
-			else if (message === "1_win")
-			{
-				new_message = `${translate("1_lwin")}`;
-			} 
-			else if (message === "2_win") {
-				new_message = translate("2_lwin");
-			} else {
-				new_message = message;
-			}
+			new_message = translate(message);
+		}
+		else if (message === "1_win")
+		{
+			new_message = translate("1_lwin");
+		} 
+		else if (message === "2_win") {
+			new_message = translate("2_lwin");
+		} else {
+			new_message = message;
+		}
 		game.fillText(new_message, 400 - (new_message.length * 14), 150);
 
 		for (let i = 0; i < 600; i += 18.9)
