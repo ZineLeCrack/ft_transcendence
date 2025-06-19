@@ -70,7 +70,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 			const dbchat = await getDb_chat();
 			let IdUser;
 			try {
-				const token = request.cookies.accessToken!;  
+				const token = request.cookies.accessToken!;
 				const decoded = jwt.verify(token, JWT_SECRET);
 				IdUser = (decoded as { userId: string }).userId;
 			} catch (err) {
@@ -122,7 +122,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 		}
 		let IdUser;
 		try {
-			const token = request.cookies.accessToken!;  
+			const token = request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			IdUser = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -158,7 +158,6 @@ export default async function editRoutes(fastify: FastifyInstance) {
 	fastify.get('/picture', async (request, reply) => {
 		const authHeader = request.headers['authorization'] as any;
 		const name = authHeader?.split(' ')[2];
-
 
 		let userId;
 		try {

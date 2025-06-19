@@ -185,7 +185,7 @@ export default async function initFriendChat()
 			return [];
 		}
 	}
-                                                                                  
+
 	const friends: Friend[] = await fetchFriends();
 	generateFriendList(friends);
 

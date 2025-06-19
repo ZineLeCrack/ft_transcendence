@@ -7,18 +7,17 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 const clients = new Set<WebSocket>();
 
 function parseCookies(cookieHeader:any) {
-  const cookies:any = {};
-  if (!cookieHeader) return cookies;
+	const cookies:any = {};
+	if (!cookieHeader) return cookies;
 
-  const pairs = cookieHeader.split(';');
-  for (const pair of pairs) {
-    const [name, ...rest] = pair.trim().split('=');
-    const value = rest.join('=');
-    cookies[name] = decodeURIComponent(value);
-  }
-  return cookies;
+	const pairs = cookieHeader.split(';');
+	for (const pair of pairs) {
+		const [name, ...rest] = pair.trim().split('=');
+		const value = rest.join('=');
+		cookies[name] = decodeURIComponent(value);
+	}
+	return cookies;
 }
-
 
 export function setupWebSocket(server: any) {
 	const wss = new WebSocketServer({ server });
@@ -125,8 +124,8 @@ export function setupWebSocket(server: any) {
 
 					const lastInvite = await dbchat.get(`
 						SELECT created_at FROM privatechat
-						  WHERE pongRequest IN (1, 2) AND ((username1 = ? AND username2 = ?) OR (username1 = ? AND username2 = ?))
-						  ORDER BY created_at DESC LIMIT 1
+						WHERE pongRequest IN (1, 2) AND ((username1 = ? AND username2 = ?) OR (username1 = ? AND username2 = ?))
+						ORDER BY created_at DESC LIMIT 1
 						`, [username, targetUsername, targetUsername, username]);
 					if (pongRequest === 1 && lastInvite) {
 						ws.send(JSON.stringify({type: 'error', message: 'A request has already been created, invitation canceled.'}));
