@@ -204,7 +204,7 @@ export default async function initMultiplayer() {
 							const is_last = await res2.json();
 							const ws = getWebSocket();
 							if (is_last.last) {
-								ws?.send(JSON.stringify({ type: 'tournament_end', id: gameStat.tournamentId }));
+								ws?.send(JSON.stringify({ type: 'tournament_end', id: gameStat.tournamentId, winner: results.winner }));
 							} else {
 								ws?.send(JSON.stringify({ type: 'tournament_next_game', next_player1: results.next_player1, next_player2: results.next_player2, id: gameStat.tournamentId }));
 							}

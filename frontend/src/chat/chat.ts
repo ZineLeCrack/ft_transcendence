@@ -6,12 +6,35 @@ import { loadProfilePicture } from '../profile/editinfo.ts';
 let original_name:string;
 let original_id:string;
 
-export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean, pongGame? : boolean, requestDecline?: boolean, yourparty?: boolean) {
+export async function sendMessage(username: string, content: string, pong?: boolean, targetUser: string = "global", friendRequest?: boolean, pongGame? : boolean, requestDecline?: boolean, yourparty?: boolean, winner?: boolean) {
 
 	const messageWrapper = targetUser === "global" ? document.getElementById('chat-messages-global')
 	: document.getElementById(`chat-messages-${targetUser}`);
 
 	if (!messageWrapper) return ;
+
+	if (winner === true)
+	{
+		const container = document.createElement("div");
+		container.id = `container-winner-tournament-pong-${content}`;
+		container.className = "flex flex-col items-center space-y-2 my-4";
+
+		const msg = document.createElement("div");
+		msg.id = `winner-tournament-pong${content}`;
+		msg.className = "font-mono text-[#00FFFF] px-6 py-3 text-center w-fit max-w-[80%] break-words border-2 border-[#FF007A] bg-black/40 rounded-xl shadow-[0_0_10px_#FF007A]";
+		const requestText = translate('has_won_the_tournament');
+		msg.textContent = `${username} ${requestText}`;
+
+		container.appendChild(msg);
+		messageWrapper.appendChild(container);
+		const chatContainer = document.getElementById('chat-containers');
+
+		if (chatContainer) {
+			chatContainer.scrollTop = chatContainer.scrollHeight;
+		}
+
+		return ;
+	}
 
 	if (yourparty === true)
 	{
@@ -393,6 +416,10 @@ export default function initChat() {
 						{
 							await sendMessage('', '', false, 'global', false, false, false, true);
 						}
+					}
+					else if (message.announceTournament === 3)
+					{
+						await sendMessage(message.username, '', false, 'global', false, false, false, false, true);
 					}
 					else
 					{

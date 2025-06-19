@@ -19,7 +19,7 @@ export function setupWebSocket(server: any) {
 		ws.on('message', async (message) => {
 			try {
 				const data = JSON.parse(message.toString());
-				const { type, token, content, targetUsername, id, pongRequest, next_player1, next_player2, gameId } = data;
+				const { type, token, content, targetUsername, id, pongRequest, next_player1, next_player2, gameId, winner } = data;
 				const dbusers = await getDb_user();
 				const dbchat = await getDb_chat();
 				if (type === 'multi_player_join') {
@@ -30,9 +30,15 @@ export function setupWebSocket(server: any) {
 					}
 				}
 				if (type === 'tournament_end') {
+					const winnerName = await dbusers.get(`SELECT name FROM users WHERE id = ?`,[winner]);
+					await dbchat.run(
+						`
+						INSERT INTO chat (username, content, announceTournament, announceTournament_id1, announceTournament_id2) VALUES (?, ?, ?, ?, ?)
+						`,
+						[winnerName.name, "", 3, winner, id]);
 					for (const client of clients) {
 						if (client.readyState === ws.OPEN) {
-							client.send(JSON.stringify({ type, id }));
+							client.send(JSON.stringify({ type, id, winner: winnerName.name }));
 						}
 					}
 				}
@@ -72,7 +78,6 @@ export function setupWebSocket(server: any) {
 						}
 					}
 				} else if (type === 'tournament_next_game') {
-
 					await dbchat.run(
 						`INSERT INTO chat (username, content, announceTournament, announceTournament_id1, announceTournament_id2) VALUES (?, ?, ?, ?, ?)`,
 						["", "", 2, next_player1, next_player2]);

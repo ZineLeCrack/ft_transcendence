@@ -170,5 +170,6 @@
 	"tour_error_trad": "Por favor espere a que sea su turno de jugar (se le enviará un mensaje en el chat global)",
 	"tournament_announce1": "El juego contra",
 	"tournament_announce2": "comenzará",
-	"and":"y"
+	"and": "y",
+	"has_won_the_tournament": "ha ganado el último torneo !"
 }
