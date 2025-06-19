@@ -4,18 +4,18 @@ import initSuccess from '../success.js';
 import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
 import { userId } from './login.js';
-export default function initA2f() {
+export default function init2fa() {
 
 	initLanguageSelector();
 
-	const form = document.getElementById("a2f") as HTMLFormElement;
-	const sendBtn = document.getElementById('to-send-a2f') as HTMLButtonElement;
+	const form = document.getElementById("2fa") as HTMLFormElement;
+	const sendBtn = document.getElementById('to-send-2fa') as HTMLButtonElement;
 	const codeInput = document.getElementById("code-input") as HTMLInputElement;
 
 	sendBtn.addEventListener("click", async () => {
 		try {
 			const Data = { IdUser: userId };
-			const response = await fetch(`/api/a2f/send`, {
+			const response = await fetch(`/api/2fa/send`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(Data),
@@ -30,9 +30,9 @@ export default function initA2f() {
 				}, 1000);
 				return ;
 			}
-			initSuccess(translate('a2f_send'));
+			initSuccess(translate('2fa_send'));
 		} catch (err) {
-			console.error('Error sending A2F code:', err);
+			console.error('Error sending 2fa code:', err);
 		}
 	});
 
@@ -43,7 +43,7 @@ export default function initA2f() {
 			if (!Data.code) {
 				return ;
 			}
-			const response = await fetch(`/api/a2f/verify`, {
+			const response = await fetch(`/api/2fa/verify`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(Data),
@@ -61,13 +61,13 @@ export default function initA2f() {
 				return ;
 			}
 			sessionStorage.removeItem("userId");
-			initSuccess(translate('a2f_good_mess'));
+			initSuccess(translate('2fa_good_mess'));
 			setTimeout(async () => {
 				history.pushState(null, '', '/home');
 				await loadRoutes('/home');
 			}, 1000);
 		} catch (err) {
-			console.error('Error verifying A2F code:', err);
+			console.error('Error verifying 2fa code:', err);
 		}
 	});
 }

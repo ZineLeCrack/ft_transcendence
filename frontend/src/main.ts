@@ -2,7 +2,7 @@ import './css/style.css';
 
 import loginHtml from './pages/login.html?raw';
 import registerHtml from './pages/register.html?raw';
-import a2fHTML from './pages/a2f.html?raw';
+import twofaHTML from './pages/2fa.html?raw';
 
 import homeHTML from './pages/home.html?raw';
 
@@ -54,12 +54,12 @@ const routes: { [path: string]: Route } = {
 			initRegister();
 		}
 	},
-	'/login/a2f':
+	'/login/2fa':
 	{
-		view: a2fHTML,
+		view: twofaHTML,
 		script: async () => {
-			const {default: initA2f} = await import ('./login/a2f.ts');
-			initA2f();
+			const {default: init2fa} = await import ('./login/2fa.ts');
+			init2fa();
 		}
 	},
 	'/home':

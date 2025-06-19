@@ -88,8 +88,8 @@ export default function initLogin() {
 			userId = data.id;
 			initSuccess(translate('login_success'));
 			setTimeout (async () => {
-				history.pushState(null, '', '/login/a2f');
-				await loadRoutes('/login/a2f');
+				history.pushState(null, '', '/login/2fa');
+				await loadRoutes('/login/2fa');
 			}, 1000);
 		}
 		catch (err)

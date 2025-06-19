@@ -9,12 +9,12 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 const verificationCodes = new Map();
 
-export default async function a2fRoutes(fastify: FastifyInstance) {
+export default async function twofaRoutes(fastify: FastifyInstance) {
 	fastify.register(fastifyJwt, {
 		secret: JWT_SECRET,
 	});
 
-	fastify.post('/a2f/send', async (request, reply) => {
+	fastify.post('/2fa/send', async (request, reply) => {
 		const { IdUser } = request.body as { IdUser: string , userName : string, PictureProfile : string};
 
 		if (!IdUser) {
@@ -44,8 +44,8 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 			await transporter.sendMail({
 				from: EMAIL,
 				to: user.email,
-				subject: 'Your 2FA code',
-				text: `This is your 2FA code : ${code}`,
+				subject: 'Your 2fa code',
+				text: `This is your 2fa code : ${code}`,
 			});
 
 			reply.status(200).send('Code sent');
@@ -55,7 +55,7 @@ export default async function a2fRoutes(fastify: FastifyInstance) {
 		}
 	});
 
-	fastify.post('/a2f/verify', async (request, reply) => {
+	fastify.post('/2fa/verify', async (request, reply) => {
 		const { IdUser, code} = request.body as { IdUser: string, code: string};
 
 		if (!IdUser || !code) {
