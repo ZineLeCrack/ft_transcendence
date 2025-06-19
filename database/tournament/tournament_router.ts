@@ -7,9 +7,14 @@ const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
 
 export default async function tournamentRoutes(fastify: FastifyInstance) {
 	fastify.post('/create', async (request, reply) => {
-		const { name, players_max, type, password } = request.body as { name: string, players_max: number, type: string, password: string | null };
+		const { name, type, password } = request.body as { name: string, type: string, password: string | null };
 
 		try {
+			if (!(/^[a-zA-Z0-9_]{0,10}$/.test(name))) {
+				reply.status(200).send({ err: true, message: 'torn_invalid_name' });
+				return ;
+			}
+
 			let hashed;
 			const db = await getDb_tournaments();
 
@@ -29,10 +34,10 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 				[tournamentId]
 			);
 
-			reply.send({ success: true });
+			reply.send({ success: true, err: false });
 		} catch (err) {
 			console.error(err);
-			reply.status(500).send('Error');
+			reply.status(500).send({ err: true, message: 'Internal server error' });
 		}
 	});
 
@@ -119,6 +124,12 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 
 	fastify.post('/join', async (request, reply) => {
 		const { id_tournament, token, password, alias } = request.body as { id_tournament: string, token: string, password: string | null, alias: string };
+
+		if (!(/^[a-zA-Z0-9_]{0,10}$/.test(alias))) {
+			reply.status(200).send('Invalid alias !');
+			return ;
+		}
+
 		let userId;
 
 		try {

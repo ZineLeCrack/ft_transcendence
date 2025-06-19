@@ -110,6 +110,13 @@ export default function initCreateTournament() {
 				throw new Error('Failed to create tournament');
 			}
 
+			const data = await response.json();
+
+			if (data.err) {
+				initError(translate(data.message));
+				return ;
+			}
+
 			const ws = getWebSocket();
 			ws?.send(JSON.stringify({ type: 'tournament_created' }));
 			createView?.classList.add('hidden');

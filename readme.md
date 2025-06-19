@@ -7,7 +7,23 @@ lelanglo - traduction quand quelqu'un a gagné en local/ai à réparer
 rlebaill - websocket quand fin d'un tournoi à finir
 rlebaill - bug quand on appuie sur entrer quand on rentre l'alias
 
-rlebaill | cleberr | ebroudic - tester avec curl l'api du jeu donc /start /state /moove, pour la partie CLI du module server-side du pong (alexandru testera ca normalement ). si on a le temps mettre une petit doc sur l'api
+<----------COMMENT--TESTER--LE--CLI--?------------>
+
+curl -X {POST ou GET} https://{IP}{chemin vers le POST ou GET} {-k: pour certificate auto-signé}  \
+	-H {header} "Content-Type: application/json" \
+	-d {body} '{"gameId": "abc123"}'
+
+EXEMPLE:
+
+curl -X POST https://10.12.200.81/api/main/game/start -k
+
+ET:
+
+curl -X POST https://10.12.200.81/api/main/game/end -k \
+	-H "Content-Type: application/json" \
+	-d '{"gameId": "??????"}'
+
+<------------------------------------------------->
 
 tous le monde - si on a le temps faire une doc sur nos programmes plus simple pour expliquer a Alexandru et au autre pas besoin d'expliquer en detail juste dire ce que les fonction resoult comme probleme ou module 
 
