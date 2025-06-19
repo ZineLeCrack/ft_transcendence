@@ -17,7 +17,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		let userName;
 		const db = await getDb_user();
 		try {
-			const token = request.cookies.accessToken!;  
+			const token = request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
@@ -160,7 +160,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 
 		let userId;
 		try {
-			const token = request.cookies.accessToken!;  
+			const token = request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 		} catch (err) {
@@ -180,7 +180,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		let userId, userName;
 		const db = await getDb_user();
 		try {
-			const token = request.cookies.accessToken!;  
+			const token = request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
@@ -224,7 +224,7 @@ export default async function gameRouter(fastify: FastifyInstance) {
 		let userId;
 
 		try {
-			const token = request.cookies.accessToken!;  
+			const token = request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 		} catch (err) {

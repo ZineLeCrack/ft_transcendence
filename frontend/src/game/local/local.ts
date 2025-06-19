@@ -76,7 +76,7 @@ export default async function initPong() {
 		else if (message === "1_win")
 		{
 			new_message = translate("1_lwin");
-		} 
+		}
 		else if (message === "2_win") {
 			new_message = translate("2_lwin");
 		} else {

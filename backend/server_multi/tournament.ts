@@ -85,7 +85,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		const db = await getDb_user();
 		let userName;
 		try {
-			const token = request.cookies.accessToken!;  
+			const token = request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);

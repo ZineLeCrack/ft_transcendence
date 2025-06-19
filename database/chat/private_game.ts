@@ -11,7 +11,7 @@ export default async function privateGameRoutes(fastify: FastifyInstance) {
 			const dbChat = await getDb_chat();
 			const dbUser = await getDb_user();
 			try {
-				const token = _request.cookies.accessToken!; 
+				const token = _request.cookies.accessToken!;
 				const decoded = jwt.verify(token, JWT_SECRET);
 				id_user = (decoded as { userId: string }).userId;
 			} catch (err)

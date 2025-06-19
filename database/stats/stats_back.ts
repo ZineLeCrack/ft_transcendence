@@ -9,7 +9,7 @@ export default async function StatsRoutes(fastify: FastifyInstance) {
 
 		try {
 			const db = await getDb_user();
-			const token = request.cookies.accessToken!;  
+			const token = request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			let ID;
 

@@ -22,7 +22,7 @@ export default async function chatRoutes(fastify: FastifyInstance) {
 
 			let username1;
 			let id_user;
-			const token = _request.cookies.accessToken!;  
+			const token = _request.cookies.accessToken!;
 			const decoded = jwt.verify(token, JWT_SECRET);
 			id_user = (decoded as { userId: string }).userId;
 			const dbUser = await getDb_user();
