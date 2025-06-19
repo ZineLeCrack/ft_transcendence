@@ -137,7 +137,8 @@ export default async function initJoinTournament() {
 			<input type="text" id="tournament-alias" maxlength="10"
 				class="w-full bg-black/40 border-2 border-[#00FFFF] text-[#00FFFF] rounded-xl p-2 mb-6 focus:outline-none focus:border-[#FFD700]"
 				placeholder="${enterYourAliasPlaceholder}"/>
-			<div class="flex justify-between gap-4">
+				<span id="alias-name-error" class="text-red-500 text-sm hidden" data-i18n="tournament-name-error">Tournament name must be 3-14 characters long and contain only letters, numbers, underscore</span>
+				<div class="flex justify-between gap-4">
 				<button id="cancel-alias"
 					class="flex-1 bg-transparent border-2 border-[#FF2E9F] text-[#FF2E9F] font-bold py-2 px-6 rounded-xl hover:bg-[#FF2E9F]/20 transition duration-200">
 					${cancelButton}
@@ -150,6 +151,21 @@ export default async function initJoinTournament() {
 		</div>
 	</div>`;
 
+	function validateAliasNameField(input: HTMLInputElement) {
+		const errorElement = document.getElementById('alias-name-error');
+		if (!errorElement) return ;
+
+		const isValid = /^[a-zA-Z0-9_]{0,}$/.test(input.value);
+
+		if (!isValid && input.value.length >= 1) {
+			errorElement.classList.remove('hidden');
+			input.classList.add('border-red-500');
+		} else {
+			errorElement.classList.add('hidden');
+			input.classList.remove('border-red-500');
+		}
+	}
+
 	if (JoinBtnTournament.length > 0) {
 		JoinBtnTournament.forEach(button => {
 			button.addEventListener('click', async () => {
@@ -161,6 +177,14 @@ export default async function initJoinTournament() {
 				const confirmAlias = document.getElementById('confirm-alias') as HTMLButtonElement;
 				const cancelAlias = document.getElementById('cancel-alias') as HTMLButtonElement;
 				const inputAlias = document.getElementById('tournament-alias') as HTMLInputElement;
+
+				if (inputAlias) {
+					inputAlias.addEventListener('input', () => validateAliasNameField(inputAlias));
+					inputAlias.addEventListener('invalid', (e) => {
+						e.preventDefault();
+						validateAliasNameField(inputAlias);
+					});
+				}
 
 				confirmAlias.addEventListener('click', async () => {
 					try {

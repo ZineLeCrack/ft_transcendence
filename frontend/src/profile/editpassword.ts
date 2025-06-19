@@ -133,8 +133,10 @@ export default async function initEditPassword() {
 					throw new Error(translate("not_the_current"));
 				}
 				initSuccess(translate("password_edit_success"));
-				history.pushState(null, '', '/profile/edit');
-				await loadRoutes('/profile/edit');
+				setTimeout(async () => {
+					history.pushState(null, '', '/profile/edit');
+					await loadRoutes('/profile/edit');
+				}, 1500);
 			}
 			catch (error)
 			{
