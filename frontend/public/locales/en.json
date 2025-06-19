@@ -168,7 +168,7 @@
 	"tournament_full": "The tournament is full",
 	"return_home": "Return home",
 	"tour_error_trad": "Please wait until it’s your turn to play (a message will be sent to you in the global chat)",
-	"tournament_announce1": "the game against",
-	"tournament_announce2": "will begin",
+	"tournament_announce1": "The game between",
+	"tournament_announce2": "is about to begin",
 	"and":"and"
 }

@@ -1,7 +1,6 @@
 import { getWebSocket } from '../websocket';
 import { loadRoutes } from '../main.ts';
 import { translate } from '../i18n.ts';
-import { loadProfilePicture } from '../profile/editinfo.ts';
 
 let original_name:string;
 let original_id:string;
@@ -42,7 +41,8 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		const res = await fetch("/api/isblock", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ tokenID, target })
+			body: JSON.stringify({ tokenID, target }),
+			credentials: 'include',
 		});
 		const data = await res.json();
 		if (data.status === 1) return ;
@@ -89,6 +89,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				const response = await fetch('/api/multi/game/private/join', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
+					credentials: 'include',
 					body: JSON.stringify({ token: tokenID })
 				});
 
@@ -159,6 +160,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				await fetch("/api/private_game/reply-pong", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
+					credentials: 'include',
 					body: JSON.stringify({ token, target: targetUser, answer: 1 })
 				});
 				msg.remove();
@@ -174,7 +176,8 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				await fetch('/api/multi/game/private/create', {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ token, target: userData.id })
+					body: JSON.stringify({ token, target: userData.id }),
+					credentials: 'include',
 				});
 				const ws = getWebSocket();
 				const targetUsername = targetUser;
@@ -191,6 +194,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				await fetch("/api/private_game/reply-pong", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
+					credentials: 'include',
 					body: JSON.stringify({ token, target: targetUser, answer: 0 })
 				});
 				msg.remove();
@@ -274,7 +278,8 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				await fetch("/api/replyrequest", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ tokenID, target , answer: 1 })
+						body: JSON.stringify({ tokenID, target , answer: 1 }),
+						credentials: 'include',
 					});
 				let chatdata;
 				chatdata = { type: 'accept_friend', token: tokenID, targetUsername : target};
@@ -291,6 +296,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				await fetch("/api/replyrequest", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
+						credentials: 'include',
 						body: JSON.stringify({ tokenID, target , answer: 0 })
 					});
 				let chatdata;
@@ -361,6 +367,7 @@ export default function initChat() {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ token }),
+				credentials: 'include',
 			});
 
 			if (!response.ok) {
@@ -445,5 +452,4 @@ export default function initChat() {
 
 		displayAllMessages();
 	})();
-	loadProfilePicture("profileBtn", "l");
 }

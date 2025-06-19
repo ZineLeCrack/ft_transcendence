@@ -75,17 +75,17 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 		tournamentData.instance.player2.id = tournamentData.player2;
 		games.set(tournamentData.gameId, tournamentData.instance);
 		tournamentsInstances.set(tournamentData.id, tournamentData);
-
 		reply.status(200).send({ next_player1: tournamentData.player1, next_player2: tournamentData.player2 });
 	});
 
 	fastify.post('/join', async (request, reply) => {
-		const { token, tournamentId } = request.body as { token: string, tournamentId: string };
+		const { tournamentId } = request.body as { tournamentId: string };
 
 		let userId;
 		const db = await getDb_user();
 		let userName;
 		try {
+			const token = request.cookies.accessToken!;  
 			const decoded = jwt.verify(token, JWT_SECRET);
 			userId = (decoded as { userId: string }).userId;
 			const result = await db.get(`SELECT name FROM users WHERE id = ?`, [userId]);
@@ -101,8 +101,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			reply.status(200).send({ gameId: '0', err: true, message: 'The tournament is not started !' });
 			return ;
 		}
-
-		if (game.player1.id === userId) {
+		if (game.player1.id.toString() === userId.toString()) {
 			if (game.player1.name === '') {
 				game.player1.name = userName;
 				if (game.player1.name !== '' && game.player2.name !== '') {
@@ -114,7 +113,7 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			reply.status(200).send({ gameId: game.gameId, player: 'player1' });
 			return ;
 		}
-		else if (game.player2.id === userId) {
+		else if (game.player2.id.toString() === userId.toString()) {
 			if (game.player2.name === '') {
 				game.player2.name = userName;
 				if (game.player1.name !== '' && game.player2.name !== '') {

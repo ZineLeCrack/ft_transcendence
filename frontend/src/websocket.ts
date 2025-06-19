@@ -23,7 +23,7 @@ export function initWebSocket(original: string) {
 			fetch('/api/setstatus', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '1' })
+				body: JSON.stringify({status: '1' })
 			});
 		} catch (err) {
 			console.error('Error setting connected status:', err);
@@ -35,7 +35,7 @@ export function initWebSocket(original: string) {
 			fetch('/api/setstatus', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
+				body: JSON.stringify({status: '0' })
 			});
 		} catch (err) {
 			console.error('Error setting disconnected status:', err);
@@ -48,7 +48,8 @@ export function initWebSocket(original: string) {
 			fetch('/api/setstatus', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
+				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' }),
+				credentials: 'include',
 			});
 		} catch (err) {
 			console.error('Error setting disconnected status:', err);
@@ -57,6 +58,7 @@ export function initWebSocket(original: string) {
 
 	ws.onmessage = async (event) => {
 		const data = JSON.parse(event.data);
+
 		if (data.type === 'error') {
 			initError(data.message);
 			return ;
@@ -193,7 +195,8 @@ export function initWebSocket(original: string) {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+					body: JSON.stringify({ token: sessionStorage.getItem('token') }),
+					credentials: 'include',
 				});
 				const is_in = await res.json();
 				if (is_in.tournamentId.toString() === '0') {
@@ -212,7 +215,8 @@ export function initWebSocket(original: string) {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+					body: JSON.stringify({ token: sessionStorage.getItem('token') }),
+					credentials: 'include',
 				});
 				const is_in = await res.json();
 				if (is_in.tournamentId.toString() === data.id) {
@@ -242,7 +246,7 @@ export function initWebSocket(original: string) {
 			}
 		}
 		if (data.type === 'tournament_next_game') {
-			if (userId === data.next_player1 || userId === data.next_player2) {
+			if (userId.toString() === data.next_player1.toString() || userId.toString() === data.next_player2.toString()) {
 				sendMessage('', '', false, 'global', false, false, false, true);
 			}
 			try {
