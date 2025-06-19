@@ -60,7 +60,7 @@ export function initWebSocket(original: string) {
 		const data = JSON.parse(event.data);
 
 		if (data.type === 'error') {
-			initError(data.message);
+			initError(translate(data.message));
 			return ;
 		}
 		if (data.type === 'tournament_end') {
