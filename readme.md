@@ -24,7 +24,7 @@ tous le monde - si on a le temps faire une doc sur nos programmes plus simple po
 ebroudic - mettre annonce pop-up quand une partie de tournoi est pret a jouer 
 (possible de mettre popup quand on rejoin un tournoi pour dire l'ordre du tournoi juste eviter des remarques comme quoi l'affichage du tournoi n'est pas clair sur l'ordre des parties du moins les premieres)
 
-ebroudic - enlever l'input du chat quand on est dans notre liste d'amis et qu'on a pas choisi de conversation 
+cle-berr - enlever l'input du chat quand on est dans notre liste d'amis et qu'on a pas choisi de conversation 
 
 tous le monde - lire le sujet, connaitre son code, trouver erreur et regler erreur
 

@@ -164,5 +164,8 @@
 	"touch_html": "Pouvez-vous respecter la politique imposée s'il vous plait",
 	"tournament_full": "Le tournoi est complet",
 	"return_home": "Retour au menu",
-	"tour_error_trad": "Veuillez attendre que ce soit a votre tour de jouer (un message vous sera envoyé dans le tchat global)"
+	"tour_error_trad": "Veuillez attendre que ce soit a votre tour de jouer (un message vous sera envoyé dans le tchat global)",
+	"tournament_announce1": "La partie contre",
+	"tournament_announce2": "va commencer",
+	"and":"et"
 }

@@ -165,5 +165,8 @@
 	"touch_html": "Please, Can you respect the imposed policy",
 	"tournament_full": "The tournament is full",
 	"return_home": "Return home",
-	"tour_error_trad": "Please wait until it’s your turn to play (a message will be sent to you in the global chat)"
+	"tour_error_trad": "Please wait until it’s your turn to play (a message will be sent to you in the global chat)",
+	"tournament_announce1": "the game against",
+	"tournament_announce2": "will begin",
+	"and":"and"
 }
