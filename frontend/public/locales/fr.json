@@ -170,5 +170,7 @@
 	"tournament_announce1": "La partie qui oppose",
 	"tournament_announce2": "va commencer",
 	"and": "et",
-	"has_won_the_tournament": "a gagné le derbier tournoi !"
+	"has_won_the_tournament": "a gagné le derbier tournoi !",
+	"cancel_request": "Une demande a déjà été créée, invitation annulée.",
+	"message_too_long": "Ce message est trop long, veuillez réessayer."
 }

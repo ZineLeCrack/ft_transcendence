@@ -171,5 +171,7 @@
 	"tournament_announce1": "El juego contra",
 	"tournament_announce2": "comenzará",
 	"and": "y",
-	"has_won_the_tournament": "ha ganado el último torneo !"
+	"has_won_the_tournament": "ha ganado el último torneo !",
+	"cancel_request": "Ya se creó una solicitud, invitación cancelada.",
+	"message_too_long": "Este mensaje es demasiado largo, reinténtalo."
 }
