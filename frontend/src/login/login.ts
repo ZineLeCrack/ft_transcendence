@@ -5,6 +5,8 @@ import initSuccess from '../success.js';
 import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
 
+export let userId: string;
+
 export default function initLogin() {
 
 	initLanguageSelector();
@@ -82,8 +84,8 @@ export default function initLogin() {
 				throw new Error(translate("bad_user_pass"))
 			}
 			const data = JSON.parse(text);
-			sessionStorage.setItem('userId', data.id);
-
+			//sessionStorage.setItem('userId', data.id);
+			userId = data.id;
 			initSuccess(translate('login_success'));
 			setTimeout (async () => {
 				history.pushState(null, '', '/login/a2f');

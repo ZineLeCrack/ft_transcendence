@@ -3,7 +3,7 @@ import { loadRoutes } from '../main.js';
 import initSuccess from '../success.js';
 import { initLanguageSelector } from '../language.js';
 import { translate } from '../i18n.js';
-
+import { userId } from './login.js';
 export default function initA2f() {
 
 	initLanguageSelector();
@@ -14,7 +14,7 @@ export default function initA2f() {
 
 	sendBtn.addEventListener("click", async () => {
 		try {
-			const Data = { IdUser: sessionStorage.getItem('userId') };
+			const Data = { IdUser: userId };
 			const response = await fetch(`/api/a2f/send`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -39,8 +39,7 @@ export default function initA2f() {
 	form.addEventListener("submit", async (event) => {
 		try {
 			event.preventDefault();
-
-			const Data = { code: codeInput.value, IdUser: sessionStorage.getItem('userId') };
+			const Data = { code: codeInput.value, IdUser: userId };
 			if (!Data.code) {
 				return ;
 			}
@@ -61,9 +60,6 @@ export default function initA2f() {
 				initError(translate("bad_code"));
 				return ;
 			}
-			const result = JSON.parse(err);
-			const jwtToken = result.token;
-			sessionStorage.setItem('token', jwtToken);
 			sessionStorage.removeItem("userId");
 			initSuccess(translate('a2f_good_mess'));
 			setTimeout(async () => {

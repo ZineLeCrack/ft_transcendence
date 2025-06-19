@@ -21,7 +21,7 @@ export function initWebSocket(original: string) {
 			fetch('/api/setstatus', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '1' })
+				body: JSON.stringify({status: '1' })
 			});
 		} catch (err) {
 			console.error('Error setting connected status:', err);
@@ -34,7 +34,7 @@ export function initWebSocket(original: string) {
 			fetch('/api/setstatus', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' })
+				body: JSON.stringify({status: '0' })
 			});
 		} catch (err) {
 			console.error('Error setting disconnected status:', err);
@@ -56,7 +56,7 @@ export function initWebSocket(original: string) {
 
 	ws.onmessage = async (event) => {
 		const data = JSON.parse(event.data);
-		
+
 		if (data.type === 'error') {
 			initError(data.message);
 			return ;
