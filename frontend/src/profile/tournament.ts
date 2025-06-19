@@ -8,11 +8,10 @@ import { translate } from '../i18n';
 
 export default async function initTournamentStats() {
 	try {
-		const token = sessionStorage.getItem('token');
 		const response = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 		if (!response.ok) {
@@ -36,8 +35,6 @@ let chartPie: Chart | undefined;
 
 export async function initTournamentGraph(originalUsername: string) {
 	try {
-		const token = sessionStorage.getItem('token');
-
 		Chart.register(
 			PieController, ArcElement, Tooltip, Legend,
 			LineController, LineElement, PointElement,
@@ -48,7 +45,7 @@ export async function initTournamentGraph(originalUsername: string) {
 		const statsRes = await fetch('/api/stats', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 		const stats = await statsRes.json();
@@ -56,7 +53,7 @@ export async function initTournamentGraph(originalUsername: string) {
 		const historyRes = await fetch('/api/history', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 		const history = await historyRes.json();

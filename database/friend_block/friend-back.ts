@@ -168,8 +168,8 @@ export default async function friendRoutes(fastify: FastifyInstance) {
 	fastify.post('/setstatus', async (request, reply) => {
 		const { status } = request.body as { status: string }
 
-		if ( !status) {
-			reply.status(400).send({ success: false, error: "Missing token or status" });
+		if (!status) {
+			reply.status(400).send({ success: false, error: "Missing status" });
 			return ;
 		}
 		try {

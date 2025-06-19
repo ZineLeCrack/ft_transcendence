@@ -18,12 +18,11 @@ let pseudo2 : string;
 
 export default async function initMultiplayer() {
 	let response1;
-	const token = sessionStorage.getItem('token');
 	try {
 		response1 = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 

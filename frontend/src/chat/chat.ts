@@ -59,12 +59,11 @@ export async function sendMessage(username: string, content: string, pong?: bool
 	}
 
 	const target = username;
-	const tokenID = sessionStorage.getItem('token');
 	try {
 		const res = await fetch("/api/isblock", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ tokenID, target }),
+			body: JSON.stringify({ target }),
 			credentials: 'include',
 		});
 		const data = await res.json();
@@ -113,7 +112,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					credentials: 'include',
-					body: JSON.stringify({ token: tokenID })
+					body: JSON.stringify({ })
 				});
 
 				const data = await response.json();
@@ -178,13 +177,12 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		declineBtn.textContent = `${declineText}`;
 
 		acceptBtn.addEventListener('click', async () => {
-			const token = sessionStorage.getItem('token');
 			try {
 				await fetch("/api/private_game/reply-pong", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					credentials: 'include',
-					body: JSON.stringify({ token, target: targetUser, answer: 1 })
+					body: JSON.stringify({ target: targetUser, answer: 1 })
 				});
 				msg.remove();
 				acceptBtn.remove();
@@ -199,12 +197,12 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				await fetch('/api/multi/game/private/create', {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ token, target: userData.id }),
+					body: JSON.stringify({ target: userData.id }),
 					credentials: 'include',
 				});
 				const ws = getWebSocket();
 				const targetUsername = targetUser;
-				let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 2};
+				let chatdata = { type: 'new_private_message', content : "" , targetUsername, pongRequest: 2};
 				ws?.send(JSON.stringify(chatdata));
 			} catch (err) {
 				console.error('Error sending reply:', err);
@@ -213,12 +211,11 @@ export async function sendMessage(username: string, content: string, pong?: bool
 
 		declineBtn.addEventListener('click', async () => {
 			try {
-				const token = sessionStorage.getItem('token');
 				await fetch("/api/private_game/reply-pong", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					credentials: 'include',
-					body: JSON.stringify({ token, target: targetUser, answer: 0 })
+					body: JSON.stringify({ target: targetUser, answer: 0 })
 				});
 				msg.remove();
 				acceptBtn.remove();
@@ -226,7 +223,7 @@ export async function sendMessage(username: string, content: string, pong?: bool
 				container.remove();
 				const ws = getWebSocket();
 				const targetUsername = targetUser;
-				let chatdata = { type: 'new_private_message', token, content : "" , targetUsername, pongRequest: 3 };
+				let chatdata = { type: 'new_private_message', content : "" , targetUsername, pongRequest: 3 };
 				ws?.send(JSON.stringify(chatdata));
 			} catch (err) {
 				console.error('Error sending reply:', err);
@@ -296,16 +293,15 @@ export async function sendMessage(username: string, content: string, pong?: bool
 		const ws = getWebSocket();
 		acceptBtn.addEventListener('click', async () => {
 			try {
-				const tokenID = sessionStorage.getItem('token');
 				const target = targetUser;
 				await fetch("/api/replyrequest", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ tokenID, target , answer: 1 }),
+						body: JSON.stringify({ target , answer: 1 }),
 						credentials: 'include',
 					});
 				let chatdata;
-				chatdata = { type: 'accept_friend', token: tokenID, targetUsername : target};
+				chatdata = { type: 'accept_friend', targetUsername : target};
 				ws?.send(JSON.stringify(chatdata));
 			} catch (err) {
 				console.error('Error responding to the request:', err);
@@ -314,16 +310,15 @@ export async function sendMessage(username: string, content: string, pong?: bool
 
 		declineBtn.addEventListener('click', async () => {
 			try {
-				const tokenID = sessionStorage.getItem('token');
 				const target = targetUser;
 				await fetch("/api/replyrequest", {
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
 						credentials: 'include',
-						body: JSON.stringify({ tokenID, target , answer: 0 })
+						body: JSON.stringify({  target , answer: 0 })
 					});
 				let chatdata;
-				chatdata = { type: 'decline_friend', token: tokenID, targetUsername : target};
+				chatdata = { type: 'decline_friend', targetUsername: target };
 				ws?.send(JSON.stringify(chatdata));
 			} catch (err) {
 				console.error('Error responding to the request:', err);
@@ -385,11 +380,10 @@ export default function initChat() {
 
 	(async () => {
 		try {
-			const token = sessionStorage.getItem('token');
 			const response = await fetch('/api/verifuser', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ token }),
+				body: JSON.stringify({ }),
 				credentials: 'include',
 			});
 
@@ -439,17 +433,16 @@ export default function initChat() {
 		}
 
 		sendBtn.addEventListener("click", async () => {
-			const token = sessionStorage.getItem('token');
 			const content = input.value.trim();
 			if (content === "") return ;
 			let chatdata;
 
 			if (document.getElementById("chat-messages-global")) {
-				chatdata = { type: 'new_message', token, content };
+				chatdata = { type: 'new_message', content };
 			} else {
 				const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 				const targetUsername = BoxTarget?.id.split('-').pop();
-				chatdata = { type: 'new_private_message', token, content , targetUsername };
+				chatdata = { type: 'new_private_message', content , targetUsername };
 			}
 
 			ws?.send(JSON.stringify(chatdata));
@@ -459,17 +452,16 @@ export default function initChat() {
 		input.addEventListener("keydown", async (e) => {
 			if (e.key === "Enter") {
 				e.preventDefault();
-				const token = sessionStorage.getItem('token');
 				const content = input.value.trim();
 				if (content === "") return ;
 				let chatdata;
 
 				if (document.getElementById("chat-messages-global")) {
-					chatdata = { type: 'new_message', token, content };
+					chatdata = { type: 'new_message', content };
 				} else {
 					const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 					const targetUsername = BoxTarget?.id.split('-').pop();
-					chatdata = { type: 'new_private_message', token, content , targetUsername, pongRequest: 0 };
+					chatdata = { type: 'new_private_message', content , targetUsername, pongRequest: 0 };
 				}
 
 				ws?.send(JSON.stringify(chatdata));

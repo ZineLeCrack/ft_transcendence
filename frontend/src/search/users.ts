@@ -16,12 +16,11 @@ export async function loadHistoryContent(username: string) {
 	if (historyDiv) {
 		try
 		{
-			const token = sessionStorage.getItem('token');
 			const response = await fetch(`/api/history`,
 			{
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({token, username}),
+				body: JSON.stringify({ username }),
 				credentials: 'include',
 			});
 
@@ -37,17 +36,15 @@ export async function loadHistoryContent(username: string) {
 
 export default async function initUsers(username?: string, isHistory: boolean = false) {
 	await initLanguageSelector();
-	const tokenID = sessionStorage.getItem("token");
 	const friendbtn = document.getElementById("friend-btn") as HTMLButtonElement;
 	const blockbtn = document.getElementById("block-btn") as HTMLButtonElement;
 
-	const token = sessionStorage.getItem('token');
 	let response;
 	try {
 		response = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 		if (!response.ok)
@@ -111,7 +108,7 @@ export default async function initUsers(username?: string, isHistory: boolean = 
 			const blockCheck = await fetch("/api/isblock", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ tokenID, target }),
+				body: JSON.stringify({ target }),
 				credentials: 'include',
 			});
 			const block = await blockCheck.json();

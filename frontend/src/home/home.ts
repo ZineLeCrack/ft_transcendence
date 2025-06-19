@@ -16,11 +16,10 @@ export default async function initHome() {
 	await initLanguageSelector();
 
 	try {
-		const token = sessionStorage.getItem('token');
 		const response = await fetch('/api/verifuser', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 
@@ -45,7 +44,7 @@ export default async function initHome() {
 		const res = await fetch('/api/tournament/is_in', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ token: sessionStorage.getItem('token') }),
+			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
 

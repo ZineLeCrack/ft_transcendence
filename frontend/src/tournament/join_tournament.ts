@@ -202,12 +202,7 @@ export default async function initJoinTournament() {
 						const response = await fetch('/api/tournament/join', {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },
-							body: JSON.stringify({
-								id_tournament: tournamentId,
-								token: token,
-								password: passwordInput ? passwordInput.value : '',
-								alias: inputAlias.value.trim()
-							})
+							body: JSON.stringify({ id_tournament: tournamentId,	token: token, password: passwordInput ? passwordInput.value : '', alias: inputAlias.value.trim() })
 						});
 
 						const text = await response.text();

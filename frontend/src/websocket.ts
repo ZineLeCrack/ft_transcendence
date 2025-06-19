@@ -23,7 +23,7 @@ export function initWebSocket(original: string) {
 			fetch('/api/setstatus', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({status: '1' })
+				body: JSON.stringify({ status: '1' })
 			});
 		} catch (err) {
 			console.error('Error setting connected status:', err);
@@ -35,7 +35,7 @@ export function initWebSocket(original: string) {
 			fetch('/api/setstatus', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({status: '0' })
+				body: JSON.stringify({ status: '0' })
 			});
 		} catch (err) {
 			console.error('Error setting disconnected status:', err);
@@ -48,7 +48,7 @@ export function initWebSocket(original: string) {
 			fetch('/api/setstatus', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ tokenID: sessionStorage.getItem('token'), status: '0' }),
+				body: JSON.stringify({ status: '0' }),
 				credentials: 'include',
 			});
 		} catch (err) {
@@ -72,7 +72,7 @@ export function initWebSocket(original: string) {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+					body: JSON.stringify({ })
 				});
 				const is_in = await res.json();
 				if (is_in.tournamentId.toString() === '0') {
@@ -199,7 +199,7 @@ export function initWebSocket(original: string) {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ token: sessionStorage.getItem('token') }),
+					body: JSON.stringify({ }),
 					credentials: 'include',
 				});
 				const is_in = await res.json();
@@ -219,7 +219,7 @@ export function initWebSocket(original: string) {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ token: sessionStorage.getItem('token') }),
+					body: JSON.stringify({ }),
 					credentials: 'include',
 				});
 				const is_in = await res.json();
@@ -257,7 +257,7 @@ export function initWebSocket(original: string) {
 				const res = await fetch('/api/tournament/is_in', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ token: sessionStorage.getItem('token') })
+					body: JSON.stringify({ })
 				});
 				const is_in = await res.json();
 				if (is_in.tournamentId.toString() === data.id) {

@@ -171,11 +171,10 @@ export default async function initFriendChat()
 
 	async function fetchFriends(): Promise<Friend[]> {
 		try {
-			const tokenID = sessionStorage.getItem("token");
 			const res = await fetch("/api/getfriends", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ tokenID }),
+				body: JSON.stringify({ }),
 				credentials: 'include',
 			});
 			const data = await res.json();
@@ -203,13 +202,12 @@ export default async function initFriendChat()
 			if (existingChat)
 				existingChat.forEach(chat => {chat.remove()});
 
-			const tokenID = sessionStorage.getItem("token");
 			const target = username;
 			try {
 				const friendCheck = await fetch("/api/isfriend", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ tokenID, target }),
+					body: JSON.stringify({ target }),
 					credentials: 'include',
 				});
 
@@ -242,7 +240,8 @@ export default async function initFriendChat()
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					credentials: 'include',
-					body: JSON.stringify({ token: sessionStorage.getItem('token')})});
+					body: JSON.stringify({ })
+				});
 				const info = await checkUser.json();
 
 				const original_name = info.original;
@@ -304,9 +303,8 @@ export default async function initFriendChat()
 					let chatdata;
 					const BoxTarget = document.querySelector('[id^="chat-messages-"]');
 					const targetUsername = BoxTarget?.id.split('-').pop();
-					const token = sessionStorage.getItem('token');
 
-					chatdata = { type: 'new_private_message', token, content: "" , targetUsername, pongRequest: 1};
+					chatdata = { type: 'new_private_message', content: "" , targetUsername, pongRequest: 1};
 					ws?.send(JSON.stringify(chatdata));
 				});
 			} catch (err) {
