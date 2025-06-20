@@ -10,8 +10,6 @@ RUN mkdir /certs && \
     -out /certs/transcend.crt
 
 COPY tools_docker/default.conf /etc/nginx/sites-available/default
-RUN rm -f /etc/nginx/sites-enabled/default && \
-    ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 RUN mkdir frontend
 WORKDIR /frontend
@@ -19,7 +17,6 @@ COPY . .
 
 RUN npm install
 
-# Build Vite
 RUN npm run build
 
 RUN mkdir -p /var/www/html && cp -r dist/* /var/www/html/
