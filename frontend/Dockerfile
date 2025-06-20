@@ -4,7 +4,7 @@ RUN apt update && apt install -y nginx openssl && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /certs && \
     openssl req -x509 -nodes -days 365 \
-    -subj "/C=FR/ST=Paris/L=Paris/O=42/CN=lelanglo.42.fr" \
+    -subj "/C=FR/ST=Paris/L=Paris/O=42/CN=ft_babyfoot.42.fr" \
     -newkey rsa:2048 \
     -keyout /certs/transcend.key \
     -out /certs/transcend.crt
