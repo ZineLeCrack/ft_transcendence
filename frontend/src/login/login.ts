@@ -84,7 +84,6 @@ export default function initLogin() {
 				throw new Error(translate("bad_user_pass"))
 			}
 			const data = JSON.parse(text);
-			//sessionStorage.setItem('userId', data.id);
 			userId = data.id;
 			initSuccess(translate('login_success'));
 			setTimeout (async () => {
