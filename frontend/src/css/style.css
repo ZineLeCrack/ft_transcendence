@@ -2,13 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Styles personnalisés pour la scrollbar Firefox */
 #chat-messages {
     scrollbar-width: thin;
     scrollbar-color: #cf1177 transparent;
 }
 
-/* Styles personnalisés pour la scrollbar WebKit (Chrome, Safari, etc.) */
 #chat-messages::-webkit-scrollbar {
     width: 2px;
 }

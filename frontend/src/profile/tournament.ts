@@ -6,7 +6,7 @@ import { loadRoutes } from '../main';
 import { initLanguageSelector } from '../language';
 import { translate } from '../i18n';
 
-export default async function initTournamentStats() {
+export default async function initTournamentStats() {	
 	try {
 		const response = await fetch('/api/verifuser', {
 			method: 'POST',
@@ -169,11 +169,13 @@ export async function initTournamentGraph(originalUsername: string) {
 			if (chartPie) chartPie.destroy();
 			const wins = stats.tournaments_win;
 			const loses = stats.tournaments_lose;
+			const winsText = translate('win_trad')
+			const loseText = translate('lose_trad');
 
 			const config: ChartConfiguration<'pie'> = {
 				type: 'pie',
 				data: {
-					labels: ['Wins', 'Loses'],
+					labels: [winsText, loseText],
 					datasets: [{
 						data: [wins, loses],
 						backgroundColor: ['#00FF00', '#FF007A'],

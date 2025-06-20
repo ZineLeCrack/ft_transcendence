@@ -43,6 +43,26 @@ export default function initChooseGame() {
 		if (mode === "LOCAL") {
 			playBtn.onclick = async () => {
 				try {
+					const response1 = await fetch('/api/verifuser', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ }),
+						credentials: 'include',
+					});
+									if (!response1.ok) {
+						initError(translate('Error_co'));
+						setTimeout(async () => {
+							history.pushState(null, '', '/login');
+							await loadRoutes('/login');
+						}, 1000);
+						return ;
+					}
+				} catch (err) {
+					console.error('Error verifying user:', err);
+					return ;
+				}
+
+				try {
 					const response = await fetch(`api/main/game/start`, { method: 'POST' });
 
 					if (!response.ok)
@@ -62,6 +82,26 @@ export default function initChooseGame() {
 		}
 		else if (mode === "MULTI") {
 			playBtn.onclick = async () => {
+				try {
+					const response1 = await fetch('/api/verifuser', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ }),
+						credentials: 'include',
+					});
+									if (!response1.ok) {
+						initError(translate('Error_co'));
+						setTimeout(async () => {
+							history.pushState(null, '', '/login');
+							await loadRoutes('/login');
+						}, 1000);
+						return ;
+					}
+				} catch (err) {
+					console.error('Error verifying user:', err);
+					return ;
+				}
+
 				try {
 					const response = await fetch(`/api/multi/game/start`, {
 						method: 'POST',
@@ -92,6 +132,26 @@ export default function initChooseGame() {
 		}
 		else if (mode === "AI") {
 			playBtn.onclick = async () => {
+				try {
+					const response1 = await fetch('/api/verifuser', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ }),
+						credentials: 'include',
+					});
+									if (!response1.ok) {
+						initError(translate('Error_co'));
+						setTimeout(async () => {
+							history.pushState(null, '', '/login');
+							await loadRoutes('/login');
+						}, 1000);
+						return ;
+					}
+				} catch (err) {
+					console.error('Error verifying user:', err);
+					return ;
+				}
+
 				try {
 					const response = await fetch(`api/main/game/start`, { method: 'POST', });
 

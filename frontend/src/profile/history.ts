@@ -128,6 +128,7 @@ export default async function initHistory()
 		console.error('Error verifying user:', err);
 		return ;
 	}
+
 	const name = await response.json();
 	try {
 		const response = await fetch(`/api/history`,

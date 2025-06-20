@@ -64,6 +64,11 @@ export async function initGlobalGraph(originalUsername: string) {
 		point_earned.textContent = `${stats.total_points}`;
 		const game_played = document.getElementById('game_played') as HTMLDivElement;
 		game_played.textContent = `${stats.games_played}`;
+		const averagepoint = document.getElementById('avg_point') as HTMLDivElement;
+		if (stats.games_played > 0) {
+			averagepoint.textContent = `${(stats.total_points / stats.games_played).toFixed(2)}`;
+		}
+		else averagepoint.textContent = '0';
 
 		const historyMap = new Map<string, { points: number, wins: number, loses: number }>();
 		history.forEach((match: any) => {
@@ -153,12 +158,14 @@ export async function initGlobalGraph(originalUsername: string) {
 				pieChartInstance.destroy();
 			}
 			const wins = stats.wins;
+			const winsText = translate('win_trad')
 			const loses = stats.loses;
+			const loseText = translate('lose_trad');
 
 			const config: ChartConfiguration<'pie'> = {
 				type: 'pie',
 				data: {
-					labels: ['Wins', 'Loses'],
+					labels: [winsText, loseText],
 					datasets: [{
 						data: [wins, loses],
 						backgroundColor: ['#00FF00', '#FF007A'],

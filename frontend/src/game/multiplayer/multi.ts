@@ -13,8 +13,6 @@ export let rightScore = 0;
 export const paddleWidth = 8;
 export const paddleHeight = 100;
 export let message = "";
-let pseudo1 : string;
-let pseudo2 : string;
 
 export default async function initMultiplayer() {
 	let response1;
@@ -109,11 +107,11 @@ export default async function initMultiplayer() {
 		}
 		else if (message === "1_win")
 		{
-			new_message = `${pseudo1} ${translate(message)}`
+			new_message = `${translate("1_lwin")}`
 		}
 		else if (message === "2_win")
 		{
-			new_message = `${pseudo2} ${translate("1_win")}`
+			new_message = `${translate("2_lwin")}`
 		}
 		else {
 			new_message = message;
@@ -163,8 +161,6 @@ export default async function initMultiplayer() {
 		}
 		h1player1.textContent = name.player1.name && name.player1.name !== '' ? `${name.player1.name}` : translate('player_1_trad');
 		h1player2.textContent = name.player2.name && name.player2.name !== '' ? `${name.player2.name}` : translate('player_2_trad');
-		pseudo1 = name.player1.name;
-		pseudo2 = name.player2.name;
 	} catch (err) {
 		initError(translate('failed_id'));
 		return ;

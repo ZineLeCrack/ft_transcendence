@@ -57,15 +57,15 @@ async function changeLanguage(lang: string, username?:string): Promise<void> {
 	{
 		initHistory();
 	}
-	if (window.location.pathname === '/profile/statistics')
+	if (window.location.pathname === '/profile/statistics' && username)
 	{
 		initGlobalGraph(username!);
 	}
-	if (window.location.pathname === '/profile/statistics/tournaments')
+	if (window.location.pathname === '/profile/statistics/tournaments' && username)
 	{
 		initTournamentGraph(username!);
 	}
-	if (userHistroryPathRegex.test(path))
+	if (userHistroryPathRegex.test(path) && username)
 	{
 		loadHistoryContent(username!);
 	}

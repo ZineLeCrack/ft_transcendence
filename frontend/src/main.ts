@@ -116,8 +116,8 @@ const routes: { [path: string]: Route } = {
 		bodyStyleImage: "url('/images/statscyberpunk.png')",
 		script: async () => {
 			const {default: initHistory} = await import ('./profile/history.ts');
-			initHistory();
 			await initLanguageSelector();
+			initHistory();
 		}
 	},
 	'/profile/statistics/tournaments':

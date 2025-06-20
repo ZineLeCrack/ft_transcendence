@@ -23,6 +23,14 @@ export default async function initPong() {
 			body: JSON.stringify({ }),
 			credentials: 'include',
 		});
+		if (!response.ok) {
+			initError(translate('Error_co'));
+			setTimeout(async () => {
+				history.pushState(null, '', '/login');
+				await loadRoutes('/login');
+			}, 1000);
+			return ;
+		}
 	} catch (err) {
 		console.error('Error verifying user:', err);
 		return ;
