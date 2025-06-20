@@ -65,7 +65,7 @@ export default function init2fa() {
 			setTimeout(async () => {
 				history.pushState(null, '', '/home');
 				await loadRoutes('/home');
-			}, 1000);
+			}, 2000);
 		} catch (err) {
 			console.error('Error verifying 2fa code:', err);
 		}

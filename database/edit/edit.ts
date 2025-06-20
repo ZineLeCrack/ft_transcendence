@@ -4,7 +4,7 @@ import { getDb_chat } from '../database.js';
 import { FastifyInstance } from 'fastify';
 import jwt from 'jsonwebtoken';
 import sharp from 'sharp';
-const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 import { validateUsername, validateEmail, validatePassword } from './../utils.js';
 

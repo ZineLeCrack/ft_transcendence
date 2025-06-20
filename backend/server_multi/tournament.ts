@@ -4,7 +4,7 @@ import { generateGameId } from './game_router_multi';
 import { games } from './game_router_multi';
 import { getDb_user } from '../database';
 import jwt from 'jsonwebtoken';
-const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 interface TournamentInstance {
 	id: string,

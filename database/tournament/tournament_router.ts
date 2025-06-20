@@ -3,7 +3,7 @@ import { getDb_user } from '../database';
 import { getDb_tournaments } from '../database';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
-const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 export default async function tournamentRoutes(fastify: FastifyInstance) {
 	fastify.post('/create', async (request, reply) => {

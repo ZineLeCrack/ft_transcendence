@@ -3,7 +3,7 @@ import type { WebSocket } from 'ws';
 import { getDb_chat } from './database.js';
 import { getDb_user } from './database.js';
 import jwt from 'jsonwebtoken';
-const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
+const JWT_SECRET = process.env.JWT_SECRET!;
 const clients = new Set<WebSocket>();
 
 function parseCookies(cookieHeader:any) {

@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { GameInstance } from './multiplayer.js';
 import jwt from 'jsonwebtoken';
 import { getDb_user} from "../database";
-const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const games = new Map<string, GameInstance>();
 

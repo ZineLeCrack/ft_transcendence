@@ -97,39 +97,4 @@ export default function initLogin() {
 			initError((err as string).toString().substring(7));
 		}
 	});
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	let increment = 1;
-	const registerTestBtn = document.getElementById('register-test-user');
-	registerTestBtn?.addEventListener('click', async (event) => {
-		event.preventDefault();
-		let testId = increment;
-		const username = `Test${testId}`;
-		const password = `Test1${testId}`;
-		const email = `Test@Test${testId}.fr`;
-
-		try {
-			const response = await fetch('/api/submit', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ username, email, password }),
-			});
-			increment++;
-			if (!response.ok) {
-				const error = await response.text();
-				initError(error);
-				increment++;
-				return ;
-			}
-
-			signInUsernameInput.value = username;
-			signInPasswordInput.value = password;
-
-		} catch (err) {
-			initError((err as Error)?.message || String(err));
-		}
-	});
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 }

@@ -16,12 +16,14 @@ export function initSwitchChat()
 			const oldPongBtn = document.getElementById('pong-send');
 			if (oldPongBtn)
 				oldPongBtn.remove();
-			
 
 			const globalChat = document.getElementById('chat-messages-global') as HTMLDivElement;
 			if (globalChat) {
 				globalChat.remove();
 			}
+
+			const inputArea = document.getElementById('input-Area') as HTMLDivElement;
+			inputArea.classList.add('hidden');
 
 			initFriendChat();
 			const tooltipSwitchGlobal = translate('switch_to_global');
@@ -52,6 +54,9 @@ export function initSwitchChat()
 			const oldPongBtn = document.getElementById('pong-send');
 			if (oldPongBtn)
 				oldPongBtn.remove();
+
+			const inputArea = document.getElementById('input-Area') as HTMLDivElement;
+			inputArea.classList.remove('hidden');
 
 			const globalChat = document.createElement('div');
 			globalChat.id = 'chat-messages-global';
@@ -98,10 +103,10 @@ export default async function initFriendChat()
 	const chatInfo = document.getElementById('chat-info') as HTMLDivElement;
 	const friendslist = document.getElementById('friends-list') as HTMLDivElement;
 
-	if (document.getElementById('chat-messages-global'))
-	{
-		return ;
-	}
+	if (document.getElementById('chat-messages-global')) return ;
+
+	const inputArea = document.getElementById('input-Area') as HTMLDivElement;
+	inputArea.classList.add('hidden');
 
 	const privateChats = document.querySelectorAll('[id^="chat-messages-"]');
 	privateChats.forEach(chat => chat.remove());
@@ -201,6 +206,9 @@ export default async function initFriendChat()
 			const existingChat = document.querySelectorAll(`[id^="chat-messages-"]`);
 			if (existingChat)
 				existingChat.forEach(chat => {chat.remove()});
+
+			const inputArea = document.getElementById('input-Area') as HTMLDivElement;
+			inputArea.classList.remove('hidden');
 
 			const target = username;
 			try {

@@ -5,7 +5,7 @@ import { getDb_user } from '../database';
 
 const EMAIL = process.env.EMAIL || 'admin@example.com';
 const EMAIL_SMP = process.env.PASSWORD_SMP || 'password';
-const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 const verificationCodes = new Map();
 
@@ -65,7 +65,7 @@ export default async function twofaRoutes(fastify: FastifyInstance) {
 
 		const expectedCode = verificationCodes.get(IdUser);
 
-		if (code === expectedCode || code === '424242') { // pas oublier d'enveler avant de finish le project
+		if (code === expectedCode) {
 			try {
 				const token = fastify.jwt.sign({ userId: IdUser	}, {expiresIn: '1h'});
 

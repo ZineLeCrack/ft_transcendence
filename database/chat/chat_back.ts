@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { getDb_chat, getDb_user } from '../database.js';
 import jwt from 'jsonwebtoken';
-const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_longue';
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 export default async function chatRoutes(fastify: FastifyInstance) {
 

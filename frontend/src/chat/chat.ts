@@ -1,6 +1,7 @@
 import { getWebSocket } from '../websocket';
 import { loadRoutes } from '../main.ts';
 import { translate } from '../i18n.ts';
+import initError from '../error.ts';
 
 let original_name:string;
 let original_id:string;
@@ -435,6 +436,25 @@ export default function initChat() {
 		sendBtn.addEventListener("click", async () => {
 			const content = input.value.trim();
 			if (content === "") return ;
+			try {
+				const response = await fetch('/api/verifuser', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ }),
+					credentials: 'include',
+				});
+				if (!response.ok)
+				{
+					initError(translate('Error_co'))
+					setTimeout(async () => {
+						history.pushState(null, '', '/login');
+						await loadRoutes('/login');
+					}, 1000);
+					return ;
+				}
+			} catch (err) {
+				console.error('Error verrifying user:', err);
+			}
 			let chatdata;
 
 			if (document.getElementById("chat-messages-global")) {
@@ -454,6 +474,27 @@ export default function initChat() {
 				e.preventDefault();
 				const content = input.value.trim();
 				if (content === "") return ;
+
+				try {
+					const response = await fetch('/api/verifuser', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ }),
+						credentials: 'include',
+					});
+					if (!response.ok)
+					{
+						initError(translate('Error_co'))
+						setTimeout(async () => {
+							history.pushState(null, '', '/login');
+							await loadRoutes('/login');
+						}, 1000);
+						return ;
+					}
+				} catch (err) {
+					console.error('Error verrifying user:', err);
+				}
+
 				let chatdata;
 
 				if (document.getElementById("chat-messages-global")) {
