@@ -147,7 +147,7 @@
 	"incomplete_data": "Veuillez remplir les au moins l'un des deux champs !",
   	"user_error": "Un utilisateur possede deja ces informations",
 	"bad_picture" : "Veuillez sélectionner une image valide (PNG, JPG, WEBP, ...)",
-	"bad_code" : "Mauvais code",
+	"bad_code" : "code incorrect !",
 	"invalid_info" : "invalid username or email, Cet utilisateur existe déjà",
 	"bad_mail_pass" : "Email ou mot de passe invalide",
 	"bad_user_pass" : "Nom d’utilisateur ou mot de passe invalide",
