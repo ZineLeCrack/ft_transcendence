@@ -157,7 +157,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 	});
 	fastify.get('/picture', async (request, reply) => {
 		const authHeader = request.headers['authorization'] as any;
-		const name = authHeader?.split(' ')[2];
+		const name = authHeader?.split(' ')[1];
 
 		let userId;
 		try {

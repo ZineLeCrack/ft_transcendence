@@ -8,10 +8,8 @@ import { validateEmail, validateUsername } from '../utils';
 
 export async function loadProfilePicture(div: string, name: string) {
 	try {
-		const token = sessionStorage.getItem("token");
-
 		const response = await fetch('/api/picture', {
-			headers: { 'Authorization': `Bearer ${token} ${name}` },
+			headers: { 'Authorization': `Bearer ${name}` },
 			credentials: 'include',
 		});
 
@@ -217,9 +215,6 @@ export default async function initEditProfile() {
 			const response = await fetch('/api/picture', {
 				method: 'POST',
 				body: formData,
-				headers: {
-					'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-				},
 				credentials:"include",
 			});
 			if (!response.ok)
