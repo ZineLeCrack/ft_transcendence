@@ -198,11 +198,15 @@ export default async function initJoinTournament() {
 							return ;
 						}
 
-						const token = sessionStorage.getItem('token');
 						const response = await fetch('/api/tournament/join', {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/json' },
-							body: JSON.stringify({ id_tournament: tournamentId,	token: token, password: passwordInput ? passwordInput.value : '', alias: inputAlias.value.trim() })
+							body: JSON.stringify({
+								id_tournament: tournamentId,
+								password: passwordInput ? passwordInput.value : '',
+								alias: inputAlias.value.trim()
+							}),
+							credentials: 'include'
 						});
 
 						const text = await response.text();
@@ -223,7 +227,7 @@ export default async function initJoinTournament() {
 						const data = JSON.parse(text);
 						initInTournament(data.id);
 						const ws = getWebSocket();
-						ws?.send(JSON.stringify({ type: 'tournament_new_player', token: token, id: data.id }));
+						ws?.send(JSON.stringify({ type: 'tournament_new_player', id: data.id }));
 						if (data.full) {
 							try {
 								const response1 = await fetch('/api/tournament/get_players', {
