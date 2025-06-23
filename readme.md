@@ -4,7 +4,7 @@ curl -X {POST or GET} https://{IP}{path to the POST or GET} {-k: for autosigned 
 	-H {header} "Content-Type: application/json" \
 	-d {body} '{"gameId": "abc123"}'
 
-EXEMPLE:
+EXEMPLE:  
 
 curl -X POST https://10.12.200.81/api/main/game/start -k
 
