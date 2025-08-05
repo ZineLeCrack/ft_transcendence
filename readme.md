@@ -1,4 +1,4 @@
-# Project Setup Guide
+# Ft_transcendence
 
 ## Prerequisites
 
@@ -39,3 +39,11 @@ sudo make
 After the project is running, open your web browser and navigate to:
 
 ```https://<your local IP address>```
+
+
+## 📜 Credits & Contributors
+
+- 🛠️ **ZineLeCrack** — Backend Developer ([GitHub](https://github.com/ZineLeCrack))
+- 🐳 **Lumeris4** — Backend Developer ([GitHub](https://github.com/Lumeris4))
+- 🤖 **cle-berr** — Backend Developer ([GitHub](https://github.com/cle-berr))
+- 🎨 **Nnelo** — Frontend Developer ([GitHub](https://github.com/Nnelo0))
