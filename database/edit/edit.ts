@@ -138,7 +138,7 @@ export default async function editRoutes(fastify: FastifyInstance) {
 
 		let jpegBuffer: Buffer;
 		try {
-			jpegBuffer = await sharp(originalBuffer).webp().toBuffer();
+			jpegBuffer = await sharp(originalBuffer).png().toBuffer();
 		} catch (err) {
 			console.error('Image conversion failed:', err);
 			reply.status(200).send('Please a valid image (PNG, JPG, WEBP, ...)');

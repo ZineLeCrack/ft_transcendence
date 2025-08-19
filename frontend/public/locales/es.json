@@ -173,6 +173,5 @@
 	"and": "y",
 	"has_won_the_tournament": "ha ganado el último torneo !",
 	"cancel_request": "Ya se creó una solicitud, invitación cancelada.",
-	"message_too_long": "Este mensaje es demasiado largo, reinténtalo.",
-	"aliasexist": "Una persona ya tiene esta información"
+	"message_too_long": "Este mensaje es demasiado largo, reinténtalo."
 }

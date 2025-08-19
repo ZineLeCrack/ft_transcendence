@@ -99,17 +99,12 @@ export function setupWebSocket(server: any) {
 						}
 					}
 				} else if (type === 'tournament_next_game') {
-
-					const username1 = await dbusers.get(`SELECT name FROM users WHERE id = ?`, [next_player1]);
-
-					const username2 = await dbusers.get(`SELECT name FROM users WHERE id = ?`, [next_player2]);
-
 					await dbchat.run(
 						`INSERT INTO chat (username, content, announceTournament, announceTournament_id1, announceTournament_id2) VALUES (?, ?, ?, ?, ?)`,
 						["", "", 2, next_player1, next_player2]);
 					for (const client of clients) {
 						if (client.readyState === ws.OPEN) {
-							client.send(JSON.stringify({ type, next_player1, next_player2, id, next_player1_name : username1.name, next_player2_name: username2.name }));
+							client.send(JSON.stringify({ type, next_player1, next_player2, id }));
 						}
 					}
 				} else if (type === 'new_private_message') {

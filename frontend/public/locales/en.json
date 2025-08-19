@@ -173,6 +173,5 @@
 	"and": "and",
 	"has_won_the_tournament": "has won the tournament !",
 	"cancel_request": "A request has already been created, invitation canceled.",
-	"message_too_long": "This message is too long retry",
-	"aliasexist": "A person already has this information"
+	"message_too_long": "This message is too long retry"
 }

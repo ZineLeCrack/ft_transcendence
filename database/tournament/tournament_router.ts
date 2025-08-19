@@ -145,15 +145,6 @@ export default async function tournamentRoutes(fastify: FastifyInstance) {
 			const dbUsers = await getDb_user();
 			const db = await getDb_tournaments();
 
-			if (alias && alias !== '') {
-				const isexist = await dbUsers.get(`SELECT name FROM users WHERE name = ? OR aliastournament = ?`, [alias, alias]);
-				if (isexist)
-				{
-					reply.status(200).send('aliasexist');
-					return ;
-				}
-			}
-
 			const tournament = await db.get(
 				`SELECT * FROM tournaments WHERE id = ?`,
 				[id_tournament]

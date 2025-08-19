@@ -217,8 +217,6 @@ export default async function initJoinTournament() {
 							throw new Error(translate("no_pass"));
 						} else if (text === "Invalid alias !") {
 							throw new Error(translate("invalid_alias"));
-						} else if (text === 'aliasexist') {
-							throw new Error(translate("aliasexist"));
 						}
 
 						const PopPup = document.getElementById('alias-popup') as HTMLDivElement;

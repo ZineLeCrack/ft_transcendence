@@ -264,7 +264,7 @@ export function initWebSocket(original: string) {
 					const text1 = translate('tournament_announce1');
 					const and = translate('and');
 					const text2 = translate('tournament_announce2');
-					const text = `${text1} ${data.next_player1_name} ${and} ${data.next_player2_name} ${text2}`;
+					const text = `${text1} ${data.next_player1} ${and} ${data.next_player2} ${text2}`;
 					initSuccess(text);
 				}
 			} catch (err) {
